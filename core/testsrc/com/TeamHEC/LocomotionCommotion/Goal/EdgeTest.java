@@ -31,6 +31,8 @@ public class EdgeTest {
 	public void tearDown() throws Exception {
 	}
 
+
+
 	@Test
 	public void testEdge() {
 		assertTrue(e.target != null);

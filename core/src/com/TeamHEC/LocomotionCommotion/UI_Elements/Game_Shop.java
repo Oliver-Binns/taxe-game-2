@@ -13,6 +13,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop.ShopHomeScreen.Game
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop.ShopHomeScreen.Game_shop_train;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -128,6 +129,7 @@ public class Game_Shop {
 			parameter.size = 50;
 
 			BitmapFont font = generator.generateFont(parameter); 
+			font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			generator.dispose();
 			style = new LabelStyle();
 			style.font = font;
@@ -145,6 +147,7 @@ public class Game_Shop {
 			parameter.size = 80;
 
 			font = generator.generateFont(parameter); 
+			font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			generator.dispose();
 			style = new LabelStyle();
 			style.font = font;
@@ -480,6 +483,7 @@ public class Game_Shop {
 				parameter.size = 32;
 
 				BitmapFont font = generator.generateFont(parameter); 
+				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 				generator.dispose();
 				style = new LabelStyle();
 				style.font = font;
@@ -570,6 +574,7 @@ public class Game_Shop {
 				parameter.size = 32;
 
 				BitmapFont font = generator.generateFont(parameter); 
+				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 				generator.dispose();
 				style = new LabelStyle();
 				style.font = font;
@@ -682,7 +687,8 @@ public class Game_Shop {
 				FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 				parameter.size = 32;
 
-				BitmapFont font = generator.generateFont(parameter); 
+				BitmapFont font = generator.generateFont(parameter);
+				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 				generator.dispose();
 				style = new LabelStyle();
 				style.font = font;
@@ -798,6 +804,7 @@ public class Game_Shop {
 				parameter.size = 32;
 
 				BitmapFont font = generator.generateFont(parameter); 
+				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 				generator.dispose();
 				style = new LabelStyle();
 				style.font = font;
@@ -913,6 +920,7 @@ public class Game_Shop {
 				parameter.size = 32;
 
 				BitmapFont font = generator.generateFont(parameter); 
+				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 				generator.dispose();
 				style = new LabelStyle();
 				style.font = font;
@@ -987,6 +995,7 @@ public class Game_Shop {
 				parameter.size = 32;
 
 				BitmapFont font = generator.generateFont(parameter); 
+				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 				generator.dispose();
 				style = new LabelStyle();
 				style.font = font;

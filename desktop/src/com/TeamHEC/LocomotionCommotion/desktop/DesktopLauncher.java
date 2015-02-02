@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		new LwjglApplication(LocomotionCommotion.getInstance(), config);
 		config.height= 1050;
 		config.width = 1680;
-		config.fullscreen = false;	
+		config.fullscreen = false;
 	}
 }

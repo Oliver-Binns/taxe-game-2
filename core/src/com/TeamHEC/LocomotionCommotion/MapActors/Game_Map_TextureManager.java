@@ -1,9 +1,9 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
+import com.TeamHEC.LocomotionCommotion.Scene.CustomTexture;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 /*
- * Holds all the textures and file paths for all actors in StartMenu
+ * Holds all the CustomTextures and file paths for all actors in StartMenu
  * This means if we need to change a file path you come here.
  */
 public class Game_Map_TextureManager{
@@ -19,30 +19,30 @@ public class Game_Map_TextureManager{
 	}	
 	
 	//Map
-	public Texture map = new Texture(Gdx.files.internal("gameScreen/game_map/map.png"));
-	public Texture mapInfo = new Texture(Gdx.files.internal("gameScreen/game_map/mapinfo.png"));
-	public Texture station = new Texture(Gdx.files.internal("gameScreen/game_map/station.png"));
-	public Texture stationx2 = new Texture(Gdx.files.internal("gameScreen/game_map/Stop.png"));
+	public CustomTexture map = new CustomTexture(Gdx.files.internal("gameScreen/game_map/map.png"));
+	public CustomTexture mapInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/mapinfo.png"));
+	public CustomTexture station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/station.png"));
+	public CustomTexture stationx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/Stop.png"));
 	
-	public Texture stationInfo = new Texture(Gdx.files.internal("gameScreen/game_map/stationInfoframe.png"));
-	public Texture stationSelect = new Texture(Gdx.files.internal("gameScreen/game_map/stationSelectBtn.png"));
-	public Texture trainInfo = new Texture(Gdx.files.internal("gameScreen/game_map/trainInfo.png"));
-	public Texture trainInfoPlanRoute = new Texture(Gdx.files.internal("gameScreen/game_map/trainInfoPlanRoute.png"));
+	public CustomTexture stationInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationInfoframe.png"));
+	public CustomTexture stationSelect = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationSelectBtn.png"));
+	public CustomTexture trainInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/trainInfo.png"));
+	public CustomTexture trainInfoPlanRoute = new CustomTexture(Gdx.files.internal("gameScreen/game_map/trainInfoPlanRoute.png"));
 	
-	public Texture junction = new Texture(Gdx.files.internal("gameScreen/game_map/junction.png"));
-	public Texture junctionx2 = new Texture(Gdx.files.internal("gameScreen/game_map/junction2.png"));
+	public CustomTexture junction = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction.png"));
+	public CustomTexture junctionx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2.png"));
 	
-	public Texture p1Station = new Texture(Gdx.files.internal("gameScreen/game_map/p1station.png"));
-	public Texture p1Stationx2 = new Texture(Gdx.files.internal("gameScreen/game_map/p1station2.png"));
-	public Texture p1Train = new Texture(Gdx.files.internal("gameScreen/game_map/p1train.png"));
-	public Texture p1Trainx2 = new Texture(Gdx.files.internal("gameScreen/game_map/p1train2.png"));
+	public CustomTexture p1Station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1station.png"));
+	public CustomTexture p1Stationx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1station2.png"));
+	public CustomTexture p1Train = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1train.png"));
+	public CustomTexture p1Trainx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1train2.png"));
 	
-	public Texture p2Station = new Texture(Gdx.files.internal("gameScreen/game_map/p2station.png"));
-	public Texture p2Stationx2 = new Texture(Gdx.files.internal("gameScreen/game_map/p2station2.png"));
-	public Texture p2Train = new Texture(Gdx.files.internal("gameScreen/game_map/p2train.png"));
-	public Texture p2Trainx2 = new Texture(Gdx.files.internal("gameScreen/game_map/p2train2.png"));
+	public CustomTexture p2Station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2station.png"));
+	public CustomTexture p2Stationx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2station2.png"));
+	public CustomTexture p2Train = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2train.png"));
+	public CustomTexture p2Trainx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2train2.png"));
 	
-	public Texture routeBlip = new Texture(Gdx.files.internal("gameScreen/game_map/routeBlip.png"));
-	public Texture redRouteBlip = new Texture(Gdx.files.internal("gameScreen/game_map/routeBlip2.png"));
+	public CustomTexture routeBlip = new CustomTexture(Gdx.files.internal("gameScreen/game_map/routeBlip.png"));
+	public CustomTexture redRouteBlip = new CustomTexture(Gdx.files.internal("gameScreen/game_map/routeBlip2.png"));
 	
 }

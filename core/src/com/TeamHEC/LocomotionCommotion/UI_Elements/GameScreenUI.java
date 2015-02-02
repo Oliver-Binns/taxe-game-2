@@ -12,6 +12,7 @@ import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop.Game_ShopManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -78,7 +79,7 @@ public class GameScreenUI {
 		actors.clear();
 		//Actors----------------------------------------------------------------------------------------------------------------------------------------------------
 		//The Top Bar
-		game_menuobject_topbar = new Sprite(-20, Gdx.graphics.getHeight()- Game_TextureManager.getInstance().game_menuobject_topbar.getHeight() +10,
+		game_menuobject_topbar = new Sprite(-20, 1050- Game_TextureManager.getInstance().game_menuobject_topbar.getHeight() +10,
 				Game_TextureManager.getInstance().game_menuobject_topbar );
 		actors.add(game_menuobject_topbar);	
 
@@ -89,7 +90,7 @@ public class GameScreenUI {
 
 		//The Pause Menu Button -- Top right corner
 		game_menuobject_menubtn = new SpriteButton(LocomotionCommotion.screenX-60, 
-				Gdx.graphics.getHeight()- Game_TextureManager.getInstance().game_menuobject_menubtn.getHeight() - 30, Game_TextureManager.getInstance().game_menuobject_menubtn){
+				1050- Game_TextureManager.getInstance().game_menuobject_menubtn.getHeight() - 30, Game_TextureManager.getInstance().game_menuobject_menubtn){
 			/**
 			 * onClicked for menuBtn:
 			 *  Checks if the pause Menu is open
@@ -128,7 +129,7 @@ public class GameScreenUI {
 		actors.add(game_menuobject_menubtn);	
 
 		//Ticket (OwnedGoals) toggle button -- Top Left corner
-		game_menuobject_tickettoggle=new SpriteButton(30, Gdx.graphics.getHeight() - Game_TextureManager.getInstance().game_menuobject_ticketbtn.getHeight()-15,
+		game_menuobject_tickettoggle=new SpriteButton(30, 1050 - Game_TextureManager.getInstance().game_menuobject_ticketbtn.getHeight()-15,
 				Game_TextureManager.getInstance().game_menuobject_ticketbtn){
 			/**
 			 * onClicked for ticket toggle:
@@ -300,7 +301,7 @@ public class GameScreenUI {
 		actors.add(game_menuobject_traindepotbtn);
 
 		//Access Goal Screen Button -- Top Left Corner
-		game_menuobject_goalscreenbtn = new SpriteButton(110, Gdx.graphics.getHeight()- Game_TextureManager.getInstance().game_goals_goalscreenbtn.getHeight() -25,
+		game_menuobject_goalscreenbtn = new SpriteButton(110, 1050- Game_TextureManager.getInstance().game_goals_goalscreenbtn.getHeight() -25,
 				Game_TextureManager.getInstance().game_goals_goalscreenbtn){
 			/**
 			 * onClicked for goalscreenbtn:
@@ -353,13 +354,13 @@ public class GameScreenUI {
 		playerScore.setColor(0,0,0,1);
 		playerScore.setText("");
 		playerScore.setX(600);
-		playerScore.setY(Gdx.graphics.getHeight()- playerScore.getHeight() -45);
+		playerScore.setY(1050- playerScore.getHeight() -45);
 		actors.add(playerScore);
 
 		//Player Name Label -- Bottom group Corner
 		currentPlayerName = new Label(null,style);
 		currentPlayerName.setColor(1,1,1,1);
-		currentPlayerName.setX(Gdx.graphics.getWidth()-260);
+		currentPlayerName.setX(1680-260);
 		currentPlayerName.setY(280);
 		actors.add(currentPlayerName);
 
@@ -480,7 +481,7 @@ public class GameScreenUI {
 			stage.addActor(a);
 		}
 		//Add the enclosure straight in as is not visible at start
-		game_menuobject_ticketenclosure=new Sprite(-1,Gdx.graphics.getHeight()-Game_TextureManager.getInstance().game_menuobject_ticketenclosure.getHeight()-82
+		game_menuobject_ticketenclosure=new Sprite(-1,1050-Game_TextureManager.getInstance().game_menuobject_ticketenclosure.getHeight()-82
 				,Game_TextureManager.getInstance().game_menuobject_ticketenclosure);
 		game_menuobject_ticketenclosure.setVisible(false);
 		stage.addActor(game_menuobject_ticketenclosure);
@@ -579,6 +580,7 @@ public class GameScreenUI {
 		parameter.size = fontsize;
 
 		BitmapFont font = generator.generateFont(parameter); // font size 12 pixels
+		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		generator.dispose();
 		LabelStyle style = new LabelStyle();
 		style.font = font;

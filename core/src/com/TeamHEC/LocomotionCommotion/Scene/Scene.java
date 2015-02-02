@@ -1,6 +1,5 @@
 package com.TeamHEC.LocomotionCommotion.Scene;
 
-import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
@@ -9,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 /**
  * @author Matthew Taylor <mjkt500@york.ac.uk>
@@ -25,10 +25,8 @@ public class Scene implements Screen{
 	
 	public Scene()
 	{
-		stage = new Stage();
+		stage = new Stage(new StretchViewport(screenX, screenY));
 		camera = stage.getCamera();
-		camera.viewportHeight= screenY;
-		camera.viewportWidth= screenX;
 		camera.update();
        
 		actors = new Array<Actor>();
@@ -95,9 +93,9 @@ public class Scene implements Screen{
 
 	@Override
 	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);	
-		LocomotionCommotion.screenX = width;
-		LocomotionCommotion.screenY = height;
+	    // use true here to center the camera
+	    // that's what you probably want in case of a UI
+	    stage.getViewport().update(width, height, true);
 	}
 
 	@Override

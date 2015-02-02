@@ -9,7 +9,6 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_TextureManager;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -68,9 +67,9 @@ public class PlayerGoals {
 
 		numberofOwnedGoals=playerGoals.size();
 
-		newgoal1= new GoalActor(Gdx.graphics.getHeight()-290,5,true,null);
-		newgoal2= new GoalActor(Gdx.graphics.getHeight()-490,5,true,null);
-		newgoal3= new GoalActor(Gdx.graphics.getHeight()-690,5,true,null);
+		newgoal1= new GoalActor(1050-290,5,true,null);
+		newgoal2= new GoalActor(1050-490,5,true,null);
+		newgoal3= new GoalActor(1050-690,5,true,null);
 
 		playerGoalActors.put("1", newgoal1);
 		playerGoalActors.put("2", newgoal2);

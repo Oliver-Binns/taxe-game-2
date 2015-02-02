@@ -1,6 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.UI_Elements;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -44,8 +45,10 @@ public class WarningMessage {
 		parameter.size = 40;
 
 		BitmapFont titlefont = generator.generateFont(parameter); 
+		titlefont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		parameter.size = 32;
 		BitmapFont bodyfont = generator.generateFont(parameter); 
+		bodyfont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		generator.dispose();
 		
 		titleStyle = new LabelStyle();

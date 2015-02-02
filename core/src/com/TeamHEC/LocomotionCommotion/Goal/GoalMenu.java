@@ -15,6 +15,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_TextureManager;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -168,6 +169,7 @@ public class GoalMenu {
 		parameter.size = 17;
 
 		BitmapFont font = generator.generateFont(parameter); 
+		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		generator.dispose();
 		style = new LabelStyle();
 		style.font = font;

@@ -60,7 +60,7 @@ public class GoalTest {
 		
 		
 		train = new OilTrain(0, true, new Route(WorldMap.getInstance().AMSTERDAM), player);
-		
+
 		goal.assignTrain(train);
 		
 	}
@@ -93,7 +93,6 @@ public class GoalTest {
    }
 	
    public void testgetReward(){
-	   
 	   assertTrue(goal.getReward() > 0);
 	  
    }
@@ -102,4 +101,13 @@ public class GoalTest {
 		assertTrue( goal.getStartDate() != null);
 	}
 
+    @Test
+    public void testgetCurrentGoalDuration() {
+        assertTrue( goal.getCurrentGoalDuration() == 0); //Goal should be at turn 0
+
+        goal.incrementCurrentGoalDuration();
+
+        assertTrue( goal.getCurrentGoalDuration() == 1); //Goal should not be at turn 1
+
+    }
 }

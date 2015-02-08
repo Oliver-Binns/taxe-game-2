@@ -165,6 +165,11 @@ public class CoreGame {
 			// Proceed with the turn:
 			playerTurn.lineBonuses();
 			playerTurn.stationRewards();
+
+            //Increment all player's goals by one turn in duration
+            for ( Goal goal : playerTurn.getGoals()){
+                goal.incrementCurrentGoalDuration();
+            }
 		}
 	}
 

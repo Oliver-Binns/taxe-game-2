@@ -1,5 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.Goal;
 
+import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Train.RouteListener;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
@@ -26,6 +27,8 @@ public class Goal implements RouteListener{
 	private boolean startStationPassed;
 	private boolean stationViaPassed;
 	private boolean finalStationPassed;
+
+    private int currentGoalDuration;
 	
 	public static GoalActor goalActor;
 	
@@ -46,7 +49,8 @@ public class Goal implements RouteListener{
 		this.reward = reward;  
 		this.cargo = cargo;
 		
-        startDate = "1"; //initialized to 1, not yet implemented. 
+        startDate = "1"; //initialized to 1, not yet implemented.
+        currentGoalDuration = 0;
 		
 		// Initiliase goal completion variables to false
 		startStationPassed = false;
@@ -131,6 +135,7 @@ public class Goal implements RouteListener{
 				+ " to " + getFStation() + "\n you've won " + getReward());
 		
 		train.getOwner().addGold(getReward());
+        train.getOwner().incrementPoints(calculatePoints()); //Added by Team EEP
 		train.route.unregister(this);
 		
 		train.getOwner().getGoals().remove(this);
@@ -179,5 +184,39 @@ public class Goal implements RouteListener{
 	public void setSpecial(boolean special) {
 		this.special = special;
 	}
+
+
+    //New methods by Team EEP:
+
+    public int getCurrentGoalDuration(){ return currentGoalDuration; }
+
+    public void incrementCurrentGoalDuration(){ currentGoalDuration++; }
+
+    private int calculatePoints(){
+        if (finalStationPassed = false){
+            return 0;
+        }
+        return (estimateOptimalDuration() / currentGoalDuration * 100);
+    }
+
+
+    /**
+     * Used to estimate how many turns it would take the train to travel the goal's optimal route at its base speed
+     */
+    private int estimateOptimalDuration() {
+
+        if (train == null){
+            return 0;
+        }
+
+        Dijkstra d = new Dijkstra(); //implements dijkstra
+        d.computePaths(d.lookUpNode(sStation)); //uses the loopup function to get instance of a
+        //station and compute paths
+        int minDistance = (int) d.lookUpNode(fStation).minDistance; //
+
+        return (minDistance / train.getSpeed());
+    }
+
+
 }
 

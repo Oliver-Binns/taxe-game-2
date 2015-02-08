@@ -87,6 +87,11 @@ public class Player implements RouteListener{
 		return points;
 	}
 
+    /**
+     * @param newPoints  new points to be added to a player
+     */
+    public void incrementPoints(int newPoints) { points += newPoints; }
+
 	//Shop
 	public Shop getShop(){
 		return shop;

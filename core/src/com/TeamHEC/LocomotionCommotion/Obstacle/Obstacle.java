@@ -31,6 +31,14 @@ public class Obstacle {
         // TODO apply obstacle to train
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
     /*
         Applies the obstacle to a train.
         @param t    The train to apply the obstacle to.
@@ -42,7 +50,7 @@ public class Obstacle {
     }
 
     /*
-        Checks wheter the obstacle has been assigned to a Train yet.
+        Checks whether the obstacle has been assigned to a Train yet.
         @return     Yes or no.
      */
     public boolean isActive() {

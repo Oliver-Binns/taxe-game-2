@@ -28,7 +28,6 @@ public class Obstacle {
     public Obstacle(String name, String description, double speedFactor, int noTurns, Train target) {
         this(name, description, speedFactor, noTurns);
         this.applyTo(target);
-        // TODO apply obstacle to train
     }
 
     public String getName() {
@@ -46,7 +45,7 @@ public class Obstacle {
     public void applyTo(Train t) {
         this.active = true;
         this.train  = t;
-        // TODO
+        this.train.setObstacle(this);
     }
 
     /*
@@ -94,6 +93,6 @@ public class Obstacle {
             this.active = false;
         }
 
-        // TODO Remove from train
+        this.train.setObstacle(null);
     }
 }

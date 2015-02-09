@@ -6,6 +6,7 @@ import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
+import com.TeamHEC.LocomotionCommotion.Player.Player;
 
 
 /**
@@ -22,7 +23,7 @@ public class GoalGenerator {
 	public Node[] nodeList;
 	
 	
-	public GoalGenerator() {
+	public GoalGenerator(Player player) {
 			map = WorldMap.getInstance();
 			stations = map.stationsList;  
 			

@@ -5,21 +5,86 @@ import com.TeamHEC.LocomotionCommotion.Train.Train;
 /**
  * @author Alfio E. Fresta <aef517@york.ac.uk>
  */
-public interface Obstacle {
+public class Obstacle {
+
+    private String name, description;
+    private double speedFactor;
+
+    private int turnsElapsed = 0;
+    private int totalTurns   = 0;
+
+    private boolean active   = false;
+    private Train   train    = null;
 
     // Instantiates a new obstacle
-    public void Obstacle(String name, String description, double speedFactor, int noTurns);
+    public void Obstacle(String name, String description, double speedFactor, int noTurns) {
+        this.name = name;
+        this.description = description;
+        this.speedFactor = speedFactor;
+        this.totalTurns = noTurns;
+    }
 
     // Instantiates a new obstacle and applies it to a train
-    public void Obstacle(String name, String description, double speedFactor, int noTurns, Train target);
+    public void Obstacle(String name, String description, double speedFactor, int noTurns, Train target) {
+        this.Obstacle(name, description, speedFactor, noTurns);
+        this.applyTo(target);
+        // TODO apply obstacle to train
+    }
 
-    public void appyTo(Train t);    // Applies the obstacle to the train
-    public boolean isActive();      // Returns whether the Obstacle is applied to a train ATM
-    public int getTurnsLeft();      // Returns the number of turns left for this obstacle
-    public int getTurnsElapsed();   // Returns the number of turns the obstacle has already been effective for
-    public double getSpeedFactor(); // Returns the speed factor for the obstacle
+    /*
+        Applies the obstacle to a train.
+        @param t    The train to apply the obstacle to.
+     */
+    public void applyTo(Train t) {
+        this.active = true;
+        // TODO
+    }
 
-    public void endTurn();          // Increments the internal counter, eventually destroys itself and disassociate
-                                    // from the Train if the number of turn left is equal to zero.
+    /*
+        Checks wheter the obstacle has been assigned to a Train yet.
+        @return     Yes or no.
+     */
+    public boolean isActive() {
+        return (this.active && this.train != null);
+    }
 
+    /*
+         Returns the number of turns left for this obstacle.
+         @return    No. of turns left for the obstacle.
+     */
+    public int getTurnsLeft() {
+        return this.totalTurns - this.turnsElapsed;
+    }
+
+    /*
+        Returns the number of turns the obstacle has already been effective for
+        @return     No. of turns the obstacle
+     */
+    public int getTurnsElapsed() {
+        return this.turnsElapsed;
+    }
+
+    /*
+         Returns the speed factor for the obstacle
+         @return    A factor from 0 to 1 that should be multiplied by the train speed.
+     */
+    public double getSpeedFactor() {
+        return this.speedFactor;
+    }
+
+    /*
+        Increments the internal counter, eventually destroys itself and disassociate
+        from the Train if the number of turn left is equal to zero.
+     */
+    public void endTurn() {
+        if ( !this.isActive() ) {
+            return;
+        }
+        this.turnsElapsed++;
+        if ( this.turnsElapsed == this.totalTurns ) {
+            this.active = false;
+        }
+
+        // TODO Remove from train
+    }
 }

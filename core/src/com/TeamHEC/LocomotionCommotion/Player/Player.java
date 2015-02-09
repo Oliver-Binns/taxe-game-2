@@ -6,6 +6,8 @@ import java.util.HashMap;
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
+import com.TeamHEC.LocomotionCommotion.Obstacle.Obstacle;
+import com.TeamHEC.LocomotionCommotion.Obstacle.ObstacleFactory;
 import com.TeamHEC.LocomotionCommotion.Resource.Coal;
 import com.TeamHEC.LocomotionCommotion.Resource.Electric;
 import com.TeamHEC.LocomotionCommotion.Resource.Fuel;
@@ -473,6 +475,32 @@ public class Player implements RouteListener{
 			}
 		}
 	}
+
+    /*
+        Compute obstacles
+        - Increment obstacle turn counters
+        - Randomly make s**t happen
+     */
+    public void obstacles(final double PROBABILITY) {
+
+        ObstacleFactory f = new ObstacleFactory();
+        f.setProbability(PROBABILITY);
+
+        for ( Train t: this.getTrains() ) {
+
+            if ( t.hasObstacle() ) {
+                t.getObstacle().startTurn();
+
+            } else {
+                Obstacle o = f.getObstacle(this);
+                if ( o != null ) {
+                    o.applyTo(t);
+                }
+
+                // TODO Notify the user of the current obstacle
+            }
+        }
+    }
 
 	//Goals
 	public ArrayList<Goal> getGoals()

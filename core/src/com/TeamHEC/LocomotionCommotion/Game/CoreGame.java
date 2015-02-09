@@ -41,6 +41,9 @@ public class CoreGame {
 	private Player playerTurn;
 	private int turnCount;
 	private int turnLimit;
+
+    // The probability that an obstacle occurs for each train in a turn.
+    private static final double OBSTACLE_PROBABILITY = 0.5;
 	
 	/**
 	 * Initialises a Game object. This represents one instance of a game.
@@ -165,6 +168,7 @@ public class CoreGame {
 			// Proceed with the turn:
 			playerTurn.lineBonuses();
 			playerTurn.stationRewards();
+            playerTurn.obstacles(OBSTACLE_PROBABILITY);
 		}
 	}
 

@@ -90,9 +90,8 @@ public abstract class Train {
 
 	/**
      * Returns the speed of the train. Accounts for speed
-     * modifiers and eventual obstacles.
-	 * @return Speed of the train with upgrades and obstacles
-	 */
+     * modifiers and obstacles.
+     **/
 	public int getSpeed()
 	{
 		return (int) ((baseSpeed + speedMod) * this.getObstacleSpeedFactor());

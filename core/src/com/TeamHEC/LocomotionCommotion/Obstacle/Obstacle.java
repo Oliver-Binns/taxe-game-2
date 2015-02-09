@@ -84,7 +84,7 @@ public class Obstacle {
         Increments the internal counter, eventually destroys itself and disassociate
         from the Train if the number of turn left is equal to zero.
      */
-    public void endTurn() {
+    public void startTurn() {
         if ( !this.isActive() ) {
             return;
         }

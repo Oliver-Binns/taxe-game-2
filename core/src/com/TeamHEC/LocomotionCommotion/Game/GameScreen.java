@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 /**
  * 
  * @author Robert Precious <rp825@york.ac.uk>
@@ -51,10 +52,8 @@ public class GameScreen implements Screen {
 	 */
 	public static void create(){
 		//Set up stage camera
-		stage = new Stage(); 
+		stage = new Stage(new StretchViewport(1680, 1050)); 
 		Camera camera = stage.getCamera();
-		camera.viewportHeight= Gdx.graphics.getHeight();
-		camera.viewportWidth= Gdx.graphics.getWidth();
 		camera.update();
 
 		//Instantiate the Managers
@@ -113,9 +112,9 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		getStage().getViewport().update(width, height, true);	
-		LocomotionCommotion.screenX = width;
-		LocomotionCommotion.screenY = height;
+	    // use true here to center the camera
+	    // that's what you probably want in case of a UI
+	    stage.getViewport().update(width, height, true);
 	}
 
 	@Override
@@ -156,6 +155,7 @@ public class GameScreen implements Screen {
 
 	public static void setStage(Stage stage) {
 		GameScreen.stage = stage;
+		stage.setViewport(new StretchViewport(1680, 1050));
 	}
 	/**
 	 * Reset Screen - Sets all the boolean to start values and clears actors and resets the map. 

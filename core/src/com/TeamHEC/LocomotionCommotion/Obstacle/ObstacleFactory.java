@@ -2,6 +2,8 @@ package com.TeamHEC.LocomotionCommotion.Obstacle;
 
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 
+import java.util.Random;
+
 /**
  * @author Alfio E. Fresta <aef517@york.ac.uk>
  *
@@ -18,16 +20,68 @@ import com.TeamHEC.LocomotionCommotion.Player.Player;
  *      System.out.println("Oh no, something bad happened.");
  *  }
  */
-public interface ObstacleFactory {
+public class ObstacleFactory {
 
-    public float        getProbability();           // Gets the current random obstacle probability value
-    public void         setProbability(double p);   // Set a new random obstacle probability value
+    private double probability = 0;
 
-    public Obstacle     getObstacle(Player p);      // Gets a random obstacle
+    private static int maxNoOfTurns = 5;
+    private static String[] possibleNames = {
+            "Oh snap, that's unfortunate!",
+            "BBC forecasts warn about possible ice on tracks",
+            "Those are Yetis, for real!",
+            "Something is wrong with this train.",
+            "'I don't like the sound of the engine.'",
+            "Kids on the tracks... Again.",
+            "That cow thinks to be train.",
+    };
+
+    public ObstacleFactory() {
+        this.setProbability(0.5);
+    }
 
     /*
-        Tests could be, for example, setting probability both to 0 and 1 and test you
-        get null every time or an obstacle every time (e.g. by repeating 100 times).
+        Gets the current probability ratio for the Generation of an obstacle.
      */
+    public double getProbability() {
+        return this.probability;
+    }
+
+    /*
+        Sets a new probability ratio for the generation of an obstacle.
+        @param p    The new probability (between 0 and 1).
+     */
+    public void         setProbability(double p) {
+        if ( p < 0 || p > 1 ) {
+            return;
+        }
+        this.probability = p;
+    }
+
+    /*
+        (Probably) get an obstacle. Use the probability ratio
+        set for this obstacle factory.
+        @param p    The player.
+        @return     Either an Obstacle or null, if you're lucky.
+     */
+    public Obstacle getObstacle(Player p) {
+
+        // If you're lucky, a random number x | 0 <= x < 1,
+        // will be smaller than your probability window.
+        double luck = Math.random();
+        if ( luck > this.probability ) {
+            return null;
+        }
+
+        String name = this.possibleNames[new Random().nextInt(this.possibleNames.length)];
+        double speedFactor = Math.random();
+        int numberOfTurns = (int) (Math.random() * maxNoOfTurns);
+        int readableSpedFactor = (int) (speedFactor * 100);
+        String description = "The train will show down to " + readableSpedFactor
+                + "% its normal speed for " + numberOfTurns + "turns.";
+
+        return new Obstacle(name, description, speedFactor, numberOfTurns);
+
+    }
+
 
 }

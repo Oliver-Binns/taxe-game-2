@@ -55,7 +55,7 @@ public class ObstacleTest {
     public void testProbability() {
 
         ObstacleFactory f = new ObstacleFactory();
-        int n = 100; // How many times to try
+        int n = 1000; // How many times to try (10x)
 
         // Test 100% probability
         f.setProbability(1);

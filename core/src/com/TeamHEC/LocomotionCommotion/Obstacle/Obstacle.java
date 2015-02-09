@@ -17,7 +17,7 @@ public class Obstacle {
     private Train   train    = null;
 
     // Instantiates a new obstacle
-    public void Obstacle(String name, String description, double speedFactor, int noTurns) {
+    public Obstacle(String name, String description, double speedFactor, int noTurns) {
         this.name = name;
         this.description = description;
         this.speedFactor = speedFactor;
@@ -25,8 +25,8 @@ public class Obstacle {
     }
 
     // Instantiates a new obstacle and applies it to a train
-    public void Obstacle(String name, String description, double speedFactor, int noTurns, Train target) {
-        this.Obstacle(name, description, speedFactor, noTurns);
+    public Obstacle(String name, String description, double speedFactor, int noTurns, Train target) {
+        this(name, description, speedFactor, noTurns);
         this.applyTo(target);
         // TODO apply obstacle to train
     }
@@ -37,6 +37,7 @@ public class Obstacle {
      */
     public void applyTo(Train t) {
         this.active = true;
+        this.train  = t;
         // TODO
     }
 

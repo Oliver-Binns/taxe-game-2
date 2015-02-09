@@ -98,13 +98,46 @@ public class ObstacleTest {
                 o.isActive()
         );
 
+        assertFalse("Train should have no obstacles yet.",
+                this.train.hasObstacle()
+        );
+
         o.applyTo(this.train);
+
+        assertTrue("Train should now have obstacle.",
+                this.train.hasObstacle()
+        );
 
         assertTrue("The obstacle should be active now.",
                 o.isActive()
         );
 
-        // TODO Test passing turns and checking turns counters
+        int x = o.getTurnsLeft();
+        o.startTurn();
+
+        assertTrue("A turn should be passed, now.",
+                o.getTurnsElapsed() == 1
+        );
+
+        assertTrue("Turns left should be decremented.",
+                o.getTurnsLeft() == x-1
+        );
+
+        int t = o.getTurnsLeft();
+        for ( int i = 0; i < t; i++ ) {
+            assertTrue("Obstacle should be still alive.",
+                    o.isActive()
+            );
+            o.startTurn();
+        }
+
+        assertFalse("Ok, now everything finished.",
+                o.isActive()
+        );
+
+        assertFalse("Train should have no obstacles anymore.",
+                this.train.hasObstacle()
+        );
 
     }
 

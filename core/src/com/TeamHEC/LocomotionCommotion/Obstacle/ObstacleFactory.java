@@ -74,7 +74,7 @@ public class ObstacleFactory {
 
         String name = this.possibleNames[new Random().nextInt(this.possibleNames.length)];
         double speedFactor = Math.random();
-        int numberOfTurns = (int) (Math.random() * maxNoOfTurns);
+        int numberOfTurns = (int) (1 + (Math.random() * maxNoOfTurns));
         int readableSpedFactor = (int) (speedFactor * 100);
         String description = "The train will show down to " + readableSpedFactor
                 + "% its normal speed for " + numberOfTurns + "turns.";

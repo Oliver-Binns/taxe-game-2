@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
-import com.TeamHEC.LocomotionCommotion.Goal.Graph.GoalGenerator;
+import com.TeamHEC.LocomotionCommotion.Goal.Graph.GoalGenerationAlgorithm;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
@@ -84,7 +84,7 @@ public class GoalFactory{
 	}
 
 //	public Goal generateGoal(Player player){
-//		GoalGenerator generator = new GoalGenerator(player);
+//		GoalGenerationAlgorithm generator = new GoalGenerationAlgorithm(player);
 //	}
 }
 

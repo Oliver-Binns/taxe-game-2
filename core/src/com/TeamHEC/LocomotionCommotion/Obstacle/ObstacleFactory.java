@@ -1,5 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.Obstacle;
 
+import com.TeamHEC.LocomotionCommotion.Player.Player;
+
 /**
  * @author Alfio E. Fresta <aef517@york.ac.uk>
  *

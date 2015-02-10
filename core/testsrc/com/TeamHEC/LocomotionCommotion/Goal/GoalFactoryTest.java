@@ -44,6 +44,48 @@ public class GoalFactoryTest {
 		}
 	}
 	
+	@Test
+	public void testGenerateGoal() {
+		
+		for(int i = 0; i < 500; i ++)
+		{
+			tester = new GoalFactory(1);
+			Goal goal = tester.generateGoal(5);
+			Goal goal1 = tester.generateGoal(5);
+			
+			assertTrue(
+					"GoalFactory's goal did not have a valid start station, iteration: " + i,
+					checkExistence(goal.getSStation()));
+			assertTrue(
+					"GoalFactory's goals had the same SSstations, iteration: " + i,
+					goal.getSStation() != goal1.getSStation());
+			assertTrue(
+					"GoalFactory's goals had the same FStation and SStaion, iteration: " + i,
+					goal.getFStation() != goal1.getSStation());
+			assertTrue(
+					"GoalFactory's goals had the same SStation and FStation, iteration: " + i,
+					goal.getSStation() != goal1.getFStation());
+			assertTrue(
+					"GoalFactory's goals had the same FStations, iteration: " + i,
+					goal.getFStation() != goal1.getFStation());
+			assertTrue(
+					"GoalFactory's goal did not have a valid end station, iteration: " + i,
+					checkExistence(goal.getFStation()));
+			assertTrue(
+					"GoalFactory's goal did not have a valid cargo, iteration: " + i,
+					goal.getCargo() == "Absolute");
+			assertTrue(
+					"GoalFactory's reward was not set correctly, iteration: " + i,
+					goal.getReward() > 0);
+			assertTrue(
+					"GoalFactory did not have a valid via station, iteration: " + i,
+					goal.stationVia == null || checkExistence(goal.stationVia.getName()));
+			assertTrue("Goal factory did not have the appropriate reward value iteration: " + i,
+					goal.getReward() == 500);
+			
+		}
+	}
+	
 	private boolean checkExistence(String stationName) {
 		for(int i = 0; i < WorldMap.getInstance().stationsList.size(); i++)
 		{

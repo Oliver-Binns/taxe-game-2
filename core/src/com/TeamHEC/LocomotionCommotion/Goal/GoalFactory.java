@@ -7,7 +7,6 @@ import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.GoalGenerationAlgorithm;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
-import com.TeamHEC.LocomotionCommotion.Player.Player;
 
 /**
  * 
@@ -15,12 +14,15 @@ import com.TeamHEC.LocomotionCommotion.Player.Player;
  * Generates random Goals.
  */
 public class GoalFactory{
+	public final int EASY 	= 3;
+	public final int MEDIUM = 5;
+	public final int HARD 	= 10;
 
 	private WorldMap map;                // creating world map 
 	private ArrayList<Station> stations;
 	private Random random;
-	@SuppressWarnings("unused")
 	private int turnCount;
+	ArrayList<Station> stationsUsed = new ArrayList<Station>();
 	
 	/**
 	 * Initialises the GoalFactory
@@ -83,9 +85,34 @@ public class GoalFactory{
 		return newgoal; 
 	}
 
-//	public Goal generateGoal(Player player){
-//		GoalGenerationAlgorithm generator = new GoalGenerationAlgorithm(player);
-//	}
+	/**Generates a new goal using goal generation algorithm. The difficulty of the goal
+	 * is determined by the difficulty parameter and the current turn count. Every goal generated
+	 * by this factory has completely different starting and ending stations from all other goals generated.
+	 * @param difficulty EASY, MEDIUM or HARD constants should be used
+	 * @return a new goal
+	 */
+	public Goal generateGoal(int difficulty){
+		//Add the turn count factor to the difficulty
+		difficulty = (int) Math.ceil(difficulty*(1+turnCount/150));
+		
+		GoalGenerationAlgorithm generator = new GoalGenerationAlgorithm(difficulty);
+		Station startStation;
+		Station finalStation;
+		
+		ArrayList<Station> stationList = generator.generateGoalPath();
+		startStation = stationList.get(0);
+		finalStation = stationList.get(stationList.size()-1);
+		while(stationsUsed.contains(startStation) || stationsUsed.contains(finalStation) || startStation == finalStation){
+			stationList = generator.generateGoalPath();
+			startStation = stationList.get(0);
+			finalStation = stationList.get(stationList.size()-1);
+		}
+		stationsUsed.add(startStation);
+		stationsUsed.add(finalStation);
+		
+		Goal goal = new Goal(startStation, finalStation, null, "Absolute", difficulty*100);
+		return goal;
+	}
 }
 
 

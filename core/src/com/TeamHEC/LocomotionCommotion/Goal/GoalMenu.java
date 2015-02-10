@@ -367,8 +367,10 @@ public class GoalMenu {
 		ArrayList<Goal> goals = new ArrayList<Goal>();
 		GoalFactory factory = new GoalFactory(GameScreen.game.getTurnCount());
 		
-		for (int i=0; i<9; i++){
-				goals.add(factory.CreateRandomGoal());
+		for (int i=0; i<3; i++){
+				goals.add(factory.generateGoal(factory.EASY));
+				goals.add(factory.generateGoal(factory.MEDIUM));
+				goals.add(factory.generateGoal(factory.HARD));
 		}
 		GoalMenu.AddGoalToScreen(goals);
 	}

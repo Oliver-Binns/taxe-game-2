@@ -299,18 +299,18 @@ public class GoalMenu {
 		String output;
 		output ="";
 
-		output += type + getSpacing(type.length()) + reward; 
+		output += type + getSpacing((type.length() + (reward+"").length())) + (reward+""); 
 		output += "\n\n";
-		output += from + getSpacing(from.length()) + startdate; 
+		output += from + getSpacing((from.length() + startdate.length())) + startdate; 
 		output += "\n\n";
-		output += dest + getSpacing(dest.length()) + route;
+		output += dest + getSpacing((dest.length() + route.length())) + route;
 		return output;
 
 	}
 	//Adds spacing for Labels
 	public static String getSpacing(int len){
 		String space="";
-		for (int i=0; i<(17-len)+22; i++){
+		for (int i=0; i<41-len; i++){
 			space += " ";
 
 		}
@@ -334,7 +334,7 @@ public class GoalMenu {
 					goals.get(i).getSStation(),
 					goals.get(i).getStartDate(), 
 					goals.get(i).getFStation(), 
-					goals.get(i).getVia()));
+					goals.get(i).getTimeConstraint()));
 			createdGoals.get(emptyspace).setGoal(goals.get(i));
 			createdGoals.get(emptyspace).setEmpty(false);
 			createdGoals.get(emptyspace).setIndex(emptyspace+1);

@@ -78,20 +78,20 @@ public class GoalFactory{
 			cargo = "Cargo";
 		
 		if(random.nextInt(5) == 5) //random 1/5 choice of getting special goals
-			newgoal = new SpecialGoal(sStation ,fStation, null, cargo, reward);		
+			newgoal = new SpecialGoal(sStation ,fStation, 0, cargo, reward);		
 		else
-			newgoal = new Goal(sStation, fStation, null, cargo, reward);
+			newgoal = new Goal(sStation, fStation, 0, cargo, reward);
 		
 		return newgoal; 
 	}
 
-	/**Generates a new goal using goal generation algorithm. The difficulty of the goal
+	/**Generates a new absolute goal using goal generation algorithm. The difficulty of the goal
 	 * is determined by the difficulty parameter and the current turn count. Every goal generated
 	 * by this factory has completely different starting and ending stations from all other goals generated.
 	 * @param difficulty EASY, MEDIUM or HARD constants should be used
 	 * @return a new goal
 	 */
-	public Goal generateGoal(int difficulty){
+	public Goal generateAbsoluteGoal(int difficulty){
 		//Add the turn count factor to the difficulty
 		difficulty = (int) Math.ceil(difficulty*(1+turnCount/150));
 		
@@ -110,8 +110,60 @@ public class GoalFactory{
 		stationsUsed.add(startStation);
 		stationsUsed.add(finalStation);
 		
-		Goal goal = new Goal(startStation, finalStation, null, "Absolute", difficulty*100);
+		Goal goal = new Goal(startStation, finalStation, 0, "Absolute", difficulty*100);
 		return goal;
+	}
+	
+	
+	/**Generates a new quantifiable goal using goal generation algorithm an djikstras algorithm. The difficulty of the goal
+	 * is determined by the difficulty parameter and the current turn count. Every goal generated
+	 * by this factory has completely different starting and ending stations from all other goals generated.
+	 * @param difficulty EASY, MEDIUM or HARD constants should be used
+	 * @return a new goal
+	 */
+	public Goal generateQuantifiableGoal(int difficulty){
+		//Add the turn count factor to the difficulty
+		difficulty = (int) Math.ceil(difficulty*(1+turnCount/150));
+		
+		GoalGenerationAlgorithm generator = new GoalGenerationAlgorithm(difficulty);
+		Station startStation;
+		Station finalStation;
+		
+		ArrayList<Station> stationList = generator.generateGoalPath();
+		startStation = stationList.get(0);
+		finalStation = stationList.get(stationList.size()-1);
+		while(stationsUsed.contains(startStation) || stationsUsed.contains(finalStation) || startStation == finalStation){
+			stationList = generator.generateGoalPath();
+			startStation = stationList.get(0);
+			finalStation = stationList.get(stationList.size()-1);
+		}
+		stationsUsed.add(startStation);
+		stationsUsed.add(finalStation);
+		
+		Dijkstra d = new Dijkstra(); //implements dijkstra 
+		d.computePaths(d.lookUpNode(startStation)); //uses the loopup function to get instance of a
+												//station and compute paths 
+		int routhLength = d.getShortestPathTo(d.lookUpNode(finalStation)).size(); // 
+		
+		
+		Goal goal = new Goal(startStation, finalStation, routhLength, "Quantifiable", difficulty*100*routhLength);
+		return goal;
+	}
+	
+	
+	/**Generates either a quantifiable or absolute goal with odds 3:1 absolute:quantifiable.
+	 * The difficulty of the goal is determined by the difficulty parameter and the current turn count.
+	 * @param difficulty EASY, MEDIUM or HARD constants should be used.
+	 * @return Goal
+	 */
+	public Goal generateGoal(int difficulty){
+		int n = random.nextInt(4);
+		
+		if(n != 3){
+			return generateAbsoluteGoal(difficulty);
+		}else{
+			return generateQuantifiableGoal(difficulty);
+		}
 	}
 }
 

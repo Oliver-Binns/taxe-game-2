@@ -193,8 +193,8 @@ public class GameScreenUI {
 				Game_Shop.actorManager.refreshgold(GameScreen.game.getPlayerTurn().getGold());
 				PlayerGoals.changePlayer(GameScreen.game.getPlayerTurn());
 				Game_CardHand.actorManager.changePlayer(GameScreen.game.getPlayerTurn());
-				playerScore.setText(GameScreen.game.getPlayer1().getName()+"    " + 0 +
-						"     SCORE     "+ 0+"     "+GameScreen.game.getPlayer2().getName()
+				playerScore.setText(GameScreen.game.getPlayer1().getName()+"    " + GameScreen.game.getPlayer1().getPoints() +
+						"     SCORE     "+ GameScreen.game.getPlayer2().getPoints() +"     "+GameScreen.game.getPlayer2().getName()
 						+"     "+GameScreen.game.getPlayerTurn().getName()+" it's your turn ");
 				currentPlayerName.setText(GameScreen.game.getPlayerTurn().getName()+"'s TURN");
 				GoalMenu.fillGoalScreen();

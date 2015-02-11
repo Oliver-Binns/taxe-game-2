@@ -70,11 +70,15 @@ public class Goal implements RouteListener{
 	{
 		return this.sStation.getName();
 	}
+
+    public Station getSStationObject() { return this.sStation; }
 	
 	public String getFStation()
 	{
 		return this.fStation.getName();
 	}
+
+    public Station getFStationObject() { return this.fStation; }
 
 	public int getReward()
 	{
@@ -128,16 +132,21 @@ public class Goal implements RouteListener{
 	
 	/**
 	 * Called when the goal is successfully complete:
+     *  @return False if goal is not ready to complete
 	 */	
-	public void goalComplete()
+	public Boolean goalComplete()
 	{
+        if ( ! (startStationPassed && finalStationPassed && stationViaPassed)){
+            return false;
+        }
+
 		WarningMessage.fireWarningWindow("GOAL COMPLETE!", "You've successfully complete the route: " + getSStation()
 				+ " to " + getFStation() + "\n you've won " + getReward());
 		
 		train.getOwner().addGold(getReward());
         train.getOwner().incrementPoints(calculatePoints()); //Added by Team EEP
-		train.route.unregister(this);
-		
+
+        train.route.unregister(this);
 		train.getOwner().getGoals().remove(this);
 		
 		//if(goalActor != null)
@@ -148,6 +157,8 @@ public class Goal implements RouteListener{
 		startStationPassed = false;
 		stationViaPassed = false;
 		finalStationPassed = false;
+
+        return true;
 	}
 	
 	/**
@@ -192,11 +203,24 @@ public class Goal implements RouteListener{
 
     public void incrementCurrentGoalDuration(){ currentGoalDuration++; }
 
-    private int calculatePoints(){
-        if (finalStationPassed = false){
+
+    /**
+     * Used to calculate how many points to add to a player's score upon completion of goal
+     * EstimateOptimalDuration = how many turns it would take train to travel goal's optimal route at base speed
+     * CurrentGoalDuration = how many turns it actually took the train
+     * reward = length of optimal journey
+     */
+    public int calculatePoints(){
+        if (! finalStationPassed || currentGoalDuration == 0){
             return 0;
         }
-        return (estimateOptimalDuration() / currentGoalDuration * 100);
+        System.out.println(estimateOptimalDuration());
+        System.out.println(currentGoalDuration);
+        System.out.println(reward);
+        System.out.println(train.getBaseSpeed());
+        System.out.println(train.getSpeed());
+
+        return (estimateOptimalDuration() * reward / currentGoalDuration );
     }
 
 
@@ -214,7 +238,7 @@ public class Goal implements RouteListener{
         //station and compute paths
         int minDistance = (int) d.lookUpNode(fStation).minDistance; //
 
-        return (minDistance / train.getSpeed());
+        return (minDistance / train.getBaseSpeed());
     }
 
 

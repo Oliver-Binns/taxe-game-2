@@ -18,6 +18,7 @@ import com.TeamHEC.LocomotionCommotion.Train.RouteListener;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 
 /**
  * @author Matthew Taylor <mjkt500@york.ac.uk>
@@ -495,9 +496,9 @@ public class Player implements RouteListener{
                 Obstacle o = f.getObstacle(this);
                 if ( o != null ) {
                     o.applyTo(t);
+                    WarningMessage.fireWarningWindow(o.getName(), o.getDescription());
                 }
 
-                // TODO Notify the user of the current obstacle
             }
         }
     }

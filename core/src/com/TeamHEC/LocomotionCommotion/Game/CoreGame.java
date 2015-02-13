@@ -43,7 +43,7 @@ public class CoreGame {
 	private int turnLimit;
 
     // The probability that an obstacle occurs for each train in a turn.
-    private static final double OBSTACLE_PROBABILITY = 0.5;
+    private static final double OBSTACLE_PROBABILITY = 0.15;
 	
 	/**
 	 * Initialises a Game object. This represents one instance of a game.

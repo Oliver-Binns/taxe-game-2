@@ -181,7 +181,13 @@ public class GameScreenUI {
 			@SuppressWarnings("static-access")
 			@Override
 			protected void onClicked()
-			{	
+			{
+
+                if ( Game_Map_Manager.isMoving ) {
+                    WarningMessage.fireWarningWindow("Too fast!", "Your train is still moving.");
+                    return;
+                }
+
 				ArrayList<Train> playerTrains = GameScreen.game.getPlayerTurn().getTrains();	
 				for(Train t : playerTrains)
 				{

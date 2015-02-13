@@ -132,6 +132,7 @@ public class Game_Map_Train extends Actor{
 				int trainSpeed = train.getSpeed();
 				if(moveCounter < trainSpeed)
 				{
+                    Game_Map_Manager.isMoving = true;
 					train.route.update(1);
 					moveCounter++;
 				}
@@ -139,6 +140,7 @@ public class Game_Map_Train extends Actor{
 				{
 					canMove = false;
 					moveCounter = 0;
+                    Game_Map_Manager.isMoving = false;
 				}
 			}
 			else

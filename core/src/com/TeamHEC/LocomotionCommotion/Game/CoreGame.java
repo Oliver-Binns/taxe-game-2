@@ -24,6 +24,7 @@ import com.TeamHEC.LocomotionCommotion.Train.NuclearTrain;
 import com.TeamHEC.LocomotionCommotion.Train.OilTrain;
 import com.TeamHEC.LocomotionCommotion.Train.Route;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 
 /**
  * 
@@ -146,38 +147,47 @@ public class CoreGame {
 	 */
 	public void EndTurn() {
 
-		playerTurn.lineBonuses();
-		turnCount = (turnCount + 1);
-		if (playerTurn == player1)
-			playerTurn = player2;
-		else
-			playerTurn = player1;
-		StartTurn();
+        //Adds an extra turn if score is equal
+        if (turnCount >= turnLimit && player1.getPoints() != player2.getPoints()){
+            EndGame();
+        }
+
+        else {
+            playerTurn.lineBonuses();
+            turnCount = (turnCount + 1);
+            if (playerTurn == player1)
+                playerTurn = player2;
+            else
+                playerTurn = player1;
+            StartTurn();
+        }
+
 	}
 
 	/**
 	 * Starts a players turn. It will check for the end game condition.
 	 */
 	public void StartTurn() {
-		if (getTurnCount() == getTurnLimit())
-			EndGame();
-		else {
-			// Proceed with the turn:
-			playerTurn.lineBonuses();
-			playerTurn.stationRewards();
 
-            //Increment all player's goals by one turn in duration
-            for ( Goal goal : playerTurn.getGoals()){
-                goal.incrementCurrentGoalDuration();
-            }
-		}
+        // Proceed with the turn:
+        playerTurn.lineBonuses();
+        playerTurn.stationRewards();
+
+        //Increment all player's goals by one turn in duration
+        for ( Goal goal : playerTurn.getGoals()){
+            goal.incrementCurrentGoalDuration();
+        }
+
 	}
 
 	/**
 	 * Ends the current game.
 	 */
 	private void EndGame() {
-
+        Player winner;
+        winner = ( player1.getPoints() > player2.getPoints() ) ?
+                player1 : player2;
+        WarningMessage.fireWarningWindow("End of Game", "Congratulations to " + winner.getName() + " you have won!");
 	}
 
 	/**

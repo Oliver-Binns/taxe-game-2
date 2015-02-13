@@ -144,8 +144,12 @@ public class Game_Map_Train extends Actor{
 				}
 			}
 			else
-				moveCounter = 0;
-		}
+            {
+                moveCounter = 0;
+                Game_Map_Manager.isMoving = false;
+            }
+
+        }
 	}
 	
 	@Override

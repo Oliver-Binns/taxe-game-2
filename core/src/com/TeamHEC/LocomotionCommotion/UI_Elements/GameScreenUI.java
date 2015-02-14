@@ -357,7 +357,6 @@ public class GameScreenUI {
 		//Add Labels
 		style= getLabelStyle(32);
 		playerScore = new Label(null, style);
-		playerScore = new Label(null, style);
 		playerScore.setColor(0,0,0,1);
 		playerScore.setText("");
 		playerScore.setX(400);

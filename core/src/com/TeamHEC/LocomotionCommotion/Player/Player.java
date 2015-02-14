@@ -27,6 +27,10 @@ public class Player implements RouteListener{
 
 	private String name;
 	private int points;
+
+    private enum playerStates { PLAYING, WON, LOST };
+    private playerStates currentState;
+
 	private Gold gold;
 	private Coal coal;
 	private Oil oil;
@@ -41,12 +45,15 @@ public class Player implements RouteListener{
 
 	private HashMap<String, Fuel> playerFuel;
 
+
+
 	public boolean isPlayer1;
 
 	public Player(String name, int points, Gold gold, Coal coal, Electric electric, Nuclear nuclear, Oil oil, ArrayList<Card> cards, ArrayList<Goal> goals, ArrayList<Train> trains)
 	{
 		this.name = name;
 		this.points = points;
+        this.currentState = playerStates.PLAYING;
 		this.gold = gold;
 		this.coal = coal;
 		this.oil = oil;
@@ -88,9 +95,35 @@ public class Player implements RouteListener{
 	}
 
     /**
-     * @param newPoints  new points to be added to a player
+     * @param newPoints  new points to be added to a player's current score
      */
     public void incrementPoints(int newPoints) { points += newPoints; }
+
+
+    /**
+     * Get the current state of a player
+     * @return Current state a player is in from enum Player.playerStates { PLAYING, WON, LOST}
+     */
+    public playerStates getCurrentState() { return currentState; }
+
+    public void setAsWinner() { currentState = playerStates.WON; }
+
+    /**
+     * @return True if player has won the game
+     */
+    public Boolean hasWon() { return currentState == playerStates.WON;  }
+
+    public void setAsLoser() { currentState = playerStates.LOST;  }
+
+    /**
+     * @return True if player has lost the game
+     */
+    public Boolean hasLost() { return currentState == playerStates.LOST; }
+
+    /**
+     * @return True if player has not won or lost yet
+     */
+    public Boolean isStillPlaying() { return currentState == playerStates.PLAYING; }
 
 	//Shop
 	public Shop getShop(){

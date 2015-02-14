@@ -142,8 +142,9 @@ public class CoreGame {
 	}
 
 	/**
-	 * Ends the turn of a player. It will increase the turn count and switch the
-	 * player's turns.
+	 * Ends the turn of a player.
+     * Checks for end game condition : turn count has reached its "limit" and player's points are not equal
+     * It will increase the turn count and switch the player's turns.
 	 */
 	public void EndTurn() {
 
@@ -165,7 +166,7 @@ public class CoreGame {
 	}
 
 	/**
-	 * Starts a players turn. It will check for the end game condition.
+	 * Starts a player's turn.
 	 */
 	public void StartTurn() {
 
@@ -182,11 +183,28 @@ public class CoreGame {
 
 	/**
 	 * Ends the current game.
+     * Only call once one player has a higher score than another
 	 */
 	private void EndGame() {
+
         Player winner;
-        winner = ( player1.getPoints() > player2.getPoints() ) ?
-                player1 : player2;
+
+        if ( player1.getPoints() > player2.getPoints() ) {
+            player1.setAsWinner();
+            player2.setAsLoser();
+            winner = player1;
+        }
+
+        else if ( player1.getPoints() < player2.getPoints()) {
+            player1.setAsLoser();
+            player2.setAsWinner();
+            winner = player2;
+        }
+
+        else {
+            return; //Game should not end if there is a draw
+        }
+
         WarningMessage.fireWarningWindow("End of Game", "Congratulations to " + winner.getName() + " you have won!");
 	}
 

@@ -31,7 +31,7 @@ public class GoalTest {
 	Train train;
 	WorldMap wm;
 	Station ss,fs;
-    Connection connectOne, connectTwo;
+    Player player;
 
     //Method copied from Goal Factory to use for test Goal
     private int genReward(Station sStation, Station fStation){
@@ -72,15 +72,15 @@ public class GoalTest {
 		String name = "Player 1";
 		int points = 0;
 		Gold gold = new Gold(1000);
-		Coal coal = new Coal(200);
-		Oil oil = new Oil(200);
-		Electric electric = new Electric(200);
-		Nuclear nuclear = new Nuclear(200);
+		Coal coal = new Coal(2000);
+		Oil oil = new Oil(2000);
+		Electric electric = new Electric(2000);
+		Nuclear nuclear = new Nuclear(2000);
 		ArrayList<Card> cards = new ArrayList<Card>();
 		ArrayList<Goal> goals = new ArrayList<Goal>();
 		ArrayList<Train> trains = new ArrayList<Train>();
 		
-		Player player = new Player(
+		player = new Player(
 				name,
 				points,
 				gold,
@@ -94,14 +94,10 @@ public class GoalTest {
 		
 		//Setup train and its route to complete goal
 		train = new OilTrain(0, true, new Route(WorldMap.getInstance().LONDON), player);
-        train.route.train = train;
         goal.assignTrain(train);
 
-        connectOne = wm.LONDON.connections.get(0);  //Connection from London to Dublin
-        train.route.addConnection(connectOne);
-
-        connectTwo = wm.DUBLIN.connections.get(1);  //Connection from Dublin to Amsterdam
-        train.route.addConnection(connectTwo);
+        train.route.addConnection(wm.LONDON.connections.get(0)); //Connection from London to Dublin
+        train.route.addConnection(wm.DUBLIN.connections.get(1)); //Connection from Dublin to Amsterdam
 
 	}
 
@@ -136,6 +132,7 @@ public class GoalTest {
 	}
 
 
+
     //Team EEP Tests for Goal:
 
     @Test
@@ -149,13 +146,14 @@ public class GoalTest {
 
 
     @Test
-    public void testCompleteGoal() {
+    public void testCompleteGoalUsingOptimalPath() {
 
         int startingReward = train.getOwner().getGold();
         int startingScore = train.getOwner().getPoints();
 
         int expectedEndingReward = startingReward + goal.getReward();
-        int expectedEndingScore = 3 * goal.getReward() / 3; //I.e. as optimal route chosen, Score = Reward
+        assertEquals("Optimal Duration should be 3 turns", 3, goal.estimateOptimalDuration());
+        int expectedEndingScore = goal.estimateOptimalDuration() * goal.getReward() / 3; //I.e. as optimal route chosen, Score = Reward
 
         //Distance of route  to complete goal equals 274.0
         float distanceToCompleteGoal = train.getRoute().getLengthRemaining();
@@ -184,6 +182,47 @@ public class GoalTest {
         assertEquals("If goal is completed reward will have been added to gold", expectedEndingReward, train.getOwner().getGold());
         assertEquals("Score should have been added to player", expectedEndingScore, train.getOwner().getPoints());
 
+    }
+
+    @Test
+    public void testCompleteGoalUsingSuboptimalPath() {
+
+        int startingReward = train.getOwner().getGold();
+        int startingScore = train.getOwner().getPoints();
+
+        int expectedEndingReward = startingReward + goal.getReward();
+        assertEquals("Optimal Duration should be 3 turns", 3, goal.estimateOptimalDuration());
+        int expectedEndingScore = goal.estimateOptimalDuration() * goal.getReward() / 17; //Should take 17 turns
+
+        //Reconstruct train so it has an empty route
+        train = new OilTrain(0, true, new Route(WorldMap.getInstance().LONDON), player);
+        goal.assignTrain(train);
+
+
+        //Go from London to Dublin to Reykjavik to Oslo to Berlin to Dublin
+        train.route.addConnection(wm.LONDON.connections.get(0));
+        train.route.addConnection(wm.DUBLIN.connections.get(0));
+        train.route.addConnection(wm.REYKJAVIK.connections.get(0));
+        train.route.addConnection(wm.OSLO.connections.get(2));
+        train.route.addConnection(wm.BERLIN.connections.get(0));
+
+        //Distance of route  to complete goal equals 1393.6956
+        float distanceToCompleteGoal = train.getRoute().getLengthRemaining();
+
+        for (int turnNo = 0; turnNo < 17; turnNo++){
+            train.route.update(train.getSpeed()); //Train is travelling at 80 per turn
+            goal.incrementCurrentGoalDuration();
+            assertFalse("Goal should not yet be complete", goal.goalComplete());
+        }
+
+        //Last turn
+        train.route.update(train.getSpeed()); //Train is travelling at 80 per turn
+        goal.incrementCurrentGoalDuration();
+
+        //Turn should have reached destination by now
+
+        assertEquals("If goal is completed reward will have been added to gold", expectedEndingReward, train.getOwner().getGold());
+        assertEquals("Score should have been added to player", expectedEndingScore, train.getOwner().getPoints());
 
     }
 }

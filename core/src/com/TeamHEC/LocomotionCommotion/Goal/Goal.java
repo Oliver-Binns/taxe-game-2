@@ -201,33 +201,32 @@ public class Goal implements RouteListener{
 
     public int getCurrentGoalDuration(){ return currentGoalDuration; }
 
+    /**
+     * Should be called at the end of each turn
+     */
     public void incrementCurrentGoalDuration(){ currentGoalDuration++; }
-
 
     /**
      * Used to calculate how many points to add to a player's score upon completion of goal
      * EstimateOptimalDuration = how many turns it would take train to travel goal's optimal route at base speed
      * CurrentGoalDuration = how many turns it actually took the train
      * reward = length of optimal journey
+     * @return 0 if goal is not yet completed, otherwise number of points
      */
     public int calculatePoints(){
         if (! finalStationPassed || currentGoalDuration == 0){
             return 0;
         }
-        System.out.println(estimateOptimalDuration());
-        System.out.println(currentGoalDuration);
-        System.out.println(reward);
-        System.out.println(train.getBaseSpeed());
-        System.out.println(train.getSpeed());
 
         return (estimateOptimalDuration() * reward / currentGoalDuration );
     }
 
 
     /**
-     * Used to estimate how many turns it would take the train to travel the goal's optimal route at its base speed
+     * Used to estimate how many turns it would take the train (assigned to the goal) to travel the goal's optimal route at its base speed
+     * @return 0 if no train has been assigned, otherwise it will return "optimal" number of turns for completion
      */
-    private int estimateOptimalDuration() {
+    public int estimateOptimalDuration() {
 
         if (train == null){
             return 0;

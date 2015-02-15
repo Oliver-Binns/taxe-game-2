@@ -86,9 +86,6 @@ public class DijkstraTest {
 		d.initialiseGraph();
 		assertTrue(d.nodeList.length != 0 );  
 		assertTrue(d.nodeList.length == (wm.stationsList.size() + 2));
-
-
-
 	}
 
 

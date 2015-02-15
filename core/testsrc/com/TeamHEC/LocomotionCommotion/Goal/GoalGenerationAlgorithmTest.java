@@ -64,9 +64,25 @@ public class GoalGenerationAlgorithmTest {
 	public void testGetGoalPathNodeList(){
 		gga = new GoalGenerationAlgorithm(5);
 		ArrayList<Node> list = gga.getGoalPathNodeList();
-		for(Node n : list){
-			assertTrue(stations.contains(n.mapobj));
-		}
+		assertTrue(stations.contains(list.get(0).mapobj));
+		
+		assertTrue(stations.contains(list.get(1).mapobj) 
+				||	map.junction[0] == list.get(1).mapobj 
+				|| map.junction[1] == list.get(1).mapobj);
+		
+		assertTrue(stations.contains(list.get(2).mapobj) 
+				||	map.junction[0] == list.get(2).mapobj 
+				|| map.junction[1] == list.get(2).mapobj);
+		
+		assertTrue(stations.contains(list.get(3).mapobj) 
+				||	map.junction[0] == list.get(3).mapobj 
+				|| map.junction[1] == list.get(3).mapobj);
+		
+		assertTrue(stations.contains(list.get(4).mapobj) 
+				||	map.junction[0] == list.get(4).mapobj 
+				|| map.junction[1] == list.get(4).mapobj);
+		
+		assertTrue(stations.contains(list.get(5).mapobj));
 	}
 	
 	@Test

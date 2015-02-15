@@ -177,11 +177,11 @@ public class PlayerGoals {
 		String output;
 		output ="";
 
-		output += type + getSpacing(type.length()) + reward; 
+		output += type + getSpacing(type.length() + (reward+"").length()) + reward; 
 		output += "\n\n";
-		output += from + getSpacing(from.length()) + startdate; 
+		output += from + getSpacing(from.length() + startdate.length()) + startdate; 
 		output += "\n\n";
-		output += dest + getSpacing(dest.length()) + route;
+		output += dest + getSpacing(dest.length() + route.length()) + route;
 		return output;
 
 	}
@@ -190,7 +190,7 @@ public class PlayerGoals {
 	 */
 	public static String getSpacing(int len){
 		String space="";
-		for (int i=0; i<(17-len)+20; i++){
+		for (int i=0; i<41-len; i++){
 			space += " ";
 
 		}
@@ -319,7 +319,7 @@ public class PlayerGoals {
 					newgoal.getGoal().getSStation(),
 					newgoal.getGoal().getStartDate(), 
 					newgoal.getGoal().getFStation(), 
-					newgoal.getGoal().getVia())
+					newgoal.getGoal().getTimeConstraint())
 					);
 			ticketLabels.get(a).setColor(0,0,0,1);
 
@@ -384,7 +384,7 @@ public class PlayerGoals {
 					playerGoalActors.get(a).getGoal().getSStation(),
 					playerGoalActors.get(a).getGoal().getStartDate(), 
 					playerGoalActors.get(a).getGoal().getFStation(), 
-					playerGoalActors.get(a).getGoal().getVia())
+					playerGoalActors.get(a).getGoal().getTimeConstraint())
 					);
 			removebuttons.get(a).setX(400);
 			removebuttons.get(a).setY(buttony);

@@ -143,7 +143,7 @@ public class GoalFactory{
 		Dijkstra d = new Dijkstra(); //implements dijkstra 
 		d.computePaths(d.lookUpNode(startStation)); //uses the loopup function to get instance of a
 												//station and compute paths 
-		int routhLength = d.getShortestPathTo(d.lookUpNode(finalStation)).size(); // 
+		int routhLength = (d.getShortestPathTo(d.lookUpNode(finalStation)).size()); // 
 		
 		
 		Goal goal = new Goal(startStation, finalStation, routhLength, "Quantifiable", difficulty*100*routhLength);

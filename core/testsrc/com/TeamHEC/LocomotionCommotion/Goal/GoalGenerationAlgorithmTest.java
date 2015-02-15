@@ -35,37 +35,9 @@ public class GoalGenerationAlgorithmTest {
 	}
 	
 	@Test
-	public void testGenerateGoalPath(){
-		gga = new GoalGenerationAlgorithm(5);
-		ArrayList<Node> nodeList = gga.getGoalPathNodeList();
-		ArrayList<Station> stationList = new ArrayList<Station>();
-		assertTrue(nodeList.size() == stationList.size());
-		assertTrue(stationList.size() == 5);
-	}
-	
-	@Test
-	public void testGetGoalPathNodeList(){
-		gga = new GoalGenerationAlgorithm(5);
-		ArrayList<Node> list = gga.getGoalPathNodeList();
-		assertTrue(list.size() == 5);
-		assertTrue(contains(nodeList, list.get(0)));
-		assertTrue(contains(nodeList, list.get(1)));
-		assertTrue(contains(nodeList, list.get(2)));
-		assertTrue(contains(nodeList, list.get(3)));
-		assertTrue(contains(nodeList, list.get(4)));
-		assertTrue(contains(nodeList, list.get(5)));
-	}
-	
-	@Test
 	public void testGoalGenerationAlgorithm(){
 		assertTrue(gga.nodeList.length == 22);
 		assertTrue(stations == map.stationsList );
-	}
-	
-	@Test
-	public void testGetStartingNode(){
-		Node n = gga.getStartingNode();
-		assertTrue(contains(nodeList, n));
 	}
 	
 	@Test
@@ -82,11 +54,38 @@ public class GoalGenerationAlgorithmTest {
 		assertTrue(contains(gga.nodeList, n));
 	}
 	
+	@Test
+	public void testGetStartingNode(){
+		Node n = gga.getStartingNode();
+		assertTrue(stations.contains(n.mapobj));
+	}
+	
+	@Test
+	public void testGetGoalPathNodeList(){
+		gga = new GoalGenerationAlgorithm(5);
+		ArrayList<Node> list = gga.getGoalPathNodeList();
+		for(Node n : list){
+			assertTrue(stations.contains(n.mapobj));
+		}
+	}
+	
+	@Test
+	public void testGenerateGoalPath(){
+		gga = new GoalGenerationAlgorithm(5);
+		ArrayList<Station> stationList = gga.generateGoalPath();
+		for(Station s : stationList){
+			assertTrue(stations.contains(s));
+		}
+		assertTrue(stationList.size()>1);
+	}
+	
+
+	
 	
 	
 	public boolean contains(Node[] nodelist , Node node ) {
 
-		for (int i = 0; i < nodelist.length;i++) {
+		for (int i = 0; i < nodelist.length; i++) {
 
 			if (node == nodelist[i]) {	        	
 				return true;

@@ -39,7 +39,8 @@ public class GoalGenerationAlgorithm {
 	 */
 	public Node getStartingNode(){
 		Random rand = new Random();
-		Node startNode = nodeList[rand.nextInt(nodeList.length)]; // pick random node from graph
+		int n = rand.nextInt(stations.size());// pick random station node from graph
+		Node startNode = lookUpNode(stations.get(n)); 
 		return startNode;
 	}
 	
@@ -71,6 +72,12 @@ public class GoalGenerationAlgorithm {
 			usedNodes.add(nextNode);
 			goalPath.add(nextNode);
 			currentNode = nextNode;
+			
+			if(!stations.contains(currentNode.mapobj) && i == pathLength -1)//If last station of a route is a junction iterate again.
+			{
+				goalPath.remove(currentNode);
+				i--;
+			}
 		}
 		
 		return goalPath;

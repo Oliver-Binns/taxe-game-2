@@ -397,7 +397,7 @@ public class CoreGameTest {
 				tester.getPlayer1().getGoals().get(0).getFStation().equals(((JSONObject) player1Goals.get(0)).get("FStation")));
 		assertTrue(
 				"Player 1 via station was not saved correctly",
-				tester.getPlayer1().getGoals().get(0).getTimeConstraint().equals(((JSONObject) player1Goals.get(0)).get("stationVia")));
+				tester.getPlayer1().getGoals().get(0).getTimeConstraintString().equals(((JSONObject) player1Goals.get(0)).get("stationVia")));
 		assertTrue(
 				"Player 1 special bool was not saved correctly",
 				tester.getPlayer1().getGoals().get(0).isSpecial() == (Boolean) ((JSONObject) player1Goals.get(0)).get("special"));
@@ -474,7 +474,7 @@ public class CoreGameTest {
 				tester.getPlayer2().getGoals().get(0).getFStation().equals(((JSONObject) player2Goals.get(0)).get("FStation")));
 		assertTrue(
 				"Player 2 via station was not saved correctly",
-				tester.getPlayer2().getGoals().get(0).getTimeConstraint().equals(((JSONObject) player2Goals.get(0)).get("stationVia")));
+				tester.getPlayer2().getGoals().get(0).getTimeConstraintString().equals(((JSONObject) player2Goals.get(0)).get("stationVia")));
 		assertTrue(
 				"Player 2 special bool was not saved correctly",
 				tester.getPlayer2().getGoals().get(0).isSpecial() == (Boolean) ((JSONObject) player2Goals.get(0)).get("special"));

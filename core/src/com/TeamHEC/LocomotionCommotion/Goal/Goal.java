@@ -102,7 +102,7 @@ public class Goal implements RouteListener{
 	 * Returns the number of stations a player ha to pass through. Returns "Any" if StationVia is null.
 	 * @return The number of stations a player ha to pass through. Returns "Any" if StationVia is null.
 	 */
-	public String getTimeConstraint()
+	public String getTimeConstraintString()
 	{
 		if(isAbsolute())
 			return "Any";
@@ -110,6 +110,14 @@ public class Goal implements RouteListener{
 			return "via "+(timeConstraint-1)+" stations";
 	}
 	
+	public int getTimeConstraint() {
+		return timeConstraint;
+	}
+
+	public void setTimeConstraint(int timeConstraint) {
+		this.timeConstraint = timeConstraint;
+	}
+
 	public String getCargo()
 	{
 		return cargo;

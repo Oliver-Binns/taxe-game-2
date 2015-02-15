@@ -334,7 +334,7 @@ public class GoalMenu {
 					goals.get(i).getSStation(),
 					goals.get(i).getStartDate(), 
 					goals.get(i).getFStation(), 
-					goals.get(i).getTimeConstraint()));
+					goals.get(i).getTimeConstraintString()));
 			createdGoals.get(emptyspace).setGoal(goals.get(i));
 			createdGoals.get(emptyspace).setEmpty(false);
 			createdGoals.get(emptyspace).setIndex(emptyspace+1);

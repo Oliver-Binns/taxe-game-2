@@ -42,6 +42,9 @@ public class CoreGame {
 	private Player playerTurn;
 	private int turnCount;
 	private int turnLimit;
+
+    // The probability that an obstacle occurs for each train in a turn.
+    private static final double OBSTACLE_PROBABILITY = 0.15;
 	
 	/**
 	 * Initialises a Game object. This represents one instance of a game.
@@ -166,13 +169,14 @@ public class CoreGame {
 	}
 
 	/**
-	 * Starts a player's turn.
+	 * Starts a players turn. It will check for the end game condition.
 	 */
 	public void StartTurn() {
 
         // Proceed with the turn:
         playerTurn.lineBonuses();
         playerTurn.stationRewards();
+        playerTurn.obstacles(OBSTACLE_PROBABILITY);
 
         //Increment all player's goals by one turn in duration
         for ( Goal goal : playerTurn.getGoals()){

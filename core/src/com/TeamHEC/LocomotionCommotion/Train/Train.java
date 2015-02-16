@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Train;
+import com.TeamHEC.LocomotionCommotion.Obstacle.Obstacle;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Resource.Fuel;
 
@@ -21,6 +22,8 @@ public abstract class Train {
 	private int value; // Might need to change after updgrades
 	private boolean inStation;
 	private Player owner;
+
+    private Obstacle obstacle = null;
 	
 	public final Route route;
 	
@@ -84,12 +87,14 @@ public abstract class Train {
 	{
 		return owner;
 	}
+
 	/**
-	 * @return Speed of the train with upgrades:
-	 */
+     * Returns the speed of the train. Accounts for speed
+     * modifiers and obstacles.
+     **/
 	public int getSpeed()
 	{
-		return baseSpeed + speedMod;
+		return (int) ((baseSpeed + speedMod) * this.getObstacleSpeedFactor());
 	}
 
     public int getBaseSpeed() { return baseSpeed; }
@@ -98,6 +103,19 @@ public abstract class Train {
 	{
 		return speedMod;
 	}
+
+    /*
+        Returns the speed factor imposed by the obstacle, if any.
+        If there is no obstacle, returns 1.
+        @return A speed factor between 0 and 1.
+     */
+    public double getObstacleSpeedFactor() {
+        if ( this.hasObstacle() ) {
+            return this.getObstacle().getSpeedFactor();
+        } else {
+            return 1.0;
+        }
+    }
 	
 	public int getFuelPerTurn()
 	{
@@ -195,4 +213,25 @@ public abstract class Train {
 		upgrade.undoUpgrade();
 		upgrades.remove(upgrade);
 	}
+
+    /*
+        Checks for the presence of a connected obstacle.
+        @return True if there is an obstacle, False otherwise.
+     */
+    public boolean hasObstacle() {
+        return this.obstacle != null;
+    }
+
+    /*
+        Gets the obstacle connected to the train, if any.
+        @return An obstacle or null if none is connected atm.
+     */
+    public Obstacle getObstacle() {
+        return this.obstacle;
+    }
+
+    public void setObstacle(Obstacle o) {
+        this.obstacle = o;
+    }
+
 }

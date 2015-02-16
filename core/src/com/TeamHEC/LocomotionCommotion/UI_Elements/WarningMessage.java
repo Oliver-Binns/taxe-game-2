@@ -87,12 +87,7 @@ public class WarningMessage {
 	 */
 	public static void fireWarningWindow(String title, String body)
 	{
-        //Added to prevent null pointer exceptions in testing
-        if (window == null){
-            return;
-        }
-
-		if(!window.isVisible())
+		if(window != null && !window.isVisible())
 		{
 			stage.getActors().addAll(actors);
 			

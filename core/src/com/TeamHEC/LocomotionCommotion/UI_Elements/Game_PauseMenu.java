@@ -84,13 +84,15 @@ public class Game_PauseMenu {
 				}
 
 			};
-			actors.add(game_pause_save);
+            // Not yet implemented. Hidden.
+            // actors.add(game_pause_save);
 			game_pause_settings = new SpriteButton(Game_PauseMenu.actorManager.game_pause_resume.getX(),Game_PauseMenu.actorManager.game_pause_resume.getY()-200,Game_TextureManager.getInstance().game_pause_settings){
 				@Override
 				protected void onClicked(){
 				}
 			};
-			actors.add(game_pause_settings);
+            // Not yet implemented. Hidden.
+            // actors.add(game_pause_settings);
 			game_pause_mainmenu = new SpriteButton(Game_PauseMenu.actorManager.game_pause_resume.getX(),Game_PauseMenu.actorManager.game_pause_resume.getY()-300,Game_TextureManager.getInstance().game_pause_mainmenu){
 				@Override
 				protected void onClicked(){

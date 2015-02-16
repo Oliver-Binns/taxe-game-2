@@ -37,6 +37,9 @@ public class Game_Map_Manager {
 	
 	public static Sprite stationInfo;
 	public static Game_Map_StationBtn stationSelect;
+
+    // Checks if a train is moving or not.
+    public static boolean isMoving = false;
 	
 	public static TrainInfoUI trainInfo;
 

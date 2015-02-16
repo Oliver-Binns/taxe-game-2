@@ -87,7 +87,7 @@ public class WarningMessage {
 	 */
 	public static void fireWarningWindow(String title, String body)
 	{
-		if(!window.isVisible())
+		if(window != null && !window.isVisible())
 		{
 			stage.getActors().addAll(actors);
 			

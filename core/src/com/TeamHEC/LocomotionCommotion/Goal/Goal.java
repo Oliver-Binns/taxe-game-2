@@ -1,5 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.Goal;
 
+import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Train.RouteListener;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
@@ -27,7 +28,9 @@ public class Goal implements RouteListener{
 	private boolean startStationPassed;
 	private boolean isAbsolute;
 	private boolean finalStationPassed;
+
 	private int currentTime;
+    private int currentGoalDuration;
 	
 	public static GoalActor goalActor;
 	
@@ -49,7 +52,8 @@ public class Goal implements RouteListener{
 		this.cargo = cargo;
 		this.currentTime = 0;
 		
-        startDate = "1"; //initialized to 1, not yet implemented. 
+        startDate = "1"; //initialized to 1, not yet implemented.
+        currentGoalDuration = 0;
 		
 		// Initiliase goal completion variables to false
 		startStationPassed = false;
@@ -77,11 +81,15 @@ public class Goal implements RouteListener{
 	{
 		return this.sStation.getName();
 	}
+
+    public Station getSStationObject() { return this.sStation; }
 	
 	public String getFStation()
 	{
 		return this.fStation.getName();
 	}
+
+    public Station getFStationObject() { return this.fStation; }
 
 	public int getReward()
 	{
@@ -144,21 +152,28 @@ public class Goal implements RouteListener{
 	
 	/**
 	 * Called when the goal is successfully complete:
+     *  @return False if goal is not ready to complete
 	 */	
-	public void goalComplete()
+	public Boolean goalComplete()
 	{
+        if ( ! (startStationPassed && finalStationPassed && stationViaPassed)){
+            return false;
+        }
+
 		WarningMessage.fireWarningWindow("GOAL COMPLETE!", "You've successfully complete the route: " + getSStation()
-				+ " to " + getFStation() + "\n you've won " + getReward());
+				+ " to " + getFStation() + "\n you've won " + getReward() + " gold and scored " +calculatePoints() +" points!");
 		
 		train.getOwner().addGold(getReward());
-		train.route.unregister(this);
-		
+        train.getOwner().incrementPoints(calculatePoints()); //Added by Team EEP
+
+        train.route.unregister(this);
 		train.getOwner().getGoals().remove(this);
 		
 		startStationPassed = false;
 		isAbsolute = false;
 		finalStationPassed = false;
 		
+        return true;
 	}
 	
 	/**
@@ -185,14 +200,8 @@ public class Goal implements RouteListener{
 	@Override
 	public void stationPassed(Station station, Train train)
 	{
-		
-		System.out.println("\nTimeConstraint: " + timeConstraint + "  ");
-		System.out.println("CurrentTime: " + currentTime + "\n\n");
-		
-		
 		if(train == this.train)
 		{
-			
 			System.out.println(train.getName() +" passed " + station.getName());
 			
 			if(station.equals(sStation))
@@ -228,5 +237,51 @@ public class Goal implements RouteListener{
 	public void setSpecial(boolean special) {
 		this.special = special;
 	}
+
+
+    //New methods by Team EEP:
+
+    public int getCurrentGoalDuration(){ return currentGoalDuration; }
+
+    /**
+     * Should be called at the end of each turn
+     */
+    public void incrementCurrentGoalDuration(){ currentGoalDuration++; }
+
+    /**
+     * Used to calculate how many points to add to a player's score upon completion of goal
+     * EstimateOptimalDuration = how many turns it would take train to travel goal's optimal route at base speed
+     * CurrentGoalDuration = how many turns it actually took the train
+     * reward = length of optimal journey
+     * @return 0 if goal is not yet completed, otherwise number of points
+     */
+    public int calculatePoints(){
+        if (! finalStationPassed || currentGoalDuration == 0){
+            return 0;
+        }
+
+        return (estimateOptimalDuration() * reward / currentGoalDuration );
+    }
+
+
+    /**
+     * Used to estimate how many turns it would take the train (assigned to the goal) to travel the goal's optimal route at its base speed
+     * @return 0 if no train has been assigned, otherwise it will return "optimal" number of turns for completion
+     */
+    public int estimateOptimalDuration() {
+
+        if (train == null){
+            return 0;
+        }
+
+        Dijkstra d = new Dijkstra(); //implements dijkstra
+        d.computePaths(d.lookUpNode(sStation)); //uses the loopup function to get instance of a
+        //station and compute paths
+        int minDistance = (int) d.lookUpNode(fStation).minDistance; //
+
+        return (minDistance / train.getBaseSpeed());
+    }
+
+
 }
 

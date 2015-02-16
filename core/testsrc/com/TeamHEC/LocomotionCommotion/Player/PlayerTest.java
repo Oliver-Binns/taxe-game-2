@@ -181,4 +181,13 @@ public class PlayerTest {
 		assertTrue("bonuses ere incorrectly set", tester.getStations().get(1).getResourceOutMod() == (int)(tester.getStations().get(2).getBaseResourceOut() * 0.05 * 4));
 		
 	}
+
+    //Team EEP tests:
+
+    public void testIncrementPoints(){
+
+        tester.incrementPoints(100);
+
+        assertEquals("Player should have 100 points", 100, tester.getPoints());
+    }
 }

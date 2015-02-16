@@ -24,6 +24,7 @@ import com.TeamHEC.LocomotionCommotion.Train.NuclearTrain;
 import com.TeamHEC.LocomotionCommotion.Train.OilTrain;
 import com.TeamHEC.LocomotionCommotion.Train.Route;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 
 /**
  * 
@@ -41,6 +42,9 @@ public class CoreGame {
 	private Player playerTurn;
 	private int turnCount;
 	private int turnLimit;
+
+    // The probability that an obstacle occurs for each train in a turn.
+    private static final double OBSTACLE_PROBABILITY = 0.15;
 	
 	/**
 	 * Initialises a Game object. This represents one instance of a game.
@@ -141,38 +145,71 @@ public class CoreGame {
 	}
 
 	/**
-	 * Ends the turn of a player. It will increase the turn count and switch the
-	 * player's turns.
+	 * Ends the turn of a player.
+     * Checks for end game condition : turn count has reached its "limit" and player's points are not equal
+     * It will increase the turn count and switch the player's turns.
 	 */
 	public void EndTurn() {
 
-		playerTurn.lineBonuses();
-		turnCount = (turnCount + 1);
-		if (playerTurn == player1)
-			playerTurn = player2;
-		else
-			playerTurn = player1;
-		StartTurn();
+        //Adds an extra turn if score is equal
+        if (turnCount >= turnLimit && player1.getPoints() != player2.getPoints()){
+            EndGame();
+        }
+
+        else {
+            playerTurn.lineBonuses();
+            turnCount = (turnCount + 1);
+            if (playerTurn == player1)
+                playerTurn = player2;
+            else
+                playerTurn = player1;
+            StartTurn();
+        }
+
 	}
 
 	/**
 	 * Starts a players turn. It will check for the end game condition.
 	 */
 	public void StartTurn() {
-		if (getTurnCount() == getTurnLimit())
-			EndGame();
-		else {
-			// Proceed with the turn:
-			playerTurn.lineBonuses();
-			playerTurn.stationRewards();
-		}
+
+        // Proceed with the turn:
+        playerTurn.lineBonuses();
+        playerTurn.stationRewards();
+        playerTurn.obstacles(OBSTACLE_PROBABILITY);
+
+        //Increment all player's goals by one turn in duration
+        for ( Goal goal : playerTurn.getGoals()){
+            goal.incrementCurrentGoalDuration();
+        }
+
 	}
 
 	/**
 	 * Ends the current game.
+     * Only call once one player has a higher score than another
 	 */
 	private void EndGame() {
 
+        Player winner;
+
+        if ( player1.getPoints() > player2.getPoints() ) {
+            player1.setAsWinner();
+            player2.setAsLoser();
+            winner = player1;
+        }
+
+        else if ( player1.getPoints() < player2.getPoints()) {
+            player1.setAsLoser();
+            player2.setAsWinner();
+            winner = player2;
+        }
+
+        else {
+            return; //Game should not end if there is a draw
+        }
+
+        WarningMessage.fireWarningWindow("End of Game", "Congratulations to " + winner.getName() + " you have won!");
 	}
 
 	/**

@@ -181,7 +181,13 @@ public class GameScreenUI {
 			@SuppressWarnings("static-access")
 			@Override
 			protected void onClicked()
-			{	
+			{
+
+                if ( Game_Map_Manager.isMoving ) {
+                    WarningMessage.fireWarningWindow("Too fast!", "Your train is still moving.");
+                    return;
+                }
+
 				ArrayList<Train> playerTrains = GameScreen.game.getPlayerTurn().getTrains();	
 				for(Train t : playerTrains)
 				{
@@ -193,9 +199,10 @@ public class GameScreenUI {
 				Game_Shop.actorManager.refreshgold(GameScreen.game.getPlayerTurn().getGold());
 				PlayerGoals.changePlayer(GameScreen.game.getPlayerTurn());
 				Game_CardHand.actorManager.changePlayer(GameScreen.game.getPlayerTurn());
-				playerScore.setText(GameScreen.game.getPlayer1().getName()+"    " + 0 +
-						"     SCORE     "+ 0+"     "+GameScreen.game.getPlayer2().getName()
-						+"     "+GameScreen.game.getPlayerTurn().getName()+" it's your turn ");
+				playerScore.setText(GameScreen.game.getPlayer1().getName() + "    " + GameScreen.game.getPlayer1().getPoints() +
+                        "     SCORE     " + GameScreen.game.getPlayer2().getPoints() + "     " + GameScreen.game.getPlayer2().getName()
+                        + "     " + GameScreen.game.getPlayerTurn().getName() + " it's your turn "
+                        + "     Turn " + GameScreen.game.getTurnCount() + "/" + GameScreen.game.getTurnLimit());
 				currentPlayerName.setText(GameScreen.game.getPlayerTurn().getName()+"'s TURN");
 				GoalMenu.fillGoalScreen();
 			}
@@ -348,12 +355,11 @@ public class GameScreenUI {
 		actors.add(game_menuobject_goalscreenbtn);
 
 		//Add Labels
-		//Player Score Label -- Top Centre (NOT FUNCTIONAL IN ASSESSMENT 2 VERSION)
 		style= getLabelStyle(32);
 		playerScore = new Label(null, style);
 		playerScore.setColor(0,0,0,1);
 		playerScore.setText("");
-		playerScore.setX(600);
+		playerScore.setX(400);
 		playerScore.setY(1050- playerScore.getHeight() -45);
 		actors.add(playerScore);
 

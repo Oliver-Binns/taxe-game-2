@@ -96,6 +96,8 @@ public abstract class Train {
 	{
 		return (int) ((baseSpeed + speedMod) * this.getObstacleSpeedFactor());
 	}
+
+    public int getBaseSpeed() { return baseSpeed; }
 	
 	public int getSpeedMod()
 	{

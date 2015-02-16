@@ -65,7 +65,7 @@ public class GoalTest {
         ss = wm.LONDON;      //Start goal at London
         fs = wm.AMSTERDAM;   //End goal at Amsterdam
 
-        goal = new Goal(ss, fs, null, "Passenger", genReward(ss, fs));
+        goal = new Goal(ss, fs, 0, "Passenger", genReward(ss, fs));
 
 
         //Set up player and resources

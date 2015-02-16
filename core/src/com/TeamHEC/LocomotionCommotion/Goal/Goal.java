@@ -38,15 +38,15 @@ public class Goal implements RouteListener{
 	 * Initialises the goal.
 	 * @param startStation The Station the goal starts from
 	 * @param finalStation The Station the goal ends at
-	 * @param stationVia The Station the goal wants you to travel via
+	 * @param routeLength The Station the goal wants you to travel via
 	 * @param cargo The type of cargo the train is carrying.
 	 * @param reward The reward (currently Gold) you get for completing the Goal
 	 */
-	public Goal(Station startStation, Station finalStation, int routhLength, String cargo, int reward)
+	public Goal(Station startStation, Station finalStation, int routeLength, String cargo, int reward)
 	{
 		this.sStation = startStation;
 		this.fStation = finalStation;
-		this.timeConstraint = routhLength;
+		this.timeConstraint = routeLength;
 		this.setSpecial(false); 
 		this.reward = reward;  
 		this.cargo = cargo;
@@ -57,7 +57,7 @@ public class Goal implements RouteListener{
 		
 		// Initiliase goal completion variables to false
 		startStationPassed = false;
-		if(routhLength == 0)
+		if(routeLength == 0)
 		isAbsolute = true; 
 		else
 		isAbsolute = false;
@@ -156,7 +156,7 @@ public class Goal implements RouteListener{
 	 */	
 	public Boolean goalComplete()
 	{
-        if ( ! (startStationPassed && finalStationPassed && stationViaPassed)){
+        if ( ! (startStationPassed && finalStationPassed )){
             return false;
         }
 

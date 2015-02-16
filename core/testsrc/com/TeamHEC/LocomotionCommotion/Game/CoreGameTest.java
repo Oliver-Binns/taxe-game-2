@@ -1,5 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.Game;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -485,6 +486,101 @@ public class CoreGameTest {
 				"Player 2 cargo was not saved correctly",
 				tester.getPlayer2().getGoals().get(0).getCargo().equals(((JSONObject) player2Goals.get(0)).get("cargo")));			
 	}
+
+
+    //Team EEP tests for EndGame:
+
+    @Test
+    public void testPlayerOneWinGame(){
+
+        //Start first turn
+        tester.StartTurn();
+
+        assertTrue("Player one should be playing", tester.getPlayer1().isStillPlaying());
+
+        assertTrue("Player two should be playing", tester.getPlayer2().isStillPlaying());
+
+        //Give player one some points for sake of test so they win
+        tester.getPlayer1().incrementPoints(100);
+
+        //Increment turns until last turn is reached
+        while (tester.getTurnCount() < tester.getTurnLimit()){
+            tester.EndTurn();
+        }
+
+        //End last turn
+        tester.EndTurn();
+
+        assertEquals("Turn count should equal turn limit", tester.getTurnLimit(), tester.getTurnCount());
+
+        assertTrue("Player one should be winner", tester.getPlayer1().hasWon());
+
+        assertTrue("Player two should be loser", tester.getPlayer2().hasLost());
+
+        //Try ending turn again even though game has ended
+        tester.EndTurn();
+
+        assertEquals("Turn count should still equal turn limit", tester.getTurnLimit(), tester.getTurnCount());
+
+
+    }
+
+    @Test
+    public void testPlayerTwoWinGame(){
+        //Start first turn
+        tester.StartTurn();
+
+        assertTrue("Player one should still be playing", tester.getPlayer1().isStillPlaying());
+
+        assertTrue("Player two should still be playing", tester.getPlayer2().isStillPlaying());
+
+        //Give player one some points for sake of test so they win
+        tester.getPlayer2().incrementPoints(100);
+
+        //Increment turns until last turn is reached
+        while (tester.getTurnCount() < tester.getTurnLimit()){
+            tester.EndTurn();
+        }
+
+        //End last turn
+        tester.EndTurn();
+
+        assertEquals("Turn count should equal turn limit", tester.getTurnLimit(), tester.getTurnCount());
+
+        assertTrue("Player two should be winner", tester.getPlayer2().hasWon());
+
+        assertTrue("Player one should be loser", tester.getPlayer1().hasLost());
+
+        //Try ending turn again even though game has ended
+        tester.EndTurn();
+
+        assertEquals("Turn count should still equal turn limit", tester.getTurnLimit(), tester.getTurnCount());
+
+    }
+
+    @Test
+    public void testPlayerDraw(){
+
+        int expectedTurnCount;
+
+        //Start first turn
+        tester.StartTurn();
+
+        assertTrue("Player one should still be playing", tester.getPlayer1().isStillPlaying());
+
+        assertTrue("Player two should still be playing", tester.getPlayer2().isStillPlaying());
+
+        //Should keep going for over 50 turns as player's scores are equal
+        for (expectedTurnCount = 0; expectedTurnCount < 1000; expectedTurnCount++){
+            tester.EndTurn();
+        }
+
+        assertEquals("Turn count is not expected value", expectedTurnCount, tester.getTurnCount());
+
+        assertTrue("Player one should still be playing", tester.getPlayer1().isStillPlaying());
+
+        assertTrue("Player two should still be playing", tester.getPlayer2().isStillPlaying());
+    }
 }
 
 

@@ -91,6 +91,8 @@ public abstract class Train {
 	{
 		return baseSpeed + speedMod;
 	}
+
+    public int getBaseSpeed() { return baseSpeed; }
 	
 	public int getSpeedMod()
 	{

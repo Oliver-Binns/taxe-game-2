@@ -359,7 +359,7 @@ public class CoreGame {
 			playerJSON += "{";
 			playerJSON += "\"SStation\" : \"" + player.getGoals().get(i).getSStation() + "\", ";
 			playerJSON += "\"FStation\" : \"" + player.getGoals().get(i).getFStation() + "\", ";
-			playerJSON += "\"stationVia\" : \"" + player.getGoals().get(i).getVia() + "\", ";
+			playerJSON += "\"stationVia\" : \"" + player.getGoals().get(i).getTimeConstraintString() + "\", ";
 			playerJSON += "\"special\" : " + player.getGoals().get(i).isSpecial() + ", ";
 			playerJSON += "\"reward\" : " + player.getGoals().get(i).getReward() + ", ";
 			playerJSON += "\"cargo\" : \"" + player.getGoals().get(i).getCargo() + "\"";

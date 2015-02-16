@@ -70,7 +70,7 @@ public class WorldMap {
 		add(BERN);
 	 }};
 	
-	private WorldMap()
+	public WorldMap()
 	{
 		// Creates a connection instance for each existing connection:
 		createConnections(REYKJAVIK, new MapObj[]{OSLO, DUBLIN});

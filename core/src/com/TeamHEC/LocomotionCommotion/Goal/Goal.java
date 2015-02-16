@@ -16,8 +16,9 @@ public class Goal implements RouteListener{
 	//Variables
 	protected Station sStation;
 	protected Station fStation;
-	protected Station stationVia;
+	protected int timeConstraint;
 	private String cargo;
+
 	protected boolean special;
 	private int reward;
 	private String startDate;
@@ -25,9 +26,10 @@ public class Goal implements RouteListener{
 	// Variables used to track Goal completion:
 	private Train train;	
 	private boolean startStationPassed;
-	private boolean stationViaPassed;
+	private boolean isAbsolute;
 	private boolean finalStationPassed;
 
+	private int currentTime;
     private int currentGoalDuration;
 	
 	public static GoalActor goalActor;
@@ -36,29 +38,38 @@ public class Goal implements RouteListener{
 	 * Initialises the goal.
 	 * @param startStation The Station the goal starts from
 	 * @param finalStation The Station the goal ends at
-	 * @param stationVia The Station the goal wants you to travel via
+	 * @param routeLength The Station the goal wants you to travel via
 	 * @param cargo The type of cargo the train is carrying.
 	 * @param reward The reward (currently Gold) you get for completing the Goal
 	 */
-	public Goal(Station startStation, Station finalStation, Station stationVia, String cargo, int reward)
+	public Goal(Station startStation, Station finalStation, int routeLength, String cargo, int reward)
 	{
 		this.sStation = startStation;
 		this.fStation = finalStation;
-		this.stationVia = stationVia;
+		this.timeConstraint = routeLength;
 		this.setSpecial(false); 
 		this.reward = reward;  
 		this.cargo = cargo;
+		this.currentTime = 0;
 		
         startDate = "1"; //initialized to 1, not yet implemented.
         currentGoalDuration = 0;
 		
 		// Initiliase goal completion variables to false
 		startStationPassed = false;
-		if(stationVia == null)
-		stationViaPassed = true; //does not exist hence always passed 
+		if(routeLength == 0)
+		isAbsolute = true; 
 		else
-		stationViaPassed = false;
+		isAbsolute = false;
 		finalStationPassed = false;
+	}
+	
+	public boolean isQuantifiable() {
+		return !isAbsolute;
+	}
+
+	public boolean isAbsolute() {
+		return isAbsolute;
 	}
 
 	public boolean isSpecial()
@@ -96,16 +107,25 @@ public class Goal implements RouteListener{
 	}
 	
 	/**
-	 * Returns the name of the viaStation. Returns "Any" if StationVia is null.
-	 * @return The name of the viaStation. Returns "Any" if StationVia is null.
+	 * Returns the number of stations a player ha to pass through. Returns "Any" if StationVia is null.
+	 * @return The number of stations a player ha to pass through. Returns "Any" if StationVia is null.
 	 */
-	public String getVia()
+	public String getTimeConstraintString()
 	{
-		if(stationVia == null)
+		if(isAbsolute())
 			return "Any";
 		else
-			return stationVia.getName();
+			return "via "+(timeConstraint-1)+" stations";
 	}
+	
+	public int getTimeConstraint() {
+		return timeConstraint;
+	}
+
+	public void setTimeConstraint(int timeConstraint) {
+		this.timeConstraint = timeConstraint;
+	}
+
 	public String getCargo()
 	{
 		return cargo;
@@ -136,7 +156,7 @@ public class Goal implements RouteListener{
 	 */	
 	public Boolean goalComplete()
 	{
-        if ( ! (startStationPassed && finalStationPassed && stationViaPassed)){
+        if ( ! (startStationPassed && finalStationPassed )){
             return false;
         }
 
@@ -149,16 +169,29 @@ public class Goal implements RouteListener{
         train.route.unregister(this);
 		train.getOwner().getGoals().remove(this);
 		
-		//if(goalActor != null)
-		//{
-		//	goalActor.setPlanRouteButtonVisible(false);
-		//}
+		startStationPassed = false;
+		isAbsolute = false;
+		finalStationPassed = false;
+		
+        return true;
+	}
+	
+	/**
+	 * Called when the goal is failed:
+	 */	
+	public void goalFailed()
+	{
+		WarningMessage.fireWarningWindow("GOAL FAILED!", "Sorry! You've failed to cpmplete the route: " + getSStation()
+				+ " to " + getFStation() + "\n via "+(timeConstraint-1) + " stations! ");
+		
+		train.route.unregister(this);
+		
+		train.getOwner().getGoals().remove(this);
 		
 		startStationPassed = false;
-		stationViaPassed = false;
+		isAbsolute = false;
 		finalStationPassed = false;
-
-        return true;
+		currentTime = 0;
 	}
 	
 	/**
@@ -181,14 +214,23 @@ public class Goal implements RouteListener{
 				finalStationPassed = true;
 				System.out.println("final passed");
 			}
-			if(stationVia == null || (startStationPassed && station.equals(stationVia)))
-			{
-				stationViaPassed = true;
-				System.out.println("via passed");
-			}
+
 						
-			if(startStationPassed && finalStationPassed && stationViaPassed)
+			if(startStationPassed && finalStationPassed && isAbsolute())
 				goalComplete();
+			
+			if(currentTime >= timeConstraint && isQuantifiable()){
+				goalFailed();
+			}
+			
+			if(startStationPassed && finalStationPassed && isQuantifiable() && timeConstraint > currentTime){
+				goalComplete();
+			}
+			
+			if(startStationPassed){
+				currentTime++;
+			}
+			
 		}
 	}
 

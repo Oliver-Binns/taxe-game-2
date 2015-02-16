@@ -102,6 +102,7 @@ public class ObstacleTest {
                 this.train.hasObstacle()
         );
 
+        int s = train.getSpeed();
         o.applyTo(this.train);
 
         assertTrue("Train should now have obstacle.",
@@ -110,6 +111,10 @@ public class ObstacleTest {
 
         assertTrue("The obstacle should be active now.",
                 o.isActive()
+        );
+
+        assertTrue("The speed of the train should be affected",
+                train.getSpeed() == (int) (s * o.getSpeedFactor())
         );
 
         int x = o.getTurnsLeft();
@@ -124,15 +129,22 @@ public class ObstacleTest {
         );
 
         int t = o.getTurnsLeft();
+
         for ( int i = 0; i < t; i++ ) {
             assertTrue("Obstacle should be still alive.",
                     o.isActive()
             );
+
+
             o.startTurn();
         }
 
         assertFalse("Ok, now everything finished.",
                 o.isActive()
+        );
+
+        assertTrue("Train speed should now be back to normal",
+                train.getSpeed() == s
         );
 
         assertFalse("Train should have no obstacles anymore.",

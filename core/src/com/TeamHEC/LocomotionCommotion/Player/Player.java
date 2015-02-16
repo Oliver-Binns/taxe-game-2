@@ -496,7 +496,10 @@ public class Player implements RouteListener{
                 Obstacle o = f.getObstacle(this);
                 if ( o != null ) {
                     o.applyTo(t);
-                    WarningMessage.fireWarningWindow(o.getName(), o.getDescription());
+                    WarningMessage.fireWarningWindow(
+                            o.getName(),
+                            "Your " + t.getName() + " " + o.getDescription()
+                    );
                 }
 
             }

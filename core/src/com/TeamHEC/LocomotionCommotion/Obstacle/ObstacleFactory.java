@@ -28,11 +28,14 @@ public class ObstacleFactory {
     private static String[] possibleNames = {
             "Oh snap, that's unfortunate!",
             "BBC forecasts warn about possible ice on tracks",
+            "That Junction's definitely broken",
             "Those are Yetis, for real!",
+            "There's been an accident at a Junction.",
             "Something is wrong with this train.",
             "'I don't like the sound of the engine.'",
             "Kids on the tracks... Again.",
             "That cow thinks to be train.",
+            "That's a Junction fault.",
     };
 
     public ObstacleFactory() {

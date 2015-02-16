@@ -498,7 +498,7 @@ public class Player implements RouteListener{
                     o.applyTo(t);
                     WarningMessage.fireWarningWindow(
                             o.getName(),
-                            "Your " + t.getName() + " " + o.getDescription()
+                            "Your " + t.getName() + " will " + o.getDescription()
                     );
                 }
 

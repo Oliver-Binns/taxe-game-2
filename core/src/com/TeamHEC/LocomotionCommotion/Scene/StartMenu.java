@@ -120,7 +120,8 @@ public class StartMenu extends Scene{
 
 		};
 
-		actors.add(loadGameButton);
+        // Not yet implemented. Hidden.
+		// actors.add(loadGameButton);
 
 		preferencesButton = new SpriteButton(590, 330, SM_TextureManager.getInstance().sm_main_preferencesbtn){
 
@@ -164,7 +165,8 @@ public class StartMenu extends Scene{
 			}
 
 		};
-		actors.add(preferencesButton);
+        // Not yet implemented. Hidden.
+        // actors.add(preferencesButton);
 
 		howToPlayButton = new SpriteButton(590, 255, SM_TextureManager.getInstance().sm_main_howtoplaybtn){
 			@Override
@@ -199,7 +201,8 @@ public class StartMenu extends Scene{
 			}
 
 		};
-		actors.add(howToPlayButton);
+        // Not yet implemented. Hidden.
+        // actors.add(howToPlayButton);
 
 		exitButton = new SpriteButton(600, 86, SM_TextureManager.getInstance().sm_main_exitButton){
 

@@ -318,7 +318,8 @@ public class StartMenu extends Scene{
 			}
 
 		};
-		actors.add(stationDomButton);
+        // Not yet implemented. Hidden.
+        // actors.add(stationDomButton);
 
 		turn50Button = new SpriteButton(490, 1400, SM_TextureManager.getInstance().sm_newgame_Turn50_unselected_Btn){
 

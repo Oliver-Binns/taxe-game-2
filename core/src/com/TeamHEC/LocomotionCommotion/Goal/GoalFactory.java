@@ -169,7 +169,7 @@ public class GoalFactory{
 	public Goal generateGoal(int difficulty){
 		int n = random.nextInt(100);
 		
-		if(n < 0){
+		if(n < 60){
 			return generateAbsoluteGoal(difficulty);
 		}else{
 			return generateQuantifiableGoal(difficulty);

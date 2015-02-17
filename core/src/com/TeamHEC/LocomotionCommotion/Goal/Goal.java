@@ -148,6 +148,7 @@ public class Goal implements RouteListener{
 		train.route.register(this);
 		
 		if(train.route.getStation() == sStation)
+			currentTime = 1;
 			startStationPassed = true;
 	}
 	
@@ -208,8 +209,8 @@ public class Goal implements RouteListener{
 	@Override
 	public void stationPassed(Station station, Train train)
 	{
-		if(train == this.train)
-		{
+			if(train != this.train) return;
+		
 			System.out.println(train.getName() +" passed " + station.getName());
 			
 			if(station.equals(sStation))
@@ -223,11 +224,13 @@ public class Goal implements RouteListener{
 				System.out.println("final passed");
 			}
 			
-			if(startStationPassed && 
-					!station.equals(WorldMap.getInstance().junction[0]) && 
-					!station.equals(WorldMap.getInstance().junction[1])){
+			if(startStationPassed && !station.equals(WorldMap.getInstance().junction[0])
+					&& !station.equals(WorldMap.getInstance().junction[1])){
 				currentTime++;
 			}
+			
+			System.out.println("\n CurrentTime = " + currentTime);
+			System.out.println("\n TimeConstraint = " + timeConstraint + "\n");
 						
 			if(startStationPassed && finalStationPassed && isAbsolute())
 				goalComplete();
@@ -239,10 +242,7 @@ public class Goal implements RouteListener{
 			if(currentTime >= timeConstraint && isQuantifiable()){
 				goalFailed();
 			}
-			
-
-			
-		}
+		
 	}
 
 	public void setSpecial(boolean special) {

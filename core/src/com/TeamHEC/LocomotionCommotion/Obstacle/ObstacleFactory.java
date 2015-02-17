@@ -81,7 +81,7 @@ public class ObstacleFactory {
         int numberOfTurns = (int) (1 + (Math.random() * maxNoOfTurns));
         int readableSpedFactor = (int) (speedFactor * 100);
         String description = "slow down to " + readableSpedFactor
-                + "% its normal speed for " + numberOfTurns + " turns.";
+                + "%  of its normal speed\n for " + numberOfTurns + " turns.";
 
         return new Obstacle(name, description, speedFactor, numberOfTurns);
 

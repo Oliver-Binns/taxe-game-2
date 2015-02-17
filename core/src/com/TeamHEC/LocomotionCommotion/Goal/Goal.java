@@ -190,8 +190,8 @@ public class Goal implements RouteListener{
 	 */	
 	public void goalFailed()
 	{
-		WarningMessage.fireWarningWindow("GOAL FAILED!", "Sorry! You've failed to cpmplete the route: " + getSStation()
-				+ " to " + getFStation() + "\n via "+(timeConstraint-1) + " stations! ");
+		WarningMessage.fireWarningWindow("GOAL FAILED!", "Sorry! You've failed to complete the route: " + getSStation()
+				+ " to " + getFStation() + "\n via "+(timeConstraint-2) + " stations! ");
 		
 		train.route.unregister(this);
 		

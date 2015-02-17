@@ -1,16 +1,17 @@
 package com.TeamHEC.LocomotionCommotion.Goal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
-import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
-import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.TeamHEC.LocomotionCommotion.Card.Card;
+import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
@@ -149,14 +150,9 @@ public class GoalTest {
     public void testCompleteGoalUsingOptimalPath() {
 
         int startingReward = train.getOwner().getGold();
-        int startingScore = train.getOwner().getPoints();
-
         int expectedEndingReward = startingReward + goal.getReward();
         assertEquals("Optimal Duration should be 3 turns", 3, goal.estimateOptimalDuration());
         int expectedEndingScore = goal.estimateOptimalDuration() * goal.getReward() / 3; //I.e. as optimal route chosen, Score = Reward
-
-        //Distance of route  to complete goal equals 274.0
-        float distanceToCompleteGoal = train.getRoute().getLengthRemaining();
 
         assertFalse("Goal should not yet be complete", goal.goalComplete());  //At 0 so far
 
@@ -188,8 +184,6 @@ public class GoalTest {
     public void testCompleteGoalUsingSuboptimalPath() {
 
         int startingReward = train.getOwner().getGold();
-        int startingScore = train.getOwner().getPoints();
-
         int expectedEndingReward = startingReward + goal.getReward();
         assertEquals("Optimal Duration should be 3 turns", 3, goal.estimateOptimalDuration());
         int expectedEndingScore = goal.estimateOptimalDuration() * goal.getReward() / 17; //Should take 17 turns
@@ -205,9 +199,6 @@ public class GoalTest {
         train.route.addConnection(wm.REYKJAVIK.connections.get(0));
         train.route.addConnection(wm.OSLO.connections.get(2));
         train.route.addConnection(wm.BERLIN.connections.get(0));
-
-        //Distance of route  to complete goal equals 1393.6956
-        float distanceToCompleteGoal = train.getRoute().getLengthRemaining();
 
         for (int turnNo = 0; turnNo < 17; turnNo++){
             train.route.update(train.getSpeed()); //Train is travelling at 80 per turn

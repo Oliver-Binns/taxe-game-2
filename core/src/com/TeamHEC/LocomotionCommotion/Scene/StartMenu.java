@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 public class StartMenu extends Scene{
 
 	private Sprite sm_main_title, sm_main_lines;
+	@SuppressWarnings("unused")
 	private SpriteButton newGameButton, loadGameButton, preferencesButton, howToPlayButton, exitButton;
 
 	//Start Menu NewGame Page

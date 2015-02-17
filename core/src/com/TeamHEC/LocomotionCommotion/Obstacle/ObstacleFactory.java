@@ -75,7 +75,8 @@ public class ObstacleFactory {
             return null;
         }
 
-        String name = this.possibleNames[new Random().nextInt(this.possibleNames.length)];
+        @SuppressWarnings("static-access")
+		String name = this.possibleNames[new Random().nextInt(this.possibleNames.length)];
         double speedFactor = Math.random();
         int numberOfTurns = (int) (1 + (Math.random() * maxNoOfTurns));
         int readableSpedFactor = (int) (speedFactor * 100);

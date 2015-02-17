@@ -64,25 +64,31 @@ public class GoalGenerationAlgorithmTest {
 	
 	@Test
 	public void testLookUpNode() {
-		Node n = null;
+		ArrayList<Node> list = new ArrayList<Node>();
 		
 		//Private method invoked using reflection
 		try{
 			Method method = gga.getClass().getDeclaredMethod("lookUpNode", new Class[]{MapObj.class});
 			method.setAccessible(true);
-			n = (Node) method.invoke(gga, map.BERLIN);
+			for(Station s : WorldMap.getInstance().stationsList){
+				list.add((Node) method.invoke(gga, s));
+				list.add((Node) method.invoke(gga, WorldMap.getInstance().junction[0]));
+				list.add((Node) method.invoke(gga, WorldMap.getInstance().junction[1]));
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		assertTrue(n!=null); 
-		assertTrue(contains(gga.nodeList, n));
+		for(Node n : list){
+			assertTrue(n!=null); 
+			assertTrue(contains(gga.nodeList, n));
+		}
 	}
 	
 	@Test
 	public void testGetStartingNode(){
 		Node n = null;
-		
+		for(int i=0; i<100; i++){
 		//Private method invoked using reflection
 		try {
 			Method method = gga.getClass().getDeclaredMethod("getStartingNode");
@@ -93,6 +99,7 @@ public class GoalGenerationAlgorithmTest {
 		}
 		
 		assertTrue(stations.contains(n.mapobj));
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -112,21 +119,13 @@ public class GoalGenerationAlgorithmTest {
 		
 		assertTrue(stations.contains(list.get(0).mapobj));
 		
-		assertTrue(stations.contains(list.get(1).mapobj) 
-				||	map.junction[0] == list.get(1).mapobj 
-				|| map.junction[1] == list.get(1).mapobj);
+		assertTrue(contains(gga.nodeList, list.get(0)));
 		
-		assertTrue(stations.contains(list.get(2).mapobj) 
-				||	map.junction[0] == list.get(2).mapobj 
-				|| map.junction[1] == list.get(2).mapobj);
+		assertTrue(contains(gga.nodeList, list.get(0)));
 		
-		assertTrue(stations.contains(list.get(3).mapobj) 
-				||	map.junction[0] == list.get(3).mapobj 
-				|| map.junction[1] == list.get(3).mapobj);
+		assertTrue(contains(gga.nodeList, list.get(0)));
 		
-		assertTrue(stations.contains(list.get(4).mapobj) 
-				||	map.junction[0] == list.get(4).mapobj 
-				|| map.junction[1] == list.get(4).mapobj);
+		assertTrue(contains(gga.nodeList, list.get(0)));
 		
 		assertTrue(stations.contains(list.get(5).mapobj));
 	}

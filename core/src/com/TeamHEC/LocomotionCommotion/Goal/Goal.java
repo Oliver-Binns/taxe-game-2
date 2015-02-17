@@ -115,7 +115,7 @@ public class Goal implements RouteListener{
 		if(isAbsolute())
 			return "Any";
 		else
-			return "via "+(timeConstraint-1)+" stations";
+			return "via "+(timeConstraint-2)+" stations";
 	}
 	
 	public int getTimeConstraint() {

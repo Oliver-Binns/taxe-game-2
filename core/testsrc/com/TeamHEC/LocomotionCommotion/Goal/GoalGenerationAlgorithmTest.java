@@ -2,6 +2,7 @@ package com.TeamHEC.LocomotionCommotion.Goal;
 
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.junit.After;
@@ -11,10 +12,15 @@ import org.junit.runner.RunWith;
 
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.GoalGenerationAlgorithm;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Node;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
 
+/*
+ * This test class makes use of the reflection testing pattern in order to test private 
+ * methods of the class GoalGenerationAlgorithm
+ */
 @RunWith(GdxTestRunner.class)
 public class GoalGenerationAlgorithmTest {
 	WorldMap map = WorldMap.getInstance();
@@ -42,28 +48,68 @@ public class GoalGenerationAlgorithmTest {
 	
 	@Test
 	public void testInitialiseGraph() {
-		gga.initialiseGraph();
+		
+		//Private method invoked using reflection
+		try {
+			Method method = gga.getClass().getDeclaredMethod("initialiseGraph");
+			method.setAccessible(true);
+			method.invoke(gga);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		assertTrue(gga.nodeList.length != 0 );  
 		assertTrue(gga.nodeList.length == (map.stationsList.size() + 2));
 	}
 	
 	@Test
-	public void testLookUpNode() {  
-		Node n = gga.lookUpNode(map.BERLIN);
+	public void testLookUpNode() {
+		Node n = null;
+		
+		//Private method invoked using reflection
+		try{
+			Method method = gga.getClass().getDeclaredMethod("lookUpNode", new Class[]{MapObj.class});
+			method.setAccessible(true);
+			n = (Node) method.invoke(gga, map.BERLIN);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		assertTrue(n!=null); 
 		assertTrue(contains(gga.nodeList, n));
 	}
 	
 	@Test
 	public void testGetStartingNode(){
-		Node n = gga.getStartingNode();
+		Node n = null;
+		
+		//Private method invoked using reflection
+		try {
+			Method method = gga.getClass().getDeclaredMethod("getStartingNode");
+			method.setAccessible(true);
+			n = (Node) method.invoke(gga);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		assertTrue(stations.contains(n.mapobj));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testGetGoalPathNodeList(){
 		gga = new GoalGenerationAlgorithm(5);
-		ArrayList<Node> list = gga.getGoalPathNodeList();
+		ArrayList<Node> list = null;
+		
+		//Private method invoked using reflection
+		try{
+			Method method = gga.getClass().getDeclaredMethod("getGoalPathNodeList");
+			method.setAccessible(true);
+			list = (ArrayList<Node>) method.invoke(gga);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		assertTrue(stations.contains(list.get(0).mapobj));
 		
 		assertTrue(stations.contains(list.get(1).mapobj) 

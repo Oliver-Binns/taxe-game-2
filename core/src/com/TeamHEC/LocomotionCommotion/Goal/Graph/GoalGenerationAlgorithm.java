@@ -44,7 +44,7 @@ public class GoalGenerationAlgorithm {
 	 * Starting station is picked randomly.
 	 * @return startingNode
 	 */
-	public Node getStartingNode(){
+	private Node getStartingNode(){
 		Random rand = new Random();
 		int n = rand.nextInt(stations.size());// pick random station node from graph
 		Node startNode = lookUpNode(stations.get(n)); 
@@ -57,7 +57,7 @@ public class GoalGenerationAlgorithm {
 	 * repeating nodes, however it may fail. 
 	 * @return ArrayList of nodes which is a path
 	 */
-	public ArrayList<Node> getGoalPathNodeList(){
+	private ArrayList<Node> getGoalPathNodeList(){
 		ArrayList<Node> goalPath = new ArrayList<Node>(); 	//List of Nodes which is the path to be returned
 		ArrayList<Node> usedNodes = new ArrayList<Node>();	//List of Nodes - represents the Nodes already used in the path
 		Random rand = new Random();							//Random number generator used to choose new edges
@@ -121,7 +121,7 @@ public class GoalGenerationAlgorithm {
 	 * populates it with a station from the worldmap.stationList and worldMap.junction. Once done it then adds edges to each newly created 
 	 * node in correspondence to the connections of that station. 
 	 */
-	public void initialiseGraph()
+	private void initialiseGraph()
 	{
 		ArrayList<MapObj> fullList = new ArrayList<MapObj>();
 		fullList.addAll(stations);
@@ -147,7 +147,7 @@ public class GoalGenerationAlgorithm {
 	 * @param mapObj
 	 * @return Node
 	 */
-		public Node lookUpNode(MapObj mapObj)
+		private Node lookUpNode(MapObj mapObj)
 		{
 			for (Node n : nodeList){
 				if (mapObj.getName() == n.mapobj.getName())

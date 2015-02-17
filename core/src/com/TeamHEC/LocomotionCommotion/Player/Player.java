@@ -527,6 +527,12 @@ public class Player implements RouteListener{
 
         for ( Train t: this.getTrains() ) {
 
+			// Only assign obstacles to moving trains
+			if ( t.getRoute().inStation() ) {
+				continue;
+			}
+
+			// Do not assign obstacles to already unlucky trains
             if ( t.hasObstacle() ) {
                 t.getObstacle().startTurn();
 

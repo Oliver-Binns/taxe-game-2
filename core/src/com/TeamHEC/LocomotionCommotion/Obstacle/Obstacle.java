@@ -3,6 +3,8 @@ package com.TeamHEC.LocomotionCommotion.Obstacle;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 
 /**
+ * This class represents an Obstacle that can occur to a train during the Game.
+ *
  * @author Alfio E. Fresta <aef517@york.ac.uk>
  */
 public class Obstacle {

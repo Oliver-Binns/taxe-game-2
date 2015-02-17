@@ -2,6 +2,7 @@ package com.TeamHEC.LocomotionCommotion.Goal;
 
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
+import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Train.RouteListener;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
@@ -222,7 +223,9 @@ public class Goal implements RouteListener{
 				System.out.println("final passed");
 			}
 			
-			if(startStationPassed){
+			if(startStationPassed && 
+					!station.equals(WorldMap.getInstance().junction[0]) && 
+					!station.equals(WorldMap.getInstance().junction[1])){
 				currentTime++;
 			}
 						

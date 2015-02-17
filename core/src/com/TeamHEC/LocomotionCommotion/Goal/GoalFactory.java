@@ -1,10 +1,12 @@
 package com.TeamHEC.LocomotionCommotion.Goal;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.GoalGenerationAlgorithm;
+import com.TeamHEC.LocomotionCommotion.Goal.Graph.Node;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 
@@ -145,8 +147,14 @@ public class GoalFactory{
 		Dijkstra d = new Dijkstra(); //implements dijkstra 
 		d.computePaths(d.lookUpNode(startStation)); //uses the loopup function to get instance of a
 												//station and compute paths 
-		int routhLength = (d.getShortestPathTo(d.lookUpNode(finalStation)).size()); // 
+		List<Node> path = (d.getShortestPathTo(d.lookUpNode(finalStation))); 
+		int routhLength = path.size();
 		
+		for(Node n : path){
+			if(n.mapobj.getName() == WorldMap.getInstance().junction[0].getName() || n.mapobj.getName() == WorldMap.getInstance().junction[1].getName()){
+				routhLength--;
+			}
+		}
 		
 		Goal goal = new Goal(startStation, finalStation, routhLength, "Quantifiable", difficulty*100*routhLength);
 		return goal;
@@ -161,7 +169,7 @@ public class GoalFactory{
 	public Goal generateGoal(int difficulty){
 		int n = random.nextInt(100);
 		
-		if(n < 60){
+		if(n < 0){
 			return generateAbsoluteGoal(difficulty);
 		}else{
 			return generateQuantifiableGoal(difficulty);

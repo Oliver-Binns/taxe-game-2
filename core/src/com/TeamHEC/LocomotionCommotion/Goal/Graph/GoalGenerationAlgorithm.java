@@ -11,9 +11,11 @@ import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 
 /**
  * @author Stefan Kokov
- * GoalGenerator class is used to generate new goals. It creates a graph of the stations in the game,
- * traverses it and finds a goal. GoalGenerationAlgoritm should be not be used to generate new goals directly.
- * GoalFactory should be used to generate goals instead. Goal factory uses GoalGenerationAlgorithm
+ * GoalGenerationAlgorithm class is used to generate new goals. It creates a graph of the stations in the game,
+ * traverses it and finds a goal. GoalGenerationAlgoritm should not be used to generate new goals directly.
+ * GoalFactory should be used to generate goals instead. Goal factory uses GoalGenerationAlgorithm.
+ * The pathLength parameter in the constructor should be set using one of the constant difficulty fields in
+ * GoalFactory. Only the generateGoalPath method should be accessed  externally. 
  */
 public class GoalGenerationAlgorithm {
 	
@@ -23,6 +25,10 @@ public class GoalGenerationAlgorithm {
 	public Node[] nodeList;
 	
 	
+	/**
+	 * @param pathLength - The length of the path this algorithm will produce using
+	 * generateGoalPath method.
+	 */
 	public GoalGenerationAlgorithm(int pathLength) {
 			this.pathLength = pathLength;
 			
@@ -34,7 +40,8 @@ public class GoalGenerationAlgorithm {
 	
 	
 	
-	/**This method returns the starting station of the goal being generated
+	/**This method returns the starting node of the goal being generated.
+	 * Starting station is picked randomly.
 	 * @return startingNode
 	 */
 	public Node getStartingNode(){
@@ -46,8 +53,9 @@ public class GoalGenerationAlgorithm {
 	
 	
 	
-	/**Generates a list of nodes which represents goal path
-	 * @return list of nodes which is a path
+	/**Generates a list of nodes which represents goal path. Will aim to produce a path with no
+	 * repeating nodes, however it may fail. 
+	 * @return ArrayList of nodes which is a path
 	 */
 	public ArrayList<Node> getGoalPathNodeList(){
 		ArrayList<Node> goalPath = new ArrayList<Node>(); 	//List of Nodes which is the path to be returned
@@ -86,7 +94,8 @@ public class GoalGenerationAlgorithm {
 	
 	
 	/**Uses getGoalPathNodeList to generate a list of Nodes, then converts it into a list
-	 * of stations using a lookup table and returns it 
+	 * of stations using a lookup table and returns it. Will aim to produce a path with no
+	 * repeating nodes, however it may fail. 
 	 * @return list of stations
 	 */
 	public ArrayList<Station> generateGoalPath(){
@@ -107,9 +116,9 @@ public class GoalGenerationAlgorithm {
 
 	
 	/**
-	 * Everytime GoalGenerator is called a graph is created specifically for that instance. This function populates nodeList 
+	 * Every time GoalGeneratoionAlgorithm is called a graph is created specifically for that instance. This function populates nodeList 
 	 * by creating as many null nodes as there are stations/junctions it then steps through this list of null nodes and 
-	 * populates it with a station from the worldmap.stationList. Once done it then adds edges to each newly created 
+	 * populates it with a station from the worldmap.stationList and worldMap.junction. Once done it then adds edges to each newly created 
 	 * node in correspondence to the connections of that station. 
 	 */
 	public void initialiseGraph()
@@ -132,7 +141,7 @@ public class GoalGenerationAlgorithm {
 	}
 	
 	/**
-	 * a lookup table that returns a Node instance for a given map obj, it should be noted that nodes are just extended 
+	 * a lookup table that returns a Node instance for a given mapObj, it should be noted that nodes are just extended 
 	 * mapobj's. In theory, all stations/junctions will be inside nodeList 
 	 * so this should not return an illegal argument exception. 
 	 * @param mapObj

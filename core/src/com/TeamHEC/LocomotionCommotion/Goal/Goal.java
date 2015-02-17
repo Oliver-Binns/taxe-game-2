@@ -38,8 +38,8 @@ public class Goal implements RouteListener{
 	 * Initialises the goal.
 	 * @param startStation The Station the goal starts from
 	 * @param finalStation The Station the goal ends at
-	 * @param routeLength The Station the goal wants you to travel via
-	 * @param cargo The type of cargo the train is carrying.
+	 * @param routeLength The maximum length of the route you must use
+	 * @param cargo The type of cargo the train is carrying. (Currently not used)
 	 * @param reward The reward (currently Gold) you get for completing the Goal
 	 */
 	public Goal(Station startStation, Station finalStation, int routeLength, String cargo, int reward)
@@ -62,14 +62,6 @@ public class Goal implements RouteListener{
 		else
 		isAbsolute = false;
 		finalStationPassed = false;
-	}
-	
-	public boolean isQuantifiable() {
-		return !isAbsolute;
-	}
-
-	public boolean isAbsolute() {
-		return isAbsolute;
 	}
 
 	public boolean isSpecial()
@@ -106,9 +98,18 @@ public class Goal implements RouteListener{
 		goalActor = actor;
 	}
 	
+	//Added from team EEP------------
+	public boolean isQuantifiable() {
+		return !isAbsolute;
+	}
+
+	public boolean isAbsolute() {
+		return isAbsolute;
+	}
+
 	/**
 	 * Returns the number of stations a player ha to pass through. Returns "Any" if StationVia is null.
-	 * @return The number of stations a player ha to pass through. Returns "Any" if StationVia is null.
+	 * @return The route string that is displayed on the ticket ("via n stations" if quantifiable, or "Any" if absolute)
 	 */
 	public String getTimeConstraintString()
 	{
@@ -125,6 +126,7 @@ public class Goal implements RouteListener{
 	public void setTimeConstraint(int timeConstraint) {
 		this.timeConstraint = timeConstraint;
 	}
+	//-------------------------
 
 	public String getCargo()
 	{
@@ -151,7 +153,7 @@ public class Goal implements RouteListener{
 	}
 	
 	/**
-	 * Called when the goal is successfully complete:
+	 * Called when the goal is successfully complete
      *  @return False if goal is not ready to complete
 	 */	
 	public Boolean goalComplete()
@@ -176,8 +178,10 @@ public class Goal implements RouteListener{
         return true;
 	}
 	
+	
+	//Added from team EEP
 	/**
-	 * Called when the goal is failed:
+	 * Called when the goal is failed (only quantifiable goals can be failed)
 	 */	
 	public void goalFailed()
 	{

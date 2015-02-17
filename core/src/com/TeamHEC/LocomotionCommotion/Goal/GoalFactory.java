@@ -84,7 +84,8 @@ public class GoalFactory{
 		
 		return newgoal; 
 	}
-
+	
+	//Added by team EEP-------------------------------------------------------------------------------------
 	/**Generates a new absolute goal using goal generation algorithm. The difficulty of the goal
 	 * is determined by the difficulty parameter and the current turn count. Every goal generated
 	 * by this factory has completely different starting and ending stations from all other goals generated.
@@ -118,6 +119,7 @@ public class GoalFactory{
 	/**Generates a new quantifiable goal using goal generation algorithm an djikstras algorithm. The difficulty of the goal
 	 * is determined by the difficulty parameter and the current turn count. Every goal generated
 	 * by this factory has completely different starting and ending stations from all other goals generated.
+	 * The goal will be constrained and require the player to complete it via a specific number of stations or less.
 	 * @param difficulty EASY, MEDIUM or HARD constants should be used
 	 * @return a new goal
 	 */
@@ -151,7 +153,7 @@ public class GoalFactory{
 	}
 	
 	
-	/**Generates either a quantifiable or absolute goal with odds 3:1 absolute:quantifiable.
+	/**Generates either a quantifiable or absolute goal with odds 6:4 - absolute:quantifiable.
 	 * The difficulty of the goal is determined by the difficulty parameter and the current turn count.
 	 * @param difficulty EASY, MEDIUM or HARD constants should be used.
 	 * @return Goal
@@ -165,6 +167,7 @@ public class GoalFactory{
 			return generateQuantifiableGoal(difficulty);
 		}
 	}
+	//-----------------------------------------------------------------------------------------------------------------
 }
 
 

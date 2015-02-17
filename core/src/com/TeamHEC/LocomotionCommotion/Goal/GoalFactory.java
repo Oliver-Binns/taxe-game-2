@@ -25,7 +25,7 @@ public class GoalFactory{
 	ArrayList<Station> stationsUsed = new ArrayList<Station>();
 	
 	/**
-	 * Initialises the GoalFactory
+	 * Initializes the GoalFactory
 	 */
 	public GoalFactory(int turnCount){   
 		map = WorldMap.getInstance(); 
@@ -157,9 +157,9 @@ public class GoalFactory{
 	 * @return Goal
 	 */
 	public Goal generateGoal(int difficulty){
-		int n = random.nextInt(4);
+		int n = random.nextInt(100);
 		
-		if(n != 3){
+		if(n < 60){
 			return generateAbsoluteGoal(difficulty);
 		}else{
 			return generateQuantifiableGoal(difficulty);

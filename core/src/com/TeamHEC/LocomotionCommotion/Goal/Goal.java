@@ -35,7 +35,7 @@ public class Goal implements RouteListener{
 	public static GoalActor goalActor;
 	
 	/**
-	 * Initialises the goal.
+	 * Initializes the goal.
 	 * @param startStation The Station the goal starts from
 	 * @param finalStation The Station the goal ends at
 	 * @param routeLength The maximum length of the route you must use
@@ -116,7 +116,10 @@ public class Goal implements RouteListener{
 		if(isAbsolute())
 			return "Any";
 		else
-			return "via "+(timeConstraint-2)+" stations";
+			if(timeConstraint > 2)
+				return "via "+(timeConstraint-2)+" stations";
+			else
+				return "direct";
 	}
 	
 	public int getTimeConstraint() {
@@ -218,22 +221,23 @@ public class Goal implements RouteListener{
 				finalStationPassed = true;
 				System.out.println("final passed");
 			}
-
+			
+			if(startStationPassed){
+				currentTime++;
+			}
 						
 			if(startStationPassed && finalStationPassed && isAbsolute())
 				goalComplete();
+			
+			if(startStationPassed && finalStationPassed && isQuantifiable() && timeConstraint >= currentTime){
+				goalComplete();
+			}
 			
 			if(currentTime >= timeConstraint && isQuantifiable()){
 				goalFailed();
 			}
 			
-			if(startStationPassed && finalStationPassed && isQuantifiable() && timeConstraint > currentTime){
-				goalComplete();
-			}
-			
-			if(startStationPassed){
-				currentTime++;
-			}
+
 			
 		}
 	}

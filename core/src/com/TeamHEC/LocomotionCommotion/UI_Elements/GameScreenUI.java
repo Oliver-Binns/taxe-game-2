@@ -305,7 +305,8 @@ public class GameScreenUI {
 				}
 			}
 		};
-		actors.add(game_menuobject_traindepotbtn);
+        // Not yet implemented. Hidden.
+		// actors.add(game_menuobject_traindepotbtn);
 
 		//Access Goal Screen Button -- Top Left Corner
 		game_menuobject_goalscreenbtn = new SpriteButton(110, 1050- Game_TextureManager.getInstance().game_goals_goalscreenbtn.getHeight() -25,
@@ -381,7 +382,8 @@ public class GameScreenUI {
 		actors.add(game_menuobject_resourcesbar);
 
 		//Resource Toggle Button-- This raises the resources bar given YOU the ASSESSMENT 3 people some more UI space to work with.
-		game_resources_togglebtn = new SpriteButton(10,30,Game_TextureManager.getInstance().game_menuobject_menubtn){
+		// Yeah, thanks, but no. -- The assessment 3 people.
+        game_resources_togglebtn = new SpriteButton(10,30,Game_TextureManager.getInstance().game_menuobject_menubtn){
 			/**
 			 * onClicked for resources toggle button:
 			 * This method raises the resources bar and everything connected.
@@ -428,7 +430,8 @@ public class GameScreenUI {
 
 			}
 		};
-		actors.add(game_resources_togglebtn);
+        // Not implemented. Hidden.
+		// actors.add(game_resources_togglebtn);
 
 		//Get font style with text size 19
 		style= getLabelStyle(19);

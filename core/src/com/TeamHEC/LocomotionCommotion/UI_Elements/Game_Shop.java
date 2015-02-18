@@ -367,7 +367,8 @@ public class Game_Shop {
 				}
 
 			};
-			this.actors.add(train);
+            // Not implemented. Hidden.
+			// this.actors.add(train);
 
 
 		}
@@ -386,7 +387,7 @@ public class Game_Shop {
 			Game_Shop.actorManager.electricityitem.buyButton.setTexture(t);
 			Game_Shop.actorManager.nuclearitem.buyButton.setTexture(t);
 			Game_Shop.actorManager.carditem.buyButton.setTexture(t);
-			Game_Shop.actorManager.trainitem.costLabel.setText("Sell Trains");
+			Game_Shop.actorManager.trainitem.costLabel.setText(""); // EEP: Modified from "Sell Trains" to ""
 			Game_Shop.actorManager.titleLabel.setText("Sell");
 
 			//Cost is different if selling
@@ -417,7 +418,7 @@ public class Game_Shop {
 			Game_Shop.actorManager.electricityitem.buyButton.setTexture(t);
 			Game_Shop.actorManager.nuclearitem.buyButton.setTexture(t);
 			Game_Shop.actorManager.carditem.buyButton.setTexture(t);
-			Game_Shop.actorManager.trainitem.costLabel.setText("Buy Trains");
+			Game_Shop.actorManager.trainitem.costLabel.setText(""); // EEP: Modified from "Buy Trains" to ""
 			Game_Shop.actorManager.titleLabel.setText("Buy");
 			
 			//Cost is different if selling
@@ -986,8 +987,9 @@ public class Game_Shop {
 				this.actors = new ArrayList<Actor>();
 				Sprite trainItem = new Sprite(posx,posy,Game_TextureManager.getInstance().game_shop_trainitem);
 				buyButton = new SpriteButton(posx+75,posy+20,Game_TextureManager.getInstance().game_shop_blankbuybtn);
-				actors.add(trainItem);
-				actors.add(buyButton);
+				// Not implemented. Hidden.
+				//actors.add(trainItem);
+				//actors.add(buyButton);
 
 				//Stuff for Labels
 				FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gillsans.ttf"));
@@ -1010,7 +1012,7 @@ public class Game_Shop {
 				costLabel.setX(posx+ 100);
 				costLabel.setY(posy +43);
 				costLabel.setColor(0,0,0,1);
-				costLabel.setText("Buy Trains");
+				costLabel.setText("Buy Trains"); // EEP: Modified from "Buy Trains" to ""
 
 				actors.add(costLabel);
 

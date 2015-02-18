@@ -361,6 +361,7 @@ public class Game_Shop {
 				}
 			};
 			this.actors.add(shopsellButton);
+			@SuppressWarnings("unused")
 			SpriteButton train = new SpriteButton(1050,350, Game_TextureManager.getInstance().game_shop_starttrain){
 				@Override
 				protected void onClicked(){
@@ -985,6 +986,7 @@ public class Game_Shop {
 			SpriteButton buyButton;
 			public Game_shop_train(){
 				this.actors = new ArrayList<Actor>();
+				@SuppressWarnings("unused")
 				Sprite trainItem = new Sprite(posx,posy,Game_TextureManager.getInstance().game_shop_trainitem);
 				buyButton = new SpriteButton(posx+75,posy+20,Game_TextureManager.getInstance().game_shop_blankbuybtn);
 				// Not implemented. Hidden.

@@ -3,12 +3,16 @@ package com.TeamHEC.LocomotionCommotion.Scene;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 
 public class StartMenu extends Scene{
+
+    // (EEP) The minimum length allowed for a player's name
+    public static final int MIN_NAME_LENGTH = 1;
 
 	private Sprite sm_main_title, sm_main_lines;
 	@SuppressWarnings("unused")
@@ -220,6 +224,17 @@ public class StartMenu extends Scene{
 			@Override
 			public void onClicked()
 			{
+
+                if (        textbox1.getText().length() < MIN_NAME_LENGTH
+                        ||  textbox2.getText().length() < MIN_NAME_LENGTH
+                        ) {
+                    // Name is too short.
+                    // You could fire a warning window here, if only fireWarningWindow worked here.
+                    // But it does not.
+                    return;
+                }
+
+
 				LocomotionCommotion.player1name=textbox1.getText();
 				LocomotionCommotion.player2name=textbox2.getText();
 				LocomotionCommotion.gameMode= gameMode;

@@ -11,7 +11,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
  * 
  * @author Sam Anderson <sa902@york.ac.uk>
  * @author Matthew Taylor <mjkt500@york.ac.uk>
- *
+ * @author Stefan Kokov <sk1056@york.ac.uk>
  */
 public class Goal implements RouteListener{ 
 	//Variables
@@ -39,15 +39,16 @@ public class Goal implements RouteListener{
 	 * Initializes the goal.
 	 * @param startStation The Station the goal starts from
 	 * @param finalStation The Station the goal ends at
-	 * @param routeLength The maximum length of the route you must use
+	 * @param noOfStations The maximum number of station the train should pass.
+     *                     Value 0 means there is no time constraint.
 	 * @param cargo The type of cargo the train is carrying. (Currently not used)
 	 * @param reward The reward (currently Gold) you get for completing the Goal
 	 */
-	public Goal(Station startStation, Station finalStation, int routeLength, String cargo, int reward)
+	public Goal(Station startStation, Station finalStation, int noOfStations, String cargo, int reward)
 	{
 		this.sStation = startStation;
 		this.fStation = finalStation;
-		this.timeConstraint = routeLength;
+		this.timeConstraint = noOfStations;
 		this.setSpecial(false); 
 		this.reward = reward;  
 		this.cargo = cargo;
@@ -58,11 +59,13 @@ public class Goal implements RouteListener{
 		
 		// Initiliase goal completion variables to false
 		startStationPassed = false;
-		if(routeLength == 0)
-		isAbsolute = true; 
+        finalStationPassed = false;
+
+        if(noOfStations == 0)
+		    isAbsolute = true;
 		else
-		isAbsolute = false;
-		finalStationPassed = false;
+		    isAbsolute = false;
+
 	}
 
 	public boolean isSpecial()
@@ -98,39 +101,6 @@ public class Goal implements RouteListener{
 	{
 		goalActor = actor;
 	}
-	
-	//Added from team EEP------------
-	public boolean isQuantifiable() {
-		return !isAbsolute;
-	}
-
-	public boolean isAbsolute() {
-		return isAbsolute;
-	}
-
-	/**
-	 * Returns the number of stations a player ha to pass through. Returns "Any" if StationVia is null.
-	 * @return The route string that is displayed on the ticket ("via n stations" if quantifiable, or "Any" if absolute)
-	 */
-	public String getTimeConstraintString()
-	{
-		if(isAbsolute())
-			return "Any";
-		else
-			if(timeConstraint > 2)
-				return "via "+(timeConstraint-2)+" stations";
-			else
-				return "direct";
-	}
-	
-	public int getTimeConstraint() {
-		return timeConstraint;
-	}
-
-	public void setTimeConstraint(int timeConstraint) {
-		this.timeConstraint = timeConstraint;
-	}
-	//-------------------------
 
 	public String getCargo()
 	{
@@ -292,6 +262,38 @@ public class Goal implements RouteListener{
 
         return (minDistance / train.getBaseSpeed());
     }
+
+    public boolean isQuantifiable() {
+        return !isAbsolute;
+    }
+
+    public boolean isAbsolute() {
+        return isAbsolute;
+    }
+
+    /**
+     * Returns the number of stations a player ha to pass through. Returns "Any" if StationVia is null.
+     * @return The route string that is displayed on the ticket ("via n stations" if quantifiable, or "Any" if absolute)
+     */
+    public String getTimeConstraintString()
+    {
+        if(isAbsolute())
+            return "Any";
+        else
+        if(timeConstraint > 2)
+            return "via "+(timeConstraint-2)+" stations";
+        else
+            return "direct";
+    }
+
+    public int getTimeConstraint() {
+        return timeConstraint;
+    }
+
+    public void setTimeConstraint(int timeConstraint) {
+        this.timeConstraint = timeConstraint;
+    }
+    //-------------------------
 
 
 }

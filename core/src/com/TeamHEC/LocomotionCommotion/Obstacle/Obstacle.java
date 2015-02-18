@@ -40,7 +40,7 @@ public class Obstacle {
         return this.description;
     }
 
-    /*
+    /**
         Applies the obstacle to a train.
         @param t    The train to apply the obstacle to.
      */
@@ -50,7 +50,7 @@ public class Obstacle {
         this.train.setObstacle(this);
     }
 
-    /*
+    /**
         Checks whether the obstacle has been assigned to a Train yet.
         @return     Yes or no.
      */
@@ -58,7 +58,7 @@ public class Obstacle {
         return (this.active && this.train != null);
     }
 
-    /*
+    /**
          Returns the number of turns left for this obstacle.
          @return    No. of turns left for the obstacle.
      */
@@ -66,7 +66,7 @@ public class Obstacle {
         return this.totalTurns - this.turnsElapsed;
     }
 
-    /*
+    /**
         Returns the number of turns the obstacle has already been effective for
         @return     No. of turns the obstacle
      */
@@ -74,7 +74,7 @@ public class Obstacle {
         return this.turnsElapsed;
     }
 
-    /*
+    /**
          Returns the speed factor for the obstacle
          @return    A factor from 0 to 1 that should be multiplied by the train speed.
      */
@@ -82,7 +82,7 @@ public class Obstacle {
         return this.speedFactor;
     }
 
-    /*
+    /**
         Increments the internal counter, eventually destroys itself and disassociate
         from the Train if the number of turn left is equal to zero.
      */

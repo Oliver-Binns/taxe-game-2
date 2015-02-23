@@ -121,6 +121,7 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 
 	public void showInfoBox()
 	{
+		
 		for(int i = Game_Map_Manager.stagestart;i <= Game_Map_Manager.stagestart + Game_Map_Manager.mapActors-1; i++)	
 		{ 	
 			if (i > GameScreen.getStage().getActors().size-1){

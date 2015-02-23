@@ -4,6 +4,7 @@ import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
@@ -41,6 +42,8 @@ public class StartMenu extends Scene{
 	public static String gameMode, player1name, player2name;
 	public static int turnChoice;
 	public static TextField textbox1, textbox2;
+	
+	private static Music mainMusic;
 
 	public StartMenu()
 	{
@@ -53,7 +56,11 @@ public class StartMenu extends Scene{
 		// Start MenuNewGame Page
 		sm_newgame_menutext =  new Sprite(80,1150+250, SM_TextureManager.getInstance().sm_newgame_MenuText);
 		actors.add(sm_newgame_menutext);
-
+		
+		//mainMusic = Gdx.audio.newMusic(Gdx.files.internal("Sound/Artemis Main Titles.ogg"));
+		//mainMusic.setLooping(true);
+		//mainMusic.play();
+		
 		newGameButton = new SpriteButton(600, 480, SM_TextureManager.getInstance().sm_main_newgamebtn){
 
 			@Override

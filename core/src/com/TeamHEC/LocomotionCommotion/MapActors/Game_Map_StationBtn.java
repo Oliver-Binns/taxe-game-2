@@ -77,6 +77,11 @@ public class Game_Map_StationBtn extends SpriteButton {
 					Game_StartingSequence.selectLabel.setX(950);
 				}
 			}
+			else if(selectedStation.getStation().isFaulty())
+			{
+				GameScreen.game.getPlayerTurn().getShop().repairStation(selectedStation.getStation(), false);
+				Game_Map_Manager.hideInfoBox();
+			}
 			else
 			{
 				//Buy Stations in game

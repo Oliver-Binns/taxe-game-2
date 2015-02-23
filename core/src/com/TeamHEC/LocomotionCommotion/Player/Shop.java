@@ -1,6 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.Player;
 
 import com.TeamHEC.LocomotionCommotion.Card.CardFactory;
+import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 
 /**
@@ -124,6 +125,22 @@ public class Shop {
 				{
 					WarningMessage.fireWarningWindow("SORRY", "You have too many cards already");
 				}
+			}
+		}
+	}
+	
+	public void repairStation(Station station, boolean testCase)
+	{
+		if(customer.getGold() >= 300)
+		{
+			station.fixFaulty();
+			customer.subGold(300);
+		}
+		else
+		{
+			if(!testCase)
+			{
+				WarningMessage.fireWarningWindow("SORRY", "You don't have enough gold!");
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainInfoUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_TextureManager;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
@@ -327,6 +328,15 @@ public class Game_Map_Manager {
 	}
 
 	public static void showInfoBox(){
+		
+		if(Game_Map_StationBtn.selectedStation.getStation().isFaulty()){
+			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
+		} else if(Game_StartingSequence.inProgress) {
+			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);
+		} else {
+			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationBuy);
+		}
+		
 		stationInfo.setVisible(true);
 		Game_Map_Manager.stationSelect.setVisible(true);
 

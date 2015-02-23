@@ -250,6 +250,8 @@ public class Player implements RouteListener{
 	//have a train in that station then nothing will happen
 	//There is space to add some sort of message for the player
 	{
+		boolean trainInStation = false;
+		
 		for (int j=0; j < trains.size(); j ++)
 		{
 			if(station.getOwner() == null)
@@ -300,22 +302,24 @@ public class Player implements RouteListener{
 							}
 						}
 						station.setOwner(this);
-						this.lineBonuses();				
+						this.lineBonuses();	
+						trainInStation = true;
 					}
 					else
 					{
-						//WarningMessage.fireWarningWindow("Not enough gold", "");
+						WarningMessage.fireWarningWindow("SORRY", "You don't have enough gold!");
+						trainInStation = true;
 					}
-				}
-				else
-				{
-					//WarningMessage.fireWarningWindow("Not in station", trains.get(j).getRoute().getStation().getName());
 				}
 			}
 			else
 			{
-				//WarningMessage.fireWarningWindow("Already owned", "");
+				WarningMessage.fireWarningWindow("SORRY", "This station is already owned!");
 			}
+		}
+		if(!trainInStation)
+		{
+			WarningMessage.fireWarningWindow("SORRY", "You must have a train at a station to buy it!");
 		}
 	}
 

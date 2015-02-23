@@ -456,6 +456,16 @@ public class Route{
 	 */
 	public void update(float moveBy)
 	{
+		if(inStation()){
+			if(getStation() != null){	//determines that it is not a junction
+				abortRoute();
+				path.clear();
+				routeIndex = 0;
+				isComplete = true;
+				WarningMessage.fireWarningWindow("Sorry", "The station is faulty. You must repair it to continue!");
+				return;
+			}
+		}
 		// gets the length of the current connection:
 		float connectionLength = path.get(routeIndex).getLength();
 		

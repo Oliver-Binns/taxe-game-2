@@ -25,6 +25,7 @@ public class Station extends MapObj{
 	private int rentValue;
 	private int rentValueMod;
 	public double mindistance = Double.POSITIVE_INFINITY;
+	private boolean hasFault;
 	
 	protected ArrayList<StationListener> listeners = new ArrayList<StationListener>();
 	
@@ -255,5 +256,31 @@ public class Station extends MapObj{
 		{
 			listener.ownerChanged(station, player);
 		}
+	}
+	/**
+	 * @return true if station is broken
+	 */
+	public boolean isFaulty(){
+		return hasFault;
+	}
+	/**
+	 * makes the station faulty
+	 */
+	public void makeFaulty(){
+		hasFault = true;
+		gameMapStation.updateButton(this, owner);
+	}
+	/**
+	 * fix the station
+	 */
+	public void fixFaulty(){
+		hasFault = false;
+	}
+	/**
+	 * @return fault rate for the station
+	 * fault rate is the chance that a particular station will go faulty in a particular move
+	 */
+	public double getFaultRate(){
+		return 0.01;
 	}
 }

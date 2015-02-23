@@ -25,7 +25,58 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 	{
 		return station;
 	}
-
+	/**
+	 * 
+	 * @param station the station that this is the button for
+	 * @param player
+	 */
+	public void updateButton(Station station, Player player){
+		if(station.isFaulty()){
+			if(player == null)
+			{
+				texture = Game_Map_TextureManager.getInstance().stationFaulty;
+				toggleTexture1 = Game_Map_TextureManager.getInstance().stationFaulty;
+				toggleTexture2 = Game_Map_TextureManager.getInstance().stationx2Faulty;
+			}
+	
+			else if(player.isPlayer1)
+			{
+				texture = Game_Map_TextureManager.getInstance().p1StationFaulty;
+				toggleTexture1 = Game_Map_TextureManager.getInstance().p1StationFaulty;
+				toggleTexture2 = Game_Map_TextureManager.getInstance().p1Stationx2Faulty;
+			}
+			else
+			{
+				texture = Game_Map_TextureManager.getInstance().p2StationFaulty;
+				toggleTexture1 = Game_Map_TextureManager.getInstance().p2StationFaulty;
+				toggleTexture2 = Game_Map_TextureManager.getInstance().p2Stationx2Faulty;
+			}
+		}
+		else{
+			if(player == null)
+			{
+				texture = Game_Map_TextureManager.getInstance().station;
+				toggleTexture1 = Game_Map_TextureManager.getInstance().station;
+				toggleTexture2 = Game_Map_TextureManager.getInstance().stationx2;
+			}
+	
+			else if(player.isPlayer1)
+			{
+				texture = Game_Map_TextureManager.getInstance().p1Station;
+				toggleTexture1 = Game_Map_TextureManager.getInstance().p1Station;
+				toggleTexture2 = Game_Map_TextureManager.getInstance().p1Stationx2;
+			}
+			else
+			{
+				texture = Game_Map_TextureManager.getInstance().p2Station;
+				toggleTexture1 = Game_Map_TextureManager.getInstance().p2Station;
+				toggleTexture2 = Game_Map_TextureManager.getInstance().p2Stationx2;
+			}
+		}
+	}
+	/**
+	 * @deprecated replaced with updateButton();
+	 */
 	@Override
 	public void ownerChanged(Station station, Player player)
 	{

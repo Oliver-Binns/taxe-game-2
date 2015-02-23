@@ -161,8 +161,10 @@ public class CoreGame {
             turnCount = (turnCount + 1);
             if (playerTurn == player1)
                 playerTurn = player2;
-            else
+            else{
+            	gameMap.generateFaults();
                 playerTurn = player1;
+            }
             StartTurn();
         }
 

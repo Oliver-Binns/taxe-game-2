@@ -459,11 +459,11 @@ public class Route{
 		if(inStation()){
 			if(getStation() != null){	//determines that it is not a junction
 				if(getStation().isFaulty()){
+					WarningMessage.fireWarningWindow("Sorry", getStation().getName() + " Station is faulty. You must repair it to continue!");
 					abortRoute();
 					path.clear();
 					routeIndex = 0;
 					isComplete = true;
-					WarningMessage.fireWarningWindow("Sorry", "The station is faulty. You must repair it to continue!");
 					return;
 				}
 			}

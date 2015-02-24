@@ -57,7 +57,7 @@ public class StartMenu extends Scene{
 		sm_newgame_menutext =  new Sprite(80,1150+250, SM_TextureManager.getInstance().sm_newgame_MenuText);
 		actors.add(sm_newgame_menutext);
 		
-		//mainMusic = Gdx.audio.newMusic(Gdx.files.internal("Sound/Artemis Main Titles.ogg"));
+		//mainMusic = Gdx.audio.newMusic(Gdx.files.internal("Sound/elevator.mp3"));
 		//mainMusic.setLooping(true);
 		//mainMusic.play();
 		

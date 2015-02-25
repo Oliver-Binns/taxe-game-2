@@ -14,6 +14,8 @@ public class Connection{
 	private MapObj startMapObj, endMapObj;
 	private float length;
 	
+	private boolean locked;
+	
 	private Vector2 vector;
 	
 	// Displaying Route stuff:
@@ -31,6 +33,8 @@ public class Connection{
 	{
 		this.startMapObj = startMapObj;
 		this.endMapObj = endMapObj;
+		
+		this.locked = false;
 		
 		float dX =  endMapObj.x - startMapObj.x;
 		float dY =  endMapObj.y - startMapObj.y;
@@ -139,9 +143,22 @@ public class Connection{
 	{
 		return connectionBlips;
 	}
+	
+	/**
+	 * 
+	 * @return Whether or not the connection is currently inaccessible
+	 */
+	public boolean isLocked() {
+		return this.locked;
+	}
+	
+	//Locks connection if the connection is unlocked, unlocks it otherwise
+	public void toggleLocked() {
+		this.locked = !(this.locked);
+	}
 	/**
 	 * @param connection to be compared
-	 * @returntrue if two connections are the same but reversed
+	 * @return true if two connections are the same but reversed
 	 */
 	public boolean isReverseOf(Connection connection)
 	{

@@ -12,6 +12,7 @@ public class MapObj {
 	public Game_Map_MapObj actor;
 	public ArrayList<Connection> connections = new ArrayList<Connection>();
 	public float x, y;
+	private boolean locked;
 	private String name;
 	
 	/**
@@ -23,11 +24,13 @@ public class MapObj {
 	{
 		this.x = x;
 		this.y = y;
+		this.locked = false;
 		this.name = name;
 	}
 	
 	/**
-	 * Returns the name of the station or junction the MapObj represents
+	 * 
+	 * @return The name of the MapObj
 	 */
 	public String getName()
 	{
@@ -48,5 +51,18 @@ public class MapObj {
 	public Game_Map_MapObj getActor()
 	{
 		return actor;
+	}
+	
+	/**
+	 * 
+	 * @return Whether or not the connection is currently inaccessible
+	 */
+	public boolean isLocked() {
+		return this.locked;
+	}
+	
+	//Locks connection if the connection is unlocked, unlocks it otherwise
+	public void toggleLocked() {
+		this.locked = !(this.locked);
 	}
 }

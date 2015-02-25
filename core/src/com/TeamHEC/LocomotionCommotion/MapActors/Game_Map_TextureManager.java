@@ -19,7 +19,7 @@ public class Game_Map_TextureManager{
 	}	
 	
 	//Map
-	public CustomTexture map = new CustomTexture(Gdx.files.internal("gameScreen/game_map/map.png"));
+	//public CustomTexture map = new CustomTexture(Gdx.files.internal("gameScreen/game_map/map.png"));
 	public CustomTexture mapInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/mapinfo.png"));
 	public CustomTexture station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/station.png"));
 	public CustomTexture stationFaulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/station-broken.png"));

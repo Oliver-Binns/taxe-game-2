@@ -4,7 +4,10 @@ import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Card.Game_CardHand;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalMenu;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
+import com.TeamHEC.LocomotionCommotion.Map.Connection;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
+import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
@@ -15,10 +18,13 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 /**
  * 
@@ -47,6 +53,7 @@ public class GameScreen implements Screen {
 	public static SpriteBatch sb;
 	public OrthographicCamera camera;
 	public static Game_Map_Manager mapManager;
+	public static ShapeRenderer shapeRend = new ShapeRenderer();
 	/**
 	 * 
 	 */
@@ -106,6 +113,64 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		getStage().act(Gdx.graphics.getDeltaTime());
+		
+		shapeRend.setAutoShapeType(true);
+		shapeRend.begin();
+		
+		for(int i=0; i<WorldMap.getInstance().stationsList.size(); i++) {
+			MapObj point = WorldMap.getInstance().stationsList.get(i);
+			
+			shapeRend.set(ShapeRenderer.ShapeType.Filled);
+			for(Connection line : point.connections) {
+				MapObj endPoint = line.getDestination();
+				switch(line.getColour()) {
+				case Yellow:
+					shapeRend.setColor(1, 1, 0, 1);
+					break;
+				case Red:
+					shapeRend.setColor(1, 0, 0, 1);
+					break;
+				case Brown:
+					shapeRend.setColor(0.54f, 0.27f, 0.07f, 1);
+					break;
+				case Black:
+					shapeRend.setColor(0, 0, 0, 1);
+					break;
+				case Blue:
+					shapeRend.setColor(0, 0, 1, 1);
+					break;
+				case Purple:
+					shapeRend.setColor(0.5f, 0, 0.5f, 1);
+					break;
+				case Green:
+					shapeRend.setColor(0, 1, 0, 1);
+					break;
+				case Orange:
+					shapeRend.setColor(1, 0.64f, 0, 1);
+					break;
+				}
+				shapeRend.rectLine(point.x + 20, point.y + 20, endPoint.x + 20, endPoint.y + 20, 5);
+			}
+			
+			if(point instanceof Station) {
+				int nameWidth = point.getName().length() * 20;
+				
+				shapeRend.set(ShapeRenderer.ShapeType.Line);
+				shapeRend.setColor(0, 0, 0, 1);
+				shapeRend.rect(point.x - nameWidth/2 + 20, point.y + 45, nameWidth, 40);
+				
+				Label nameLabel = new Label(point.getName(), GameScreenUI.getLabelStyle(30));
+				
+				nameLabel.setX(point.x - nameWidth/2 + 20);
+				nameLabel.setY(point.y + 45);
+				nameLabel.setAlignment(1);
+				
+				stage.addActor(nameLabel);
+			}
+		}
+		
+		shapeRend.end();
+		
 		getStage().draw();
 
 	}

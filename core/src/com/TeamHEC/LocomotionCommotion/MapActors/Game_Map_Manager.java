@@ -116,8 +116,8 @@ public class Game_Map_Manager {
 		cancelRouteBtn.setVisible(false);
 		actors.add(cancelRouteBtn);
 
-		map = new Sprite(100, 60, Game_Map_TextureManager.getInstance().map);		
-		actors.add(map);
+		//map = new Sprite(100, 60, Game_Map_TextureManager.getInstance().map);		
+		//actors.add(map);
 	
 		stationTracker=stage.getActors().size;
 		for(int i = 0; i < WorldMap.getInstance().stationsList.size(); i++)

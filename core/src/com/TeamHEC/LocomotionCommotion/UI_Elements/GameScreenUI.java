@@ -12,6 +12,7 @@ import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop.Game_ShopManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -593,6 +594,8 @@ public class GameScreenUI {
 		generator.dispose();
 		LabelStyle style = new LabelStyle();
 		style.font = font;
+		
+		style.fontColor = Color.BLACK;
 
 		return style;
 

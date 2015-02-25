@@ -74,28 +74,28 @@ public class WorldMap {
 	public WorldMap()
 	{
 		// Creates a connection instance for each existing connection:
-		createConnections(REYKJAVIK, new MapObj[]{OSLO, DUBLIN});
-		createConnections(DUBLIN, new MapObj[]{REYKJAVIK, AMSTERDAM, LONDON});
-		createConnections(LONDON, new MapObj[]{DUBLIN, PARIS});
-		createConnections(PARIS, new MapObj[]{LONDON, MONACO, MADRID, junction[0]});
-		createConnections(MADRID, new MapObj[]{PARIS, MONACO, LISBON});
-		createConnections(LISBON, new MapObj[]{MADRID, ROME});
-		createConnections(AMSTERDAM, new MapObj[]{DUBLIN, BERLIN});
-		createConnections(BERLIN, new MapObj[]{AMSTERDAM, OSLO, WARSAW, junction[0]});
-		createConnections(OSLO, new MapObj[]{STOCKHOLM, REYKJAVIK, BERLIN});
-		createConnections(WARSAW, new MapObj[]{BERLIN, STOCKHOLM, junction[1], PRAGUE});
-		createConnections(STOCKHOLM, new MapObj[]{OSLO, WARSAW, HELSINKI});
-		createConnections(HELSINKI, new MapObj[]{STOCKHOLM, VILNIUS, MOSCOW});
-		createConnections(MOSCOW, new MapObj[]{HELSINKI, junction[1]});
-		createConnections(PRAGUE, new MapObj[]{WARSAW, junction[0], junction[1], BERN, VIENNA});
-		createConnections(VIENNA, new MapObj[]{PRAGUE, ATHENS});
-		createConnections(ROME, new MapObj[]{LISBON, BERN, ATHENS});
-		createConnections(MONACO, new MapObj[]{MADRID, PARIS, BERN});
-		createConnections(BERN, new MapObj[]{MONACO, junction[0], PRAGUE, ROME});
-		createConnections(VILNIUS, new MapObj[]{HELSINKI, junction[1]});
-		createConnections(junction[1], new MapObj[]{WARSAW, VILNIUS, MOSCOW, PRAGUE});
-		createConnections(junction[0], new MapObj[]{PARIS, BERLIN, PRAGUE, BERN});
-		createConnections(ATHENS, new MapObj[]{ROME, VIENNA});
+		createConnections(REYKJAVIK, new MapObj[]{OSLO, DUBLIN}, new Line[]{Line.Blue, Line.Black});
+		createConnections(DUBLIN, new MapObj[]{REYKJAVIK, AMSTERDAM, LONDON}, new Line[]{Line.Black, Line.Orange, Line.Black});
+		createConnections(LONDON, new MapObj[]{DUBLIN, PARIS}, new Line[]{Line.Black, Line.Black});
+		createConnections(PARIS, new MapObj[]{LONDON, MONACO, MADRID, junction[0]}, new Line[]{Line.Black, Line.Black, Line.Yellow, Line.Yellow});
+		createConnections(MADRID, new MapObj[]{PARIS, MONACO, LISBON}, new Line[]{Line.Yellow, Line.Orange, Line.Yellow});
+		createConnections(LISBON, new MapObj[]{MADRID, ROME}, new Line[]{Line.Yellow, Line.Green});
+		createConnections(AMSTERDAM, new MapObj[]{DUBLIN, BERLIN}, new Line[]{Line.Red, Line.Red});
+		createConnections(BERLIN, new MapObj[]{AMSTERDAM, OSLO, WARSAW, junction[0]}, new Line[]{Line.Red, Line.Purple, Line.Red, Line.Purple});
+		createConnections(OSLO, new MapObj[]{STOCKHOLM, REYKJAVIK, BERLIN}, new Line[]{Line.Blue, Line.Blue, Line.Purple});
+		createConnections(WARSAW, new MapObj[]{BERLIN, STOCKHOLM, junction[1], PRAGUE}, new Line[]{Line.Red, Line.Orange, Line.Red, Line.Orange});
+		createConnections(STOCKHOLM, new MapObj[]{OSLO, WARSAW, HELSINKI}, new Line[]{Line.Blue, Line.Orange, Line.Blue});
+		createConnections(HELSINKI, new MapObj[]{STOCKHOLM, VILNIUS, MOSCOW}, new Line[]{Line.Blue, Line.Brown, Line.Blue});
+		createConnections(MOSCOW, new MapObj[]{HELSINKI, junction[1]}, new Line[]{Line.Blue, Line.Red});
+		createConnections(PRAGUE, new MapObj[]{WARSAW, junction[0], junction[1], BERN, VIENNA}, new Line[]{Line.Orange, Line.Yellow, Line.Brown, Line.Orange, Line.Brown});
+		createConnections(VIENNA, new MapObj[]{PRAGUE, ATHENS}, new Line[]{Line.Brown, Line.Brown});
+		createConnections(ROME, new MapObj[]{LISBON, BERN, ATHENS}, new Line[]{Line.Green, Line.Purple, Line.Green});
+		createConnections(MONACO, new MapObj[]{MADRID, PARIS, BERN}, new Line[]{Line.Orange, Line.Black, Line.Orange});
+		createConnections(BERN, new MapObj[]{MONACO, junction[0], PRAGUE, ROME}, new Line[]{Line.Orange, Line.Purple, Line.Orange, Line.Purple});
+		createConnections(VILNIUS, new MapObj[]{HELSINKI, junction[1]}, new Line[]{Line.Brown, Line.Brown});
+		createConnections(junction[1], new MapObj[]{WARSAW, VILNIUS, MOSCOW, PRAGUE}, new Line[]{Line.Red, Line.Brown, Line.Red, Line.Brown});
+		createConnections(junction[0], new MapObj[]{PARIS, BERLIN, PRAGUE, BERN}, new Line[]{Line.Yellow, Line.Purple, Line.Yellow, Line.Purple});
+		createConnections(ATHENS, new MapObj[]{ROME, VIENNA}, new Line[]{Line.Green, Line.Brown});
 	}
 	
 	/**
@@ -103,11 +103,11 @@ public class WorldMap {
 	 * @param mapObj the initial starting MapObj
 	 * @param connection All it's adjacent MapObjs
 	 */
-	private void createConnections(MapObj mapObj, MapObj[] connection)
+	private void createConnections(MapObj mapObj, MapObj[] connections, Line[] colours)
 	{
-		for(int i = 0; i < connection.length; i++)
+		for(int i = 0; i < connections.length; i++)
 		{
-			mapObj.connections.add(new Connection(mapObj, connection[i]));
+			mapObj.connections.add(new Connection(mapObj, connections[i], colours[i]));
 		}
 	}
 	/**

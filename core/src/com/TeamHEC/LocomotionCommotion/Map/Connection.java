@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 
 /**
  * @author Matthew Taylor <mjkt500@york.ac.uk>
+ * @author Sam Watkins <sw1308@york.ac.uk>
  */
 public class Connection{
 	

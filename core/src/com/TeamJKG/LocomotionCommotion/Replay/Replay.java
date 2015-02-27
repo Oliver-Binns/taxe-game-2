@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
-import com.TeamHEC.LocomotionCommotion.Resource.Electric;
 import com.google.gson.*;
 
 /**

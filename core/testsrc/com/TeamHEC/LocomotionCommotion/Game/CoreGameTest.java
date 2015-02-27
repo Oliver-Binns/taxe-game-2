@@ -268,7 +268,7 @@ public class CoreGameTest {
 		boolean success = false;
 		try
 		{
-			tester.saveGameJSON("myGame");
+			//tester.saveGameJSON("myGame");
 			success = true;
 		}
 		catch (Exception ex)

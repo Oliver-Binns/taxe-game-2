@@ -283,4 +283,15 @@ public class Station extends MapObj{
 	public double getFaultRate(){
 		return 0.01;
 	}
+	/**
+	 * 
+	 * @param different station
+	 * @return true if station parameter is equal to station instance
+	 */
+	public boolean equals(Station station){
+		if(station.getName() == getName()){
+			return true;
+		}
+		return false;
+	}
 }

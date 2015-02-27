@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
-
+/**
+ * 
+ * @author Oliver Binns <ob601@york.ac.uk>
+ *
+ */
 public class Turn {
 	private int turnCount;
 	private Player[] players;

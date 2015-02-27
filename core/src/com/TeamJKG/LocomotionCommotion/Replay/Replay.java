@@ -4,16 +4,32 @@ import java.util.ArrayList;
 
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
+import com.TeamHEC.LocomotionCommotion.Resource.Electric;
+import com.google.gson.*;
+
+/**
+ * 
+ * @author Oliver Binns <ob601@york.ac.uk>
+ *
+ */
 
 public class Replay {
 	private ArrayList<Turn> listOfTurns;
 	private Turn currentTurn;
-	
+	/**
+	 * creates an instance of the replay class, this handles the Replay functionality within the game.
+	 * @param turnCount
+	 * @param playerCount
+	 */
 	public Replay(int turnCount, int playerCount){
 		listOfTurns = new ArrayList<Turn>();
 		currentTurn = new Turn(turnCount, playerCount);
-		
 	}
+	/**
+	 * called at the start of a new turn, initialises a new turn objects
+	 * @param turnCount
+	 * @param playerCount
+	 */
 	public void newTurn(int turnCount, int playerCount){
 		currentTurn = new Turn(turnCount, playerCount);
 	}
@@ -40,9 +56,17 @@ public class Replay {
 	public void endTurn(Player[] listOfPlayers){
 		currentTurn.addPlayers(listOfPlayers);
 		listOfTurns.add(currentTurn);
+		addNewTurn();
 	}
-	
+	/**
+	 * TODO implement save game
+	 */
+	public void addNewTurn(){
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+		System.out.println(gson.toJson(currentTurn));
+	}
 	public void saveGame(){
+		
 		//lets use gson to convert to a json file because we're not Team HEC. #YOLO 
 	}
 }

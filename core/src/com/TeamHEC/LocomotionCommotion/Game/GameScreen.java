@@ -11,6 +11,7 @@ import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Map_Connection;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_PauseMenu;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
@@ -70,6 +71,9 @@ public class GameScreen implements Screen {
 		mapManager = new Game_Map_Manager();
 		mapManager.create(getStage());
 		
+		Game_Map_Connection connectionRender = new Game_Map_Connection();
+		connectionRender.create(getStage());
+		
 		Game_CardHand cardHand = new Game_CardHand();
 		cardHand.create(getStage());
 
@@ -114,15 +118,17 @@ public class GameScreen implements Screen {
 
 		getStage().act(Gdx.graphics.getDeltaTime());
 		
-		shapeRend.setAutoShapeType(true);
+		/*shapeRend.setAutoShapeType(true);
 		shapeRend.begin();
 		
+		MapObj point, endPoint;
+		
 		for(int i=0; i<WorldMap.getInstance().stationsList.size(); i++) {
-			MapObj point = WorldMap.getInstance().stationsList.get(i);
+			point = WorldMap.getInstance().stationsList.get(i);
 			
 			shapeRend.set(ShapeRenderer.ShapeType.Filled);
 			for(Connection line : point.connections) {
-				MapObj endPoint = line.getDestination();
+				endPoint = line.getDestination();
 				switch(line.getColour()) {
 				case Yellow:
 					shapeRend.setColor(1, 1, 0, 1);
@@ -169,10 +175,9 @@ public class GameScreen implements Screen {
 			}
 		}
 		
-		shapeRend.end();
+		shapeRend.end();*/
 		
 		getStage().draw();
-
 	}
 
 	@Override

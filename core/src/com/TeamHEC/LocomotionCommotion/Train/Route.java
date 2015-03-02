@@ -31,6 +31,14 @@ public class Route{
 	// Safe to remove while using:
 	private CopyOnWriteArrayList<RouteListener> listeners = new CopyOnWriteArrayList<RouteListener>();
 	
+	
+	public String toJSON(){
+		String json = "{";
+		//TODO may need implementing
+		json += "}";
+		return json;
+	}
+	
 	/**
 	 * Creates an arrayList of connections (a route) for tge train to eventually follow
 	 * @param startingPos the starting position of the route

@@ -42,10 +42,11 @@ public abstract class Train {
 		//Maybe we should save value? But it currently doesn't do anything afaik!
 		//Maybe we should store inStation? But it we can get that from route on reload?
 		if(hasObstacle()){
-			//json += "\"obstacle\": " + obstacle.toJSON() + ",";
+			json += "\"obstacle\": " + obstacle.toJSON() + ",";
 		}
-		//json += "\"route\": " + route.toJSON() + "";
 		
+		//Route saves the position of the train on the map! We need to know this! TODO implement route json!
+		json += "\"route\": " + route.toJSON() + "";
 		
 		json += "}";
 		return json;

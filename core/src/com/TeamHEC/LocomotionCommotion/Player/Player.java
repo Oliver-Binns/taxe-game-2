@@ -588,15 +588,18 @@ public class Player implements RouteListener{
 				json += ",";
 			}
 		}*/
-		json += "]";
+		//json += "]";
+		
+		json += ",\"Trains\":[";
 		for(int i = 0; i < trains.size(); i++){
 			json += trains.get(i).toJSON();
 			if((i+1) != trains.size()){
 				json += ",";
 			}
 		}
+		json += "]";
 		
-		json += ",\"Trains\":[";
+		json += ",\"Stations\":[";
 		for(int i = 0; i < stations.size(); i++){
 			json += stations.get(i).toJSON();
 			if((i+1) != stations.size()){

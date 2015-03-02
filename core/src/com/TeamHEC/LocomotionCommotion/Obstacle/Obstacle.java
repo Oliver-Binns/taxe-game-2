@@ -17,7 +17,7 @@ public class Obstacle {
 
     private boolean active   = false;
     private Train   train    = null;
-
+    
     // Instantiates a new obstacle
     public Obstacle(String name, String description, double speedFactor, int noTurns) {
         this.name = name;
@@ -26,7 +26,15 @@ public class Obstacle {
         this.totalTurns = noTurns;
     }
 
-    // Instantiates a new obstacle and applies it to a train
+    /** 
+     * Instantiates a new obstacle and applies it to a train
+     * 
+     * @param name
+     * @param description
+     * @param speedFactor
+     * @param noTurns
+     * @param target
+     */
     public Obstacle(String name, String description, double speedFactor, int noTurns, Train target) {
         this(name, description, speedFactor, noTurns);
         this.applyTo(target);
@@ -96,5 +104,15 @@ public class Obstacle {
         }
 
         this.train.setObstacle(null);
+    }
+    
+    public String toJSON(){
+    	String json = "{";
+    	json += "\"name\": \"" + name + "\",";
+    	json += "\"description\": \"" + name + "\",";
+    	json += "\"turnsElapsed\": " + turnsElapsed + ",";
+    	json += "\"totalTurns\": " + totalTurns;
+    	json += "}";
+    	return json;
     }
 }

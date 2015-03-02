@@ -48,9 +48,12 @@ public class Player implements RouteListener{
 
 	private HashMap<String, Fuel> playerFuel;
 
-
-
 	public boolean isPlayer1;
+	
+	public String toJSON(){
+		String json = "";
+		return json;
+	}
 
 	public Player(String name, int points, Gold gold, Coal coal, Electric electric, Nuclear nuclear, Oil oil, ArrayList<Card> cards, ArrayList<Goal> goals, ArrayList<Train> trains)
 	{

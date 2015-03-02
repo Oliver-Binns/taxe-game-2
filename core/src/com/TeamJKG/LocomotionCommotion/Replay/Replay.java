@@ -2,6 +2,9 @@ package com.TeamJKG.LocomotionCommotion.Replay;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.google.gson.*;
@@ -61,8 +64,10 @@ public class Replay {
 	 * TODO implement save game
 	 */
 	public void addNewTurn(){
-		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-		System.out.println(gson.toJson(currentTurn));
+		currentTurn.toJSON();
+		
+		
+		//System.out.println(gson.toJson(currentTurn));
 	}
 	public void saveGame(){
 		

@@ -14,7 +14,7 @@ public class Turn {
 	private Player[] players;
 	//will need a variable to store active lines
 	private ArrayList<String> faultyStations;
-
+	
 	/**
 	 * Creates an instance of the turn class. This is used in the replay functionality within the game
 	 * @param turnCount
@@ -63,4 +63,33 @@ public class Turn {
 		}
 	}
 	
+	/**
+	 * Recursively generates a JSON of the Turn instance and all its variables
+	 * @return JSON of the turn instance
+	 */
+	public String toJSON(){
+		String json = String.valueOf(turnCount) + " = {";
+		json += "players = [";
+		//recursively prints array of players
+		for(int i = 0; i < players.length; i++){
+			json += players[i].toJSON();
+			//adds if we are not at the last object in players array
+			if((i+1) < players.length){
+				json += ",";
+			}
+		}
+		json += "],";
+		
+		//prints array of stations
+		json += "faultyStations = [";
+		for(int i = 0; i < faultyStations.size(); i++){
+			json += faultyStations.get(i);
+			if((i+1) < faultyStations.size()){
+				json += ",";
+			}
+		}
+		
+		json += "]}";
+		return json;
+	}
 }

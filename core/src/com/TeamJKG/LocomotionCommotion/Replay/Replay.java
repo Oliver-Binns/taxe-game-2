@@ -65,7 +65,6 @@ public class Replay {
 		//System.out.println(gson.toJson(currentTurn));
 	}
 	public void saveGame(){
-		
-		//lets use gson to convert to a json file because we're not Team HEC. 
+		//Maybe HEC were right.. awks. #YOLO
 	}
 }

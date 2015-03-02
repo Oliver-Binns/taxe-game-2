@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.google.gson.annotations.SerializedName;
 
 public class Game_Map_MapObj extends Actor{
 	
@@ -19,9 +18,8 @@ public class Game_Map_MapObj extends Actor{
 	private boolean routeAvailable = false;
 	private Train routeTrain;
 	private Connection routeConnection;
-	
-	//Transient to prevent appearance in JSON save file
-	@SerializedName("offsetInh") public float offset = 0;
+
+	public float offset = 0;
 	
 	public Game_Map_MapObj(float x, float y, Texture texture, Texture toggleTexture2)
 	{

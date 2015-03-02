@@ -295,4 +295,12 @@ public class Station extends MapObj{
 		}
 		return false;
 	}
+	
+	/**
+	 * Recursively generates a JSON of the Station instance
+	 * @return JSON of the Station instance
+	 */
+	public String toJSON(){
+		return "\"" + getName() + "\"";
+	}
 }

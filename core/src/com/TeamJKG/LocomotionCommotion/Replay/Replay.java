@@ -66,6 +66,6 @@ public class Replay {
 	}
 	public void saveGame(){
 		
-		//lets use gson to convert to a json file because we're not Team HEC. #YOLO 
+		//lets use gson to convert to a json file because we're not Team HEC. 
 	}
 }

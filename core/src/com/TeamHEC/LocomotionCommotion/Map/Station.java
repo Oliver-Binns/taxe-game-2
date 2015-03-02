@@ -275,6 +275,7 @@ public class Station extends MapObj{
 	 */
 	public void fixFaulty(){
 		hasFault = false;
+		gameMapStation.updateButton(this, owner);
 	}
 	/**
 	 * @return fault rate for the station

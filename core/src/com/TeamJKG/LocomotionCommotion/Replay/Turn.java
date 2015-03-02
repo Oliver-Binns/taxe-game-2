@@ -68,8 +68,8 @@ public class Turn {
 	 * @return JSON of the turn instance
 	 */
 	public String toJSON(){
-		String json = String.valueOf(turnCount) + " = {";
-		json += "players = [";
+		String json = "\"" + String.valueOf(turnCount) + "\": {";
+		json += "\"players\": [";
 		//recursively prints array of players
 		for(int i = 0; i < players.length; i++){
 			json += players[i].toJSON();
@@ -81,9 +81,9 @@ public class Turn {
 		json += "],";
 		
 		//prints array of stations
-		json += "faultyStations = [";
+		json += "\"faultyStations\": [";
 		for(int i = 0; i < faultyStations.size(); i++){
-			json += faultyStations.get(i);
+			json += "\"" + faultyStations.get(i) + "\"";
 			if((i+1) < faultyStations.size()){
 				json += ",";
 			}

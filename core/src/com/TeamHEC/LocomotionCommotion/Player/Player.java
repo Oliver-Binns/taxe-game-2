@@ -51,7 +51,19 @@ public class Player implements RouteListener{
 	public boolean isPlayer1;
 	
 	public String toJSON(){
-		String json = "";
+		String json = "{";
+		json += "\"name\": \"" + name + "\"";
+		json += ",\"points\": " + String.valueOf(points);
+		json += ",\"Gold\": " + getGold();
+		json += ",\"Coal\": " + getFuel("Coal");
+		json += ",\"Electric\": " + getFuel("Electric");
+		json += ",\"Nuclear\": " + getFuel("Nuclear");
+		json += ",\"Oil\": " + getFuel("Oil");
+		
+		
+		
+		
+		json += "}";
 		return json;
 	}
 

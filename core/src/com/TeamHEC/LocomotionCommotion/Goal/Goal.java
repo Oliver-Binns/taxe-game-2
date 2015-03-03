@@ -35,6 +35,25 @@ public class Goal implements RouteListener{
 	
 	public static GoalActor goalActor;
 	
+	public String toJSON(){
+		String json = "{";
+		json += "\"sStation\":" + sStation.toJSON();
+		json += ",\"fStation\":" + fStation.toJSON();
+		json += ",\"timeConstraint\":" + String.valueOf(timeConstraint);
+		json += ",\"cargo\": \"" + cargo + "\"";
+		//TODO maybe add special if it's needed?
+		json += ",\"reward\":" + String.valueOf(reward);
+		json += ",\"startDate\": \"" + startDate + "\"";
+		//TODO implement trains? Would be nice, but not 100% necessary
+		json += ",\"startStationPassed\": " + String.valueOf(startStationPassed);
+		json += ",\"isAbsolute\": " + String.valueOf(isAbsolute);
+		json += ",\"finalStationPassed\": " + String.valueOf(finalStationPassed);
+		json += ",\"currentTime\": " + String.valueOf(currentTime);
+		json += ",\"currentGoalDuration\": " + String.valueOf(currentGoalDuration);
+		json += "}";
+		return json;
+	}
+	
 	/**
 	 * Initializes the goal.
 	 * @param startStation The Station the goal starts from

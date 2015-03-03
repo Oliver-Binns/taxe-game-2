@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.TeamHEC.LocomotionCommotion.Resource.*;
+import com.TeamJKG.LocomotionCommotion.Replay.Replay;
 
 /**
  * @author Matthew Taylor <mjkt500@york.ac.uk>
@@ -113,13 +114,14 @@ public class WorldMap {
 	/**
 	 * 
 	 */
-	public void generateFaults(){
+	public void generateFaults(Replay replay){
 		for(int i = 0; i < stationsList.size(); i++){
 			Random random = new Random();
 			int randInt = random.nextInt(100);
 			int faultRate = (int)(stationsList.get(i).getFaultRate() * 100);
 			if(randInt <= faultRate){
 				stationsList.get(i).makeFaulty();
+				replay.addFault(stationsList.get(i));
 			}
 		}
 	}

@@ -1,14 +1,11 @@
 package com.TeamHEC.LocomotionCommotion.Game;
 
-import java.io.File;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
-import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
@@ -163,17 +160,18 @@ public class CoreGame {
         else {
         	//adds players to replay at end of each turn
         	Player[] playerList = {player1, player2};
-        	replay.endTurn(playerList);
-        	//
         	
             playerTurn.lineBonuses();
             turnCount = (turnCount + 1);
             if (playerTurn == player1)
                 playerTurn = player2;
             else{
-            	gameMap.generateFaults();
+            	gameMap.generateFaults(replay);
                 playerTurn = player1;
             }
+            
+            replay.endTurn(playerList);
+            
             StartTurn();
         }
 

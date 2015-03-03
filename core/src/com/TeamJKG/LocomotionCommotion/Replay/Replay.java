@@ -1,6 +1,7 @@
 package com.TeamJKG.LocomotionCommotion.Replay;
 
 import java.util.ArrayList;
+
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 
@@ -13,6 +14,7 @@ import com.TeamHEC.LocomotionCommotion.Player.Player;
 public class Replay {
 	private ArrayList<Turn> listOfTurns;
 	private Turn currentTurn;
+	private ArrayList<String> faultyStations;
 	/**
 	 * creates an instance of the replay class, this handles the Replay functionality within the game.
 	 * @param turnCount
@@ -21,6 +23,7 @@ public class Replay {
 	public Replay(int turnCount, int playerCount){
 		listOfTurns = new ArrayList<Turn>();
 		currentTurn = new Turn(turnCount, playerCount);
+		faultyStations = new ArrayList<String>();
 	}
 	/**
 	 * called at the start of a new turn, initialises a new turn objects
@@ -32,18 +35,32 @@ public class Replay {
 	}
 	
 	/**
-	 * called in the generate faults method to save a list of faulty stations for that turn
-	 * @param faultyStation
+	 * 
+	 * @param a faulty station
+	 * adds a station to the faulty station array if it not already present
 	 */
-	public void addFault(Station faultyStation){
-		currentTurn.addFaultyStation(faultyStation);
+	public void addFault(Station station){
+		boolean isNotInArray = true;
+		for(int i = 0; i < faultyStations.size(); i++){
+			if(faultyStations.get(i) == station.getName()){
+				isNotInArray = false;
+			}
+		}
+		if(isNotInArray){
+			faultyStations.add(station.getName());
+		}
 	}
 	/**
 	 * called when a station is fixed to remove it from the list of faulty stations
 	 * @param fixedStation
 	 */
-	public void removeFault(Station fixedStation){
-		currentTurn.removeFaultyStation(fixedStation);
+	public void removeFault(Station station){
+		for(int i = 0; i < faultyStations.size(); i++){
+			if(faultyStations.get(i) == station.getName()){
+				faultyStations.remove(i);
+				break;
+			}
+		}
 	}
 	
 	/**
@@ -59,7 +76,7 @@ public class Replay {
 	 * TODO implement save game
 	 */
 	public void addNewTurn(){
-		System.out.println("{" + currentTurn.toJSON() + "}");
+		System.out.println("{" + currentTurn.toJSON(faultyStations) + "}");
 		
 		
 		//System.out.println(gson.toJson(currentTurn));

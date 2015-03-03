@@ -580,15 +580,14 @@ public class Player implements RouteListener{
 		
 		//TODO does shop need to be saved?!
 		
-		//TODO SAVE PLAYER GOALS! I'm not sure how these work!
-		/*json += ",\"Goals\":[";
+		json += ",\"Goals\":[";
 		for(int i = 0; i < goals.size(); i++){
 			json += goals.get(i).toJSON();
 			if((i+1) != goals.size()){
 				json += ",";
 			}
-		}*/
-		//json += "]";
+		}
+		json += "]";
 		
 		json += ",\"Trains\":[";
 		for(int i = 0; i < trains.size(); i++){

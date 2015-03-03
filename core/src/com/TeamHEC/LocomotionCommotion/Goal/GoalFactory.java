@@ -77,7 +77,7 @@ public class GoalFactory{
 		if(random.nextInt(2) == 0)
 			cargo = "Passenger"; //change this to add more cargo stations
 		else
-			cargo = "Cargo";
+			cargo = "Goods";
 		
 		if(random.nextInt(5) == 5) //random 1/5 choice of getting special goals
 			newgoal = new SpecialGoal(sStation ,fStation, 0, cargo, reward);		

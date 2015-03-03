@@ -579,6 +579,14 @@ public class Player implements RouteListener{
 		json += ",\"Oil\": " + getFuel("Oil");
 		
 		//TODO does shop need to be saved?!
+		json += ",\"Cards\":[";
+		for(int i = 0; i < cards.size(); i++){
+			json += cards.get(i).toJSON();
+			if((i+1) != cards.size()){
+				json += ",";
+			}
+		}
+		json += "]";
 		
 		json += ",\"Goals\":[";
 		for(int i = 0; i < goals.size(); i++){

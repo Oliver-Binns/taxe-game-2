@@ -28,6 +28,13 @@ public abstract class Card {
 		this.name = name;
 	}
 	
+	public String toJSON(){
+		String json = "{";
+		json += "\"name\": ";
+		json += "\"" + name + "\"";
+		return json;
+	}
+	
 	public Player getOwner()
 	{
 		return owner;

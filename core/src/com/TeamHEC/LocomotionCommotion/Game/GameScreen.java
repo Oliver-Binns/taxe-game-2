@@ -11,7 +11,6 @@ import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
-import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Map_Connection;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_PauseMenu;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
@@ -20,7 +19,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -44,7 +42,7 @@ import com.badlogic.gdx.utils.viewport.*;
  * create - explained above
  * render - updates the camera, lets the actors act and draws the screen
  * resize - updates the screen size when window is resized
- * show - just calls create.
+ * show - just calls create
  * dispose - disposes of the stage
  * getStage and setStage - getters and setters for stage
  * resetScreen- used when reentering the screen- it resets all the settings.
@@ -53,6 +51,7 @@ import com.badlogic.gdx.utils.viewport.*;
 public class GameScreen implements Screen {
 	public static CoreGame game;
 	private static Stage stage;
+	private static Stage mapStage;
 	public static SpriteBatch sb;
 	public static Game_Map_Manager mapManager;
 	private static ShapeRenderer shapeRend = new ShapeRenderer();
@@ -63,18 +62,21 @@ public class GameScreen implements Screen {
 	public static void create(){
 		//Set up stage camera
 		stage = new Stage(new FitViewport(1680, 1050)); 
+		mapStage = new Stage(new FitViewport(1680, 1050));
 		Camera camera = stage.getCamera();
-		camera.update();		
+		camera.update();
+		
+		Camera mapCamera = mapStage.getCamera();
+		mapCamera.update();
 		
 		//Instantiate the Managers
-		Gdx.input.setInputProcessor(getStage());	
+		Gdx.input.setInputProcessor(getStage());
+		Gdx.input.setInputProcessor(getMapStage());
+		mapStage.getActors().clear();
 		stage.getActors().clear();
 		
 		mapManager = new Game_Map_Manager();
-		mapManager.create(getStage());
-		
-		Game_Map_Connection connectionRender = new Game_Map_Connection();
-		connectionRender.create(getStage());
+		mapManager.create(getMapStage());
 		
 		Game_CardHand cardHand = new Game_CardHand();
 		cardHand.create(getStage());
@@ -114,9 +116,12 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		getStage().getCamera().update();
+		getMapStage().getCamera().update();
 
 		Gdx.gl.glClearColor(1,1,1,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+		
+		shapeRend.setProjectionMatrix(getMapStage().getCamera().combined);
 		
 		//Draw coloured track line between each station connection
 		shapeRend.begin(ShapeRenderer.ShapeType.Filled);
@@ -148,7 +153,7 @@ public class GameScreen implements Screen {
 					shapeRend.setColor(0.96f, 0.49f, 0, 1);
 					break;
 				}
-				shapeRend.rectLine((startPoint.x + 20) * scaleX, (startPoint.y + 20) * scaleY, (line.getDestination().x + 20) * scaleX, (line.getDestination().y + 20) * scaleY, 5 * (scaleX + scaleY)/2);
+				shapeRend.rectLine(startPoint.x + 20, startPoint.y + 20, line.getDestination().x + 20, line.getDestination().y + 20, 5);
 			}
 		}
 		
@@ -159,36 +164,40 @@ public class GameScreen implements Screen {
 			nameLabel.setAlignment(Align.center);
 			nameLabel.setVisible(true);
 			
-			stage.addActor(nameLabel);
+			mapStage.addActor(nameLabel);
 			
 			int nameWidth = startPoint.getName().length() * 20;
 			
 			//Draw outlines over stations and labels
 			shapeRend.setColor(0, 0, 0, 1);
-			shapeRend.rect((startPoint.x - nameWidth/2 + 17) * scaleX, (startPoint.y + 42) * scaleY, (nameWidth + 6) * scaleX, 46 * scaleY);
-			shapeRend.circle((startPoint.x + 20) * scaleX, (startPoint.y + 20) * scaleY, 13.0f * (scaleX + scaleY)/2);
+			shapeRend.rect(startPoint.x - nameWidth/2 + 17, startPoint.y + 42, nameWidth + 6, 46);
+			shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 13.0f);
 			
 			//Draw label and station placeholders/icons
 			shapeRend.setColor(1, 1, 1, 1);
-			shapeRend.rect((startPoint.x - nameWidth/2 + 20) * scaleX, (startPoint.y + 45) * scaleY, nameWidth * scaleX, 40 * scaleY);
-			shapeRend.circle((startPoint.x + 20) * scaleX, (startPoint.y + 20) * scaleY, 10.0f * (scaleX + scaleY)/2);
+			shapeRend.rect(startPoint.x - nameWidth/2 + 20, startPoint.y + 45, nameWidth, 40);
+			shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 10.0f);
 		}
 		
 		for(Junction junc : WorldMap.getInstance().junction) {
 			//Draw outlines over stations and labels
 			shapeRend.setColor(0, 0, 0, 1);
-			shapeRend.rect((junc.x + 7) * scaleX, (junc.y + 7) * scaleY, 26 * scaleX, 26 * scaleY);
+			shapeRend.rect(junc.x + 7, junc.y + 7, 26, 26);
 			
 			//Draw label and station placeholders/icons
 			shapeRend.setColor(1, 1, 1, 1);
-			shapeRend.rect((junc.x + 10) * scaleX, (junc.y + 10) * scaleY, 20 * scaleX, 20 * scaleY);
+			shapeRend.rect(junc.x + 10, junc.y + 10, 20, 20);
 		}
 		
 		shapeRend.end();
 		
+		getMapStage().act(Gdx.graphics.getDeltaTime());
 		getStage().act(Gdx.graphics.getDeltaTime());
 		
+		getMapStage().draw();
 		getStage().draw();
+		
+		getMapStage().getCamera().translate(1, 0, 0);
 	}
 
 	@Override
@@ -199,6 +208,7 @@ public class GameScreen implements Screen {
 		scaleY = (float) height/1050;
 		
 	    stage.getViewport().update(width, height, true);
+	    mapStage.getViewport().update(width, height, true);
 	}
 
 	@Override
@@ -230,11 +240,17 @@ public class GameScreen implements Screen {
 	@Override
 	public  void dispose() {
 		getStage().dispose();
+		getMapStage().dispose();
 		getStage().getActors().clear();
+		getMapStage().getActors().clear();
 	}
 
 	public static Stage getStage() {
 		return stage;
+	}
+	
+	public static Stage getMapStage() {
+		return mapStage;
 	}
 	
 	public static ShapeRenderer getRend() {

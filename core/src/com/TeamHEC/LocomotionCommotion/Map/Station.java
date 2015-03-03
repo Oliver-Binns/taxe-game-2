@@ -46,10 +46,6 @@ public class Station extends MapObj{
 	{
 		super(x, y, name);
 		
-		// Creates a map blip for this station
-		gameMapStation = new Game_Map_Station(this, x, y);
-		actor = gameMapStation;
-		
 		this.name = name;
 		this.owner = null;
 		this.baseValue = baseValue;
@@ -60,6 +56,10 @@ public class Station extends MapObj{
 		this.line = line;
 		this.rentValue = rentValue;
 		this.rentValueMod = 0;
+		
+		// Creates a map blip for this station
+		gameMapStation = new Game_Map_Station(this, x, y);
+		actor = gameMapStation;
 	}
 	
 	/**

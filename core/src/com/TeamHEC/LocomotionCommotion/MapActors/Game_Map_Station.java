@@ -1,14 +1,22 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
+import com.TeamHEC.LocomotionCommotion.Map.Connection;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.StationListener;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class Game_Map_Station extends Game_Map_MapObj implements StationListener {
 
 	public boolean owned;
 	private Station station;
+	private Label nameLabel;
+	//protected int nameWidth;
 
 	public float offset = 0;
 
@@ -17,6 +25,8 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 		super(actorX, actorY, Game_Map_TextureManager.getInstance().station, Game_Map_TextureManager.getInstance().stationx2);
 
 		this.station = station;
+		//this.nameWidth = this.station.getName().length() * 20;
+		nameLabel = new Label(station.getName(), GameScreenUI.getLabelStyle(30));
 		this.owned = false;
 		station.register(this);
 	}
@@ -25,6 +35,12 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 	{
 		return station;
 	}
+	
+	@Override
+	public Label getLabel() {
+		return nameLabel;
+	}
+	
 	/**
 	 * 
 	 * @param station the station that this is the button for

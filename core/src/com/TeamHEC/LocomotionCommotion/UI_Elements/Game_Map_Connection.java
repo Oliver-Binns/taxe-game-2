@@ -22,7 +22,6 @@ public class Game_Map_Connection extends Actor {
 	public boolean highlighted = false;
 	private ShapeRenderer shapeRend = new ShapeRenderer();
 	private MapObj startPoint, endPoint;
-	private Label nameLabel;
 	
 	public Game_Map_Connection() {	}
 	
@@ -30,6 +29,47 @@ public class Game_Map_Connection extends Actor {
 		
 	}
 	
-	
+	public void draw() {
+		shapeRend.setAutoShapeType(true);
+		shapeRend.begin();
+		
+		for(int i=0; i<WorldMap.getInstance().stationsList.size(); i++) {
+			startPoint = WorldMap.getInstance().stationsList.get(i);
+			
+			shapeRend.set(ShapeRenderer.ShapeType.Filled);
+			for(Connection line : startPoint.connections) {
+				endPoint = line.getDestination();
+				switch(line.getColour()) {
+				case Yellow:
+					shapeRend.setColor(1, 1, 0, 1);
+					break;
+				case Red:
+					shapeRend.setColor(1, 0, 0, 1);
+					break;
+				case Brown:
+					shapeRend.setColor(0.54f, 0.27f, 0.07f, 1);
+					break;
+				case Black:
+					shapeRend.setColor(0, 0, 0, 1);
+					break;
+				case Blue:
+					shapeRend.setColor(0, 0, 1, 1);
+					break;
+				case Purple:
+					shapeRend.setColor(0.5f, 0, 0.5f, 1);
+					break;
+				case Green:
+					shapeRend.setColor(0, 1, 0, 1);
+					break;
+				case Orange:
+					shapeRend.setColor(1, 0.64f, 0, 1);
+					break;
+				}
+				shapeRend.rectLine(startPoint.x + 20, startPoint.y + 20, endPoint.x + 20, endPoint.y + 20, 5);
+			}
+		}
+		
+		shapeRend.end();
+	}
 
 }

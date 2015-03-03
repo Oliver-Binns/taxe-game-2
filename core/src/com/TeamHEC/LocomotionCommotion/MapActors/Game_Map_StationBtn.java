@@ -20,7 +20,7 @@ public class Game_Map_StationBtn extends SpriteButton {
 
 	public Game_Map_StationBtn(float x, float y, Texture texture)
 	{
-		super(x, y, texture);	
+		super(x, y, texture);
 	}
 	
 	@Override

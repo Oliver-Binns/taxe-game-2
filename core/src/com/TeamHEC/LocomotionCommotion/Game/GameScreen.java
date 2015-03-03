@@ -5,7 +5,7 @@ import com.TeamHEC.LocomotionCommotion.Card.Game_CardHand;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalMenu;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
-import com.TeamHEC.LocomotionCommotion.Map.MapObj;
+import com.TeamHEC.LocomotionCommotion.Map.Junction;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
@@ -19,17 +19,19 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.viewport.*;
 /**
  * 
  * @author Robert Precious <rp825@york.ac.uk>
+ * @author Sam Watkins <sw1308@york.ac.uk>
+ * 
  * Game Screen is the Screen that handles everything in the game screen.
  * First we sort the Camera- create the stage, create the camera and set the dimensions and update
  * Then we create all the managers- these manage the actors and they are split up in to separate menu sections.
@@ -52,18 +54,18 @@ public class GameScreen implements Screen {
 	public static CoreGame game;
 	private static Stage stage;
 	public static SpriteBatch sb;
-	public OrthographicCamera camera;
 	public static Game_Map_Manager mapManager;
-	public static ShapeRenderer shapeRend = new ShapeRenderer();
+	private static ShapeRenderer shapeRend = new ShapeRenderer();
+	private float scaleX, scaleY;
 	/**
 	 * 
 	 */
 	public static void create(){
 		//Set up stage camera
-		stage = new Stage(new StretchViewport(1680, 1050)); 
+		stage = new Stage(new FitViewport(1680, 1050)); 
 		Camera camera = stage.getCamera();
-		camera.update();
-
+		camera.update();		
+		
 		//Instantiate the Managers
 		Gdx.input.setInputProcessor(getStage());	
 		stage.getActors().clear();
@@ -114,68 +116,77 @@ public class GameScreen implements Screen {
 		getStage().getCamera().update();
 
 		Gdx.gl.glClearColor(1,1,1,1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		getStage().act(Gdx.graphics.getDeltaTime());
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 		
-		/*shapeRend.setAutoShapeType(true);
-		shapeRend.begin();
-		
-		MapObj point, endPoint;
-		
-		for(int i=0; i<WorldMap.getInstance().stationsList.size(); i++) {
-			point = WorldMap.getInstance().stationsList.get(i);
-			
-			shapeRend.set(ShapeRenderer.ShapeType.Filled);
-			for(Connection line : point.connections) {
-				endPoint = line.getDestination();
+		//Draw coloured track line between each station connection
+		shapeRend.begin(ShapeRenderer.ShapeType.Filled);
+		for(Station startPoint : WorldMap.getInstance().stationsList) {
+			for(Connection line : startPoint.connections) {
 				switch(line.getColour()) {
 				case Yellow:
-					shapeRend.setColor(1, 1, 0, 1);
+					shapeRend.setColor(1, 0.76f, 0.03f, 1);
 					break;
 				case Red:
-					shapeRend.setColor(1, 0, 0, 1);
+					shapeRend.setColor(1, 0.34f, 0.13f, 1);
 					break;
 				case Brown:
-					shapeRend.setColor(0.54f, 0.27f, 0.07f, 1);
+					shapeRend.setColor(0.47f, 0.33f, 0.28f, 1);
 					break;
 				case Black:
 					shapeRend.setColor(0, 0, 0, 1);
 					break;
 				case Blue:
-					shapeRend.setColor(0, 0, 1, 1);
+					shapeRend.setColor(0, 0.74f, 0.83f, 1);
 					break;
 				case Purple:
-					shapeRend.setColor(0.5f, 0, 0.5f, 1);
+					shapeRend.setColor(0.61f, 0.15f, 0.69f, 1);
 					break;
 				case Green:
-					shapeRend.setColor(0, 1, 0, 1);
+					shapeRend.setColor(0.18f, 0.62f, 0.18f, 1);
 					break;
 				case Orange:
-					shapeRend.setColor(1, 0.64f, 0, 1);
+					shapeRend.setColor(0.96f, 0.49f, 0, 1);
 					break;
 				}
-				shapeRend.rectLine(point.x + 20, point.y + 20, endPoint.x + 20, endPoint.y + 20, 5);
-			}
-			
-			if(point instanceof Station) {
-				int nameWidth = point.getName().length() * 20;
-				
-				shapeRend.set(ShapeRenderer.ShapeType.Line);
-				shapeRend.setColor(0, 0, 0, 1);
-				shapeRend.rect(point.x - nameWidth/2 + 20, point.y + 45, nameWidth, 40);
-				
-				Label nameLabel = new Label(point.getName(), GameScreenUI.getLabelStyle(30));
-				
-				nameLabel.setX(point.x - nameWidth/2 + 20);
-				nameLabel.setY(point.y + 45);
-				nameLabel.setAlignment(1);
-				
-				stage.addActor(nameLabel);
+				shapeRend.rectLine((startPoint.x + 20) * scaleX, (startPoint.y + 20) * scaleY, (line.getDestination().x + 20) * scaleX, (line.getDestination().y + 20) * scaleY, 5 * (scaleX + scaleY)/2);
 			}
 		}
 		
-		shapeRend.end();*/
+		for(Station startPoint : WorldMap.getInstance().stationsList) {
+			Label nameLabel = startPoint.getActor().getLabel();
+			nameLabel.setX(startPoint.x - (startPoint.getName().length() * 10) + 20);
+			nameLabel.setY(startPoint.y + 45);
+			nameLabel.setAlignment(Align.center);
+			nameLabel.setVisible(true);
+			
+			stage.addActor(nameLabel);
+			
+			int nameWidth = startPoint.getName().length() * 20;
+			
+			//Draw outlines over stations and labels
+			shapeRend.setColor(0, 0, 0, 1);
+			shapeRend.rect((startPoint.x - nameWidth/2 + 17) * scaleX, (startPoint.y + 42) * scaleY, (nameWidth + 6) * scaleX, 46 * scaleY);
+			shapeRend.circle((startPoint.x + 20) * scaleX, (startPoint.y + 20) * scaleY, 13.0f * (scaleX + scaleY)/2);
+			
+			//Draw label and station placeholders/icons
+			shapeRend.setColor(1, 1, 1, 1);
+			shapeRend.rect((startPoint.x - nameWidth/2 + 20) * scaleX, (startPoint.y + 45) * scaleY, nameWidth * scaleX, 40 * scaleY);
+			shapeRend.circle((startPoint.x + 20) * scaleX, (startPoint.y + 20) * scaleY, 10.0f * (scaleX + scaleY)/2);
+		}
+		
+		for(Junction junc : WorldMap.getInstance().junction) {
+			//Draw outlines over stations and labels
+			shapeRend.setColor(0, 0, 0, 1);
+			shapeRend.rect((junc.x + 7) * scaleX, (junc.y + 7) * scaleY, 26 * scaleX, 26 * scaleY);
+			
+			//Draw label and station placeholders/icons
+			shapeRend.setColor(1, 1, 1, 1);
+			shapeRend.rect((junc.x + 10) * scaleX, (junc.y + 10) * scaleY, 20 * scaleX, 20 * scaleY);
+		}
+		
+		shapeRend.end();
+		
+		getStage().act(Gdx.graphics.getDeltaTime());
 		
 		getStage().draw();
 	}
@@ -184,6 +195,9 @@ public class GameScreen implements Screen {
 	public void resize(int width, int height) {
 	    // use true here to center the camera
 	    // that's what you probably want in case of a UI
+		scaleX = (float) width/1680;
+		scaleY = (float) height/1050;
+		
 	    stage.getViewport().update(width, height, true);
 	}
 
@@ -222,10 +236,14 @@ public class GameScreen implements Screen {
 	public static Stage getStage() {
 		return stage;
 	}
+	
+	public static ShapeRenderer getRend() {
+		return shapeRend;
+	}
 
 	public static void setStage(Stage stage) {
 		GameScreen.stage = stage;
-		stage.setViewport(new StretchViewport(1680, 1050));
+		stage.setViewport(new FitViewport(1680, 1050));
 	}
 	/**
 	 * Reset Screen - Sets all the boolean to start values and clears actors and resets the map. 

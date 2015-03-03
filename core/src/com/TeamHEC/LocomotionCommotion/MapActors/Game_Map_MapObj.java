@@ -1,18 +1,24 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
+import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
+import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class Game_Map_MapObj extends Actor{
 	
 	public Texture texture, toggleTexture1, toggleTexture2;
 	public float actorX, actorY;
 	public boolean started = false, highlighted = false;
+	protected ShapeRenderer shapeRend = GameScreen.getRend();
 	
 	// Used for adjacent MapObjs in route:
 	private boolean routeAvailable = false;
@@ -54,6 +60,8 @@ public class Game_Map_MapObj extends Actor{
 	// Is overriden in Game_Map_Station
 	public void showInfoBox(){}
 	public void hideInfoBox(){}
+	public Label getLabel(){return null;}
+	public Station getStation(){return null;}
 	
 	public boolean routeAvailable()
 	{
@@ -106,6 +114,23 @@ public class Game_Map_MapObj extends Actor{
 	
 	@Override
 	public void draw(Batch batch, float alpha){
+		/*if(this instanceof Game_Map_Station) {
+			shapeRend.begin(ShapeRenderer.ShapeType.Filled);
+			
+			int nameWidth = getStation().getName().length() * 20;
+			
+			//Draw outlines over stations and labels
+			shapeRend.setColor(0, 0, 0, 1);
+			shapeRend.rect(getStation().x - nameWidth/2 + 17, getStation().y + 42, nameWidth + 6, 46);
+			shapeRend.circle(getStation().x + 20, getStation().y + 20, 13.0f);
+			
+			//Draw label and station placeholders/icons
+			shapeRend.setColor(1, 1, 1, 1);
+			shapeRend.rect(getStation().x - nameWidth/2 + 20, getStation().y + 45, nameWidth, 40);
+			shapeRend.circle(getStation().x + 20, getStation().y + 20, 10.0f);
+			
+			shapeRend.end();
+		}*/
 		batch.draw(this.texture, actorX + offset, actorY + offset);
 	}
 }

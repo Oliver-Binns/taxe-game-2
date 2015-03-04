@@ -16,6 +16,8 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
@@ -55,7 +57,6 @@ public class GameScreen implements Screen {
 	public static SpriteBatch sb;
 	public static Game_Map_Manager mapManager;
 	private static ShapeRenderer shapeRend = new ShapeRenderer();
-	private float scaleX, scaleY;
 	/**
 	 * 
 	 */
@@ -70,8 +71,14 @@ public class GameScreen implements Screen {
 		mapCamera.update();
 		
 		//Instantiate the Managers
-		Gdx.input.setInputProcessor(getStage());
-		Gdx.input.setInputProcessor(getMapStage());
+		InputProcessor mapInput = new MapInputProcessor();
+		InputMultiplexer multiInput = new InputMultiplexer();
+		
+		multiInput.addProcessor(getStage());
+		multiInput.addProcessor(getMapStage());
+		multiInput.addProcessor(mapInput);
+		Gdx.input.setInputProcessor(multiInput);
+		
 		mapStage.getActors().clear();
 		stage.getActors().clear();
 		
@@ -196,16 +203,12 @@ public class GameScreen implements Screen {
 		
 		getMapStage().draw();
 		getStage().draw();
-		
-		getMapStage().getCamera().translate(1, 0, 0);
 	}
 
 	@Override
 	public void resize(int width, int height) {
 	    // use true here to center the camera
 	    // that's what you probably want in case of a UI
-		scaleX = (float) width/1680;
-		scaleY = (float) height/1050;
 		
 	    stage.getViewport().update(width, height, true);
 	    mapStage.getViewport().update(width, height, true);

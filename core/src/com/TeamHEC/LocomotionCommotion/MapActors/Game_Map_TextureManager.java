@@ -21,9 +21,9 @@ public class Game_Map_TextureManager{
 	//Map
 	//public CustomTexture map = new CustomTexture(Gdx.files.internal("gameScreen/game_map/map.png"));
 	public CustomTexture mapInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/mapinfo.png"));
-	public CustomTexture station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/station.png"));
-	public CustomTexture stationFaulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/station-broken.png"));
-	public CustomTexture stationx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/Stop.png"));
+	public CustomTexture station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction-trans.png"));
+	public CustomTexture stationFaulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction-trans.png"));
+	public CustomTexture stationx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2-trans.png"));
 	public CustomTexture stationx2Faulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/Stop-broken.png"));
 	
 	public CustomTexture stationInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationInfoframe.png"));
@@ -33,8 +33,8 @@ public class Game_Map_TextureManager{
 	public CustomTexture trainInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/trainInfo.png"));
 	public CustomTexture trainInfoPlanRoute = new CustomTexture(Gdx.files.internal("gameScreen/game_map/trainInfoPlanRoute.png"));
 	
-	public CustomTexture junction = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction.png"));
-	public CustomTexture junctionx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2.png"));
+	public CustomTexture junction = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction-trans.png"));
+	public CustomTexture junctionx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2-trans.png"));
 	
 	public CustomTexture p1Station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1station.png"));
 	public CustomTexture p1StationFaulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1station-broken.png"));

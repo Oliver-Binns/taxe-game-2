@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class Route{
 	
 	private ArrayList<Connection> path = new ArrayList<Connection>();
-
+	
 	// Progress through route ArrayList
 	private int routeIndex = 0;
 	private float connectionTravelled = 0;	
@@ -40,7 +40,7 @@ public class Route{
 	}
 	
 	/**
-	 * Creates an arrayList of connections (a route) for tge train to eventually follow
+	 * Creates an arrayList of connections (a route) for the train to eventually follow
 	 * @param startingPos the starting position of the route
 	 */
 	public Route(MapObj startingPos)

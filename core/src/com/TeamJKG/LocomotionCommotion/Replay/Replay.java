@@ -1,5 +1,7 @@
 package com.TeamJKG.LocomotionCommotion.Replay;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import com.TeamHEC.LocomotionCommotion.Map.Station;
@@ -15,12 +17,14 @@ public class Replay {
 	private ArrayList<Turn> listOfTurns;
 	private Turn currentTurn;
 	private ArrayList<String> faultyStations;
+	private String json;
 	/**
 	 * creates an instance of the replay class, this handles the Replay functionality within the game.
 	 * @param turnCount
 	 * @param playerCount
 	 */
 	public Replay(int turnCount, int playerCount){
+		json = "{";
 		listOfTurns = new ArrayList<Turn>();
 		currentTurn = new Turn(turnCount, playerCount);
 		faultyStations = new ArrayList<String>();
@@ -76,12 +80,22 @@ public class Replay {
 	 * TODO implement save game
 	 */
 	public void addNewTurn(){
-		System.out.println("{" + currentTurn.toJSON(faultyStations) + "}");
-		
+		json += currentTurn.toJSON(faultyStations) + ",";
 		
 		//System.out.println(gson.toJson(currentTurn));
 	}
 	public void saveGame(){
 		//Maybe HEC were right.. awks. #YOLO
+		json = json.substring(0, json.length()-1);
+		json += "}";
+		PrintWriter out;
+		try {
+			out = new PrintWriter(System.getProperty("user.home") + "/save.loco");
+			out.print(json);
+			out.close();
+		} catch (FileNotFoundException e) {
+			//File not found exception...
+			e.printStackTrace();
+		}
 	}
 }

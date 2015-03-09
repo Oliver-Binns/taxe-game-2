@@ -203,7 +203,6 @@ public class CoreGame {
      * Only call once one player has a higher score than another
 	 */
 	private void EndGame() {
-
         Player winner;
         
         if ( player1.getPoints() > player2.getPoints() ) {
@@ -223,6 +222,8 @@ public class CoreGame {
         }
 
         WarningMessage.fireWarningWindow("End of Game", "Congratulations to " + winner.getName() + " you have won!");
+
+		replay.saveGame();
 	}
 
 	/**

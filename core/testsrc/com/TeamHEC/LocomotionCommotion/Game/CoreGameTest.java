@@ -18,9 +18,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalFactory;
 import com.TeamHEC.LocomotionCommotion.Map.Line;
+import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
@@ -64,8 +66,8 @@ public class CoreGameTest {
 		
 		player1Name = "Alice";
 		player2Name = "Ben";
-		Player1Start = WorldMap.getInstance().ATHENS;
-		Player2Start = WorldMap.getInstance().BERLIN;	
+		Player1Start = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0];
+		Player2Start = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1];
 
 		turnLimit = 50;	
 
@@ -81,8 +83,8 @@ public class CoreGameTest {
 	
 	@After
 	public void tearDown() {
-		WorldMap.getInstance().ATHENS.setOwner(null);
-		WorldMap.getInstance().BERLIN.setOwner(null);
+		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].setOwner(null);
+		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].setOwner(null);
 	}
 	
 	//Private Accessors
@@ -219,7 +221,7 @@ public class CoreGameTest {
 
 	@Test
 	public void testGetGameMap() throws Exception {
-		assertTrue(tester.getGameMap() == (WorldMap) getField(tester, "gameMap"));
+		assertTrue(tester.getGameMap() == (MapInstance) getField(tester, "gameMap"));
 	}
 	
 	@Test

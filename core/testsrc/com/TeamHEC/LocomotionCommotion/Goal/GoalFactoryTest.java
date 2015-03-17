@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalFactory;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
@@ -119,9 +120,9 @@ public class GoalFactoryTest {
 	}
 	
 	private boolean checkExistence(String stationName) {
-		for(int i = 0; i < WorldMap.getInstance().stationsList.size(); i++)
+		for(int i = 0; i < WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList().length; i++)
 		{
-			if(WorldMap.getInstance().stationsList.get(i).getName() == stationName)
+			if(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[i].getName() == stationName)
 				return true;
 		}
 		

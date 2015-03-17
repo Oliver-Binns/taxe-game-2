@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
-import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -302,15 +302,19 @@ public class Route{
 	 * Can be used to reset a train when it collides with another or when a route is completely aborted.
 	 */
 	public void abortRoute()
-	{	
-		currentMapObj = path.get(routeIndex).getStartMapObj();
-		hideRouteBlips();
-		updateRouteText();
-		
-		while(removeConnection()){}
-		
-		routeIndex = 0;
-		connectionTravelled = 0;
+	{
+		if(!path.isEmpty()) {
+			currentMapObj = path.get(routeIndex).getStartMapObj();
+			hideRouteBlips();
+			updateRouteText();
+			
+			while(removeConnection()){}
+			
+			routeIndex = 0;
+			connectionTravelled = 0;
+		} else {
+			WarningMessage.fireWarningWindow("Warning!", "No route to abort.");
+		}
 	}
 	
 	/**
@@ -319,7 +323,7 @@ public class Route{
 	public void cancelRoute()
 	{
 		if(path.isEmpty())
-			Game_Map_Manager.exitRoutingMode();
+			GameScreenUI.exitRoutingMode();
 		
 		hideRouteBlips();
 				
@@ -334,9 +338,9 @@ public class Route{
 	 */
 	public void updateRouteText()
 	{
-		Game_Map_Manager.routeLength.setText(String.format("Route length: %.1f", getTotalLength()));
-		Game_Map_Manager.routeRemaining.setText(String.format("Route remaining: %.1f", getLengthRemaining()));
-		Game_Map_Manager.routeFuelCost.setText(String.format("Fuel cost (%s): %d", train.getFuelType(), train.getFuelRouteCost()));
+		GameScreenUI.routeLength.setText(String.format("Route length: %.1f", getTotalLength()));
+		GameScreenUI.routeRemaining.setText(String.format("Route remaining: %.1f", getLengthRemaining()));
+		GameScreenUI.routeFuelCost.setText(String.format("Fuel cost (%s): %d", train.getFuelType(), train.getFuelRouteCost()));
 	}
 	
 	/**

@@ -1,11 +1,13 @@
 package com.TeamHEC.LocomotionCommotion.Game;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Card.Game_CardHand;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalMenu;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
@@ -125,14 +127,13 @@ public class GameScreen implements Screen {
 		getStage().getCamera().update();
 		getMapStage().getCamera().update();
 
-		Gdx.gl.glClearColor(1,1,1,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 		
 		shapeRend.setProjectionMatrix(getMapStage().getCamera().combined);
 		
 		//Draw coloured track line between each station connection
 		shapeRend.begin(ShapeRenderer.ShapeType.Filled);
-		for(Station startPoint : WorldMap.getInstance().stationsList) {
+		for(MapObj startPoint : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).mapObjList()) {
 			for(Connection line : startPoint.connections) {
 				switch(line.getColour()) {
 				case Yellow:
@@ -164,7 +165,7 @@ public class GameScreen implements Screen {
 			}
 		}
 		
-		for(Station startPoint : WorldMap.getInstance().stationsList) {
+		for(Station startPoint : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()) {
 			Label nameLabel = startPoint.getActor().getLabel();
 			nameLabel.setX(startPoint.x - (startPoint.getName().length() * 10) + 20);
 			nameLabel.setY(startPoint.y + 45);
@@ -186,7 +187,7 @@ public class GameScreen implements Screen {
 			shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 10.0f);
 		}
 		
-		for(Junction junc : WorldMap.getInstance().junction) {
+		for(Junction junc : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()) {
 			//Draw outlines over stations and labels
 			shapeRend.setColor(0, 0, 0, 1);
 			shapeRend.rect(junc.x + 7, junc.y + 7, 26, 26);

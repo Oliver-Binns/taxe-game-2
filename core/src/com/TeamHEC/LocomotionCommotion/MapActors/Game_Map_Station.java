@@ -1,14 +1,10 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
-import com.TeamHEC.LocomotionCommotion.Map.Connection;
-import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.StationListener;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class Game_Map_Station extends Game_Map_MapObj implements StationListener {
@@ -125,7 +121,7 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 		if(!highlighted)
 		{	
 			highlighted = true;
-			if(!Game_Map_Manager.routingModeWindow.isVisible())
+			if(!GameScreenUI.routingModeWindow.isVisible())
 				showInfoBox();
 		}
 		else
@@ -140,11 +136,11 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 		
 		for(int i = Game_Map_Manager.stagestart;i <= Game_Map_Manager.stagestart + Game_Map_Manager.mapActors-1; i++)	
 		{ 	
-			if (i > GameScreen.getStage().getActors().size-1){
+			if (i > GameScreen.getMapStage().getActors().size-1){
 			}
 			else
 			{
-				GameScreen.getStage().getActors().get(i).setVisible(true);
+				GameScreen.getMapStage().getActors().get(i).setVisible(true);
 			}
 		}
 		// Sets the labels to info from each station:
@@ -159,11 +155,11 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 	public void hideInfoBox(){
 		for(int i=Game_Map_Manager.stagestart; i<=Game_Map_Manager.stagestart +Game_Map_Manager.mapActors-1;i++)	
 		{ 	
-			if (i > GameScreen.getStage().getActors().size-1){
+			if (i > GameScreen.getMapStage().getActors().size-1){
 			}
 			else
 			{
-				GameScreen.getStage().getActors().get(i).setVisible(false);
+				GameScreen.getMapStage().getActors().get(i).setVisible(false);
 			}
 		}		
 	}

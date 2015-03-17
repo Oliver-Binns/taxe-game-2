@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
-import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_TextureManager;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
 import com.badlogic.gdx.Gdx;
@@ -56,8 +56,7 @@ public class TrainInfoUI extends Sprite{
 				if(train != null)
 				if(GameScreen.game.getPlayerTurn() == train.getOwner())
 				{
-					Game_Map_Manager.enterRoutingMode();
-					Game_Map_Manager.planBackground.setVisible(true);
+					GameScreenUI.enterRoutingMode();
 					highlightAdjacent();
 					makeVisible(false);
 				}

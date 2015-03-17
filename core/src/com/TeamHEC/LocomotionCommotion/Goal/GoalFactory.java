@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.GoalGenerationAlgorithm;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Node;
+import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 
@@ -20,8 +22,8 @@ public class GoalFactory{
 	public final int MEDIUM = 5;
 	public final int HARD 	= 10;
 
-	private WorldMap map;                // creating world map 
-	private ArrayList<Station> stations;
+	private MapInstance map;                // creating world map 
+	private Station[] stations;
 	private Random random;
 	private int turnCount;
 	ArrayList<Station> stationsUsed = new ArrayList<Station>();
@@ -30,8 +32,8 @@ public class GoalFactory{
 	 * Initializes the GoalFactory
 	 */
 	public GoalFactory(int turnCount){   
-		map = WorldMap.getInstance(); 
-		stations = map.stationsList;  //get all the stations 
+		map = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP); 
+		stations = map.stationList();  //get all the stations 
 		random = new Random(); //initializes random, used throughout
 		this.turnCount = turnCount;
 	}	
@@ -44,7 +46,7 @@ public class GoalFactory{
 	 */
 	private int genReward(Station sStation, Station fStation){
 		Dijkstra d = new Dijkstra(); //implements dijkstra 
-		d.computePaths(d.lookUpNode(sStation)); //uses the loopup function to get instance of a
+		d.computePaths(d.lookUpNode(sStation)); //uses the lookup function to get instance of a
 												//station and compute paths 
 		double rew = d.lookUpNode(fStation).minDistance; // 
 		return (int) rew; //returns reward casted to integer 
@@ -55,7 +57,7 @@ public class GoalFactory{
 	 * @return A random station.
 	 */
 	private Station newStation(){ 
-		Station st = stations.get(random.nextInt(stations.size())); //get a random station
+		Station st = stations[random.nextInt(stations.length)]; //get a random station
 		return st;  
 	} 
 

@@ -4,13 +4,17 @@ package com.TeamHEC.LocomotionCommotion.Goal;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Node;
+import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
@@ -18,9 +22,9 @@ import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
 @RunWith(GdxTestRunner.class)
 public class DijkstraTest {
 
-	WorldMap wm = WorldMap.getInstance();
-	Station sstation = wm.AMSTERDAM;
-	Station fstation = wm.OSLO;  
+	MapInstance wm = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
+	Station sstation = wm.stationList()[0];
+	Station fstation = wm.stationList()[0];
 	Dijkstra d = new Dijkstra();
 	double rew;
 
@@ -39,7 +43,7 @@ public class DijkstraTest {
 	public void testDijkstra() {
 		
 		assertTrue(d.nodeList.length == 22);
-		assertTrue(Dijkstra.stations == wm.stationsList );
+		assertTrue(Dijkstra.stations == Arrays.asList(wm.stationList()));
 		
 	}
 
@@ -85,7 +89,7 @@ public class DijkstraTest {
 	public void testInitialiseGraph() {
 		d.initialiseGraph();
 		assertTrue(d.nodeList.length != 0 );  
-		assertTrue(d.nodeList.length == (wm.stationsList.size() + 2));
+		assertTrue(d.nodeList.length == (wm.stationList().length + 2));
 	}
 
 

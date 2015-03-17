@@ -87,11 +87,9 @@ public class Game_StartingSequence {
 
 		for(int i=GameScreenUI.getStageStart(); i<=GameScreenUI.getStageEnd();i++)	
 		{ 	
-			if (i > GameScreen.getStage().getActors().size-1)
-			{//This is just to avoid range errors
-			}
-			else
-				GameScreen.getStage().getActors().get(i).setVisible(true);
+			if (i > GameScreen.getStage().getActors().size-1) {
+				//This is just to avoid range errors
+			} else GameScreen.getStage().getActors().get(i).setVisible(true);
 		}
 
 		//Handle Text within Game
@@ -109,6 +107,7 @@ public class Game_StartingSequence {
 
 		GameScreenUI.game_card_togglebtn.setVisible(true);
 		GameScreenUI.cardQuant.setVisible(true);
+		GameScreenUI.exitRoutingMode();
 		PlayerGoals.changePlayer(GameScreen.game.getPlayerTurn());
 		fillGoalScreen();
 	}

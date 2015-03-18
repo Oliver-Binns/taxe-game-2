@@ -1,6 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.Map;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,6 +112,7 @@ public class WorldMap {
 			
 			if(created) {
 				System.out.println("Folder created. Populating with default map file.");
+				createDefaultFile();
 			} else {
 				System.out.println("Folder not created.");
 			}
@@ -120,8 +122,20 @@ public class WorldMap {
 		
 		String[] mapFiles = mapFolder.list();
 		for(String mapFile : mapFiles) {
-			mapList.put(mapFile, new MapInstance(GameData.GAME_FOLDER + "Maps" + System.getProperty("file.separator") + mapFile));
+			String mapName = mapFile.substring(0, mapFile.length()-5);
+			mapList.put(mapName, new MapInstance(GameData.GAME_FOLDER + "Maps" + System.getProperty("file.separator") + mapFile));
 		}
+	}
+	
+	private void createDefaultFile() {
+		try {
+			PrintWriter out = new PrintWriter(GameData.GAME_FOLDER + "Maps" + System.getProperty("file.separator") + "Map1.json");
+			out.println(GameData.DEFAULT_MAP_STRING);
+			out.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 //	/**

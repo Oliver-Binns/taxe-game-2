@@ -608,23 +608,35 @@ public class StartMenu extends Scene{
 			public void keyTyped (TextField textbox1, char key) {
 				if (key == '\n') textbox1.getOnscreenKeyboard().show(false);
 				player1name = textbox1.getText();
-			}};
+			}
+		};
 
-			textbox1.setTextFieldListener(player1);
+		textbox1.setTextFieldListener(player1);
 
-			textbox2 = new TextField("", skin);
-			textbox2.setX(480);
-			textbox2.setY(1150+350);
-			textbox2.setSize(430, 60);
-			textbox2.setMessageText("Player 2");
-			TextFieldListener player2 = new TextFieldListener() {
-				public void keyTyped (TextField textbox2, char key) {
-					if (key == '\n') textbox2.getOnscreenKeyboard().show(false);
-					player2name = textbox2.getText();
-				}};
-				textbox2.setTextFieldListener(player2);
+		textbox2 = new TextField("", skin);
+		textbox2.setX(480);
+		textbox2.setY(1150+350);
+		textbox2.setSize(430, 60);
+		textbox2.setMessageText("Player 2");
+		TextFieldListener player2 = new TextFieldListener() {
+			public void keyTyped (TextField textbox2, char key) {
+				if (key == '\n') textbox2.getOnscreenKeyboard().show(false);
+				player2name = textbox2.getText();
+			}
+		};
+		textbox2.setTextFieldListener(player2);
 
-				actors.add(textbox1);
-				actors.add(textbox2);
+		actors.add(textbox1);
+		actors.add(textbox2);
+		
+		//Default to Turn Timeout and 50 Turn Limit, auto-select Player 1's name box 
+		StartMenu.gameMode = "turntimeout";
+		turnTimeOutButton.setTexture(SM_TextureManager.getInstance().sm_newgame_TurnTimeOutBtn);
+		stationDomButton.setTexture(SM_TextureManager.getInstance().sm_newgame_StationDom_unselected_Btn);
+		
+		StartMenu.turnChoice = 50;
+		turn50Button.setTexture(SM_TextureManager.getInstance().sm_newgame_Turn50Btn);
+		turn100Button.setTexture(SM_TextureManager.getInstance().sm_newgame_Turn100_unselected_Btn);
+		turn150Button.setTexture(SM_TextureManager.getInstance().sm_newgame_Turn150_unselected_Btn);
 	}
 }

@@ -203,7 +203,7 @@ public class Game_Map_Manager {
 
 	public static void showInfoBox(){
 		
-		if(Game_Map_StationBtn.selectedStation.getStation().isFaulty()){
+		if(((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isFaulty()){
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
 		} else if(Game_StartingSequence.inProgress) {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);

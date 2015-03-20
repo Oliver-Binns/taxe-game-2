@@ -1,6 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.StationListener;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
@@ -26,7 +27,8 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 		station.register(this);
 	}
 
-	public Station getStation()
+	@Override
+	public MapObj getMapObj()
 	{
 		return station;
 	}

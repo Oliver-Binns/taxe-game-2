@@ -38,14 +38,14 @@ public class Game_Map_StationBtn extends SpriteButton {
 				if(Game_StartingSequence.player1)
 				{
 					// Sets texture (could be done via listener?)
-					if(selectedStation.getStation().isLocked()) {
+					if(selectedStation.getMapObj().isLocked()) {
 						WarningMessage.fireWarningWindow("Station Locked!", "Please choose a station that is not locked.");
 					} else {
 						selectedStation.texture = Game_Map_TextureManager.getInstance().p1Station;
 						selectedStation.setOwned(true);
 						Game_Map_Manager.hideInfoBox();
 						
-						tempP1Station = selectedStation.getStation();
+						tempP1Station = (Station) selectedStation.getMapObj();
 						
 						selectedStation.setTouchable(Touchable.disabled);
 						selectedP1 = selectedStation;
@@ -59,7 +59,7 @@ public class Game_Map_StationBtn extends SpriteButton {
 				}
 				else	
 				{
-					if(selectedStation.getStation().isLocked()) {
+					if(selectedStation.getMapObj().isLocked()) {
 						WarningMessage.fireWarningWindow("Station Locked!", "Please choose a station that is not locked.");
 					} else {
 						selectedStation.texture=Game_Map_TextureManager.getInstance().p2Station;
@@ -70,7 +70,7 @@ public class Game_Map_StationBtn extends SpriteButton {
 						
 						Game_StartingSequence.selectLabel.setVisible(false);
 						
-						GameScreen.createCoreGame(tempP1Station, selectedStation.getStation());
+						GameScreen.createCoreGame(tempP1Station, (Station) selectedStation.getMapObj());
 						Game_StartingSequence.startGame();
 						GameScreenUI.refreshResources();
 						Game_StartingSequence.inProgress = false;
@@ -84,15 +84,15 @@ public class Game_Map_StationBtn extends SpriteButton {
 						Game_StartingSequence.selectLabel.setX(950);
 					}
 				}
-			} else if(selectedStation.getStation().isFaulty()) {
-				GameScreen.game.getPlayerTurn().getShop().repairStation(selectedStation.getStation(), false);
+			} else if(((Station) selectedStation.getMapObj()).isFaulty()) {
+				GameScreen.game.getPlayerTurn().getShop().repairStation((Station) selectedStation.getMapObj(), false);
 				Game_Map_Manager.hideInfoBox();
-			} else if(selectedStation.getStation().isLocked()) {
-				GameScreen.game.getPlayerTurn().getShop().unlockStation(selectedStation.getStation(), false);
+			} else if(selectedStation.getMapObj().isLocked()) {
+				GameScreen.game.getPlayerTurn().getShop().unlockStation((Station) selectedStation.getMapObj(), false);
 				Game_Map_Manager.hideInfoBox();
 			}else {
 				//Buy Stations in game
-				GameScreen.game.getPlayerTurn().purchaseStation(selectedStation.getStation());
+				GameScreen.game.getPlayerTurn().purchaseStation((Station) selectedStation.getMapObj());
 				Game_Map_Manager.hideInfoBox();
 			}
 		}

@@ -2,7 +2,7 @@ package com.TeamHEC.LocomotionCommotion.MapActors;
 
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
-import com.TeamHEC.LocomotionCommotion.Map.Station;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -60,7 +60,7 @@ public class Game_Map_MapObj extends Actor{
 	public void showInfoBox(){}
 	public void hideInfoBox(){}
 	public Label getLabel(){return null;}
-	public Station getStation(){return null;}
+	public MapObj getMapObj(){return null;}
 	
 	public boolean routeAvailable()
 	{
@@ -91,8 +91,7 @@ public class Game_Map_MapObj extends Actor{
 	
 	protected void onClicked()
 	{
-		if(routeAvailable())
-		{
+		if(routeAvailable() && !getMapObj().isLocked()) {
 			getRouteTrain().route.addConnection(getRouteConnection());			
 		}
 	}

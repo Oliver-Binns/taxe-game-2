@@ -1,14 +1,16 @@
 package com.TeamHEC.LocomotionCommotion.Game;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class MapInputProcessor implements InputProcessor {
 	private int currentX, currentY;
-	private float scaleX, scaleY;
+	private float scaleX, scaleY, scaleZ;
 	
 	public MapInputProcessor() {
 		scaleX = 1680 / GameScreen.getMapStage().getViewport().getScreenWidth();
 		scaleY = 1050 / GameScreen.getMapStage().getViewport().getScreenHeight();
+		scaleZ = ((OrthographicCamera) GameScreen.getMapStage().getCamera()).zoom;
 		
 		currentX = (int) (GameScreen.getMapStage().getCamera().position.x * scaleX);
 		currentY = (int) (GameScreen.getMapStage().getCamera().position.y * scaleY);
@@ -53,8 +55,8 @@ public class MapInputProcessor implements InputProcessor {
 		currentX = screenX;
 		currentY = screenY;
 		
-		GameScreen.getMapStage().getCamera().position.x -= (dX * scaleX);
-		GameScreen.getMapStage().getCamera().position.y += (dY * scaleY);
+		GameScreen.getMapStage().getCamera().position.x -= (dX * scaleX * scaleZ);
+		GameScreen.getMapStage().getCamera().position.y += (dY * scaleY * scaleZ);
 		return false;
 	}
 
@@ -66,7 +68,15 @@ public class MapInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
+		((OrthographicCamera) GameScreen.getMapStage().getCamera()).zoom += ((float) amount)/10;
+		scaleZ += ((float) amount)/10;
+		if(scaleZ < 0.2f) {
+			((OrthographicCamera) GameScreen.getMapStage().getCamera()).zoom = 0.2f;
+			scaleZ = 0.2f;
+		} else if(scaleZ > 3.0f) { 
+			((OrthographicCamera) GameScreen.getMapStage().getCamera()).zoom = 3.0f;
+			scaleZ = 3.0f;
+		}
 		return false;
 	}
 

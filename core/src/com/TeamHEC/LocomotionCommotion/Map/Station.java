@@ -44,7 +44,11 @@ public class Station extends MapObj{
 	
 	public Station(String name, int baseValue, Resource resourceType, int baseFuelOut, Line[] line, int rentValue, float x, float y)
 	{
-		super(x, y, name);
+		this(name, baseValue, resourceType, baseFuelOut, line, rentValue, x, y, false);
+	}
+	
+	public Station(String name, int baseValue, Resource resourceType, int baseFuelOut, Line[] line, int rentValue, float x, float y, boolean locked) {
+		super(x, y, name, locked);
 		
 		this.name = name;
 		this.owner = null;

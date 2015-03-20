@@ -22,9 +22,13 @@ public class MapObj {
 	 */
 	public MapObj(float x, float y, String name)
 	{
+		this(x, y, name, false);
+	}
+	
+	public MapObj(float x, float y, String name, boolean locked) {
 		this.x = x;
 		this.y = y;
-		this.locked = false;
+		this.locked = locked;
 		this.name = name;
 	}
 	

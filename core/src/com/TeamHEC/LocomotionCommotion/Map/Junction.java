@@ -12,7 +12,11 @@ public class Junction extends MapObj {
 	 */
 	public Junction(float xPos, float yPos, String name)
 	{
-		super(xPos, yPos, name);
+		this(xPos, yPos, name, false);
+	}
+	
+	public Junction(float xPos, float yPos, String name, boolean locked) {
+		super(xPos, yPos, name, locked);
 		actor = new Game_Map_Junction(this, x, y);
 	}
 }

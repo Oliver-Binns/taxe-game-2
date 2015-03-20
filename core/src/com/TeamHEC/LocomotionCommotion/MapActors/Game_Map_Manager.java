@@ -2,6 +2,8 @@ package com.TeamHEC.LocomotionCommotion.MapActors;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
+import com.TeamHEC.LocomotionCommotion.Map.Junction;
+import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Train.TrainInfoUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
@@ -20,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
 /**
- * 
+ * @author Sam Watkins <sw1308@york.ac.uk>
  * @author Robert Precious/ Matthew Taylor <rp825@york.ac.uk>
  * Map Manager is used to 'manage' the map. It creates the map actors for the map. Handles routing UI and map/station information.
  */
@@ -69,16 +71,21 @@ public class Game_Map_Manager {
 		//actors.add(map);
 	
 		stationTracker = stage.getActors().size;
-		for(int i = 0; i < WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList().length; i++)
-		{
-			actors.add(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[i].getActor());
+		for(Station s : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()) {
+			actors.add(s.getActor());
 			numberOfStations++;
+			
+			Label nameLabel = s.getActor().getLabel();
+			nameLabel.setX(s.x - (s.getName().length() * 8) + 20);
+			nameLabel.setY(s.y + 45);
+			nameLabel.setAlignment(Align.center);
+			nameLabel.setVisible(true);
+			actors.add(nameLabel);
 		}
 
 		junctionTracker = stage.getActors().size;
-		for(int i = 0; i < WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList().length; i++)
-		{
-			actors.add(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[i].getActor());
+		for(Junction j : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()) {
+			actors.add(j.getActor());
 		}
 		
 		// Creates UI Train blips for 6 trains:

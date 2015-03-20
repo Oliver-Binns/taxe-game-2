@@ -112,24 +112,7 @@ public class Game_Map_MapObj extends Actor{
 	}
 	
 	@Override
-	public void draw(Batch batch, float alpha){
-		/*if(this instanceof Game_Map_Station) {
-			shapeRend.begin(ShapeRenderer.ShapeType.Filled);
-			
-			int nameWidth = getStation().getName().length() * 20;
-			
-			//Draw outlines over stations and labels
-			shapeRend.setColor(0, 0, 0, 1);
-			shapeRend.rect(getStation().x - nameWidth/2 + 17, getStation().y + 42, nameWidth + 6, 46);
-			shapeRend.circle(getStation().x + 20, getStation().y + 20, 13.0f);
-			
-			//Draw label and station placeholders/icons
-			shapeRend.setColor(1, 1, 1, 1);
-			shapeRend.rect(getStation().x - nameWidth/2 + 20, getStation().y + 45, nameWidth, 40);
-			shapeRend.circle(getStation().x + 20, getStation().y + 20, 10.0f);
-			
-			shapeRend.end();
-		}*/
+	public void draw(Batch batch, float alpha) {
 		batch.draw(this.texture, actorX + offset, actorY + offset);
 	}
 }

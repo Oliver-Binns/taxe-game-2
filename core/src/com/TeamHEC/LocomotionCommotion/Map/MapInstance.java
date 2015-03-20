@@ -86,9 +86,9 @@ public class MapInstance {
 				Long rent = (Long) jStation.get("Rent");
 				Long xPos = (Long) ((JSONArray) jStation.get("Location")).get(0);
 				Long yPos = (Long) ((JSONArray) jStation.get("Location")).get(1);
+				boolean locked = (Boolean) jStation.get("Locked");
 				
-				
-				stations.put(name, new Station(name, baseValue.intValue(), resource, baseFuelOut.intValue(), lines, rent.intValue(), xPos.floatValue(), yPos.floatValue()));
+				stations.put(name, new Station(name, baseValue.intValue(), resource, baseFuelOut.intValue(), lines, rent.intValue(), xPos.floatValue(), yPos.floatValue(), locked));
 			}
 			
 			for(int i=0; i<jJunctions.size(); i++) {
@@ -97,8 +97,9 @@ public class MapInstance {
 				Long xPos = (Long) ((JSONArray) jJunction.get("Location")).get(0);
 				Long yPos = (Long) ((JSONArray) jJunction.get("Location")).get(1);
 				String name = (String) jJunction.get("Name");
+				boolean locked = (Boolean) jJunction.get("Locked");
 				
-				junctions.put(name, new Junction(xPos.floatValue(), yPos.floatValue(), name));
+				junctions.put(name, new Junction(xPos.floatValue(), yPos.floatValue(), name, locked));
 			}
 			
 			for(int i=0; i<jConnections.size(); i++) {

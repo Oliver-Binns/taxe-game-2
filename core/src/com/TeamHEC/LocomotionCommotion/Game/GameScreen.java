@@ -26,8 +26,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.viewport.*;
 /**
  * 
@@ -64,8 +62,8 @@ public class GameScreen implements Screen {
 	 */
 	public static void create(){
 		//Set up stage camera
-		stage = new Stage(new FitViewport(1680, 1050)); 
-		mapStage = new Stage(new FitViewport(1680, 1050));
+		stage = new Stage(new FitViewport(GameData.RESOLUTION_WIDTH, GameData.RESOLUTION_HEIGHT));
+		mapStage = new Stage(new FitViewport(GameData.RESOLUTION_WIDTH, GameData.RESOLUTION_HEIGHT));
 		Camera camera = stage.getCamera();
 		camera.update();
 		
@@ -129,36 +127,45 @@ public class GameScreen implements Screen {
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 		
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA,  GL20.GL_ONE_MINUS_SRC_ALPHA);
 		shapeRend.setProjectionMatrix(getMapStage().getCamera().combined);
 		
 		//Draw coloured track line between each station connection
 		shapeRend.begin(ShapeRenderer.ShapeType.Filled);
 		for(MapObj startPoint : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).mapObjList()) {
+			float alpha = 1.0f;
+			
 			for(Connection line : startPoint.connections) {
+				//Make connections translucent if they lead to a locked object
+				if(startPoint.isLocked() || line.getDestination().isLocked()) {
+					alpha = 0.2f;
+				}
+				
 				switch(line.getColour()) {
 				case Yellow:
-					shapeRend.setColor(1, 0.76f, 0.03f, 1);
+					shapeRend.setColor(1, 0.76f, 0.03f, alpha);
 					break;
 				case Red:
-					shapeRend.setColor(1, 0.34f, 0.13f, 1);
+					shapeRend.setColor(1, 0.34f, 0.13f, alpha);
 					break;
 				case Brown:
-					shapeRend.setColor(0.47f, 0.33f, 0.28f, 1);
+					shapeRend.setColor(0.47f, 0.33f, 0.28f, alpha);
 					break;
 				case Black:
-					shapeRend.setColor(0, 0, 0, 1);
+					shapeRend.setColor(0, 0, 0, alpha);
 					break;
 				case Blue:
-					shapeRend.setColor(0, 0.74f, 0.83f, 1);
+					shapeRend.setColor(0, 0.74f, 0.83f, alpha);
 					break;
 				case Purple:
-					shapeRend.setColor(0.61f, 0.15f, 0.69f, 1);
+					shapeRend.setColor(0.61f, 0.15f, 0.69f, alpha);
 					break;
 				case Green:
-					shapeRend.setColor(0.18f, 0.62f, 0.18f, 1);
+					shapeRend.setColor(0.18f, 0.62f, 0.18f, alpha);
 					break;
 				case Orange:
-					shapeRend.setColor(0.96f, 0.49f, 0, 1);
+					shapeRend.setColor(0.96f, 0.49f, 0, alpha);
 					break;
 				}
 				shapeRend.rectLine(startPoint.x + 20, startPoint.y + 20, line.getDestination().x + 20, line.getDestination().y + 20, 5);
@@ -166,38 +173,53 @@ public class GameScreen implements Screen {
 		}
 		
 		for(Station startPoint : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()) {
-			Label nameLabel = startPoint.getActor().getLabel();
-			nameLabel.setX(startPoint.x - (startPoint.getName().length() * 10) + 20);
-			nameLabel.setY(startPoint.y + 45);
-			nameLabel.setAlignment(Align.center);
-			nameLabel.setVisible(true);
+			int nameWidth = startPoint.getName().length() * 15 + 10;
+			float alpha = 1.0f;
 			
-			mapStage.addActor(nameLabel);
-			
-			int nameWidth = startPoint.getName().length() * 20;
+			//Make station translucent if they are locked
+			if(startPoint.isLocked()) {
+				alpha = 0.2f;
+			}
 			
 			//Draw outlines over stations and labels
-			shapeRend.setColor(0, 0, 0, 1);
+			shapeRend.setColor(0, 0, 0, alpha);
 			shapeRend.rect(startPoint.x - nameWidth/2 + 17, startPoint.y + 42, nameWidth + 6, 46);
-			shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 13.0f);
+			if(startPoint.getActor().highlighted) {
+				shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 16.0f);
+			} else {
+				shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 13.0f);
+			}
 			
 			//Draw label and station placeholders/icons
-			shapeRend.setColor(1, 1, 1, 1);
+			if(startPoint.isFaulty()) {
+				shapeRend.setColor(1, 0, 0, alpha);
+			} else {
+				shapeRend.setColor(1, 1, 1, alpha);
+			}
 			shapeRend.rect(startPoint.x - nameWidth/2 + 20, startPoint.y + 45, nameWidth, 40);
 			shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 10.0f);
 		}
 		
 		for(Junction junc : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()) {
-			//Draw outlines over stations and labels
-			shapeRend.setColor(0, 0, 0, 1);
+			float alpha = 1.0f;
+			
+			//Make junction translucent if they are locked
+			if(junc.isLocked()) {
+				alpha = 0.2f;
+			}
+			
+			//Draw outlines over junctions
+			shapeRend.setColor(0, 0, 0, alpha);
 			shapeRend.rect(junc.x + 7, junc.y + 7, 26, 26);
 			
-			//Draw label and station placeholders/icons
-			shapeRend.setColor(1, 1, 1, 1);
+			//Draw station icons
+			shapeRend.setColor(1, 1, 1, alpha);
 			shapeRend.rect(junc.x + 10, junc.y + 10, 20, 20);
 		}
 		
 		shapeRend.end();
+		
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 		
 		getMapStage().act(Gdx.graphics.getDeltaTime());
 		getStage().act(Gdx.graphics.getDeltaTime());

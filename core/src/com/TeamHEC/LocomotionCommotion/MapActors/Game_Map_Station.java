@@ -12,7 +12,6 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 	public boolean owned;
 	private Station station;
 	private Label nameLabel;
-	//protected int nameWidth;
 
 	public float offset = 0;
 

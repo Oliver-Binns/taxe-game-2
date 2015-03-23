@@ -1,5 +1,7 @@
 package com.TeamHEC.LocomotionCommotion;
 
+import java.io.File;
+
 import com.TeamHEC.LocomotionCommotion.Game.CoreGame;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Scene.SceneManager;
@@ -29,7 +31,7 @@ public class LocomotionCommotion extends Game {
 	private static LocomotionCommotion INSTANCE = new LocomotionCommotion();
 
 	public static LocomotionCommotion getInstance()
-	{
+	{		
 		return INSTANCE;
 	}
 
@@ -43,6 +45,25 @@ public class LocomotionCommotion extends Game {
 	public void create()
 	{
 		setScreen(SceneManager.getInstance().startScene);
+		
+		File gameFolder = new File(GameData.GAME_FOLDER);
+		boolean created = false;
+		
+		if(!gameFolder.exists()) {
+			try {
+				created = gameFolder.mkdirs();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			if(created) {
+				System.out.println("New game folder created in home directory.");
+			} else {
+				System.out.println("Game folder creation failed, please check your permissions.");
+			}
+		} else {
+			System.out.println("Game folder already exists in home directory.");
+		}
 	}
 
 	/**

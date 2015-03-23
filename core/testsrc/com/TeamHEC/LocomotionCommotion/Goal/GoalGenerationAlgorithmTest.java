@@ -75,8 +75,8 @@ public class GoalGenerationAlgorithmTest {
 			method.setAccessible(true);
 			for(Station s : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()){
 				list.add((Node) method.invoke(gga, s));
-				list.add((Node) method.invoke(gga, WorldMap.getInstance().junction[0]));
-				list.add((Node) method.invoke(gga, WorldMap.getInstance().junction[1]));
+				list.add((Node) method.invoke(gga, WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[0]));
+				list.add((Node) method.invoke(gga, WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[1]));
 			}
 		}catch(Exception e){
 			e.printStackTrace();

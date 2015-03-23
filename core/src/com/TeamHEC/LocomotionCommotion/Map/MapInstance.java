@@ -21,9 +21,14 @@ import com.TeamHEC.LocomotionCommotion.Resource.Resource;
  */
 
 public class MapInstance {
+	//HashMap of Station and Junction objects allowing easy reference to them elsewhere in the program.
 	private Map<String, Station> stations;
 	private Map<String, Junction> junctions;
 	
+	/**
+	 * Dynamically builds the map from a JSON file.
+	 * @param filepath provides the path to the JSON file representing the map
+	 */
 	public MapInstance(String filepath) {
 		stations = new HashMap<String, Station>();
 		junctions = new HashMap<String, Junction>();
@@ -32,10 +37,12 @@ public class MapInstance {
 		try {
 			JSONObject jMapObj = (JSONObject) jParser.parse(new FileReader(filepath));
 			
+			//Create a set of map features from the JSON file
 			JSONArray jStations = (JSONArray) jMapObj.get("Stations");
 			JSONArray jJunctions = (JSONArray) jMapObj.get("Junctions");
 			JSONArray jConnections = (JSONArray) jMapObj.get("Connections");
 			
+			//Instantiate all Station objects from the set of Station features
 			for(int i=0; i<jStations.size(); i++) {
 				JSONObject jStation = (JSONObject) jStations.get(i);
 				
@@ -91,6 +98,7 @@ public class MapInstance {
 				stations.put(name, new Station(name, baseValue.intValue(), resource, baseFuelOut.intValue(), lines, rent.intValue(), xPos.floatValue(), yPos.floatValue(), locked));
 			}
 			
+			//Initialise all Junction objects from the set of junction features
 			for(int i=0; i<jJunctions.size(); i++) {
 				JSONObject jJunction = (JSONObject) jJunctions.get(i);
 				
@@ -102,6 +110,7 @@ public class MapInstance {
 				junctions.put(name, new Junction(xPos.floatValue(), yPos.floatValue(), name, locked));
 			}
 			
+			//Create the appropriate connections between all MapObj
 			for(int i=0; i<jConnections.size(); i++) {
 				JSONObject jConnection = (JSONObject) jConnections.get(i);
 				
@@ -203,6 +212,10 @@ public class MapInstance {
 			mapObj.connections.add(new Connection(mapObj, connections[i], colours[i]));
 		}
 	}
+	
+	/**
+	 * Randomly cause faults within stations on the map
+	 */
 	public void generateFaults(){
 		for(String station : stations.keySet()){
 			Random random = new Random();

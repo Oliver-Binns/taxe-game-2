@@ -137,6 +137,8 @@ public class GameScreen implements Screen {
 			float alpha = 1.0f;
 			
 			for(Connection line : startPoint.connections) {
+				alpha = 1.0f;
+				
 				//Make connections translucent if they lead to a locked object
 				if(startPoint.isLocked() || line.getDestination().isLocked()) {
 					alpha = 0.2f;

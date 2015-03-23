@@ -153,7 +153,7 @@ public class GoalFactory{
 		int routhLength = path.size();
 		
 		for(Node n : path){
-			if(n.mapobj.getName() == WorldMap.getInstance().junction[0].getName() || n.mapobj.getName() == WorldMap.getInstance().junction[1].getName()){
+			if(n.mapobj.getName() == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[0].getName() || n.mapobj.getName() == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[1].getName()){
 				routhLength--;
 			}
 		}

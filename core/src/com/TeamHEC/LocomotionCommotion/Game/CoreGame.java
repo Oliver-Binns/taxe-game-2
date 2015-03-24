@@ -1,7 +1,5 @@
 package com.TeamHEC.LocomotionCommotion.Game;
 
-import java.io.File;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -10,7 +8,6 @@ import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
-import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
@@ -27,10 +24,12 @@ import com.TeamHEC.LocomotionCommotion.Train.OilTrain;
 import com.TeamHEC.LocomotionCommotion.Train.Route;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
+import com.TeamJKG.LocomotionCommotion.Replay.Replay;
 
 /**
  * 
  * @author Callum Hewitt <ch1194@york.ac.uk>
+ * @author Oliver Binns <ob601@york.ac.uk>
  * The core game object. Contains all information necessary for the backend of a single game.
  *
  */
@@ -38,6 +37,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 public class CoreGame {
 
 	// Privates
+	private Replay replay;
 	private MapInstance gameMap;
 	private Player player1;
 	private Player player2;
@@ -102,6 +102,7 @@ public class CoreGame {
 		gameMap = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
 		turnCount = 0;
 		this.turnLimit = turnLimit;
+		this.replay = new Replay(turnLimit, 2);
 
 		// Make decision on who goes first
 
@@ -109,7 +110,7 @@ public class CoreGame {
 			playerTurn = player2;
 		else
 			playerTurn = player1;
-		
+
 		// Start Game
 		StartTurn();
 	}
@@ -152,21 +153,27 @@ public class CoreGame {
      * It will increase the turn count and switch the player's turns.
 	 */
 	public void EndTurn() {
-
-        //Adds an extra turn if score is equal
+		//If turn limit is exceeded
+        //New move if draw, else end game
         if (turnCount >= turnLimit && player1.getPoints() != player2.getPoints()){
             EndGame();
         }
 
         else {
+        	//adds players to replay at end of each turn
+        	Player[] playerList = {player1, player2};
+        	
             playerTurn.lineBonuses();
             turnCount = (turnCount + 1);
             if (playerTurn == player1)
                 playerTurn = player2;
             else{
-            	gameMap.generateFaults();
+            	gameMap.generateFaults(replay);
                 playerTurn = player1;
             }
+            
+            replay.endTurn(playerList);
+            
             StartTurn();
         }
 
@@ -176,7 +183,11 @@ public class CoreGame {
 	 * Starts a players turn. It will check for the end game condition.
 	 */
 	public void StartTurn() {
-
+        replay.newTurn(turnCount, 2);
+        
+		Player[] listOfPlayers = {player1, player2};
+        replay.endTurn(listOfPlayers);
+        replay.newTurn(turnCount, 2);
         // Proceed with the turn:
         playerTurn.lineBonuses();
         playerTurn.stationRewards();
@@ -194,9 +205,8 @@ public class CoreGame {
      * Only call once one player has a higher score than another
 	 */
 	private void EndGame() {
-
         Player winner;
-
+        
         if ( player1.getPoints() > player2.getPoints() ) {
             player1.setAsWinner();
             player2.setAsLoser();
@@ -214,6 +224,8 @@ public class CoreGame {
         }
 
         WarningMessage.fireWarningWindow("End of Game", "Congratulations to " + winner.getName() + " you have won!");
+
+		replay.saveGame();
 	}
 
 	/**
@@ -264,157 +276,4 @@ public class CoreGame {
 	public Player getPlayerTurn() {
 		return playerTurn;
 	}
-
-	/**
-	 * Saves the game to a .json file in the user's home directory in a folder called LocomotionCommotion.
-	 * @param gameName The name of the .json file the game is saved to. (No extension).
-	 */
-	public void saveGameJSON(String gameName)
-	{
-		String finalJSON = "{";
-		//Save Players
-		finalJSON += "\"player1\": " + savePlayerJSON(player1) + ", ";
-		finalJSON += "\"player2\": " + savePlayerJSON(player2) + ", ";
-		
-		//Save Turn - whose turn, turn count, turnLimit
-		finalJSON += "\"playerTurn\": \"" + playerTurn.getName() + "\", ";
-		finalJSON += "\"turnCount\": " + turnCount + ", ";
-		finalJSON += "\"turnLimit\": " + turnLimit;
-		
-		finalJSON += "}";
-		//Write to file
-		try
-		{
-		File saveLocation = new File(System.getProperty("user.home")
-				+ System.getProperty("file.separator")
-				+ "LocomotionCommotion"
-				+ System.getProperty("file.separator") + gameName + ".json");
-		saveLocation.getParentFile().mkdirs();
-		saveLocation.createNewFile();
-		PrintWriter out = new PrintWriter(saveLocation);
-		out.println(finalJSON);
-		out.close();
-
-		}
-		catch (Exception ex)
-		{
-			ex.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Returns the player given represented as a JSON string. Called by saveGameJSON.
-	 * @param player The player to be represented in JSON.
-	 * @return A JSON string representing player.
-	 */
-	private String savePlayerJSON(Player player)
-	{
-		String playerJSON = "{";
-		//Save Player resources
-		playerJSON += "\"resources\" : {";
-		playerJSON += "\"gold\" : " 	+ player.getGold() + ",";
-		playerJSON += "\"coal\" : " 	+ player.getFuel("Coal") + ",";
-		playerJSON += "\"oil\" : " 		+ player.getFuel("Oil") + ",";
-		playerJSON += "\"electric\" : " + player.getFuel("Electric") + ",";
-		playerJSON += "\"nuclear\" : " 	+ player.getFuel("Nuclear");
-		playerJSON += "}, ";
-		
-		//Save Player cards
-		playerJSON += "\"cards\" : [";
-		for(int i = 0; i < player.getCards().size(); i++){
-			playerJSON += "{";
-			playerJSON += "\"cardType\" : \"" + player.getCards().get(i).getName() + "\"}";
-			if(i != player.getCards().size() - 1)
-				playerJSON += ", ";
-		}
-		playerJSON += "], ";		
-		
-		//Save Player trains
-		playerJSON += "\"trains\" : [";
-		for(int i = 0; i < player.getTrains().size(); i++){
-			playerJSON += "{";
-			playerJSON += "\"type\" : \"" + player.getTrains().get(i).getFuelType() + "\", ";
-			playerJSON += "\"inStation\" : " + player.getTrains().get(i).isInStation() + ", ";
-			playerJSON += "\"route\" : " + saveRouteJSON(player.getTrains().get(i).getRoute()) + ", ";
-			playerJSON += "\"speedMod\" : " + player.getTrains().get(i).getSpeedMod();
-			playerJSON += "}";
-			if(i != player.getTrains().size() - 1)
-				playerJSON += ", ";
-		}
-		playerJSON += "], ";
-		
-		//Save Player stations
-		playerJSON += "\"stations\" : [";
-		for(int i = 0; i < player.getStations().size(); i++){
-			playerJSON += "{";
-			playerJSON += "\"stationName\" : \"" + player.getStations().get(i).getName() + "\", ";
-			playerJSON += "\"rentValueMod\" : " + player.getStations().get(i).getRentValueMod() + ", ";
-			playerJSON += "\"resourceOutMod\" : " + player.getStations().get(i).getResourceOutMod() + ", ";
-			playerJSON += "\"valueMod\" : " + player.getStations().get(i).getValueMod();
-			playerJSON += "}";
-			if(i != player.getTrains().size() - 1)
-				playerJSON += ", ";
-		}
-		playerJSON += "],";
-		
-		//Save Player goals
-		playerJSON += "\"goals\" : [";
-		for(int i = 0; i < player.getGoals().size(); i++){
-			playerJSON += "{";
-			playerJSON += "\"SStation\" : \"" + player.getGoals().get(i).getSStation() + "\", ";
-			playerJSON += "\"FStation\" : \"" + player.getGoals().get(i).getFStation() + "\", ";
-			playerJSON += "\"stationVia\" : \"" + player.getGoals().get(i).getTimeConstraintString() + "\", ";
-			playerJSON += "\"special\" : " + player.getGoals().get(i).isSpecial() + ", ";
-			playerJSON += "\"reward\" : " + player.getGoals().get(i).getReward() + ", ";
-			playerJSON += "\"cargo\" : \"" + player.getGoals().get(i).getCargo() + "\"";
-			playerJSON += "}";
-			if(i != player.getGoals().size() - 1)
-				playerJSON += ", ";
-		}
-		playerJSON += "]";
-		
-		playerJSON += "}";		
-		return playerJSON;
-	}
-	
-	/**
-	 * Returns the route given represented as a JSON string. Called by savePlayerJSON.
-	 * @param route The route to be represented in JSON.
-	 * @return A JSON string representing the route.
-	 */
-	private String saveRouteJSON(Route route)
-	{
-		String routeJSON = "{";
-		routeJSON += "\"routeIndex\" : " + route.getRouteIndex() + ", ";
-		routeJSON += "\"connections\" : ["; 		
-		for(int i = 0; i < route.getRoute().size(); i++){
-			routeJSON += "{";
-			//Sets startMapObj and endMapObj. You will have to match these up to the relevant stations and junctions
-			//on the load. Or alter this section to write the name instead of the x,y coordinates.
-			routeJSON += "\"startMapObj\" : " + saveMapObjJSON(route.getRoute().get(i).getStartMapObj()) + ", ";
-			routeJSON += "\"endMapObj\" : " + saveMapObjJSON(route.getRoute().get(i).getDestination());
-			routeJSON += "}";
-			if(i != route.getRoute().size() - 1)
-				routeJSON += ", ";
-		}			
-		routeJSON += "],";
-		routeJSON += "\"connectionTravelled\" : " + route.getConnectionTravelled();
-		routeJSON += "}";
-		return routeJSON;
-	}
-	
-	/**
-	 * Returns the mapObj given represented as a JSON string. Called by saveRouteJSON.
-	 * @param mapObj The mapObj to be represented in JSON.
-	 * @return A JSON string representing the mapObj
-	 */
-	private String saveMapObjJSON(MapObj mapObj)
-	{
-		String mapObjJSON = "{";
-		mapObjJSON += "\"x\" : " + mapObj.x + ", ";
-		mapObjJSON += "\"y\" : " + mapObj.y;
-		mapObjJSON += "}";
-		return mapObjJSON;
-	}
-	
 }

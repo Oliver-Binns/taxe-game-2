@@ -19,7 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class Route{
 	
 	private ArrayList<Connection> path = new ArrayList<Connection>();
-
+	
 	// Progress through route ArrayList
 	private int routeIndex = 0;
 	private float connectionTravelled = 0;	
@@ -31,8 +31,26 @@ public class Route{
 	// Safe to remove while using:
 	private CopyOnWriteArrayList<RouteListener> listeners = new CopyOnWriteArrayList<RouteListener>();
 	
+	
+	public String toJSON(){
+		String json = "{\"connections\" : [";
+		//TODO may need implementing
+		for(int i = 0; i < path.size(); i++){
+			json += "{ \"start\" : ";
+			json += "\"" + path.get(i).getStartMapObj().getName() + "\",";
+			json += "\"end\" : ";
+			json += "\"" + path.get(i).getDestination().getName() + "\"";
+			json += "}";
+			if(i+1 != path.size()){
+				json += ",";
+			}
+		}
+		json += "]}";
+		return json;
+	}
+	
 	/**
-	 * Creates an arrayList of connections (a route) for tge train to eventually follow
+	 * Creates an arrayList of connections (a route) for the train to eventually follow
 	 * @param startingPos the starting position of the route
 	 */
 	public Route(MapObj startingPos)
@@ -302,19 +320,15 @@ public class Route{
 	 * Can be used to reset a train when it collides with another or when a route is completely aborted.
 	 */
 	public void abortRoute()
-	{
-		if(!path.isEmpty()) {
-			currentMapObj = path.get(routeIndex).getStartMapObj();
-			hideRouteBlips();
-			updateRouteText();
-			
-			while(removeConnection()){}
-			
-			routeIndex = 0;
-			connectionTravelled = 0;
-		} else {
-			WarningMessage.fireWarningWindow("Warning!", "No route to abort.");
-		}
+	{	
+		currentMapObj = path.get(routeIndex).getStartMapObj();
+		hideRouteBlips();
+		updateRouteText();
+		
+		while(removeConnection()){}
+		
+		routeIndex = 0;
+		connectionTravelled = 0;
 	}
 	
 	/**

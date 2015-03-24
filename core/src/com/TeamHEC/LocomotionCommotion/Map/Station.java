@@ -279,6 +279,7 @@ public class Station extends MapObj{
 	 */
 	public void fixFaulty(){
 		hasFault = false;
+		gameMapStation.updateButton(this, owner);
 	}
 	/**
 	 * @return fault rate for the station
@@ -286,5 +287,24 @@ public class Station extends MapObj{
 	 */
 	public double getFaultRate(){
 		return 0.01;
+	}
+	/**
+	 * 
+	 * @param different station
+	 * @return true if station parameter is equal to station instance
+	 */
+	public boolean equals(Station station){
+		if(station.getName() == getName()){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Recursively generates a JSON of the Station instance
+	 * @return JSON of the Station instance
+	 */
+	public String toJSON(){
+		return "\"" + getName() + "\"";
 	}
 }

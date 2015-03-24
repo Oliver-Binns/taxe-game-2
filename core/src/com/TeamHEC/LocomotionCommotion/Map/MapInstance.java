@@ -15,6 +15,7 @@ import com.TeamHEC.LocomotionCommotion.Resource.Gold;
 import com.TeamHEC.LocomotionCommotion.Resource.Nuclear;
 import com.TeamHEC.LocomotionCommotion.Resource.Oil;
 import com.TeamHEC.LocomotionCommotion.Resource.Resource;
+import com.TeamJKG.LocomotionCommotion.Replay.Replay;
 
 /**
  * @author Sam Watkins <sw1308@york.ac.uk>
@@ -216,13 +217,14 @@ public class MapInstance {
 	/**
 	 * Randomly cause faults within stations on the map
 	 */
-	public void generateFaults(){
-		for(String station : stations.keySet()){
+	public void generateFaults(Replay replay){
+		for(int i = 0; i < stationList().length; i++){
 			Random random = new Random();
 			int randInt = random.nextInt(100);
-			int faultRate = (int)(stations.get(station).getFaultRate() * 100);
+			int faultRate = (int)(stationList()[i].getFaultRate() * 100);
 			if(randInt <= faultRate){
-				stations.get(station).makeFaulty();
+				stationList()[i].makeFaulty();
+				replay.addFault(stationList()[i]);
 			}
 		}
 	}

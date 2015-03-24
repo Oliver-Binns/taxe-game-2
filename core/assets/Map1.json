@@ -18,11 +18,11 @@
 		{"Name" : "Rome", "BaseValue" : 900, "Resource" : [{"Type" : "Coal", "Amount" : 500}], "BaseFuelOut" : 100, "Lines" : ["Purple", "Green", "Green"], "Rent" : 50, "Location" : [861, 170], "Locked" : false}
 		{"Name" : "Stockholm", "BaseValue" : 900, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Blue", "Orange", "Orange"], "Rent" : 50, "Location" : [861, 820], "Locked" : false}
 		{"Name" : "Vienna", "BaseValue" : 850, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Brown", "Brown", "Brown"], "Rent" : 50, "Location" : [991, 300], "Locked" : false}
-		{"Name" : "Vilnius", "BaseValue" : 850, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Brown", "Brown", "Brown"], "Rent" : 50, "Location" : [1121, 690], "Locked" : false}
+		{"Name" : "Vilnius", "BaseValue" : 850, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Brown", "Brown", "Brown"], "Rent" : 50, "Location" : [1121, 690], "Locked" : true}
 		{"Name" : "Warsaw", "BaseValue" : 950, "Resource" : [{"Type" : "Coal", "Amount" : 500}], "BaseFuelOut" :100 , "Lines" : ["Red", "Orange", "Orange"], "Rent" : 50, "Location" : [861, 560], "Locked" : false}
 	],
 	"Junctions" : [
-		{"Location" : [731, 430], "Name" : "Junction1", "Locked" : false}
+		{"Location" : [731, 430], "Name" : "Junction1", "Locked" : true}
 		{"Location" : [991, 560], "Name" : "Junction2", "Locked" : false}
 	],
 	"Connections" : [

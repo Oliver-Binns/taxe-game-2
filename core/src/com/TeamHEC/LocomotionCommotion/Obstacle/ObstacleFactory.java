@@ -34,7 +34,7 @@ public class ObstacleFactory {
             "Something is wrong with this train.",
             "'I don't like the sound of the engine.'",
             "Kids on the tracks... Again.",
-            "That cow thinks to be train.",
+            "That cow thinks it's a train.",
             "That's a Junction fault.",
     };
 
@@ -86,6 +86,4 @@ public class ObstacleFactory {
         return new Obstacle(name, description, speedFactor, numberOfTurns);
 
     }
-
-
 }

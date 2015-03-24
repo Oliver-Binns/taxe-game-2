@@ -19,7 +19,7 @@ public abstract class Train {
 	private Fuel fuel;
 	public int fuelPerTurn;
 	
-	private int value; // Might need to change after updgrades
+	private int value; // Might need to change after upgrades
 	private boolean inStation;
 	private Player owner;
 
@@ -31,6 +31,26 @@ public abstract class Train {
 	private Game_Map_Train trainActor;
 	// An ArrayList of upgrades the train possesses
 	private ArrayList<TrainUpgrade> upgrades = new ArrayList<TrainUpgrade>();
+	
+	public String toJSON(){
+		String json = "{";
+		json += "\"name\": \"" + name + "\",";
+		json += "\"baseSpeed\": " + baseSpeed + ",";
+		json += "\"speedMod\": " + speedMod + ",";
+		json += "\"Fuel\": \"" + fuel.getType() + "\",";
+		json += "\"fuelPerTurn\": " + fuelPerTurn + ",";
+		//Maybe we should save value? But it currently doesn't do anything afaik!
+		//Maybe we should store inStation? But it we can get that from route on reload?
+		if(hasObstacle()){
+			json += "\"obstacle\": " + obstacle.toJSON() + ",";
+		}
+		
+		//Route saves the position of the train on the map! We need to know this! TODO implement route json!
+		json += "\"route\": " + route.toJSON() + "";
+		
+		json += "}";
+		return json;
+	}
 	
 	/**
 	 * The superclass of Train types, Creates a Train for player.

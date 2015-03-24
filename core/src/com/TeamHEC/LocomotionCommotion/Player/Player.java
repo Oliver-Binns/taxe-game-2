@@ -48,8 +48,6 @@ public class Player implements RouteListener{
 
 	private HashMap<String, Fuel> playerFuel;
 
-
-
 	public boolean isPlayer1;
 
 	public Player(String name, int points, Gold gold, Coal coal, Electric electric, Nuclear nuclear, Oil oil, ArrayList<Card> cards, ArrayList<Goal> goals, ArrayList<Train> trains)
@@ -565,4 +563,58 @@ public class Player implements RouteListener{
 	{
 		return trains;
 	}
+	
+	/**
+	 * Recursively generates a JSON of the Player instance and all its variables
+	 * @return JSON of the Player instance
+	 */
+	public String toJSON(){
+		String json = "{";
+		json += "\"name\": \"" + name + "\"";
+		json += ",\"points\": " + String.valueOf(points);
+		json += ",\"Gold\": " + getGold();
+		json += ",\"Coal\": " + getFuel("Coal");
+		json += ",\"Electric\": " + getFuel("Electric");
+		json += ",\"Nuclear\": " + getFuel("Nuclear");
+		json += ",\"Oil\": " + getFuel("Oil");
+		
+		//TODO does shop need to be saved?!
+		json += ",\"Cards\":[";
+		for(int i = 0; i < cards.size(); i++){
+			json += cards.get(i).toJSON();
+			if((i+1) != cards.size()){
+				json += ",";
+			}
+		}
+		json += "]";
+		
+		json += ",\"Goals\":[";
+		for(int i = 0; i < goals.size(); i++){
+			json += goals.get(i).toJSON();
+			if((i+1) != goals.size()){
+				json += ",";
+			}
+		}
+		json += "]";
+		
+		json += ",\"Trains\":[";
+		for(int i = 0; i < trains.size(); i++){
+			json += trains.get(i).toJSON();
+			if((i+1) != trains.size()){
+				json += ",";
+			}
+		}
+		json += "]";
+		
+		json += ",\"Stations\":[";
+		for(int i = 0; i < stations.size(); i++){
+			json += stations.get(i).toJSON();
+			if((i+1) != stations.size()){
+				json += ",";
+			}
+		}
+		json += "]}";
+		return json;
+	}
+	
 }

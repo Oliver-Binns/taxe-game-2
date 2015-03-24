@@ -54,7 +54,7 @@ public class WorldMap {
 		String[] mapFiles = mapFolder.list();
 		for(String mapFile : mapFiles) {
 			String mapName = mapFile.substring(0, mapFile.length()-5);
-			mapList.put(mapName, new MapInstance(GameData.MAP_FOLDER + System.getProperty("file.separator") + "Map1.json"));
+			mapList.put(mapName, new MapInstance(GameData.MAP_FOLDER + System.getProperty("file.separator") + mapFile));
 		}
 	}
 	

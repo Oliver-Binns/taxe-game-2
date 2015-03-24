@@ -212,7 +212,7 @@ public class Route{
 	}
 	
 	/**
-	 * Adds a new connection to the end of the route, if the player has enough fiel
+	 * Adds a new connection to the end of the route, if the player has enough fuel
 	 * Usually one of the connections return from getAdjacentConnections()
 	 * @param connection The connection to be added
 	 */

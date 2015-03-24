@@ -17,6 +17,6 @@ public class Junction extends MapObj {
 	
 	public Junction(float xPos, float yPos, String name, boolean locked) {
 		super(xPos, yPos, name, locked);
-		actor = new Game_Map_Junction(this, x, y);
+		actor = new Game_Map_Junction(this, x, y); // Creates a map blip for this junction
 	}
 }

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
@@ -50,7 +51,7 @@ public class TeleportCardTest {
 		
 		cardName = "Teleport";
 		cardTexture = Game_TextureManager.getInstance().game_card_teleportcard;	
-		player.getTrains().add(new CoalTrain(0, true, new Route(WorldMap.getInstance().AMSTERDAM), player));
+		player.getTrains().add(new CoalTrain(0, true, new Route(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0]), player));
 		card = new TeleportCard(player);
 	}
 
@@ -63,7 +64,7 @@ public class TeleportCardTest {
 		card.implementCard();
 		assertTrue("Train route index was not set correctly", player.getTrains().get(0).getRoute().getRouteIndex() == 0);
 		assertTrue("Train connection travelled was not set correctly", player.getTrains().get(0).getRoute().getConnectionTravelled() == 0);
-		assertTrue("Train currentMapObj was not set correctly", player.getTrains().get(0).getRoute().getStation() == WorldMap.getInstance().stationsList.get(0));
+		assertTrue("Train currentMapObj was not set correctly", player.getTrains().get(0).getRoute().getStation() == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0]);
 	}
 
 	@Test

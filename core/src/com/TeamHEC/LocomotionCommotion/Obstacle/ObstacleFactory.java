@@ -86,6 +86,4 @@ public class ObstacleFactory {
         return new Obstacle(name, description, speedFactor, numberOfTurns);
 
     }
-
-
 }

@@ -1,5 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.Goal;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
@@ -213,8 +214,8 @@ public class Goal implements RouteListener{
 				System.out.println("final passed");
 			}
 			
-			if(startStationPassed && !station.equals(WorldMap.getInstance().junction[0])
-					&& !station.equals(WorldMap.getInstance().junction[1])){
+			if(startStationPassed && !station.equals(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[0])
+					&& !station.equals(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[1])){
 				currentTime++;
 			}
 			
@@ -312,8 +313,4 @@ public class Goal implements RouteListener{
     public void setTimeConstraint(int timeConstraint) {
         this.timeConstraint = timeConstraint;
     }
-    //-------------------------
-
-
 }
-

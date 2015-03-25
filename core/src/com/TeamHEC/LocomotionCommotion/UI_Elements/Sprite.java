@@ -44,7 +44,7 @@ public class Sprite extends Actor{
 	}
 	
 	/**
-	 * Can be overridden as an annoymous class to be used like a thread
+	 * Can be overridden as an anonymous class to be used like a thread
 	 */
 	@Override
 	public void act(float delta)

@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
@@ -45,7 +46,7 @@ public class GoFasterStripesCardTest {
 				new ArrayList<Train>()
 				);		
 		
-		player.getTrains().add(new CoalTrain(0, true, new Route(WorldMap.getInstance().AMSTERDAM), player));
+		player.getTrains().add(new CoalTrain(0, true, new Route(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0]), player));
 
 		card = new GoFasterStripesCard(player);
 	}

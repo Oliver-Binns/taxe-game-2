@@ -8,11 +8,15 @@ import com.badlogic.gdx.utils.Array;
 
 /**
  * @author Matthew Taylor <mjkt500@york.ac.uk>
+ * @author Sam Watkins <sw1308@york.ac.uk>
  */
 public class Connection{
 	
 	private MapObj startMapObj, endMapObj;
 	private float length;
+	
+	private boolean locked;
+	private Line colour;
 	
 	private Vector2 vector;
 	
@@ -23,14 +27,18 @@ public class Connection{
 
 	/**
 	 * A connection between two adjacent MapObjs in the Map.
-	 * Defubes the distance between them (length0 and direction (vector) 
+	 * Defines the distance between them (length0 and direction (vector) 
 	 * @param startMapObj Where the connection begins
 	 * @param endMapObj Where the connection ends
+	 * @param colour The colour of the connection
 	 */
-	public Connection(MapObj startMapObj, MapObj endMapObj)
+	public Connection(MapObj startMapObj, MapObj endMapObj, Line colour)
 	{
 		this.startMapObj = startMapObj;
 		this.endMapObj = endMapObj;
+		
+		this.colour = colour;
+		this.locked = false;
 		
 		float dX =  endMapObj.x - startMapObj.x;
 		float dY =  endMapObj.y - startMapObj.y;
@@ -101,6 +109,11 @@ public class Connection{
 		connectionBlips.add(redRouteBlip);
 	}
 	
+	//Overloaded constructor for lines without a colour
+	public Connection(MapObj startMapObj, MapObj endMapObj) {
+		this(startMapObj, endMapObj, Line.Black);
+	}
+	
 	/**
 	 * @return the length between the start and end of a connection
 	 */
@@ -139,9 +152,30 @@ public class Connection{
 	{
 		return connectionBlips;
 	}
+	
+	/**
+	 * 
+	 * @return The colour of the connection
+	 */
+	public Line getColour() {
+		return this.colour;
+	}
+	
+	/**
+	 * 
+	 * @return Whether or not the connection is currently inaccessible
+	 */
+	public boolean isLocked() {
+		return this.locked;
+	}
+	
+	//Locks connection if the connection is unlocked, unlocks it otherwise
+	public void toggleLocked() {
+		this.locked = !(this.locked);
+	}
 	/**
 	 * @param connection to be compared
-	 * @returntrue if two connections are the same but reversed
+	 * @return true if two connections are the same but reversed
 	 */
 	public boolean isReverseOf(Connection connection)
 	{

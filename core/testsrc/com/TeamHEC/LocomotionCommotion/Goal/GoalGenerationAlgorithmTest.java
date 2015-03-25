@@ -4,14 +4,17 @@ import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.GoalGenerationAlgorithm;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Node;
+import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
@@ -23,7 +26,7 @@ import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
  */
 @RunWith(GdxTestRunner.class)
 public class GoalGenerationAlgorithmTest {
-	WorldMap map = WorldMap.getInstance();
+	MapInstance map = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
 	private int pathLength;
 	public static ArrayList<Station> stations;
 	public Node[] nodeList;
@@ -32,7 +35,7 @@ public class GoalGenerationAlgorithmTest {
 	@Before
 	public void setUp() throws Exception {
 		this.pathLength = 5;
-		stations = map.stationsList; 
+		stations = new ArrayList<Station>(Arrays.asList(map.stationList())); 
 		 gga = new GoalGenerationAlgorithm(pathLength);
 	}
 
@@ -43,7 +46,7 @@ public class GoalGenerationAlgorithmTest {
 	@Test
 	public void testGoalGenerationAlgorithm(){
 		assertTrue(gga.nodeList.length == 22);
-		assertTrue(stations == map.stationsList );
+		assertTrue(stations == Arrays.asList(map.stationList()));
 	}
 	
 	@Test
@@ -59,7 +62,7 @@ public class GoalGenerationAlgorithmTest {
 		}
 		
 		assertTrue(gga.nodeList.length != 0 );  
-		assertTrue(gga.nodeList.length == (map.stationsList.size() + 2));
+		assertTrue(gga.nodeList.length == (map.stationList().length + 2));
 	}
 	
 	@Test
@@ -70,10 +73,10 @@ public class GoalGenerationAlgorithmTest {
 		try{
 			Method method = gga.getClass().getDeclaredMethod("lookUpNode", new Class[]{MapObj.class});
 			method.setAccessible(true);
-			for(Station s : WorldMap.getInstance().stationsList){
+			for(Station s : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()){
 				list.add((Node) method.invoke(gga, s));
-				list.add((Node) method.invoke(gga, WorldMap.getInstance().junction[0]));
-				list.add((Node) method.invoke(gga, WorldMap.getInstance().junction[1]));
+				list.add((Node) method.invoke(gga, WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[0]));
+				list.add((Node) method.invoke(gga, WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[1]));
 			}
 		}catch(Exception e){
 			e.printStackTrace();

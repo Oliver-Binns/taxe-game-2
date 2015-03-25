@@ -1,24 +1,29 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
+import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class Game_Map_MapObj extends Actor{
 	
 	public Texture texture, toggleTexture1, toggleTexture2;
 	public float actorX, actorY;
 	public boolean started = false, highlighted = false;
+	protected ShapeRenderer shapeRend = GameScreen.getRend();
 	
 	// Used for adjacent MapObjs in route:
 	private boolean routeAvailable = false;
 	private Train routeTrain;
 	private Connection routeConnection;
-
+	
 	public float offset = 0;
 	
 	public Game_Map_MapObj(float x, float y, Texture texture, Texture toggleTexture2)
@@ -54,6 +59,8 @@ public class Game_Map_MapObj extends Actor{
 	// Is overriden in Game_Map_Station
 	public void showInfoBox(){}
 	public void hideInfoBox(){}
+	public Label getLabel(){return null;}
+	public MapObj getMapObj(){return null;}
 	
 	public boolean routeAvailable()
 	{
@@ -84,8 +91,7 @@ public class Game_Map_MapObj extends Actor{
 	
 	protected void onClicked()
 	{
-		if(routeAvailable())
-		{
+		if(routeAvailable() && !getMapObj().isLocked()) {
 			getRouteTrain().route.addConnection(getRouteConnection());			
 		}
 	}
@@ -105,7 +111,7 @@ public class Game_Map_MapObj extends Actor{
 	}
 	
 	@Override
-	public void draw(Batch batch, float alpha){
+	public void draw(Batch batch, float alpha) {
 		batch.draw(this.texture, actorX + offset, actorY + offset);
 	}
 }

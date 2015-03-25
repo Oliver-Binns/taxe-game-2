@@ -1,0 +1,52 @@
+{
+	"Stations" : [
+		{"Name" : "Amsterdam", "BaseValue" : 850, "Resource" : [{"Type" : "Electric", "Amount" : 500}], "BaseFuelOut" : 50, "Lines" : ["Orange", "Orange", "Orange"], "Rent" : 50, "Location" : [615, 560], "Locked" : false}
+		{"Name" : "Athens", "BaseValue" : 850, "Resource" : [{"Type" : "Coal", "Amount" : 500}], "BaseFuelOut" : 100, "Lines" : ["Brown", "Green", "Green"], "Rent" : 50, "Location" : [1121, 170], "Locked" : false}
+		{"Name" : "Berlin", "BaseValue" : 950, "Resource" : [{"Type" : "Nuclear", "Amount" : 500}], "BaseFuelOut" : 25, "Lines" : ["Purple", "Red", "Red"], "Rent" : 50, "Location" : [731, 560], "Locked" : false}
+		{"Name" : "Bern", "BaseValue" : 950, "Resource" : [{"Type" : "Nuclear", "Amount" : 500}], "BaseFuelOut" : 25, "Lines" : ["Purple", "Orange", "Orange"], "Rent" : 50, "Location" : [731, 300], "Locked" : false}
+		{"Name" : "Dublin", "BaseValue" : 900, "Resource" : [{"Type" : "Coal", "Amount" : 500}], "BaseFuelOut" : 100, "Lines" : ["Orange", "Black", "Black"], "Rent" : 50, "Location" : [471, 560], "Locked" : false}
+		{"Name" : "Helsinki", "BaseValue" : 900, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Brown", "Blue", "Blue"], "Rent" : 50, "Location" : [1121, 820], "Locked" : false}
+		{"Name" : "Lisbon", "BaseValue" : 850, "Resource" : [{"Type" : "Electric", "Amount" : 500}], "BaseFuelOut" : 50, "Lines" : ["Yellow", "Green", "Green"], "Rent" : 50, "Location" : [341, 170], "Locked" : false}
+		{"Name" : "London", "BaseValue" : 850, "Resource" : [{"Type" : "Coal", "Amount" : 500}], "BaseFuelOut" : 100, "Lines" : ["Black", "Black", "Black"], "Rent" : 50, "Location" : [471, 430], "Locked" : false}
+		{"Name" : "Madrid", "BaseValue" : 900, "Resource" : [{"Type" : "Electric", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Yellow", "Orange", "Orange"], "Rent" : 50, "Location" : [471, 300], "Locked" : false}
+		{"Name" : "Monaco", "BaseValue" : 1500, "Resource" : [{"Type" : "Gold", "Amount" : 500}], "BaseFuelOut" : 150, "Lines" : ["Black", "Orange", "Orange"], "Rent" : 50, "Location" : [601, 300], "Locked" : false}
+		{"Name" : "Moscow", "BaseValue" : 850, "Resource" : [{"Type" : "Nuclear", "Amount" : 500}], "BaseFuelOut" : 25, "Lines" : ["Blue", "Orange", "Orange"], "Rent" : 50, "Location" : [1381, 560], "Locked" : false}
+		{"Name" : "Oslo", "BaseValue" : 900, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Purple", "Blue", "Blue"], "Rent" : 50, "Location" : [731, 820], "Locked" : false}
+		{"Name" : "Paris", "BaseValue" : 950, "Resource" : [{"Type" : "Electric", "Amount" : 500}], "BaseFuelOut" : 50, "Lines" : ["Yellow", "Black", "Black"], "Rent" : 50, "Location" : [601, 430], "Locked" : false}
+		{"Name" : "Prague", "BaseValue" : 1000, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Orange", "Yellow", "Brown"], "Rent" : 50, "Location" : [861, 430], "Locked" : false}
+		{"Name" : "Reykjavik", "BaseValue" : 850, "Resource" : [{"Type" : "Electric", "Amount" : 500}], "BaseFuelOut" : 50, "Lines" : ["Blue", "Black", "Black"], "Rent" : 50, "Location" : [211, 820], "Locked" : false}
+		{"Name" : "Rome", "BaseValue" : 900, "Resource" : [{"Type" : "Coal", "Amount" : 500}], "BaseFuelOut" : 100, "Lines" : ["Purple", "Green", "Green"], "Rent" : 50, "Location" : [861, 170], "Locked" : false}
+		{"Name" : "Stockholm", "BaseValue" : 900, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Blue", "Orange", "Orange"], "Rent" : 50, "Location" : [861, 820], "Locked" : false}
+		{"Name" : "Vienna", "BaseValue" : 850, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Brown", "Brown", "Brown"], "Rent" : 50, "Location" : [991, 300], "Locked" : false}
+		{"Name" : "Vilnius", "BaseValue" : 850, "Resource" : [{"Type" : "Oil", "Amount" : 500}], "BaseFuelOut" : 75, "Lines" : ["Brown", "Brown", "Brown"], "Rent" : 50, "Location" : [1121, 690], "Locked" : true}
+		{"Name" : "Warsaw", "BaseValue" : 950, "Resource" : [{"Type" : "Coal", "Amount" : 500}], "BaseFuelOut" :100 , "Lines" : ["Red", "Orange", "Orange"], "Rent" : 50, "Location" : [861, 560], "Locked" : false}
+	],
+	"Junctions" : [
+		{"Location" : [731, 430], "Name" : "Junction1", "Locked" : true}
+		{"Location" : [991, 560], "Name" : "Junction2", "Locked" : false}
+	],
+	"Connections" : [
+		{"StartPoint" : "Reykjavik", "EndPoints" : ["Oslo", "Dublin"], "Colours" : ["Blue", "Black"]}
+		{"StartPoint" : "Dublin", "EndPoints" : ["Reykjavik", "Amsterdam", "London"], "Colours" : ["Black", "Red", "Black"]}
+		{"StartPoint" : "London", "EndPoints" : ["Dublin", "Paris"], "Colours" : ["Black", "Black"]}
+		{"StartPoint" : "Paris", "EndPoints" : ["London", "Monaco", "Madrid", "Junction1"], "Colours" : ["Black", "Black", "Yellow", "Yellow"]}
+		{"StartPoint" : "Madrid", "EndPoints" : ["Paris", "Monaco", "Lisbon"], "Colours" : ["Yellow", "Orange", "Yellow"]}
+		{"StartPoint" : "Lisbon", "EndPoints" : ["Madrid", "Rome"], "Colours" : ["Yellow", "Green"]}
+		{"StartPoint" : "Amsterdam", "EndPoints" : ["Dublin", "Berlin"], "Colours" : ["Red", "Red"]}
+		{"StartPoint" : "Berlin", "EndPoints" : ["Amsterdam", "Oslo", "Warsaw", "Junction1"], "Colours" : ["Red", "Purple", "Red", "Purple"]}
+		{"StartPoint" : "Oslo", "EndPoints" : ["Stockholm", "Reykjavik", "Berlin"], "Colours" : ["Blue", "Blue", "Purple"]}
+		{"StartPoint" : "Warsaw", "EndPoints" : ["Berlin", "Stockholm", "Junction2", "Prague"], "Colours" : ["Red", "Orange", "Red", "Orange"]}
+		{"StartPoint" : "Stockholm", "EndPoints" : ["Oslo", "Warsaw", "Helsinki"], "Colours" : ["Blue", "Orange", "Blue"]}
+		{"StartPoint" : "Helsinki", "EndPoints" : ["Stockholm", "Vilnius", "Moscow"], "Colours" : ["Blue", "Brown", "Blue"]}
+		{"StartPoint" : "Moscow", "EndPoints" : ["Helsinki", "Junction2"], "Colours" : ["Blue", "Red"]}
+		{"StartPoint" : "Prague", "EndPoints" : ["Warsaw", "Junction1", "Junction2", "Bern", "Vienna"], "Colours" : ["Orange", "Yellow", "Brown", "Orange", "Brown"]}
+		{"StartPoint" : "Vienna", "EndPoints" : ["Prague", "Athens"], "Colours" : ["Brown", "Brown"]}
+		{"StartPoint" : "Rome", "EndPoints" : ["Lisbon", "Bern", "Athens"], "Colours" : ["Green", "Purple", "Green"]}
+		{"StartPoint" : "Monaco", "EndPoints" : ["Madrid", "Paris", "Bern"], "Colours" : ["Orange", "Black", "Orange"]}
+		{"StartPoint" : "Bern", "EndPoints" : ["Monaco", "Junction1", "Prague", "Rome"], "Colours" : ["Orange", "Purple", "Orange", "Purple"]}
+		{"StartPoint" : "Vilnius", "EndPoints" : ["Helsinki", "Junction2"], "Colours" : ["Brown", "Brown"]}
+		{"StartPoint" : "Junction2", "EndPoints" : ["Warsaw", "Vilnius", "Moscow", "Prague"], "Colours" : ["Red", "Brown", "Red", "Brown"]}
+		{"StartPoint" : "Junction1", "EndPoints" : ["Paris", "Berlin", "Prague", "Bern"], "Colours" : ["Yellow", "Purple", "Yellow", "Purple"]}
+		{"StartPoint" : "Athens", "EndPoints" : ["Rome", "Vienna"], "Colours" : ["Green", "Brown"]}
+	]
+}

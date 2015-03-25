@@ -12,6 +12,7 @@ import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop.Game_ShopManager;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
 /**
  * 
@@ -34,11 +36,27 @@ public class GameScreenUI {
 	//Upper UI Elements (On the top)
 	public static Label playerScore;
 	public static Sprite game_menuobject_topbar, game_menuobject_ticketenclosure;
-	public static SpriteButton game_menuobject_tickettoggle, game_menuobject_goalscreenbtn, game_menuobject_menubtn;
+	public static SpriteButton 
+		game_menuobject_tickettoggle, 
+		game_menuobject_goalscreenbtn, 
+		game_menuobject_menubtn;
+	
 	//Lower UI Elements (At the Bottom- not including resources)
-	public static Label currentPlayerName;
-	public static Sprite game_menuobject_cornerframe;
-	public static SpriteButton game_menuobject_infobutton,game_menuobject_shopbtn,game_menuobject_traindepotbtn, game_menuobject_endturnbutton;
+	public static Label 
+		currentPlayerName, 
+		routeLength, 
+		routeRemaining, 
+		routeFuelCost;
+	public static Sprite game_menuobject_cornerframe, routingModeWindow;
+	public static SpriteButton 
+		game_menuobject_infobutton, 
+		game_menuobject_shopbtn, 
+		game_menuobject_traindepotbtn, 
+		game_menuobject_endturnbutton, 
+		confirmRouteBtn, 
+		undoLastRouteButton, 
+		abortRouteBtn, 
+		cancelRouteBtn;
 
 	//Menu Actors start index and end index - used to toggle visibility
 	public static  int menuobjectsStageStart, menuobjectsStageEnd;
@@ -307,6 +325,52 @@ public class GameScreenUI {
 		};
         // Not yet implemented. Hidden.
 		// actors.add(game_menuobject_traindepotbtn);
+		
+		routingModeWindow = new Sprite(-20,65,Game_TextureManager.getInstance().routingModeWindow);
+		routingModeWindow.setVisible(false);
+		actors.add(routingModeWindow);
+		
+		confirmRouteBtn = new SpriteButton(20, 125, Game_TextureManager.getInstance().confirmroutingModebtn){
+			@Override
+			protected void onClicked(){
+				exitRoutingMode();
+			}
+		};
+		confirmRouteBtn.setVisible(false);
+		actors.add(confirmRouteBtn);
+		
+		undoLastRouteButton = new SpriteButton(130, 125, Game_TextureManager.getInstance().undoRouteBtn){
+			@Override
+			protected void onClicked()
+			{
+				if(Game_Map_Manager.trainInfo.train != null)
+					Game_Map_Manager.trainInfo.train.route.removeConnection();
+			}
+		};
+		undoLastRouteButton.setVisible(false);
+		actors.add(undoLastRouteButton);
+		
+		abortRouteBtn = new SpriteButton(130, 80, Game_TextureManager.getInstance().abortRouteBtn){
+			@Override
+			protected void onClicked()
+			{
+				if(Game_Map_Manager.trainInfo.train != null)
+					Game_Map_Manager.trainInfo.train.route.abortRoute();
+			}
+		};
+		abortRouteBtn.setVisible(false);
+		actors.add(abortRouteBtn);
+		
+		cancelRouteBtn = new SpriteButton(20, 80, Game_TextureManager.getInstance().cancelRouteBtn){
+			@Override
+			protected void onClicked()
+			{
+				if(Game_Map_Manager.trainInfo.train != null)
+					Game_Map_Manager.trainInfo.train.route.cancelRoute();;
+			}
+		};
+		cancelRouteBtn.setVisible(false);
+		actors.add(cancelRouteBtn);
 
 		//Access Goal Screen Button -- Top Left Corner
 		game_menuobject_goalscreenbtn = new SpriteButton(110, 1050- Game_TextureManager.getInstance().game_goals_goalscreenbtn.getHeight() -25,
@@ -363,6 +427,30 @@ public class GameScreenUI {
 		playerScore.setX(400);
 		playerScore.setY(1050- playerScore.getHeight() -45);
 		actors.add(playerScore);
+		
+		// Route Labels
+		style = getLabelStyle(23);
+		routeLength = new Label(null, style);
+		routeRemaining = new Label(null, style);
+		routeFuelCost =  new Label(null, style);
+		
+		routeLength.setText("Route length: 0");
+		routeRemaining.setText("Route remaining: 0");
+		routeFuelCost.setText("Fuel cost (): 0");
+		
+		routeLength.setPosition(10, 245, Align.center);
+		routeRemaining.setPosition(10, 215, Align.center);
+		routeFuelCost.setPosition(10, 185, Align.center);
+		
+		routeLength.setVisible(false);
+		routeRemaining.setVisible(false);
+		routeFuelCost.setVisible(false);
+		routeLength.setColor(Color.BLACK);
+		routeRemaining.setColor(Color.BLACK);
+		routeFuelCost.setColor(Color.BLACK);
+		actors.add(routeLength);
+		actors.add(routeRemaining);
+		actors.add(routeFuelCost);
 
 		//Player Name Label -- Bottom group Corner
 		currentPlayerName = new Label(null,style);
@@ -552,6 +640,77 @@ public class GameScreenUI {
 	public static int getStageEnd(){
 		return resourcesStageEnd; // This is the end of all the actors involved in GameScreen_ActorManager
 	}
+	
+	/**
+	 * enterRoutingMode() enters the player into routing mode.
+	 */
+	public static void enterRoutingMode()
+	{		
+		Game_Map_Manager.trainInfo.train.getRoute().showRouteBlips();
+				
+		// Allows you to click on stations that are covered by trains:
+		for(Train t : GameScreen.game.getPlayer1().getTrains())
+		{
+			t.getActor().setTouchable(Touchable.disabled);
+		}
+		for(Train t : GameScreen.game.getPlayer2().getTrains())
+		{
+			t.getActor().setTouchable(Touchable.disabled);
+		}
+		
+		GameScreenUI.game_menuobject_endturnbutton.setVisible(false);
+		
+		/*planBackground.setVisible(true);*/
+		routingModeWindow.setVisible(true);
+		confirmRouteBtn.setVisible(true);
+		undoLastRouteButton.setVisible(true);
+		abortRouteBtn.setVisible(true);
+		cancelRouteBtn.setVisible(true);
+		
+		routeLength.setVisible(true);
+		routeRemaining.setVisible(true);
+		routeFuelCost.setVisible(true);
+		undoLastRouteButton.setVisible(true);
+		
+		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+	}
+	
+	/**
+	 * exitRoutingMode() exits routing mode.
+	 */
+	public static void exitRoutingMode()
+	{
+		if(Game_Map_Manager.trainInfo.train != null) {
+			Game_Map_Manager.trainInfo.unhighlightAdjacent();
+			Game_Map_Manager.trainInfo.train.getRoute().hideRouteBlips();
+		}
+		
+		//Makes trains clickable again
+		for(Train t : GameScreen.game.getPlayer1().getTrains())
+		{
+			t.getActor().setTouchable(Touchable.enabled);
+		}
+		for(Train t : GameScreen.game.getPlayer2().getTrains())
+		{
+			t.getActor().setTouchable(Touchable.enabled);
+		}
+		
+		GameScreenUI.game_menuobject_endturnbutton.setVisible(true);
+		
+		/*planBackground.setVisible(false);*/
+		routingModeWindow.setVisible(false);
+		confirmRouteBtn.setVisible(false);
+		undoLastRouteButton.setVisible(false);
+		abortRouteBtn.setVisible(false);
+		cancelRouteBtn.setVisible(false);
+		
+		routeLength.setVisible(false);
+		routeRemaining.setVisible(false);
+		routeFuelCost.setVisible(false);
+		undoLastRouteButton.setVisible(false);
+		
+		Gdx.gl.glClearColor(1, 1, 1, 1);
+	}
 
 	/**
 	 * refreshResources() refreshes all resource quantities for the current player.
@@ -584,7 +743,7 @@ public class GameScreenUI {
 	 * @return returns full LabelStyle with fontsize passed
 	 */
 	public static LabelStyle  getLabelStyle(int fontsize){
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gillsans.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = fontsize;
 
@@ -593,6 +752,8 @@ public class GameScreenUI {
 		generator.dispose();
 		LabelStyle style = new LabelStyle();
 		style.font = font;
+		
+		style.fontColor = Color.BLACK;
 
 		return style;
 

@@ -35,7 +35,7 @@ public class Game_TextureManager {
 	public CustomTexture game_menuobject_infobutton = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/infobutton.png"));
 		
 	//Map
-	public CustomTexture map = new CustomTexture(Gdx.files.internal("gameScreen/game_map/map.png"));
+	//public CustomTexture map = new CustomTexture(Gdx.files.internal("gameScreen/game_map/map.png"));
 	public CustomTexture mapInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/mapinfo.png"));
 	
 	//Pause Menu

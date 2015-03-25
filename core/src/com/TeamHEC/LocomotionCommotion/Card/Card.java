@@ -57,5 +57,4 @@ public abstract class Card {
 	 * A method to be overridden in subclasses. This determines what happens when the card is used.
 	 */
 	public void implementCard(){}
-	
 }

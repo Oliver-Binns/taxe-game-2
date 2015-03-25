@@ -1,5 +1,8 @@
 package com.TeamHEC.LocomotionCommotion.Card;
 
+import java.util.Random;
+
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
@@ -7,7 +10,7 @@ import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_TextureManager;
 
 /**
- * 
+ * @author Sam Watkins <sw1308@york.ac.uk>
  * @author Matthew Taylor <mjkt500@york.ac.uk>
  * Teleports a train (currently to London should be changed and worked in with UI so it teleports to a specified location).
  */
@@ -30,11 +33,12 @@ public class TeleportCard extends Card{
 	 */
 	public void implementCard()
 	{
-		// Need a way to choose the train:
-		Train train = getOwner().getTrains().get(0);
+		Random rnd = new Random();
+		// Need a way to choose the train, currently selects one at random:
+		Train train = getOwner().getTrains().get(rnd.nextInt(getOwner().getTrains().size()));
 		
-		// Need a way to choose station:
-		MapObj chosenLocation = WorldMap.getInstance().stationsList.get(0);
+		// Need a way to choose station, currently selects one at random:
+		MapObj chosenLocation = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[rnd.nextInt(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList().length)];
 		
 		train.route.getRoute().clear();
 		train.route.setRouteIndex(0);

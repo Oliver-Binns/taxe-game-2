@@ -144,4 +144,15 @@ public class Shop {
 			}
 		}
 	}
+
+	public void unlockStation(Station station, boolean testCase) {
+		if(customer.getGold() >= 1000) {
+			station.toggleLocked();
+			customer.subGold(1000);
+		} else {
+			if(!testCase) {
+				WarningMessage.fireWarningWindow("SORRY", "You don't have enough gold!");
+			}
+		}
+	}
 }

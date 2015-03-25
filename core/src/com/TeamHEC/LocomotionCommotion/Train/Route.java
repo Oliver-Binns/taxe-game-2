@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
-import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -212,7 +212,7 @@ public class Route{
 	}
 	
 	/**
-	 * Adds a new connection to the end of the route, if the player has enough fiel
+	 * Adds a new connection to the end of the route, if the player has enough fuel
 	 * Usually one of the connections return from getAdjacentConnections()
 	 * @param connection The connection to be added
 	 */
@@ -337,7 +337,7 @@ public class Route{
 	public void cancelRoute()
 	{
 		if(path.isEmpty())
-			Game_Map_Manager.exitRoutingMode();
+			GameScreenUI.exitRoutingMode();
 		
 		hideRouteBlips();
 				
@@ -352,9 +352,9 @@ public class Route{
 	 */
 	public void updateRouteText()
 	{
-		Game_Map_Manager.routeLength.setText(String.format("Route length: %.1f", getTotalLength()));
-		Game_Map_Manager.routeRemaining.setText(String.format("Route remaining: %.1f", getLengthRemaining()));
-		Game_Map_Manager.routeFuelCost.setText(String.format("Fuel cost (%s): %d", train.getFuelType(), train.getFuelRouteCost()));
+		GameScreenUI.routeLength.setText(String.format("Route length: %.1f", getTotalLength()));
+		GameScreenUI.routeRemaining.setText(String.format("Route remaining: %.1f", getLengthRemaining()));
+		GameScreenUI.routeFuelCost.setText(String.format("Fuel cost (%s): %d", train.getFuelType(), train.getFuelRouteCost()));
 	}
 	
 	/**

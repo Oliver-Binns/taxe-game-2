@@ -44,11 +44,11 @@ public class Station extends MapObj{
 	
 	public Station(String name, int baseValue, Resource resourceType, int baseFuelOut, Line[] line, int rentValue, float x, float y)
 	{
-		super(x, y, name);
-		
-		// Creates a map blip for this station
-		gameMapStation = new Game_Map_Station(this, x, y);
-		actor = gameMapStation;
+		this(name, baseValue, resourceType, baseFuelOut, line, rentValue, x, y, false);
+	}
+	
+	public Station(String name, int baseValue, Resource resourceType, int baseFuelOut, Line[] line, int rentValue, float x, float y, boolean locked) {
+		super(x, y, name, locked);
 		
 		this.name = name;
 		this.owner = null;
@@ -60,6 +60,10 @@ public class Station extends MapObj{
 		this.line = line;
 		this.rentValue = rentValue;
 		this.rentValueMod = 0;
+		
+		// Creates a map blip for this station
+		gameMapStation = new Game_Map_Station(this, x, y);
+		actor = gameMapStation;
 	}
 	
 	/**

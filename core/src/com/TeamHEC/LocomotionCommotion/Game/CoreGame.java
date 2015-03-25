@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
+import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
@@ -36,7 +38,7 @@ public class CoreGame {
 
 	// Privates
 	private Replay replay;
-	private WorldMap gameMap;
+	private MapInstance gameMap;
 	private Player player1;
 	private Player player2;
 	private Player playerTurn;
@@ -97,7 +99,7 @@ public class CoreGame {
 
 		// Initialise Map and other Game Resources
 
-		gameMap = WorldMap.getInstance();
+		gameMap = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
 		turnCount = 0;
 		this.turnLimit = turnLimit;
 		this.replay = new Replay(turnLimit, 2);
@@ -251,7 +253,7 @@ public class CoreGame {
 		return dict;
 	}
 	
-	public WorldMap getGameMap() {
+	public MapInstance getGameMap() {
 		return gameMap;
 	}
 

@@ -1,9 +1,13 @@
 package com.TeamHEC.LocomotionCommotion.Goal.Graph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
+import com.TeamHEC.LocomotionCommotion.Map.Junction;
+import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
@@ -19,9 +23,10 @@ import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
  */
 public class GoalGenerationAlgorithm {
 	
-	private WorldMap map;
+	private MapInstance map;
 	private int pathLength;
 	public static ArrayList<Station> stations;
+	public static ArrayList<Junction> junctions;
 	public Node[] nodeList;
 	
 	
@@ -33,8 +38,9 @@ public class GoalGenerationAlgorithm {
 			this.pathLength = pathLength;
 			
 			//intialize world map graph
-			map = WorldMap.getInstance();
-			stations = map.stationsList;  
+			map = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
+			stations = new ArrayList<Station>(Arrays.asList(map.stationList()));  
+			junctions = new ArrayList<Junction>(Arrays.asList(map.junctionList()));
 			initialiseGraph();
 	}
 	
@@ -125,10 +131,9 @@ public class GoalGenerationAlgorithm {
 	{
 		ArrayList<MapObj> fullList = new ArrayList<MapObj>();
 		fullList.addAll(stations);
-		fullList.add(WorldMap.getInstance().junction[0]);
-		fullList.add(WorldMap.getInstance().junction[1]);
+		fullList.addAll(junctions);
 		
-		nodeList = new Node[map.stationsList.size() + map.junction.length];
+		nodeList = new Node[map.stationList().length + map.junctionList().length];
 	     
 		for(int i = 0; i < fullList.size(); i++){         //populates empty nodes with a new station
 			nodeList[i] = new Node(fullList.get(i));  //stepping through each node in array and assigning station to it.      

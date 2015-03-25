@@ -1,16 +1,15 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
+import com.TeamHEC.LocomotionCommotion.Map.Junction;
+import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
-import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainInfoUI;
-import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_TextureManager;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
-import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -23,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.utils.Array;
 /**
- * 
+ * @author Sam Watkins <sw1308@york.ac.uk>
  * @author Robert Precious/ Matthew Taylor <rp825@york.ac.uk>
  * Map Manager is used to 'manage' the map. It creates the map actors for the map. Handles routing UI and map/station information.
  */
@@ -49,9 +48,7 @@ public class Game_Map_Manager {
 	public static Label stationLabelFuel,stationLabelName, stationLabelCost;
 	public LabelStyle style;
 
-	public static Sprite planBackground, routingModeWindow;
-	public static Label routeLength, routeRemaining, routeFuelCost;
-	public static SpriteButton confirmRouteBtn, undoLastRouteButton, abortRouteBtn, cancelRouteBtn;
+	/*public static Sprite planBackground;*/
 	public static Array<Game_Map_Train> trainBlips = new Array<Game_Map_Train>();
 
 	public Game_Map_Manager(){	}
@@ -66,70 +63,29 @@ public class Game_Map_Manager {
 		stationTracker=0;
 		numberOfStations=0;
 
-		planBackground = new Sprite(-1,50,Game_TextureManager.getInstance().game_pause_blackoutscreen);
+		/*planBackground = new Sprite(-1,50,Game_TextureManager.getInstance().game_pause_blackoutscreen);
 		planBackground.setVisible(false);
-		actors.add(planBackground);
-		
-		routingModeWindow = new Sprite(-20,65,Game_TextureManager.getInstance().routingModeWindow);
-		routingModeWindow.setVisible(false);
-		actors.add(routingModeWindow);
-		
-		confirmRouteBtn = new SpriteButton(20, 125, Game_TextureManager.getInstance().confirmroutingModebtn){
-			@Override
-			protected void onClicked(){
-				exitRoutingMode();
-			}
-		};
-		confirmRouteBtn.setVisible(false);
-		actors.add(confirmRouteBtn);
-		
-		undoLastRouteButton = new SpriteButton(130, 125, Game_TextureManager.getInstance().undoRouteBtn){
-			@Override
-			protected void onClicked()
-			{
-				if(Game_Map_Manager.trainInfo.train != null)
-					Game_Map_Manager.trainInfo.train.route.removeConnection();
-			}
-		};
-		undoLastRouteButton.setVisible(false);
-		actors.add(undoLastRouteButton);
-		
-		abortRouteBtn = new SpriteButton(130, 80, Game_TextureManager.getInstance().abortRouteBtn){
-			@Override
-			protected void onClicked()
-			{
-				if(Game_Map_Manager.trainInfo.train != null)
-					Game_Map_Manager.trainInfo.train.route.abortRoute();
-			}
-		};
-		abortRouteBtn.setVisible(false);
-		actors.add(abortRouteBtn);
-		
-		cancelRouteBtn = new SpriteButton(20, 80, Game_TextureManager.getInstance().cancelRouteBtn){
-			@Override
-			protected void onClicked()
-			{
-				if(Game_Map_Manager.trainInfo.train != null)
-					Game_Map_Manager.trainInfo.train.route.cancelRoute();;
-			}
-		};
-		cancelRouteBtn.setVisible(false);
-		actors.add(cancelRouteBtn);
+		actors.add(planBackground);*/
 
-		map = new Sprite(100, 60, Game_Map_TextureManager.getInstance().map);		
-		actors.add(map);
+		//map = new Sprite(100, 60, Game_Map_TextureManager.getInstance().map);		
+		//actors.add(map);
 	
-		stationTracker=stage.getActors().size;
-		for(int i = 0; i < WorldMap.getInstance().stationsList.size(); i++)
-		{
-			actors.add(WorldMap.getInstance().stationsList.get(i).getActor());
+		stationTracker = stage.getActors().size;
+		for(Station s : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()) {
+			actors.add(s.getActor());
 			numberOfStations++;
+			
+			Label nameLabel = s.getActor().getLabel();
+			nameLabel.setX(s.x - (s.getName().length() * 8) + 20);
+			nameLabel.setY(s.y + 45);
+			nameLabel.setAlignment(Align.center);
+			nameLabel.setVisible(true);
+			actors.add(nameLabel);
 		}
 
-		junctionTracker =stage.getActors().size;
-		for(int i = 0; i < WorldMap.getInstance().junction.length; i++)
-		{
-			actors.add(WorldMap.getInstance().junction[i].getActor());
+		junctionTracker = stage.getActors().size;
+		for(Junction j : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()) {
+			actors.add(j.getActor());
 		}
 		
 		// Creates UI Train blips for 6 trains:
@@ -152,7 +108,7 @@ public class Game_Map_Manager {
 		infoactors.add(stationSelect);
 
 		//Stuff for Labels
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gillsans.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 23;
 
@@ -184,29 +140,6 @@ public class Game_Map_Manager {
 		stationLabelCost.setColor(0,0,0,1);
 		stationLabelCost.setX(stationInfo.getX()+100);
 		stationLabelCost.setY(stationInfo.getY()+60);
-		
-		// Route Labels
-		routeLength = new Label(null, style);
-		routeRemaining = new Label(null, style);
-		routeFuelCost =  new Label(null, style);
-		
-		routeLength.setText("Route length: 0");
-		routeRemaining.setText("Route remaining: 0");
-		routeFuelCost.setText("Fuel cost (): 0");
-		
-		routeLength.setPosition(10, 245, Align.center);
-		routeRemaining.setPosition(10, 215, Align.center);
-		routeFuelCost.setPosition(10, 185, Align.center);
-		
-		routeLength.setVisible(false);
-		routeRemaining.setVisible(false);
-		routeFuelCost.setVisible(false);
-		routeLength.setColor(Color.BLACK);
-		routeRemaining.setColor(Color.BLACK);
-		routeFuelCost.setColor(Color.BLACK);
-		actors.add(routeLength);
-		actors.add(routeRemaining);
-		actors.add(routeFuelCost);
 
 		infoactors.add(stationLabelName);
 		infoactors.add(stationLabelFuel);
@@ -239,65 +172,6 @@ public class Game_Map_Manager {
 		mapInfo.setVisible(infoVisible);
 		stage.addActor(mapInfo);
 	}
-	
-	public static void enterRoutingMode()
-	{		
-		trainInfo.train.getRoute().showRouteBlips();
-				
-		// Allows you to click on stations that are covered by trains:
-		for(Train t : GameScreen.game.getPlayer1().getTrains())
-		{
-			t.getActor().setTouchable(Touchable.disabled);
-		}
-		for(Train t : GameScreen.game.getPlayer2().getTrains())
-		{
-			t.getActor().setTouchable(Touchable.disabled);
-		}
-		
-		GameScreenUI.game_menuobject_endturnbutton.setVisible(false);
-		
-		planBackground.setVisible(true);
-		routingModeWindow.setVisible(true);
-		confirmRouteBtn.setVisible(true);
-		undoLastRouteButton.setVisible(true);
-		abortRouteBtn.setVisible(true);
-		cancelRouteBtn.setVisible(true);
-		
-		routeLength.setVisible(true);
-		routeRemaining.setVisible(true);
-		routeFuelCost.setVisible(true);
-		undoLastRouteButton.setVisible(true);
-	}
-	
-	public static void exitRoutingMode()
-	{
-		trainInfo.unhighlightAdjacent();
-		trainInfo.train.getRoute().hideRouteBlips();
-		
-		//Makes trains clickable again
-		for(Train t : GameScreen.game.getPlayer1().getTrains())
-		{
-			t.getActor().setTouchable(Touchable.enabled);
-		}
-		for(Train t : GameScreen.game.getPlayer2().getTrains())
-		{
-			t.getActor().setTouchable(Touchable.enabled);
-		}
-		
-		GameScreenUI.game_menuobject_endturnbutton.setVisible(true);
-		
-		planBackground.setVisible(false);
-		routingModeWindow.setVisible(false);
-		confirmRouteBtn.setVisible(false);
-		undoLastRouteButton.setVisible(false);
-		abortRouteBtn.setVisible(false);
-		cancelRouteBtn.setVisible(false);
-		
-		routeLength.setVisible(false);
-		routeRemaining.setVisible(false);
-		routeFuelCost.setVisible(false);
-		undoLastRouteButton.setVisible(false);
-	}
 
 	public static void moveInfoBox(float x,float y){
 		showInfoBox();
@@ -329,7 +203,7 @@ public class Game_Map_Manager {
 
 	public static void showInfoBox(){
 		
-		if(Game_Map_StationBtn.selectedStation.getStation().isFaulty()){
+		if(((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isFaulty()){
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
 		} else if(Game_StartingSequence.inProgress) {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);

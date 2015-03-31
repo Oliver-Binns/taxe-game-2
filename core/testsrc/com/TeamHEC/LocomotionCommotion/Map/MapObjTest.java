@@ -29,5 +29,11 @@ public class MapObjTest {
 		assertTrue("mapObj Name did not initialise correctly", mapObjName == tester.getName());
 		assertTrue("Station did not initialise correctly", tester.getStation() == null);
 	}
-
+	
+	@Test 
+	public void testtoggleLocked() {
+		boolean temp = tester.isLocked(); //returns current state of Lock attribute of MapObj
+		tester.toggleLocked();
+		assertTrue("toggleLocked method did not work", tester.isLocked() != temp);
+	}
 }

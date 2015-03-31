@@ -53,5 +53,13 @@ public class StationTest {
 		assertTrue("Station rentValueMod was not correctly initialised", tester.getRentValueMod() == 0);
 		assertTrue("Actor object was not set correctly", tester.getActor().actorX == x && tester.getActor().actorY == y);
 	}
+	
+	@Test 
+	public void testtoggleLocked() {
+		boolean temp = tester.isLocked(); //returns current state of Lock attribute of Station
+		tester.toggleLocked();
+		assertTrue("toggleLocked method did not work", tester.isLocked() != temp);
+		
+	}
 
 }

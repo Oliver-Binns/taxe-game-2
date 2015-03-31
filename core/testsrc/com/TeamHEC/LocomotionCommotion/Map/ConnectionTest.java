@@ -59,5 +59,13 @@ public class ConnectionTest {
 						WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[2],
 						WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0])));
 	}
+	
+	@Test 
+	public void testtoggleLocked() {
+		boolean temp = tester.isLocked(); //returns current state of Lock attribute of Station
+		tester.toggleLocked();
+		assertTrue("toggleLocked method did not work", tester.isLocked() != temp);
+		
+	}
 
 }

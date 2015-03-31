@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.TeamHEC.LocomotionCommotion.Game;
 
 import static org.junit.Assert.assertEquals;

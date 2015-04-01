@@ -1,7 +1,5 @@
 package com.TeamHEC.LocomotionCommotion;
 
-import java.io.File;
-import java.util.Arrays;
 import com.badlogic.gdx.Gdx;
 
 public final class GameData {

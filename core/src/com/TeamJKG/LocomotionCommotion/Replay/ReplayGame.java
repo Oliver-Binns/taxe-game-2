@@ -24,13 +24,10 @@ public class ReplayGame extends CoreGame {
 		Station Player1StationStart = gameMap.getStationWithName((String) player1Stations.get(0));
 		Station Player2StationStart = gameMap.getStationWithName((String) player2Stations.get(0));
 		
-		System.out.println(Player1StationStart);
-		
 		setupPlayers(Player1Name, Player2Name, Player1StationStart, Player2StationStart);
 
 		// Start Game
 		StartTurn();
-		// TODO Auto-generated constructor stub
 	}
 
 }

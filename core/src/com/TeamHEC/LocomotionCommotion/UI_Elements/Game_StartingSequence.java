@@ -8,6 +8,7 @@ import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalFactory;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalMenu;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
+import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -65,6 +66,12 @@ public class Game_StartingSequence {
 		LabelStyle style = new LabelStyle();
 		style.font = font;
 
+		if(LocomotionCommotion.isReplay){
+			GameScreen.createCoreGame(null, null);
+			startGame();
+			return;
+		}
+		
 		selectLabel = new Label(null, style);
 		selectLabel.setText(LocomotionCommotion.player1name + " please select your start station!");
 		selectLabel.setColor(0,0,0,1);
@@ -80,10 +87,10 @@ public class Game_StartingSequence {
 			stage.addActor(a);
 			startGameActors ++;
 		}
+		
 	}
 
 	public static void startGame(){
-
 		for(int i=GameScreenUI.getStageStart(); i<=GameScreenUI.getStageEnd();i++)	
 		{ 	
 			if (i > GameScreen.getStage().getActors().size-1) {

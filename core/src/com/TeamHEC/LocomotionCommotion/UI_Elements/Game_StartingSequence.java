@@ -68,6 +68,7 @@ public class Game_StartingSequence {
 
 		if(LocomotionCommotion.isReplay){
 			GameScreen.createCoreGame(null, null);
+			inProgress = false;
 			startGame();
 			return;
 		}

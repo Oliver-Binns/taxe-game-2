@@ -2,6 +2,7 @@ package com.TeamHEC.LocomotionCommotion.Train;
 
 import java.util.ArrayList;
 
+import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_TextureManager;
@@ -66,7 +67,9 @@ public class TrainInfoUI extends Sprite{
 		actors.add(name);
 		actors.add(speed);
 		actors.add(routeRemaining);
-		actors.add(planRoute);
+		if(!LocomotionCommotion.isReplay){
+			actors.add(planRoute);
+		}
 	}
 	
 	/**

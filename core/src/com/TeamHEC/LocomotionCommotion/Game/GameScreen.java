@@ -64,6 +64,7 @@ public class GameScreen implements Screen {
 	public static SpriteBatch sb;
 	public static Game_Map_Manager mapManager;
 	private static ShapeRenderer shapeRend = new ShapeRenderer();
+	
 	/**
 	 * 
 	 */

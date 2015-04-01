@@ -1,6 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
+import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
@@ -202,17 +203,20 @@ public class Game_Map_Manager {
 	}
 
 	public static void showInfoBox(){
-		
-		if(((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isFaulty()){
-			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
-		} else if(Game_StartingSequence.inProgress) {
-			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);
-		} else {
-			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationBuy);
-		}
-		
 		stationInfo.setVisible(true);
 		Game_Map_Manager.stationSelect.setVisible(true);
+		
+		if(LocomotionCommotion.isReplay){
+			stationSelect.setVisible(false); //don't show StationSelect if we're on Replay! We don't want users editing our existing game!
+		} else if(((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isFaulty()){
+			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
+		}
+		else if(Game_StartingSequence.inProgress) {
+			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);
+		}
+		else {
+			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationBuy);
+		}
 
 		stationLabelName.setVisible(true);
 		stationLabelFuel.setVisible(true);

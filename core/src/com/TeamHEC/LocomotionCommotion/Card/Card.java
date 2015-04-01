@@ -1,5 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.Card;
 
+import org.json.simple.JSONObject;
+
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -26,6 +28,11 @@ public abstract class Card {
 		owner = player;	
 		cardImage = image;
 		this.name = name;
+	}
+	
+	public Card(Player player, JSONObject cardJSON){
+		owner = player;
+		this.name = (String)cardJSON.get("name");
 	}
 	
 	public String toJSON(){

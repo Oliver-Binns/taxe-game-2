@@ -3,6 +3,9 @@ package com.TeamHEC.LocomotionCommotion.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
@@ -50,6 +53,37 @@ public class Player implements RouteListener{
 
 	public boolean isPlayer1;
 
+	/**
+	 * Re-instantiates the player object from the JSON Data
+	 * @param The player object as a JSONObject
+	 */
+	public Player(JSONObject playerJSON){
+		name = (String) playerJSON.get("name");
+		points = Integer.valueOf((String)playerJSON.get("points"));
+		gold = new Gold(Integer.valueOf((String)playerJSON.get("Gold")));
+		coal = new Coal(Integer.valueOf((String)playerJSON.get("Coal")));
+		oil = new Oil(Integer.valueOf((String)playerJSON.get("Oil")));
+		electric = new Electric(Integer.valueOf((String)playerJSON.get("Electric")));
+		nuclear = new Nuclear(Integer.valueOf((String)playerJSON.get("Nuclear")));
+		
+		JSONArray cards = (JSONArray) playerJSON.get("Cards");
+		this.cards = new ArrayList<Card>();
+		for(int i = 0; i < cards.size(); i++){
+			//fix cards - abstract class
+			//Card newCard = new Card(this, (JSONObject)cards.get(i));
+			//addCard(newCard);
+		}
+		shop = new Shop(this);
+		
+		JSONArray goals = (JSONArray)playerJSON.get("Goals");
+		this.goals = new ArrayList<Goal>();
+		for(int i = 0; i < goals.size(); i++){
+			//Goal newGoal = new Goal()
+			//work out how to get station instance from string
+		}
+		
+	}
+	
 	public Player(String name, int points, Gold gold, Coal coal, Electric electric, Nuclear nuclear, Oil oil, ArrayList<Card> cards, ArrayList<Goal> goals, ArrayList<Train> trains)
 	{
 		this.name = name;

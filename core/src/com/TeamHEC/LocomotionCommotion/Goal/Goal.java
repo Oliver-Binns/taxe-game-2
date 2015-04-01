@@ -1,5 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.Goal;
 
+import org.json.simple.JSONObject;
+
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Goal.Graph.Dijkstra;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
@@ -35,6 +37,10 @@ public class Goal implements RouteListener{
     private int currentGoalDuration;
 	
 	public static GoalActor goalActor;
+	
+	public Goal(JSONObject goalJSON){
+		//this.sStation = 
+	}
 	
 	public String toJSON(){
 		String json = "{";

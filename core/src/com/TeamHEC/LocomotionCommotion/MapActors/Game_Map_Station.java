@@ -40,7 +40,7 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 		style.font = font;
 		
 		style.fontColor = Color.BLACK;
-		nameLabel = new Label(station.getName(), style);
+		nameLabel = new Label(station.getName().toUpperCase(), style);
 		
 		this.owned = false;
 		station.register(this);

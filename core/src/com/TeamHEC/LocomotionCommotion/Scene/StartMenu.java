@@ -108,8 +108,7 @@ public class StartMenu extends Scene{
 			public void onClicked()
 			{
 				//started = true;
-				LocomotionCommotion.player1name=textbox1.getText();
-				LocomotionCommotion.player2name=textbox2.getText();
+				LocomotionCommotion.isReplay = true;
 				LocomotionCommotion.gameMode= gameMode;
 				LocomotionCommotion.turnChoice = turnChoice;
 				getJSONData();
@@ -266,7 +265,7 @@ public class StartMenu extends Scene{
                     return;
                 }
 
-
+                LocomotionCommotion.isReplay = false;
 				LocomotionCommotion.player1name=textbox1.getText();
 				LocomotionCommotion.player2name=textbox2.getText();
 				LocomotionCommotion.gameMode= gameMode;

@@ -168,7 +168,20 @@ public class MapInstance {
 	}
 	
 	/**
-	 * Returns an array of stations only
+	 * @return Station object with a given name - null if no station exists.
+	 */
+	public Station getStationWithName(String name){
+		Station[] stations = stationList();
+		for(int i = 0; i < stations.length; i++){
+			if(stations[i].getName().equals(name)){
+				System.out.println(stations[i].getName());
+				return stations[i].getStation();
+			}
+		}
+		return null;
+	}
+	/**
+	 * @return an array of stations only
 	 */
 	public Station[] stationList() {
 		Station[] returnList = new Station[stations.size()];
@@ -176,7 +189,7 @@ public class MapInstance {
 	}
 	
 	/**
-	 * Returns an array of junctions only
+	 * @return an array of junctions only
 	 */
 	public Junction[] junctionList() {
 		Junction[] returnList = new Junction[junctions.size()];
@@ -184,7 +197,7 @@ public class MapInstance {
 	}
 	
 	/**
-	 * Returns an array of all mapObj
+	 * @return an array of all mapObj
 	 */
 	public MapObj[] mapObjList() {
 		MapObj[] stationList = stationList();

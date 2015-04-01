@@ -1,5 +1,11 @@
 package com.TeamHEC.LocomotionCommotion.Game;
 
+import java.io.FileReader;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Card.Game_CardHand;
@@ -17,6 +23,8 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_PauseMenu;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
+import com.TeamJKG.LocomotionCommotion.Game.NewGame;
+import com.TeamJKG.LocomotionCommotion.Replay.ReplayGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -114,9 +122,29 @@ public class GameScreen implements Screen {
 		warningMessage.create(getStage());
 	}
 	
+	public static JSONObject getJSONData()
+	{
+		try{
+			FileReader in = new FileReader(System.getProperty("user.home") + "/save.loco");
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(in);
+			JSONObject jsonObject = (JSONObject) obj;
+			return jsonObject;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static void createCoreGame(Station p1Station, Station p2Station)
 	{
-		game = new CoreGame(LocomotionCommotion.player1name, LocomotionCommotion.player2name, p1Station, p2Station, LocomotionCommotion.turnChoice);
+		if(LocomotionCommotion.isReplay){
+			JSONObject gameData = getJSONData();
+			game = new ReplayGame(LocomotionCommotion.player1name, LocomotionCommotion.player2name, gameData);
+		}
+		else{
+			game = new NewGame(LocomotionCommotion.player1name, LocomotionCommotion.player2name, p1Station, p2Station, LocomotionCommotion.turnChoice);
+		}
 		GameScreenUI.refreshResources();
 	}
 	

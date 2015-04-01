@@ -203,7 +203,7 @@ public class GameScreen implements Screen {
 		}
 		
 		for(Station startPoint : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()) {
-			int nameWidth = startPoint.getName().length() * 15 + 10;
+			int nameWidth = startPoint.getName().length() * 13 + 9;
 			float alpha = 1.0f;
 			
 			//Make station translucent if they are locked

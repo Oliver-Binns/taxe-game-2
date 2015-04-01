@@ -76,7 +76,7 @@ public class Game_Map_Manager {
 			numberOfStations++;
 			
 			Label nameLabel = s.getActor().getLabel();
-			nameLabel.setX(s.x - (s.getName().length() * 8) + 20);
+			nameLabel.setX(s.x - (s.getName().length() * 7) + 20);
 			nameLabel.setY(s.y + 45);
 			nameLabel.setAlignment(Align.center);
 			nameLabel.setVisible(true);

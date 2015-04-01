@@ -1,5 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.Scene;
 
+import java.io.FileReader;
+
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
@@ -7,6 +9,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 public class StartMenu extends Scene{
 
@@ -101,38 +107,58 @@ public class StartMenu extends Scene{
 			@Override
 			public void onClicked()
 			{
-				started = true;
+				//started = true;
+				LocomotionCommotion.player1name=textbox1.getText();
+				LocomotionCommotion.player2name=textbox2.getText();
+				LocomotionCommotion.gameMode= gameMode;
+				LocomotionCommotion.turnChoice = turnChoice;
+				getJSONData();
+				resetNewGameScreen();
+				
+				LocomotionCommotion.getInstance().setGameScreen();
+				
 			}
-
-			int animationTracker1, animationTracker2;
-
-			@Override
-			public void act(float delta)
+			/**
+			 * this method is called when a previous game is loaded.
+			 * it opens the json file from the previous game and adds the values from the new game in.
+			 */
+			public void getJSONData()
 			{
-				if(started){
-					if (animationTracker1<1680){
-						changeCam(15,0);
-						animationTracker1+=15;
-					}
-					else{
-						if(animationTracker2<40){
-							changeCam(0,10);
-							animationTracker2+=10;
-						}
-
-						else{
-							started = false;
-							animationTracker1=0;
-							animationTracker2=0;
-						}
-					}
+				try{
+					FileReader in = new FileReader(System.getProperty("user.home") + "/save.loco");
+					JSONParser parser = new JSONParser();
+					Object obj = parser.parse(in);
+					JSONObject jsonObject = (JSONObject) obj;
+					JSONObject turn = (JSONObject) jsonObject.get("0");
+					JSONArray players = (JSONArray) turn.get("players");
+					JSONObject player1 = (JSONObject) players.get(0);
+					JSONObject player2 = (JSONObject) players.get(1);
+					LocomotionCommotion.player1name = (String) player1.get("name");
+					LocomotionCommotion.player2name = (String) player2.get("name");
+					System.out.println(players);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-
+			
+			public void resetNewGameScreen()
+			{
+				turnTimeOutButton.setTexture(SM_TextureManager.getInstance().sm_newgameTurnTimeOut_unselected_Btn);
+				stationDomButton.setTexture(SM_TextureManager.getInstance().sm_newgame_StationDom_unselected_Btn);
+				textbox1.setText("");
+				textbox2.setText("");
+				turn50Button.setTexture(SM_TextureManager.getInstance().sm_newgame_Turn50_unselected_Btn);
+				turn100Button.setTexture(SM_TextureManager.getInstance().sm_newgame_Turn100_unselected_Btn);
+				turn150Button.setTexture(SM_TextureManager.getInstance().sm_newgame_Turn150_unselected_Btn);
+				gameMode=null;
+				player1name= null;
+				player2name= null;
+				turnChoice=0;
+			}
 		};
 
-        // Not yet implemented. Hidden.
-		// actors.add(loadGameButton);
+		//loadGameButton opens the replay mode
+		actors.add(loadGameButton);
 
 		preferencesButton = new SpriteButton(590, 330, SM_TextureManager.getInstance().sm_main_preferencesbtn){
 

@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.TeamHEC.LocomotionCommotion.Game.CoreGame;
+import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 
 public class ReplayGame extends CoreGame {
@@ -29,5 +30,20 @@ public class ReplayGame extends CoreGame {
 		// Start Game
 		StartTurn();
 	}
+	
+	/**
+	 * Starts a players turn. It will check for the end game condition.
+	 */
+	@Override
+	public void StartTurn() {
+		 // Proceed with the turn:
+        playerTurn.lineBonuses();
+        playerTurn.stationRewards();
+        playerTurn.obstacles(OBSTACLE_PROBABILITY);
 
+        //Increment all player's goals by one turn in duration
+        for ( Goal goal : playerTurn.getGoals()){
+            goal.incrementCurrentGoalDuration();
+        }
+	}
 }

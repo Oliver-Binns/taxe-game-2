@@ -6,7 +6,14 @@ import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.StationListener;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class Game_Map_Station extends Game_Map_MapObj implements StationListener {
 
@@ -22,7 +29,18 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 
 		this.station = station;
 		//this.nameWidth = this.station.getName().length() * 20;
-		nameLabel = new Label(station.getName(), GameScreenUI.getLabelStyle(30));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 25;
+
+		BitmapFont font = generator.generateFont(parameter);
+		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		generator.dispose();
+		LabelStyle style = new LabelStyle();
+		style.font = font;
+		
+		style.fontColor = Color.BLACK;
+		nameLabel = new Label(station.getName(), style);
 		this.owned = false;
 		station.register(this);
 	}

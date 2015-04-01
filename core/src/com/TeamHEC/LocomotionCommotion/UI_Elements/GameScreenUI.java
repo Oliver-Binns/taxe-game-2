@@ -743,7 +743,7 @@ public class GameScreenUI {
 	 * @return returns full LabelStyle with fontsize passed
 	 */
 	public static LabelStyle  getLabelStyle(int fontsize){
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gillsans.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = fontsize;
 

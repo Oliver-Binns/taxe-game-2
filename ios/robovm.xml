@@ -34,10 +34,17 @@
     <pattern>org.apache.harmony.security.provider.crypto.CryptoProvider</pattern>
   </forceLinkClasses>
   <libs>
+<<<<<<< HEAD
     <lib>build/libs/ios/libObjectAL.a</lib>
     <lib>build/libs/ios/libgdx.a</lib>
     <lib>build/libs/ios/libgdx-freetype.a</lib>
     <lib>build/libs/ios/libgdx-box2d.a</lib>
+=======
+    <lib>build/libs/ios/libgdx-box2d.a</lib>
+    <lib>build/libs/ios/libgdx-freetype.a</lib>
+    <lib>build/libs/ios/libgdx.a</lib>
+    <lib>build/libs/ios/libObjectAL.a</lib>
+>>>>>>> e73a84c056ae6ae2f6396384cd903349fd84f963
   </libs>
   <frameworks>
     <framework>UIKit</framework>

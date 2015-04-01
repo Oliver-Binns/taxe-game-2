@@ -37,16 +37,18 @@ import com.TeamJKG.LocomotionCommotion.Replay.Replay;
 public class CoreGame {
 
 	// Privates
-	private Replay replay;
-	private MapInstance gameMap;
-	private Player player1;
-	private Player player2;
-	private Player playerTurn;
-	private int turnCount;
-	private int turnLimit;
+	protected MapInstance gameMap;
+	
+	//needs to be visible to subclass
+	protected Player player1;
+	protected Player player2;
+	
+	protected Player playerTurn;
+	protected int turnCount;
+	protected int turnLimit;
 
     // The probability that an obstacle occurs for each train in a turn.
-    private static final double OBSTACLE_PROBABILITY = 0.15;
+    protected static final double OBSTACLE_PROBABILITY = 0.15;
 	
 	/**
 	 * Initialises a Game object. This represents one instance of a game.
@@ -64,55 +66,11 @@ public class CoreGame {
 	 * @param turnLimit
 	 *            The number of turns before the end of the game.
 	 */
-	public CoreGame(String Player1Name, String Player2Name,	Station Player1StationStart, Station Player2StationStart, int turnLimit) {
-		
-		HashMap<String, Resource> player1Resources = getBaseResources(Player1StationStart);
-		HashMap<String, Resource> player2Resources = getBaseResources(Player2StationStart);
-
-		player1 = new Player(Player1Name, 0,
-				(Gold) player1Resources.get("gold"),
-				(Coal) player1Resources.get("coal"),
-				(Electric) player1Resources.get("electric"),
-				(Nuclear) player1Resources.get("nuclear"),
-				(Oil) player1Resources.get("oil"),
-				new ArrayList<Card>(), new ArrayList<Goal>(),
-				new ArrayList<Train>());
-
-		player2 = new Player(Player2Name, 0,
-				(Gold) player2Resources.get("gold"),
-				(Coal) player2Resources.get("coal"),
-				(Electric) player2Resources.get("electric"),
-				(Nuclear) player2Resources.get("nuclear"),
-				(Oil) player2Resources.get("oil"),
-				new ArrayList<Card>(), new ArrayList<Goal>(),
-				new ArrayList<Train>());
-
-		player1.isPlayer1 = true;
-		player2.isPlayer1 = false;
-
-		// Create players First Train depending on the station selected:
-		createFirstTrain(player1, Player1StationStart);
-		createFirstTrain(player2, Player2StationStart);
-		
-		player1.purchaseStation(Player1StationStart);
-		player2.purchaseStation(Player2StationStart);
-
+	public CoreGame(String Player1Name, String Player2Name,	int turnLimit) {
 		// Initialise Map and other Game Resources
-
 		gameMap = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
 		turnCount = 0;
 		this.turnLimit = turnLimit;
-		this.replay = new Replay(turnLimit, 2);
-
-		// Make decision on who goes first
-
-		if (flipCoin() == 1)
-			playerTurn = player2;
-		else
-			playerTurn = player1;
-
-		// Start Game
-		StartTurn();
 	}
 
 	/**
@@ -120,7 +78,7 @@ public class CoreGame {
 	 * @param player The player to be assigned a train
 	 * @param startStation The player's starting station.
 	 */
-	private void createFirstTrain(Player player, Station startStation) {
+	protected void createFirstTrain(Player player, Station startStation) {
 		String fuelType = startStation.getResourceString();
 		Train train = null;
 
@@ -142,7 +100,7 @@ public class CoreGame {
 	 * Randomly returns either 0 or 1. It's used in determining which player
 	 * will go first in this game.
 	 */
-	private int flipCoin() {
+	protected int flipCoin() {
 		Random coin = new Random();
 		return coin.nextInt(2);
 	}
@@ -168,11 +126,11 @@ public class CoreGame {
             if (playerTurn == player1)
                 playerTurn = player2;
             else{
-            	gameMap.generateFaults(replay);
+            	//gameMap.generateFaults(replay);
                 playerTurn = player1;
             }
             
-            replay.endTurn(playerList);
+            //replay.endTurn(playerList);
             
             StartTurn();
         }
@@ -183,11 +141,11 @@ public class CoreGame {
 	 * Starts a players turn. It will check for the end game condition.
 	 */
 	public void StartTurn() {
-        replay.newTurn(turnCount, 2);
+        //replay.newTurn(turnCount, 2);
         
 		Player[] listOfPlayers = {player1, player2};
-        replay.endTurn(listOfPlayers);
-        replay.newTurn(turnCount, 2);
+        //replay.endTurn(listOfPlayers);
+        //replay.newTurn(turnCount, 2);
         // Proceed with the turn:
         playerTurn.lineBonuses();
         playerTurn.stationRewards();
@@ -204,7 +162,7 @@ public class CoreGame {
 	 * Ends the current game.
      * Only call once one player has a higher score than another
 	 */
-	private void EndGame() {
+	protected void EndGame() {
         Player winner;
         
         if ( player1.getPoints() > player2.getPoints() ) {
@@ -225,7 +183,7 @@ public class CoreGame {
 
         WarningMessage.fireWarningWindow("End of Game", "Congratulations to " + winner.getName() + " you have won!");
 
-		replay.saveGame();
+		//replay.saveGame();
 	}
 
 	/**

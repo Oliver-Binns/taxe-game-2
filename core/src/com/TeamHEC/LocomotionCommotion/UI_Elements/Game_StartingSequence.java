@@ -38,7 +38,7 @@ public class Game_StartingSequence {
 	public Game_StartingSequence(){}
 
 	public void create(Stage stage)
-	{
+	{	
 		actors.clear();
 		stagestart =0;
 		startGameActors=0;
@@ -80,7 +80,6 @@ public class Game_StartingSequence {
 			stage.addActor(a);
 			startGameActors ++;
 		}
-
 	}
 
 	public static void startGame(){

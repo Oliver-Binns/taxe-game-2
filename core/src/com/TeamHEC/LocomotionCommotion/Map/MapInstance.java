@@ -174,7 +174,6 @@ public class MapInstance {
 		Station[] stations = stationList();
 		for(int i = 0; i < stations.length; i++){
 			if(stations[i].getName().equals(name)){
-				System.out.println(stations[i].getName());
 				return stations[i].getStation();
 			}
 		}

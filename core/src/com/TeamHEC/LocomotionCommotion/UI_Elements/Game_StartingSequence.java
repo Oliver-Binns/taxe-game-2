@@ -64,13 +64,6 @@ public class Game_StartingSequence {
 		generator.dispose();
 		LabelStyle style = new LabelStyle();
 		style.font = font;
-
-		if(LocomotionCommotion.isReplay){
-			GameScreen.createCoreGame(null, null);
-			inProgress = false;
-			startGame();
-			return;
-		}
 		
 		selectLabel = new Label(null, style);
 		selectLabel.setText(LocomotionCommotion.player1name + " please select your start station!");
@@ -80,6 +73,13 @@ public class Game_StartingSequence {
 		selectLabel.setY(575);
 
 		actors.add(selectLabel);
+		
+		if(LocomotionCommotion.isReplay){
+			GameScreen.createCoreGame(null, null);
+			inProgress = false;
+			startGame();
+			return;
+		}
 
 		stagestart= stage.getActors().size;
 		for (Actor a : actors){

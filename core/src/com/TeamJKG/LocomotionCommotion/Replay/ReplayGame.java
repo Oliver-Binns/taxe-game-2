@@ -104,7 +104,6 @@ public class ReplayGame extends CoreGame {
 			JSONArray oldFaults = (JSONArray) prevTurn.get("faultyStations");
 			for(int i = 0; i < oldFaults.size(); i++){
 				gameMap.getStationWithName((String)oldFaults.get(i)).fixFaulty();
-				System.out.println("Fixed:" + oldFaults.get(i));
 			}
 		}
 		for(int i = 0; i < faultyStations.size(); i++){

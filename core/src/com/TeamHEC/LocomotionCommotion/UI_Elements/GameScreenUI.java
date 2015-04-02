@@ -386,7 +386,10 @@ public class GameScreenUI {
 			@Override
 			protected void onClicked()
 			{
-				if (GoalMenu.open== false)
+				if(LocomotionCommotion.isReplay){
+					WarningMessage.fireWarningWindow("Sorry!", "You can't select new goals during Replay mode.");
+				}
+				else if (GoalMenu.open== false)
 				{
 					GoalMenu.open= true;
 					PlayerGoals.goalMenuOpen();

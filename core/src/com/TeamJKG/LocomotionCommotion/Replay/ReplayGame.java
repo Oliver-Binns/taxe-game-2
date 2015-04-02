@@ -22,7 +22,7 @@ public class ReplayGame extends CoreGame {
 	private JSONObject turnData;
 	
 	public ReplayGame(String Player1Name, String Player2Name, JSONObject gameData) {
-		super(Player1Name, Player2Name, 150);
+		super(Player1Name, Player2Name, gameData.size() - 1);
 		this.gameData = gameData;
 		
 		turnData = (JSONObject) gameData.get("0");
@@ -79,8 +79,11 @@ public class ReplayGame extends CoreGame {
 	public void StartTurn() {
 		//New Turn Data
 		turnData = (JSONObject) gameData.get(String.valueOf(this.turnCount));
-		addNewConnections();
+		//Add any train routings the user created on this turn.
+		//addNewConnections();
 		
+		//break any stations that became faulty on this turn.
+		addStationFaults();
 		
 		 // Proceed with the turn
         playerTurn.lineBonuses();
@@ -94,7 +97,20 @@ public class ReplayGame extends CoreGame {
         
         //Add new connections from JSON Data
 	}
-	
+	public void addStationFaults(){
+		JSONArray faultyStations = (JSONArray)turnData.get("faultyStations");
+		if(turnCount > 0){
+			JSONObject prevTurn = (JSONObject) gameData.get(String.valueOf(this.turnCount-1));
+			JSONArray oldFaults = (JSONArray) prevTurn.get("faultyStations");
+			for(int i = 0; i < oldFaults.size(); i++){
+				gameMap.getStationWithName((String)oldFaults.get(i)).fixFaulty();
+				System.out.println("Fixed:" + oldFaults.get(i));
+			}
+		}
+		for(int i = 0; i < faultyStations.size(); i++){
+			gameMap.getStationWithName((String)faultyStations.get(i)).makeFaulty();
+		}
+	}
 	/**
 	 * checks the current connections are the same as those in the json.
 	 */
@@ -180,7 +196,7 @@ public class ReplayGame extends CoreGame {
 		//
 		//If turn limit is exceeded
         //New move if draw, else end game
-        if (turnCount >= turnLimit && player1.getPoints() != player2.getPoints()){
+        if (turnCount >= turnLimit){
             EndGame();
         }
 

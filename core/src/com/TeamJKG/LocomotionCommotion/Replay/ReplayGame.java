@@ -80,7 +80,7 @@ public class ReplayGame extends CoreGame {
 		//New Turn Data
 		turnData = (JSONObject) gameData.get(String.valueOf(this.turnCount));
 		//Add any train routings the user created on this turn.
-		//addNewConnections();
+		addNewConnections();
 		
 		//break any stations that became faulty on this turn.
 		addStationFaults();

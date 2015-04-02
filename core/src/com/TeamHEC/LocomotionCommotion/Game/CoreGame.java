@@ -33,7 +33,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
  *
  */
 
-public class CoreGame {
+public abstract class CoreGame {
 
 	// Privates
 	protected MapInstance gameMap;

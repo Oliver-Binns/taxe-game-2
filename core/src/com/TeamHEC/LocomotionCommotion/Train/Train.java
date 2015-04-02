@@ -2,6 +2,9 @@ package com.TeamHEC.LocomotionCommotion.Train;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONObject;
+
+import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Train;
 import com.TeamHEC.LocomotionCommotion.Obstacle.Obstacle;
@@ -51,7 +54,6 @@ public abstract class Train {
 		json += "}";
 		return json;
 	}
-	
 	/**
 	 * The superclass of Train types, Creates a Train for player.
 	 * @param fuelType Type of fuel the train consumes

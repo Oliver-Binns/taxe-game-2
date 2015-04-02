@@ -1,5 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.Train;
 
+import org.json.simple.JSONObject;
+
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Resource.Nuclear;
 
@@ -19,5 +21,16 @@ public class NuclearTrain extends Train{
 		super("Atom Bomb", new Nuclear(200), BASE_SPEED, speedMod, VALUE, inStation,
 				route, player);
 		fuelPerTurn = 25;
+	}
+	
+	/**
+	 * Reinstantiates train from JSON Object
+	 * @param Train JSON Data
+	 * @param route
+	 * @param player
+	 */
+	public NuclearTrain(JSONObject train, Route route, Player player){		
+		super((String) train.get("name"), new Nuclear(200), BASE_SPEED, ((Long)train.get("speedMod")).intValue(), VALUE, true, route, player);
+		fuelPerTurn = ((Long)train.get("fuelPerTurn")).intValue();
 	}
 }

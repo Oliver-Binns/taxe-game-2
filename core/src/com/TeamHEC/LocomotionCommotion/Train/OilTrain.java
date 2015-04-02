@@ -1,5 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.Train;
 
+import org.json.simple.JSONObject;
+
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Resource.Oil;
 
@@ -19,5 +21,17 @@ public class OilTrain extends Train{
 		super("Diesel Weasel", new Oil(200), BASE_SPEED, speedMod, VALUE, inStation,
 				route, player);
 		fuelPerTurn = 15;
+	}
+	
+	/**
+	 * Reinstantiates train from JSON Object
+	 * @param Train JSON Data
+	 * @param route
+	 * @param player
+	 */
+	public OilTrain(JSONObject train, Route route, Player player){		
+		super((String) train.get("name"), new Oil(200), BASE_SPEED, ((Long)train.get("speedMod")).intValue(), VALUE, true, route, player);
+		fuelPerTurn = ((Long)train.get("fuelPerTurn")).intValue();
+		
 	}
 }

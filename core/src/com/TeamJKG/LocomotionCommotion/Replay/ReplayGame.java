@@ -8,6 +8,7 @@ import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Line;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
+import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Train.CoalTrain;
 import com.TeamHEC.LocomotionCommotion.Train.ElectricTrain;
@@ -15,6 +16,7 @@ import com.TeamHEC.LocomotionCommotion.Train.NuclearTrain;
 import com.TeamHEC.LocomotionCommotion.Train.OilTrain;
 import com.TeamHEC.LocomotionCommotion.Train.Route;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 
 public class ReplayGame extends CoreGame {
 
@@ -145,9 +147,9 @@ public class ReplayGame extends CoreGame {
 				}
 				//else connection is the same
 			}
-			for(int j = 0; j < (train.getRoute().getRoute().size() - routeConnections.size()); j++){ //if there are more connections than in the json- remove these connections
+			/*for(int j = 0; j < (train.getRoute().getRoute().size() - (routeConnections.size() + 1)); j++){ //if there are more connections than in the json- remove these connections
 				train.getRoute().getRoute().remove(j);
-			}
+			}*/
 		}
 		
 		//add connections for player 2
@@ -180,10 +182,11 @@ public class ReplayGame extends CoreGame {
 				}
 				//else connection is the same
 			}
-			for(int j = 0; j < (train.getRoute().getRoute().size() - routeConnections.size()); j++){ //if there are more connections than in the json- remove these connections
+			/*for(int j = 0; j < (train.getRoute().getRoute().size() - (routeConnections.size() + 1)); j++){ //if there are more connections than in the json- remove these connections
 				train.getRoute().getRoute().remove(j);
-			}
+			}*/
 		}
+
 	}
 	
 	/**
@@ -196,6 +199,7 @@ public class ReplayGame extends CoreGame {
 		//If turn limit is exceeded
         //New move if draw, else end game
         if (turnCount >= turnLimit){
+        	WarningMessage.fireWarningWindow("Game Over", "The game ended here!");
             EndGame();
         }
 

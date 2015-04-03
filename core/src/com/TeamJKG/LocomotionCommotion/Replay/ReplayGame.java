@@ -42,6 +42,9 @@ public class ReplayGame extends CoreGame {
 		playersArray = new Player[]{player1, player2};
 		// Start Game
 		StartTurn();
+		
+		//TODO Find a way of displaying a warning message here?!
+		//WarningMessage.fireWarningWindow("Welcome to Replay!", "Test");
 	}
 	
 	@Override
@@ -93,7 +96,6 @@ public class ReplayGame extends CoreGame {
 		 // Proceed with the turn
         playerTurn.lineBonuses();
         playerTurn.stationRewards();
-        playerTurn.obstacles(OBSTACLE_PROBABILITY);
 
         //Increment all player's goals by one turn in duration
         for ( Goal goal : playerTurn.getGoals()){

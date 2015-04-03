@@ -8,7 +8,6 @@ import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Line;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
-import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Train.CoalTrain;
 import com.TeamHEC.LocomotionCommotion.Train.ElectricTrain;
@@ -22,6 +21,7 @@ public class ReplayGame extends CoreGame {
 
 	private JSONObject gameData;
 	private JSONObject turnData;
+	private Player[] playersArray;
 	
 	public ReplayGame(String Player1Name, String Player2Name, JSONObject gameData) {
 		super(Player1Name, Player2Name, gameData.size() - 1);
@@ -39,6 +39,7 @@ public class ReplayGame extends CoreGame {
 		
 		setupPlayers(Player1Name, Player2Name, Player1StationStart, Player2StationStart);
 
+		playersArray = new Player[]{player1, player2};
 		// Start Game
 		StartTurn();
 	}
@@ -86,6 +87,8 @@ public class ReplayGame extends CoreGame {
 		
 		//break any stations that became faulty on this turn.
 		addStationFaults();
+	
+		updatePlayerScores();
 		
 		 // Proceed with the turn
         playerTurn.lineBonuses();
@@ -99,6 +102,22 @@ public class ReplayGame extends CoreGame {
         
         //Add new connections from JSON Data
 	}
+	
+	/**
+	 * 
+	 */
+	public void updatePlayerScores(){
+		JSONArray playersJSON = (JSONArray) turnData.get("players");
+		for(int i = 0; i < playersArray.length; i++){
+			JSONObject playerJSON = (JSONObject)playersJSON.get(i);
+			int newPoints = ((Long)playerJSON.get("points")).intValue() - playersArray[i].getPoints();
+			playersArray[i].incrementPoints(newPoints);
+		}
+	}
+	
+	/**
+	 * runs through the array of station faults in our JSON - removing any that have been fixed and adding any that have become faulty this turn
+	 */
 	public void addStationFaults(){
 		JSONArray faultyStations = (JSONArray)turnData.get("faultyStations");
 		if(turnCount > 0){
@@ -112,81 +131,73 @@ public class ReplayGame extends CoreGame {
 			gameMap.getStationWithName((String)faultyStations.get(i)).makeFaulty();
 		}
 	}
+	
 	/**
 	 * checks the current connections are the same as those in the json.
 	 */
 	public void addNewConnections(){
 		JSONArray playersJSON = (JSONArray) turnData.get("players");
-		//add connections for player 1
-		JSONObject playerJSON = (JSONObject)playersJSON.get(0);
-		JSONArray trainArray = (JSONArray)playerJSON.get("Trains");
-		
-		for(int i = 0; i < player1.getTrains().size(); i++){
-			Train train = player1.getTrains().get(i);
-			JSONObject trainJSON = (JSONObject) trainArray.get(i);
-			JSONObject trainRoute = (JSONObject)trainJSON.get("route");
-			JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
-			for(int j = 0; j < routeConnections.size(); j++){
-				JSONObject connection = (JSONObject) routeConnections.get(j);
-				Station startJSON = gameMap.getStationWithName((String)connection.get("start"));
-				Station destJSON = gameMap.getStationWithName((String)connection.get("end"));
-				if(train.getRoute().getRoute().size() <= j){
-					train.getRoute().addConnection(new Connection(startJSON, destJSON, Line.Black)); //TODO fix colour of line here
-				}
-				else if(train.getRoute().getRoute().get(j).getStartMapObj() != startJSON){
-					for(int k = j; k < train.getRoute().getRoute().size(); k++){
-						train.getRoute().getRoute().remove(j);
+		for(int l = 0; l < playersArray.length; l++){
+			//add connections for player 1
+			JSONObject playerJSON = (JSONObject)playersJSON.get(l);
+			JSONArray trainArray = (JSONArray)playerJSON.get("Trains");
+			
+			for(int i = 0; i < playersArray[l].getTrains().size(); i++){
+				Train train = playersArray[l].getTrains().get(i);
+				JSONObject trainJSON = (JSONObject) trainArray.get(i);
+				JSONObject trainRoute = (JSONObject)trainJSON.get("route");
+				JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
+				
+				int correctConnections = 0;
+				boolean stillCorrect = true;
+				//lets work forwards through the connections checking they're okay!
+				while(stillCorrect){
+					//Gets the current connection
+					if(correctConnections < train.getRoute().getRoute().size()){ //if connections is less than the number of overall connections...
+						if(correctConnections < routeConnections.size()){
+							JSONObject connection = (JSONObject) routeConnections.get(correctConnections);
+							//Gets the supposed start and end points of this connection
+							Station startJSON = gameMap.getStationWithName((String)connection.get("start"));
+							Station destJSON = gameMap.getStationWithName((String)connection.get("end"));
+							
+							Connection currentConnection = train.getRoute().getRoute().get(correctConnections);
+							
+							//exits the while loop if connection is different
+							if(currentConnection.getStartMapObj() != startJSON){
+								stillCorrect = false;
+							}
+							else if(currentConnection.getDestination() != destJSON){
+								stillCorrect = false;
+							}
+							else{ //increments correctConnection and re-runs while loop if connection is the same.
+								correctConnections++;
+							}
+						}
+						else{
+							stillCorrect = false;
+						}
 					}
-					train.getRoute().addConnection(new Connection(startJSON, destJSON, Line.Black)); //TODO fix colour of line here
-				}
-				else if(train.getRoute().getRoute().get(j).getDestination() != destJSON){
-					for(int k = j; k < train.getRoute().getRoute().size(); k++){
-						train.getRoute().getRoute().remove(j);
+					else{
+						stillCorrect = false;
 					}
-					train.getRoute().addConnection(new Connection(startJSON, destJSON, Line.Black)); //TODO fix colour of line here
 				}
-				//else connection is the same
+				//The next two for statements correct our route...
+				//Remove any connections after the first incorrect connection
+				for(int j = correctConnections; j < train.getRoute().getRoute().size(); j++){
+					train.getRoute().removeConnection();
+				}
+				for(int j = correctConnections; j < routeConnections.size(); j++){
+					//Gets the connection at this index
+					JSONObject connection = (JSONObject) routeConnections.get(j);
+					//Gets the supposed start and end points of this connection
+					Station startJSON = gameMap.getStationWithName((String)connection.get("start"));
+					Station destJSON = gameMap.getStationWithName((String)connection.get("end"));
+					train.getRoute().addConnection(new Connection(startJSON, destJSON, Line.Black));
+				}
+				
+				train.getRoute().hideRouteBlips();
 			}
-			/*for(int j = 0; j < (train.getRoute().getRoute().size() - (routeConnections.size() + 1)); j++){ //if there are more connections than in the json- remove these connections
-				train.getRoute().getRoute().remove(j);
-			}*/
 		}
-		
-		//add connections for player 2
-		playerJSON = (JSONObject)playersJSON.get(1);
-		trainArray = (JSONArray)playerJSON.get("Trains");
-		
-		for(int i = 0; i < player2.getTrains().size(); i++){
-			Train train = player2.getTrains().get(i);
-			JSONObject trainJSON = (JSONObject) trainArray.get(i);
-			JSONObject trainRoute = (JSONObject)trainJSON.get("route");
-			JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
-			for(int j = 0; j < routeConnections.size(); j++){
-				JSONObject connection = (JSONObject) routeConnections.get(j);
-				Station startJSON = gameMap.getStationWithName((String)connection.get("start"));
-				Station destJSON = gameMap.getStationWithName((String)connection.get("end"));
-				if(train.getRoute().getRoute().size() <= j){
-					train.getRoute().addConnection(new Connection(startJSON, destJSON, Line.Black)); //TODO fix colour of line here
-				}
-				else if(train.getRoute().getRoute().get(j).getStartMapObj() != startJSON){
-					for(int k = j; k < train.getRoute().getRoute().size(); k++){
-						train.getRoute().getRoute().remove(j);
-					}
-					train.getRoute().addConnection(new Connection(startJSON, destJSON, Line.Black)); //TODO fix colour of line here
-				}
-				else if(train.getRoute().getRoute().get(j).getDestination() != destJSON){
-					for(int k = j; k < train.getRoute().getRoute().size(); k++){
-						train.getRoute().getRoute().remove(j);
-					}
-					train.getRoute().addConnection(new Connection(startJSON, destJSON, Line.Black)); //TODO fix colour of line here
-				}
-				//else connection is the same
-			}
-			/*for(int j = 0; j < (train.getRoute().getRoute().size() - (routeConnections.size() + 1)); j++){ //if there are more connections than in the json- remove these connections
-				train.getRoute().getRoute().remove(j);
-			}*/
-		}
-
 	}
 	
 	/**

@@ -2,13 +2,8 @@ package com.TeamHEC.LocomotionCommotion.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
-import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Obstacle.Obstacle;
 import com.TeamHEC.LocomotionCommotion.Obstacle.ObstacleFactory;

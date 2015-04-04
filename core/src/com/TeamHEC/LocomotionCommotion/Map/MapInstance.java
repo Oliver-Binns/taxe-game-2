@@ -27,6 +27,14 @@ public class MapInstance {
 	private Map<String, Junction> junctions;
 	
 	/**
+	 * Instantiates an empty map instance for the purpose of generating a map file
+	 */
+	public MapInstance() {
+		stations = new HashMap<String, Station>();
+		junctions = new HashMap<String, Junction>();
+	}
+	
+	/**
 	 * Dynamically builds the map from a JSON file.
 	 * @param filepath provides the path to the JSON file representing the map
 	 */
@@ -211,6 +219,69 @@ public class MapInstance {
 		}
 		
 		return returnList;
+	}
+	
+	/**
+	 * Adds an object to the map
+	 * @param obj the MapObj to add to the map
+	 */
+	public void addMapObj(MapObj obj) {
+		if(obj instanceof Station) {
+			stations.put(obj.getName(), (Station) obj);
+		} else {
+			junctions.put(obj.getName(), (Junction) obj);
+		}
+	}
+	
+	/**
+	 * Adds a single connection to the map
+	 * @param connection
+	 */
+	public void addConnection(Connection connection) {
+		connection.getStartMapObj().connections.add(connection);
+	}
+	
+	/**
+	 * 
+	 * @return json string for saving to map file
+	 */
+	public String generateJSON() {
+		String jMap = "{\"Stations\" : [";
+		
+		for(Station s : stations.values()) {
+			jMap = jMap + "{\"Name\" : \"" + s.getName() + "\",\"BaseValue\" : " + s.getBaseValue() + ",\"Resource\" : [{\"Type\" : \"" + s.getResourceString() + "\",\"Amount\" : " + s.getResourceType().getValue() + "}],\"BaseFuelOut\" : " + s.getBaseResourceOut() + ",\"Lines\" : [";
+			for(Line l : s.getLineType()) {
+				jMap = jMap + "\"" + l.toString() + "\",";
+			}
+			jMap = jMap.substring(0,  jMap.length() - 1) + "],\"Rent\" : " + s.getBaseRentValue() + ",\"Location\" : [" + s.x + "," + s.y + "],\"Locked\" : " + s.isLocked() + "}";
+		}
+		
+		jMap = jMap + "],\"Junctions\" : [";
+		
+		for(Junction j : junctions.values()) {
+			jMap = jMap + "{\"Location\" : [" + j.x + "," + j.y + "],\"Name\" : \"" + j.getName() + "\",\"Locked\" : " + j.isLocked() + "}";
+		}
+		
+		jMap = jMap + "],\"Connections\" : [";
+		
+		for(MapObj m : mapObjList()) {
+			jMap = jMap + "{\"StartPoint\" : \"" + m.getName() + "\",\"EndPoints\" : [";
+			
+			for(Connection c : m.connections) {
+				jMap = jMap + "\"" + c.getDestination().getName() + "\",";
+			}
+			
+			jMap = jMap.substring(0, jMap.length() - 1) + "],\"Colours\" : [";
+			
+			for(Connection c : m.connections) {
+				jMap = jMap + "\"" + c.getColour() + "\",";
+			}
+			
+			jMap = jMap.substring(0, jMap.length() - 1) + "]}";
+		}
+		jMap = jMap + "]}";
+		
+		return jMap;
 	}
 	
 	/**

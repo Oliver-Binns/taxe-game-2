@@ -203,7 +203,7 @@ public class GameScreen implements Screen {
 		}
 		
 		for(Station startPoint : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()) {
-			int nameWidth = startPoint.getName().length() * 13 + 9;
+			int nameWidth = startPoint.getActor().labelWidth;
 			float alpha = 1.0f;
 			
 			//Make station translucent if they are locked
@@ -213,7 +213,7 @@ public class GameScreen implements Screen {
 			
 			//Draw outlines over stations and labels
 			shapeRend.setColor(0, 0, 0, alpha);
-			shapeRend.rect(startPoint.x - nameWidth/2 + 17, startPoint.y + 42, nameWidth + 6, 46);
+			shapeRend.rect(startPoint.x - nameWidth/2 - 5, startPoint.y + 42, nameWidth + 10, 46);
 			if(startPoint.getActor().highlighted) {
 				shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 16.0f);
 			} else {
@@ -226,7 +226,7 @@ public class GameScreen implements Screen {
 			} else {
 				shapeRend.setColor(1, 1, 1, alpha);
 			}
-			shapeRend.rect(startPoint.x - nameWidth/2 + 20, startPoint.y + 45, nameWidth, 40);
+			shapeRend.rect(startPoint.x - nameWidth/2 - 2, startPoint.y + 45, nameWidth + 4, 40);
 			shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 10.0f);
 		}
 		

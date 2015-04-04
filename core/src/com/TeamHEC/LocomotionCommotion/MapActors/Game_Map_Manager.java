@@ -77,9 +77,8 @@ public class Game_Map_Manager {
 			numberOfStations++;
 			
 			Label nameLabel = s.getActor().getLabel();
-			nameLabel.setX(s.x - (s.getName().length() * 7) + 20);
+			nameLabel.setX(s.x - (s.getActor().labelWidth/2));
 			nameLabel.setY(s.y + 45);
-			nameLabel.setAlignment(Align.center);
 			nameLabel.setVisible(true);
 			actors.add(nameLabel);
 		}
@@ -109,7 +108,7 @@ public class Game_Map_Manager {
 		infoactors.add(stationSelect);
 
 		//Stuff for Labels
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gillsans.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 23;
 

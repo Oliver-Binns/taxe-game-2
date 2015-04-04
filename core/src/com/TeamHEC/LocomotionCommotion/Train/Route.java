@@ -486,6 +486,8 @@ public class Route{
 				}
 			}
 		}
+		System.out.println(routeIndex);
+		
 		// gets the length of the current connection:
 		float connectionLength = path.get(routeIndex).getLength();
 		

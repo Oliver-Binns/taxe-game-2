@@ -17,6 +17,7 @@ public class Game_Map_MapObj extends Actor{
 	public Texture texture, toggleTexture1, toggleTexture2;
 	public float actorX, actorY;
 	public boolean started = false, highlighted = false;
+	public int labelWidth;
 	protected ShapeRenderer shapeRend = GameScreen.getRend();
 	
 	// Used for adjacent MapObjs in route:
@@ -33,6 +34,7 @@ public class Game_Map_MapObj extends Actor{
 		this.texture = texture;
 		toggleTexture1 = texture;
 		this.toggleTexture2 = toggleTexture2;
+		this.labelWidth = 0;
 		
 		setBounds(actorX, actorY, texture.getWidth(), texture.getHeight());
 		 

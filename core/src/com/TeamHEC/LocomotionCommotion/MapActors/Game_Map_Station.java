@@ -29,21 +29,16 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 
 		this.station = station;
 		//this.nameWidth = this.station.getName().length() * 20;
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gillsans.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 25;
-
 		BitmapFont font = generator.generateFont(parameter);
-		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		generator.dispose();
-		LabelStyle style = new LabelStyle();
-		style.font = font;
-		
-		style.fontColor = Color.BLACK;
+
 		int stringLength = station.getName().length();
 		stringLength = java.lang.Math.min(stringLength, 9);
-		nameLabel = new Label(station.getName().toUpperCase().substring(0, stringLength), style);
+		nameLabel = new Label(station.getName().substring(0, stringLength), GameScreenUI.getLabelStyle(25));
 		
+		this.labelWidth = (int) font.getBounds(nameLabel.getText()).width;
 		this.owned = false;
 		station.register(this);
 	}

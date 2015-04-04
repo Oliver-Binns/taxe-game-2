@@ -4,7 +4,6 @@ import com.TeamHEC.LocomotionCommotion.Game.CoreGame;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
-import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.TeamJKG.LocomotionCommotion.Replay.Replay;
 
 public class NewGame extends CoreGame {
@@ -90,34 +89,5 @@ public class NewGame extends CoreGame {
             StartTurn();
         }
 
-	}
-	
-	/**
-	 * Ends the current game.
-     * Only call once one player has a higher score than another
-	 */
-	@Override
-	protected void EndGame() {
-        Player winner;
-        
-        if ( player1.getPoints() > player2.getPoints() ) {
-            player1.setAsWinner();
-            player2.setAsLoser();
-            winner = player1;
-        }
-
-        else if ( player1.getPoints() < player2.getPoints()) {
-            player1.setAsLoser();
-            player2.setAsWinner();
-            winner = player2;
-        }
-
-        else {
-            return; //Game should not end if there is a draw
-        }
-
-        WarningMessage.fireWarningWindow("End of Game", "Congratulations to " + winner.getName() + " you have won!");
-
-		replay.saveGame();
 	}
 }

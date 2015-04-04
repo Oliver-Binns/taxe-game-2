@@ -36,17 +36,17 @@ public class Game_Map_TextureManager{
 	public CustomTexture junction = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction-trans.png"));
 	public CustomTexture junctionx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2-trans.png"));
 	
-	public CustomTexture p1Station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1station.png"));
-	public CustomTexture p1StationFaulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1station-broken.png"));
-	public CustomTexture p1Stationx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1station2.png"));
-	public CustomTexture p1Stationx2Faulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1station2-broken.png"));
+	public CustomTexture p1Station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction-trans.png"));
+	public CustomTexture p1StationFaulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction-trans.png"));
+	public CustomTexture p1Stationx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2-trans.png"));
+	public CustomTexture p1Stationx2Faulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2-trans.png"));
 	public CustomTexture p1Train = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1train.png"));
 	public CustomTexture p1Trainx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p1train2.png"));
 	
-	public CustomTexture p2Station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2station.png"));
-	public CustomTexture p2StationFaulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2station-broken.png"));
-	public CustomTexture p2Stationx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2station2.png"));
-	public CustomTexture p2Stationx2Faulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2station2-broken.png"));
+	public CustomTexture p2Station = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction-trans.png"));
+	public CustomTexture p2StationFaulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction-trans.png"));
+	public CustomTexture p2Stationx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2-trans.png"));
+	public CustomTexture p2Stationx2Faulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2-trans.png"));
 	public CustomTexture p2Train = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2train.png"));
 	public CustomTexture p2Trainx2 = new CustomTexture(Gdx.files.internal("gameScreen/game_map/p2train2.png"));
 	

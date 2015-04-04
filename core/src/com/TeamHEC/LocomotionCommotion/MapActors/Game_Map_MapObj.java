@@ -99,7 +99,7 @@ public class Game_Map_MapObj extends Actor{
 	}
 	
 	public void toggleHighlight(boolean highlighted)
-	{
+	{	
 		if(highlighted)
 		{
 			texture = toggleTexture2;

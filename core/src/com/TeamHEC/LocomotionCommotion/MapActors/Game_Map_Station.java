@@ -137,6 +137,7 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 		Game_Map_StationBtn.selectedStation = this;
 		if(!highlighted)
 		{	
+			Game_Map_Manager.deselectAll();
 			highlighted = true;
 			if(!GameScreenUI.routingModeWindow.isVisible())
 				showInfoBox();

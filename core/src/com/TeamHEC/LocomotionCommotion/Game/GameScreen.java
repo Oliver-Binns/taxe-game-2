@@ -16,6 +16,7 @@ import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
+import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_PauseMenu;
@@ -212,6 +213,22 @@ public class GameScreen implements Screen {
 			}
 			
 			//Draw outlines over stations and labels
+			
+			if(!(startPoint.getOwner() == null)) {
+				Player player = startPoint.getOwner();
+				
+				if(player.isPlayer1) {
+					shapeRend.setColor(0, 0.74f, 0.83f, 0.8f);
+				} else {
+					shapeRend.setColor(0.96f, 0.49f, 0, 0.8f);
+				}
+				if(startPoint.getActor().highlighted) {
+					shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 19.0f);
+				} else {
+					shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 16.0f);
+				}
+			}
+			
 			shapeRend.setColor(0, 0, 0, alpha);
 			shapeRend.rect(startPoint.x - nameWidth/2 - 5, startPoint.y + 42, nameWidth + 10, 46);
 			if(startPoint.getActor().highlighted) {
@@ -221,12 +238,12 @@ public class GameScreen implements Screen {
 			}
 			
 			//Draw label and station placeholders/icons
+			shapeRend.setColor(1, 1, 1, alpha);
+			shapeRend.rect(startPoint.x - nameWidth/2 - 2, startPoint.y + 45, nameWidth + 4, 40);
+			
 			if(startPoint.isFaulty()) {
 				shapeRend.setColor(1, 0, 0, alpha);
-			} else {
-				shapeRend.setColor(1, 1, 1, alpha);
 			}
-			shapeRend.rect(startPoint.x - nameWidth/2 - 2, startPoint.y + 45, nameWidth + 4, 40);
 			shapeRend.circle(startPoint.x + 20, startPoint.y + 20, 10.0f);
 		}
 		

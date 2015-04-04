@@ -4,6 +4,7 @@ import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Train.TrainInfoUI;
@@ -63,13 +64,6 @@ public class Game_Map_Manager {
 		mapActors=0;
 		stationTracker=0;
 		numberOfStations=0;
-
-		/*planBackground = new Sprite(-1,50,Game_TextureManager.getInstance().game_pause_blackoutscreen);
-		planBackground.setVisible(false);
-		actors.add(planBackground);*/
-
-		//map = new Sprite(100, 60, Game_Map_TextureManager.getInstance().map);		
-		//actors.add(map);
 	
 		stationTracker = stage.getActors().size;
 		for(Station s : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()) {
@@ -207,7 +201,7 @@ public class Game_Map_Manager {
 		
 		if(LocomotionCommotion.isReplay){
 			stationSelect.setVisible(false); //don't show StationSelect if we're on Replay! We don't want users editing our existing game!
-		} else if(((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isFaulty()){
+		} else if(((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isFaulty() || ((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isLocked()){
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
 		}
 		else if(Game_StartingSequence.inProgress) {
@@ -234,6 +228,12 @@ public class Game_Map_Manager {
 					((Game_Map_Station) GameScreen.getStage().getActors().get(i)).setOwned(false);
 				}
 			}
+		}
+	}
+	
+	public static void deselectAll() {
+		for(MapObj m : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).mapObjList()) {
+			m.getActor().highlighted = false;
 		}
 	}
 }

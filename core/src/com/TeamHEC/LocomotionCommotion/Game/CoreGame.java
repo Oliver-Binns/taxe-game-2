@@ -156,41 +156,12 @@ public abstract class CoreGame {
      * Checks for end game condition : turn count has reached its "limit" and player's points are not equal
      * It will increase the turn count and switch the player's turns.
 	 */
-	public void EndTurn() {
-		//If turn limit is exceeded
-        //New move if draw, else end game
-        if (turnCount >= turnLimit && player1.getPoints() != player2.getPoints()){
-            EndGame();
-        }
-
-        else {
-            playerTurn.lineBonuses();
-            turnCount = (turnCount + 1);
-            if (playerTurn == player1)
-                playerTurn = player2;
-            else{
-                playerTurn = player1;
-            }
-            StartTurn();
-        }
-
-	}
+	public abstract void EndTurn();
 
 	/**
 	 * Starts a players turn. It will check for the end game condition.
 	 */
-	public void StartTurn() {
-        // Proceed with the turn:
-        playerTurn.lineBonuses();
-        playerTurn.stationRewards();
-        playerTurn.obstacles(OBSTACLE_PROBABILITY);
-
-        //Increment all player's goals by one turn in duration
-        for ( Goal goal : playerTurn.getGoals()){
-            goal.incrementCurrentGoalDuration();
-        }
-
-	}
+	public abstract void StartTurn();
 
 	/**
 	 * Ends the current game.

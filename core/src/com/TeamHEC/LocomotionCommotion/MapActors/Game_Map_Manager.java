@@ -8,6 +8,7 @@ import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Train.TrainInfoUI;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_TextureManager;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
@@ -214,6 +215,61 @@ public class Game_Map_Manager {
 		stationLabelName.setVisible(true);
 		stationLabelFuel.setVisible(true);
 		stationLabelCost.setVisible(true);
+	}
+	
+	public static void showEditJunction(Junction junction) {
+		GameScreenUI.editStationNameLabel.setVisible(true);
+		GameScreenUI.editStationLockedLabel.setVisible(true);
+		GameScreenUI.editPositionXLabel.setVisible(true);
+		GameScreenUI.editPositionYLabel.setVisible(true);
+		GameScreenUI.editStationFuelLabel.setVisible(false);
+		GameScreenUI.editStationRentLabel.setVisible(false);
+		GameScreenUI.editStationValueLabel.setVisible(false);
+		GameScreenUI.editStationResourceLabel.setVisible(false);
+		
+		GameScreenUI.editStationResource.setVisible(false);
+		GameScreenUI.editStationFuel.setVisible(false);
+		GameScreenUI.editStationLocked.setVisible(true);
+		GameScreenUI.editStationName.setVisible(true);
+		GameScreenUI.editStationRent.setVisible(false);
+		GameScreenUI.editPositionX.setVisible(true);
+		GameScreenUI.editPositionY.setVisible(true);
+		GameScreenUI.editStationValue.setVisible(false);
+		
+		GameScreenUI.editStationName.setText(junction.getName());
+		GameScreenUI.editPositionX.setText(Integer.toString((int) junction.x));
+		GameScreenUI.editPositionY.setText(Integer.toString((int) junction.y));
+		GameScreenUI.editStationLocked.setChecked(junction.isLocked());
+	}
+	
+	public static void showEditStation(Station station) {
+		GameScreenUI.editStationNameLabel.setVisible(true);
+		GameScreenUI.editStationLockedLabel.setVisible(true);
+		GameScreenUI.editPositionXLabel.setVisible(true);
+		GameScreenUI.editPositionYLabel.setVisible(true);
+		GameScreenUI.editStationFuelLabel.setVisible(true);
+		GameScreenUI.editStationRentLabel.setVisible(true);
+		GameScreenUI.editStationValueLabel.setVisible(true);
+		GameScreenUI.editStationResourceLabel.setVisible(true);
+		
+		GameScreenUI.editStationResource.setVisible(true);
+		GameScreenUI.editStationFuel.setVisible(true);
+		GameScreenUI.editStationLocked.setVisible(true);
+		GameScreenUI.editStationName.setVisible(true);
+		GameScreenUI.editStationRent.setVisible(true);
+		GameScreenUI.editPositionX.setVisible(true);
+		GameScreenUI.editPositionY.setVisible(true);
+		GameScreenUI.editStationValue.setVisible(true);
+		
+		GameScreenUI.editStationFuel.setText(Integer.toString(station.getBaseResourceOut()));
+		GameScreenUI.editStationName.setText(station.getName());
+		GameScreenUI.editStationRent.setText(Integer.toString(station.getBaseRentValue()));
+		GameScreenUI.editStationValue.setText(Integer.toString(station.getBaseValue()));
+		GameScreenUI.editStationResource.setSelected(station.getResourceString());
+		GameScreenUI.editStationLocked.setChecked(station.isLocked());
+		GameScreenUI.editPositionX.setText(Integer.toString((int) station.x));
+		GameScreenUI.editPositionY.setText(Integer.toString((int) station.y));
+		System.out.println(station.getResourceString());
 	}
 
 	public static void resetMap(){

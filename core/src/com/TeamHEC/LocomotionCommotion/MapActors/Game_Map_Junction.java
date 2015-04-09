@@ -17,4 +17,11 @@ public class Game_Map_Junction extends Game_Map_MapObj{
 	public MapObj getMapObj() {
 		return junction;
 	}
+	
+	@Override
+	protected void onClicked() {
+		super.onClicked();
+		
+		Game_Map_Manager.showEditJunction(junction);
+	}
 }

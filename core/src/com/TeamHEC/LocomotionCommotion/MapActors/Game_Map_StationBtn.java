@@ -1,5 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
@@ -27,7 +28,9 @@ public class Game_Map_StationBtn extends SpriteButton {
 	@Override
 	protected void onClicked()
 	{
-		started = true;
+		if(!GameData.EDITING) {
+			started = true;
+		}
 	}
 		
 	@Override
@@ -90,7 +93,7 @@ public class Game_Map_StationBtn extends SpriteButton {
 			} else if(selectedStation.getMapObj().isLocked()) {
 				GameScreen.game.getPlayerTurn().getShop().unlockStation((Station) selectedStation.getMapObj(), false);
 				Game_Map_Manager.hideInfoBox();
-			}else {
+			} else {
 				//Buy Stations in game
 				GameScreen.game.getPlayerTurn().purchaseStation((Station) selectedStation.getMapObj());
 				Game_Map_Manager.hideInfoBox();

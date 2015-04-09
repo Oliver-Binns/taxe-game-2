@@ -77,6 +77,7 @@ public class MapInputProcessor implements InputProcessor {
 			((OrthographicCamera) GameScreen.getMapStage().getCamera()).zoom = 3.0f;
 			scaleZ = 3.0f;
 		}
+		
 		return false;
 	}
 

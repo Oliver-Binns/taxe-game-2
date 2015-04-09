@@ -107,6 +107,12 @@ public class Game_TextureManager {
 	public CustomTexture game_shop_sellbtn = new CustomTexture(Gdx.files.internal("gameScreen/game_shop/sellbtn.png"));
 	public CustomTexture game_shop_blankbuybtn = new CustomTexture(Gdx.files.internal("gameScreen/game_shop/blankbuybtn.png"));
 	
+	//Editing
+	public CustomTexture game_edit_infobar = new CustomTexture(Gdx.files.internal("gameScreen/game_editor/InfoBar.png"));
+	public CustomTexture game_edit_stationtool = new CustomTexture(Gdx.files.internal("gameScreen/game_editor/station.png"));
+	public CustomTexture game_edit_junctiontool = new CustomTexture(Gdx.files.internal("gameScreen/game_editor/junction.png"));
+	public CustomTexture game_edit_connectiontool = new CustomTexture(Gdx.files.internal("gameScreen/game_editor/connection.png"));
+	
 	//StartGame
 	public CustomTexture game_start_getstartedwindow = new CustomTexture(Gdx.files.internal("gameScreen/game_startsequence/getstartedwindow.png"));
 	public CustomTexture game_start_getstartedwindow2 = new CustomTexture(Gdx.files.internal("gameScreen/game_startsequence/getstartedwindow-witharrow.png"));

@@ -1,5 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
@@ -7,13 +8,10 @@ import com.TeamHEC.LocomotionCommotion.Map.StationListener;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 public class Game_Map_Station extends Game_Map_MapObj implements StationListener {
 
@@ -139,13 +137,17 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 		{	
 			Game_Map_Manager.deselectAll();
 			highlighted = true;
-			if(!GameScreenUI.routingModeWindow.isVisible())
+			if(!GameData.EDITING && !GameScreenUI.routingModeWindow.isVisible())
 				showInfoBox();
 		}
 		else
 		{
 			highlighted = false;
 			hideInfoBox();
+		}
+		
+		if(GameData.EDITING) {
+			Game_Map_Manager.showEditStation(station);
 		}
 	}
 

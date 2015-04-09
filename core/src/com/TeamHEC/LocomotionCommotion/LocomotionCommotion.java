@@ -74,6 +74,7 @@ public class LocomotionCommotion extends Game {
 	 */
 	public void setGameScreen()
 	{
+		GameData.EDITING = false;
 		SceneManager.getInstance().startScene.dispose();
 		gameScreen = new GameScreen();
 		GameScreen.create();
@@ -86,11 +87,25 @@ public class LocomotionCommotion extends Game {
 	 */
 	public void setMenuScreen()
 	{
+		GameData.EDITING = false;
 		gameScreen.dispose();
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
 
 		SceneManager.getInstance().startScene.addToStage();
 		setScreen(SceneManager.getInstance().startScene);
+	}
+	
+	/**
+	 * This method changes the screen to the map editing UI and disposes of the startScene.
+	 */
+	public void setMapEditScreen() {
+		GameData.EDITING = true;
+		SceneManager.getInstance().startScene.dispose();
+		gameScreen = new GameScreen();
+		GameScreen.create();
+		gameScreen.resetScreen();
+		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT );
+		setScreen(gameScreen);
 	}
 
 	@Override

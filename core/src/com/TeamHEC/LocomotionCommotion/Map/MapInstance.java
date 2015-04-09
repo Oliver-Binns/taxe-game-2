@@ -61,13 +61,13 @@ public class MapInstance {
 				Long resourceAmount = (Long) ((JSONObject) ((JSONArray) jStation.get("Resource")).get(0)).get("Amount");
 				
 				Resource resource;
-				if(resourceType == "Coal") {
+				if(resourceType.equals("Coal")) {
 					resource = new Coal(resourceAmount.intValue());
-				} else if(resourceType == "Electric") {
+				} else if(resourceType.equals("Electric")) {
 					resource = new Electric(resourceAmount.intValue());
-				} else if(resourceType == "Gold") {
+				} else if(resourceType.equals("Gold")) {
 					resource = new Gold(resourceAmount.intValue());
-				} else if(resourceType == "Nuclear") {
+				} else if(resourceType.equals("Nuclear")) {
 					resource = new Nuclear(resourceAmount.intValue());
 				} else {
 					resource = new Oil(resourceAmount.intValue());
@@ -179,13 +179,7 @@ public class MapInstance {
 	 * @return Station object with a given name - null if no station exists.
 	 */
 	public Station getStationWithName(String name){
-		Station[] stations = stationList();
-		for(int i = 0; i < stations.length; i++){
-			if(stations[i].getName().equals(name)){
-				return stations[i].getStation();
-			}
-		}
-		return null;
+		return stations.get(name);
 	}
 	/**
 	 * @return an array of stations only
@@ -239,6 +233,32 @@ public class MapInstance {
 	 */
 	public void addConnection(Connection connection) {
 		connection.getStartMapObj().connections.add(connection);
+	}
+	
+	/**
+	 * Removes station from MapInstance
+	 * @param station the station to be removed from the map
+	 */
+	public void removeStation(String station) {
+		stations.remove(station);
+	}
+	
+	public void removeJunction(String junction) {
+		junctions.remove(junction);
+	}
+	
+	public void removeConnection(MapObj startPoint, MapObj endPoint) {
+		for(Connection c : startPoint.connections) {
+			if(c.getDestination().equals(endPoint)) {
+				startPoint.connections.remove(c);
+			}
+		}
+		
+		for(Connection c : endPoint.connections) {
+			if(c.getDestination().equals(startPoint)) {
+				endPoint.connections.remove(c);
+			}
+		}
 	}
 	
 	/**

@@ -21,7 +21,7 @@ public class StartMenu extends Scene{
 
 	private Sprite sm_main_title, sm_main_lines;
 	@SuppressWarnings("unused")
-	private SpriteButton newGameButton, loadGameButton, preferencesButton, howToPlayButton, exitButton;
+	private SpriteButton newGameButton, loadGameButton, preferencesButton, editMapButton, exitButton;
 
 	//Start Menu NewGame Page
 	private Sprite sm_newgame_menutext;
@@ -34,7 +34,7 @@ public class StartMenu extends Scene{
 	//Start Menu Preferences Page
 	private Sprite sm_preferences_vertline, sm_preferences_titletext;
 
-	//Start Menu HowtoPlay Page
+	//Start Menu MapEdit Page
 	private Sprite sm_howtoplay_line, sm_howtoplay_title;
 	private Sprite sm_howtoplay_frame;
 	private SpriteButton loadGameBckButton, prefBackButton, settingsButton;
@@ -204,41 +204,15 @@ public class StartMenu extends Scene{
         // Not yet implemented. Hidden.
         // actors.add(preferencesButton);
 
-		howToPlayButton = new SpriteButton(590, 255, SM_TextureManager.getInstance().sm_main_howtoplaybtn){
+		editMapButton = new SpriteButton(590, 255, SM_TextureManager.getInstance().sm_main_howtoplaybtn){
 			@Override
 			public void onClicked()
 			{
-				started = true;
+				LocomotionCommotion.isReplay = false;
+				LocomotionCommotion.getInstance().setMapEditScreen();
 			}
-
-			int animationTracker1, animationTracker2;
-
-			@Override
-			public void act(float delta)
-			{
-				if(started){
-					if (animationTracker1<45){
-						changeCam(0,-15);
-						animationTracker1+=15;
-					}
-					else{
-						if(animationTracker2<1700){
-							changeCam(-50,0);
-							animationTracker2+=50;
-						}
-
-						else{
-							started = false;
-							animationTracker1=0;
-							animationTracker2=0;
-						}
-					}
-				}
-			}
-
 		};
-        // Not yet implemented. Hidden.
-        // actors.add(howToPlayButton);
+        actors.add(editMapButton);
 
 		exitButton = new SpriteButton(600, 86, SM_TextureManager.getInstance().sm_main_exitButton){
 

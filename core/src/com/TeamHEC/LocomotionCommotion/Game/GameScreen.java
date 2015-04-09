@@ -94,27 +94,28 @@ public class GameScreen implements Screen {
 		mapManager = new Game_Map_Manager();
 		mapManager.create(getMapStage());
 		
-		Game_CardHand cardHand = new Game_CardHand();
-		cardHand.create(getStage());
-
+		if(!GameData.EDITING) {
+			Game_CardHand cardHand = new Game_CardHand();
+			cardHand.create(getStage());
+	
+			TrainDepotUI trainDepot = new TrainDepotUI();
+			trainDepot.create(getStage());
+	
+			GoalMenu goalScreenManager = new GoalMenu();
+			goalScreenManager.create(getStage());
+			
+			PlayerGoals ticketManager = new PlayerGoals();
+			ticketManager.create(getStage());	
+			
+			Game_StartingSequence startgameManager = new Game_StartingSequence();
+			startgameManager.create(getStage());
+			
+			Game_Shop shop = new Game_Shop();
+			shop.create(getStage());
+		}
+		
 		GameScreenUI actorManager = new GameScreenUI();
 		actorManager.create(getStage());
-
-
-		TrainDepotUI trainDepot = new TrainDepotUI();
-		trainDepot.create(getStage());
-
-		GoalMenu goalScreenManager = new GoalMenu();
-		goalScreenManager.create(getStage());
-		
-		PlayerGoals ticketManager = new PlayerGoals();
-		ticketManager.create(getStage());	
-		
-		Game_StartingSequence startgameManager = new Game_StartingSequence();
-		startgameManager.create(getStage());
-		
-		Game_Shop shop = new Game_Shop();
-		shop.create(getStage());
 		
 		Game_PauseMenu pauseMenu= new Game_PauseMenu();
 		pauseMenu.create(getStage());
@@ -257,7 +258,11 @@ public class GameScreen implements Screen {
 			
 			//Draw outlines over junctions
 			shapeRend.setColor(0, 0, 0, alpha);
-			shapeRend.rect(junc.x + 7, junc.y + 7, 26, 26);
+			if(junc.getActor().highlighted) {
+				shapeRend.rect(junc.x + 4, junc.y + 4, 32, 32);
+			} else {
+				shapeRend.rect(junc.x + 7, junc.y + 7, 26, 26);
+			}
 			
 			//Draw station icons
 			shapeRend.setColor(1, 1, 1, alpha);
@@ -340,18 +345,22 @@ public class GameScreen implements Screen {
 	public void  resetScreen(){
 		Game_Map_Manager.infoVisible= false;
 		Game_PauseMenu.actorManager.open = false;
-		PlayerGoals.open = false;
-		Game_Shop.actorManager.open = false;
-		TrainDepotUI.actorManager.open = false;
 		GameScreenUI.resourcebarexpanded =false;
-		GoalMenu.open= false;
 		
-		//CARDS
-		Game_CardHand.actorManager.open=false;
-		Game_CardHand.actorManager.cardactors.clear();;
+		if(!GameData.EDITING) {
+			PlayerGoals.open = false;
+			Game_Shop.actorManager.open = false;
+			TrainDepotUI.actorManager.open = false;
+			GoalMenu.open= false;
+			
+			//CARDS
+			Game_CardHand.actorManager.open=false;
+			Game_CardHand.actorManager.cardactors.clear();;
+			
+			//Map
+			Game_StartingSequence.reset();
+		}
 		
-		//Map
-		Game_StartingSequence.reset();
 		Game_Map_Manager.resetMap();
 	}
 }

@@ -8,6 +8,7 @@ import com.TeamHEC.LocomotionCommotion.Card.Game_CardHand;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalMenu;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
+import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -69,6 +71,8 @@ public class GameScreenUI {
 		game_editing_stationTool,
 		game_editing_junctionTool,
 		game_editing_connectionTool,
+		saveButton,
+		deleteButton,
 		confirmRouteBtn, 
 		undoLastRouteButton, 
 		abortRouteBtn, 
@@ -275,7 +279,7 @@ public class GameScreenUI {
 			};
 			actors.add(game_menuobject_infobutton);
 			
-			//Access Shop Button -- Bottom right group
+			//Access Shop Button -- sBottom right group
 			game_menuobject_shopbtn = new SpriteButton(LocomotionCommotion.screenX-310, 125, Game_TextureManager.getInstance().game_shop_shopbtn){
 				/**
 				 * onClicked for shopbtn:
@@ -603,7 +607,7 @@ public class GameScreenUI {
 			game_editing_stationTool = new SpriteButton(50, 1000, Game_TextureManager.getInstance().game_edit_stationtool) {
 				@Override
 				protected void onClicked() {
-					WarningMessage.fireWarningWindow("stationTool", "Station Tool Clicked");
+					WarningMessage.fireWarningWindow("stationTool", "Station Tool not implemented yet.");
 				}
 			};
 			actors.add(game_editing_stationTool);
@@ -611,7 +615,7 @@ public class GameScreenUI {
 			game_editing_junctionTool = new SpriteButton(250, 1000, Game_TextureManager.getInstance().game_edit_junctiontool) {
 				@Override
 				protected void onClicked() {
-					WarningMessage.fireWarningWindow("junctionTool", "Junction Tool Clicked");
+					WarningMessage.fireWarningWindow("junctionTool", "Junction Tool not implemented yet.");
 				}
 			};
 			actors.add(game_editing_junctionTool);
@@ -619,10 +623,26 @@ public class GameScreenUI {
 			game_editing_connectionTool = new SpriteButton(450, 1000, Game_TextureManager.getInstance().game_edit_connectiontool) {
 				@Override
 				protected void onClicked() {
-					WarningMessage.fireWarningWindow("connectionTool", "Connection Tool Clicked");
+					WarningMessage.fireWarningWindow("connectionTool", "Connection Tool not implemented yet.");
 				}
 			};
 			actors.add(game_editing_connectionTool);
+			
+			saveButton = new SpriteButton(1530, 50, Game_TextureManager.getInstance().game_edit_savebutton) {
+				@Override
+				protected void onClicked() {
+					Game_Map_Manager.saveStation();
+				}
+			};
+			actors.add(saveButton);
+			
+			deleteButton = new SpriteButton(1530, 10, Game_TextureManager.getInstance().game_edit_deletebutton) {
+				@Override
+				protected void onClicked() {
+					Game_Map_Manager.deleteStation();
+				}
+			};
+			actors.add(deleteButton);
 			
 			style = getLabelStyle(21);
 			editStationNameLabel = new Label("Name: ", style);
@@ -664,7 +684,7 @@ public class GameScreenUI {
 			editStationResource = new SelectBox<String>(skin);
 			editStationResource.setBounds(400, 20, 	160, 20);
 			editStationResource.setItems("Coal", "Electric", "Nuclear", "Oil");
-			editStationResource.setSelected("Coal");
+			editStationResource.setSelected("Coal"); 
 			
 			editStationName = new TextField("", skin);
 			editStationValue = new TextField("", skin);
@@ -682,6 +702,8 @@ public class GameScreenUI {
 			editPositionY.setBounds(680, 30, 160, 20);
 			editStationLocked.setX(400);
 			editStationLocked.setY(60);
+			saveButton.setBounds(GameScreen.getStage().getWidth() - 150, 50, 100, 30);
+			deleteButton.setBounds(GameScreen.getStage().getWidth() - 150, 10, 100, 30);
 			
 			actors.add(editStationResource);
 			actors.add(editStationName);
@@ -691,6 +713,8 @@ public class GameScreenUI {
 			actors.add(editPositionX);
 			actors.add(editPositionY);
 			actors.add(editStationLocked);
+			actors.add(saveButton);
+			actors.add(deleteButton);
 		}
 		
 		//Get current stage end - where menuObjects start

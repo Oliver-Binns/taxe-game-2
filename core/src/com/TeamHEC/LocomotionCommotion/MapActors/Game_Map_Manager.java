@@ -7,11 +7,13 @@ import com.TeamHEC.LocomotionCommotion.Map.Junction;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
+import com.TeamHEC.LocomotionCommotion.Resource.*;
 import com.TeamHEC.LocomotionCommotion.Train.TrainInfoUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_TextureManager;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -40,6 +42,7 @@ public class Game_Map_Manager {
 	
 	public static Sprite stationInfo;
 	public static Game_Map_StationBtn stationSelect;
+	public static MapObj selectedObj;
 
     // Checks if a train is moving or not.
     public static boolean isMoving = false;
@@ -218,6 +221,8 @@ public class Game_Map_Manager {
 	}
 	
 	public static void showEditJunction(Junction junction) {
+		selectedObj = junction;
+		
 		GameScreenUI.editStationNameLabel.setVisible(true);
 		GameScreenUI.editStationLockedLabel.setVisible(true);
 		GameScreenUI.editPositionXLabel.setVisible(true);
@@ -243,6 +248,8 @@ public class Game_Map_Manager {
 	}
 	
 	public static void showEditStation(Station station) {
+		selectedObj = station;
+		
 		GameScreenUI.editStationNameLabel.setVisible(true);
 		GameScreenUI.editStationLockedLabel.setVisible(true);
 		GameScreenUI.editPositionXLabel.setVisible(true);
@@ -269,7 +276,55 @@ public class Game_Map_Manager {
 		GameScreenUI.editStationLocked.setChecked(station.isLocked());
 		GameScreenUI.editPositionX.setText(Integer.toString((int) station.x));
 		GameScreenUI.editPositionY.setText(Integer.toString((int) station.y));
-		System.out.println(station.getResourceString());
+	}
+	
+	public static void saveStation() {
+		if(selectedObj == null) {
+			WarningMessage.fireWarningWindow("Sorry", "Appropriate response hasn't been applied yet, this button does not function.");
+			return;
+		}
+		
+		Station s = (Station) selectedObj;
+	
+		s.x = Integer.parseInt(GameScreenUI.editPositionX.getText());
+		s.y = Integer.parseInt(GameScreenUI.editPositionY.getText());
+		s.lock(GameScreenUI.editStationLocked.isChecked());
+		s.setName(GameScreenUI.editStationName.getText());
+		s.setBaseResourceOut(Integer.parseInt(GameScreenUI.editStationFuel.getText()));
+		s.setBaseRentValue(Integer.parseInt(GameScreenUI.editStationRent.getText()));
+		s.setBaseValue(Integer.parseInt(GameScreenUI.editStationValue.getText()));
+		
+		if(GameScreenUI.editStationResource.getSelected().equals("Coal")) {
+			s.setResourceType(new Coal(s.getResourceType().getValue()));
+		} else if(GameScreenUI.editStationResource.getSelected().equals("Electric")) {
+			s.setResourceType(new Electric(s.getResourceType().getValue()));
+		} else if(GameScreenUI.editStationResource.getSelected().equals("Nuclear")) {
+			s.setResourceType(new Nuclear(s.getResourceType().getValue()));
+		} else {
+			s.setResourceType(new Oil(s.getResourceType().getValue()));
+		}
+	}
+	
+	public static void saveJunction() {
+		if(selectedObj == null) {
+			WarningMessage.fireWarningWindow("Sorry", "Appropriate response hasn't been applied yet, this button does not function.");
+			return;
+		}
+		
+		Junction j = (Junction) selectedObj;
+		
+		j.x = Integer.parseInt(GameScreenUI.editPositionX.getText());
+		j.y = Integer.parseInt(GameScreenUI.editPositionY.getText());
+		j.lock(GameScreenUI.editStationLocked.isChecked());
+		j.setName(GameScreenUI.editStationName.getText());
+	}
+	
+	public static void deleteStation() {
+		WarningMessage.fireWarningWindow("Sorry", "Delete Station has not been implemented yet.");
+	}
+	
+	public static void deleteJunction() {
+		WarningMessage.fireWarningWindow("Sorry", "Delete junction has not been implemented yet.");
 	}
 
 	public static void resetMap(){

@@ -102,6 +102,13 @@ public class Station extends MapObj{
 		return baseValue;
 	}
 	/**
+	 * 
+	 * @param newVal the new base value of the station
+	 */
+	public void setBaseValue(int newVal) {
+		baseValue = newVal;
+	}
+	/**
 	 * @return the value added onto baseValue from bonuses
 	 */
 	public int getValueMod() //Currently has no affect on the game, but is ready for later implementation
@@ -134,12 +141,18 @@ public class Station extends MapObj{
 	{
 		return resourceType;
 	}
+	public void setResourceType(Resource newResourceType) {
+		resourceType = newResourceType;
+	}
 	/**
 	 * @return returns the base amount of resources produced by the station
 	 */
 	public int getBaseResourceOut()
 	{
 		return baseResourceOut;
+	}
+	public void setBaseResourceOut(int newVal) {
+		baseResourceOut = newVal;
 	}
 	/**
 	 * @return the amount of resources added to base from bonuses
@@ -178,6 +191,13 @@ public class Station extends MapObj{
 	public int getBaseRentValue() //Not currently implemented but is ready if needed later
 	{
 		return rentValue;
+	}
+	/**
+	 * 
+	 * @param newVal the new rent value
+	 */
+	public void setBaseRentValue(int newVal) {
+		rentValue = newVal;
 	}
 	/**
 	 * @return the amount the base rent value is increased by

@@ -147,7 +147,7 @@ public class Shop {
 
 	public void unlockStation(Station station, boolean testCase) {
 		if(customer.getGold() >= 1000) {
-			station.toggleLocked();
+			station.lock(true);
 			customer.subGold(1000);
 		} else {
 			if(!testCase) {

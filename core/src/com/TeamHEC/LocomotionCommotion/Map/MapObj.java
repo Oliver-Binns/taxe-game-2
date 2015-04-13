@@ -42,6 +42,14 @@ public class MapObj {
 	}
 	
 	/**
+	 * Set name of the MapObj
+	 * @param newName the new name of the MapObj
+	 */
+	public void setName(String newName) {
+		name = newName;
+	}
+	
+	/**
 	 * @return returns null if not a station, or is overwritten by Station subclass
 	 */
 	public Station getStation()
@@ -66,7 +74,7 @@ public class MapObj {
 	}
 	
 	//Locks connection if the connection is unlocked, unlocks it otherwise
-	public void toggleLocked() {
-		this.locked = !(this.locked);
+	public void lock(Boolean lock) {
+		this.locked = lock;
 	}
 }

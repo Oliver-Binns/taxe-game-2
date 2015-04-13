@@ -5,6 +5,7 @@ import java.io.FileReader;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -63,9 +64,14 @@ public class StartMenu extends Scene{
 		sm_newgame_menutext =  new Sprite(80,1150+250, SM_TextureManager.getInstance().sm_newgame_MenuText);
 		actors.add(sm_newgame_menutext);
 		
+		//We can add music to the game with these lines:
 		//mainMusic = Gdx.audio.newMusic(Gdx.files.internal("Sound/elevator.mp3"));
 		//mainMusic.setLooping(true);
 		//mainMusic.play();
+		
+		//Add a new warning message?
+		WarningMessage warningMessage = new WarningMessage();
+		warningMessage.create(this.stage);
 		
 		newGameButton = new SpriteButton(600, 480, SM_TextureManager.getInstance().sm_main_newgamebtn){
 
@@ -113,7 +119,7 @@ public class StartMenu extends Scene{
 				LocomotionCommotion.turnChoice = turnChoice;
 				getJSONData();
 				resetNewGameScreen();
-				
+				System.out.println("test");
 				LocomotionCommotion.getInstance().setGameScreen();
 				
 			}
@@ -236,6 +242,7 @@ public class StartMenu extends Scene{
                     // Name is too short.
                     // You could fire a warning window here, if only fireWarningWindow worked here.
                     // But it does not.
+                	WarningMessage.fireWarningWindow("Whoops!", "Names must be longer than " + String.valueOf(MIN_NAME_LENGTH) + " characters long.");
                     return;
                 }
 

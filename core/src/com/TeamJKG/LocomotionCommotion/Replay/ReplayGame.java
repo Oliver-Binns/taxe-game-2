@@ -38,13 +38,13 @@ public class ReplayGame extends CoreGame {
 		Station Player2StationStart = gameMap.getStationWithName((String) player2Stations.get(0));
 		
 		setupPlayers(Player1Name, Player2Name, Player1StationStart, Player2StationStart);
-
+		
 		playersArray = new Player[]{player1, player2};
 		// Start Game
 		StartTurn();
 		
 		//TODO Find a way of displaying a warning message here?!
-		//WarningMessage.fireWarningWindow("Welcome to Replay!", "Test");
+		WarningMessage.fireWarningWindow("Welcome to Replay!", "Test");
 	}
 	
 	@Override
@@ -130,6 +130,7 @@ public class ReplayGame extends CoreGame {
 			}
 		}
 		for(int i = 0; i < faultyStations.size(); i++){
+			System.out.println((String)faultyStations.get(i));
 			gameMap.getStationWithName((String)faultyStations.get(i)).makeFaulty();
 		}
 	}

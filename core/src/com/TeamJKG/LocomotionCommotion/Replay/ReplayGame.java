@@ -38,7 +38,9 @@ public class ReplayGame extends CoreGame {
 		Station Player2StationStart = gameMap.getStationWithName((String) player2Stations.get(0));
 		
 		setupPlayers(Player1Name, Player2Name, Player1StationStart, Player2StationStart);
-
+		
+		System.out.println(player1.toJSON());
+		
 		playersArray = new Player[]{player1, player2};
 		// Start Game
 		StartTurn();
@@ -86,7 +88,7 @@ public class ReplayGame extends CoreGame {
 		//New Turn Data
 		turnData = (JSONObject) gameData.get(String.valueOf(this.turnCount));
 		//Add any train routings the user created on this turn.
-		addNewConnections();
+		//addNewConnections();
 		
 		//break any stations that became faulty on this turn.
 		addStationFaults();

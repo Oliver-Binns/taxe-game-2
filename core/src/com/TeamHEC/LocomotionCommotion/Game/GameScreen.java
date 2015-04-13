@@ -94,6 +94,15 @@ public class GameScreen implements Screen {
 		mapManager = new Game_Map_Manager();
 		mapManager.create(getMapStage());
 		
+		GameScreenUI actorManager = new GameScreenUI();
+		actorManager.create(getStage());
+		
+		Game_PauseMenu pauseMenu= new Game_PauseMenu();
+		pauseMenu.create(getStage());
+		
+		WarningMessage warningMessage = new WarningMessage();
+		warningMessage.create(getStage());
+		
 		if(!GameData.EDITING) {
 			Game_CardHand cardHand = new Game_CardHand();
 			cardHand.create(getStage());
@@ -113,15 +122,6 @@ public class GameScreen implements Screen {
 			Game_Shop shop = new Game_Shop();
 			shop.create(getStage());
 		}
-		
-		GameScreenUI actorManager = new GameScreenUI();
-		actorManager.create(getStage());
-		
-		Game_PauseMenu pauseMenu= new Game_PauseMenu();
-		pauseMenu.create(getStage());
-		
-		WarningMessage warningMessage = new WarningMessage();
-		warningMessage.create(getStage());
 	}
 	
 	public static JSONObject getJSONData()

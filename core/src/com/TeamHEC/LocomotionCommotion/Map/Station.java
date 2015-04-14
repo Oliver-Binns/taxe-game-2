@@ -324,7 +324,8 @@ public class Station extends MapObj{
 	 * Recursively generates a JSON of the Station instance
 	 * @return JSON of the Station instance
 	 */
+	@Override
 	public String toJSON(){
-		return "\"" + getName() + "\"";
+		return "{ \"name\": \"" + name + "\", \"type\": \"station\"}";
 	}
 }

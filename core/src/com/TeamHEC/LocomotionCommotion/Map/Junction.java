@@ -19,4 +19,12 @@ public class Junction extends MapObj {
 		super(xPos, yPos, name, locked);
 		actor = new Game_Map_Junction(this, x, y); // Creates a map blip for this junction
 	}
+	
+	/**
+	 * @return JSON String of this object
+	 */
+	@Override
+	public String toJSON(){
+		return "{ \"name\": \"" + name + "\", \"type\": \"junction\"}";
+	}
 }

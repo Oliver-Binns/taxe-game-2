@@ -41,7 +41,7 @@ public class Game_Map_Manager {
 	public static Sprite mapInfo;
 	
 	public static Sprite stationInfo;
-	public static Game_Map_StationBtn stationSelect;
+	public static Game_Map_StationBtn stationSelect, stationUnlock;
 	public static MapObj selectedObj;
 
     // Checks if a train is moving or not.
@@ -103,7 +103,9 @@ public class Game_Map_Manager {
 		trainInfoActors.addAll(trainInfo.getActors());
 
 		stationSelect = new Game_Map_StationBtn(0, 0, Game_Map_TextureManager.getInstance().stationSelect);
+		stationUnlock = new Game_Map_StationBtn(0, 0, Game_Map_TextureManager.getInstance().stationLock);
 		infoactors.add(stationSelect);
+		infoactors.add(stationUnlock);
 
 		//Stuff for Labels
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gillsans.ttf"));
@@ -179,6 +181,10 @@ public class Game_Map_Manager {
 		Game_Map_Manager.stationSelect.setX(x+20);
 		Game_Map_Manager.stationSelect.setY(y+10);
 		Game_Map_Manager.stationSelect.refreshBounds();
+		
+		Game_Map_Manager.stationUnlock.setX(x+20);
+		Game_Map_Manager.stationUnlock.setY(y);
+		Game_Map_Manager.stationUnlock.refreshBounds();
 
 		stationLabelName.setX(x+100);
 		stationLabelName.setY(y+142);
@@ -193,6 +199,7 @@ public class Game_Map_Manager {
 	public static void hideInfoBox(){
 		stationInfo.setVisible(false);
 		Game_Map_Manager.stationSelect.setVisible(false);
+		Game_Map_Manager.stationUnlock.setVisible(false);
 
 		stationLabelName.setVisible(false);
 		stationLabelFuel.setVisible(false);
@@ -212,12 +219,10 @@ public class Game_Map_Manager {
 		} else if(Game_StartingSequence.inProgress) {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);
 		} else {
-			int diff = (int) stationInfo.getHeight();
 			stationInfo.setTexture(Game_Map_TextureManager.getInstance().stationInfoLong);
-			stationInfo.refreshBounds();
-			diff -= stationInfo.getHeight();
-			stationInfo.setY(stationInfo.getY() + diff);
+			stationInfo.setY(stationInfo.getY() - 32);
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationBuy);
+			Game_Map_Manager.stationUnlock.setVisible(true);
 		}
 
 		stationLabelName.setVisible(true);

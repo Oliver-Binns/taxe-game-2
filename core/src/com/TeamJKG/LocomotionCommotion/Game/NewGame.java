@@ -73,6 +73,11 @@ public class NewGame extends CoreGame {
 
         else {
         	//adds players to replay at end of each turn
+        	if (turnCount % 2 == 1){
+        		player1.addGold(50);
+        		player2.addGold(50);
+        	}
+        	
         	Player[] playerList = {player1, player2};
         	
             playerTurn.lineBonuses();

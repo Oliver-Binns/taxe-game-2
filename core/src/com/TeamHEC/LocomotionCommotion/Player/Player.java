@@ -97,8 +97,10 @@ public class Player implements RouteListener{
     /**
      * @param newPoints  new points to be added to a player's current score
      */
-    public void incrementPoints(int newPoints) { points += newPoints; }
-
+    public void incrementPoints(int newPoints) 
+    {
+    	points += newPoints; 
+    }
 
     /**
      * Get the current state of a player

@@ -1,5 +1,7 @@
 package com.TeamJKG.LocomotionCommotion.Replay;
 
+import java.util.ArrayList;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -23,6 +25,12 @@ public class ReplayGame extends CoreGame {
 	private JSONObject turnData;
 	private Player[] playersArray;
 	
+	/**
+	 * TODO write javadoc
+	 * @param Player1Name
+	 * @param Player2Name
+	 * @param gameData
+	 */
 	public ReplayGame(String Player1Name, String Player2Name, JSONObject gameData) {
 		super(Player1Name, Player2Name, gameData.size() - 1);
 		this.gameData = gameData;
@@ -46,7 +54,9 @@ public class ReplayGame extends CoreGame {
 		//TODO Find a way of displaying a warning message here?!
 		WarningMessage.fireWarningWindow("Welcome to Replay!", "Test");
 	}
-	
+	/**
+	 * TODO write javadoc
+	 */
 	@Override
 	protected void createFirstTrain(Player player, Station startStation) {
 		String fuelType = startStation.getResourceString();
@@ -90,8 +100,12 @@ public class ReplayGame extends CoreGame {
 		
 		//break any stations that became faulty on this turn.
 		addStationFaults();
-	
+		//Updates the player scores at the top of the screen
 		updatePlayerScores();
+		
+		updateGoals();
+		//updates the player resources at the bottom of the screen
+		updateResources();
 		
 		 // Proceed with the turn
         playerTurn.lineBonuses();
@@ -104,9 +118,61 @@ public class ReplayGame extends CoreGame {
         
         //Add new connections from JSON Data
 	}
+	/**
+	 * TODO write javadoc
+	 * @return returns the JSON object of the current player
+	 */
+	public JSONObject currentPlayerJSON(){
+		//Get the player object for the current player
+		JSONArray playersJSON = (JSONArray) turnData.get("players");
+		JSONObject playerJSON;
+		if(this.playerTurn.isPlayer1){
+			playerJSON = (JSONObject) playersJSON.get(0);
+		}
+		else{
+			playerJSON = (JSONObject) playersJSON.get(1);
+		}
+		return playerJSON;
+	}
+	
+	/**
+	 * TODO write javadoc
+	 */
+	public void updateResources(){
+		JSONObject playerJSON = currentPlayerJSON();
+		
+		//updates player gold
+		this.playerTurn.addGold(((Long)playerJSON.get("Gold")).intValue() - this.playerTurn.getGold());
+		
+		String[] fuels = {"Coal", "Electric", "Nuclear", "Oil"};
+		for(int i = 0; i < fuels.length; i++){
+			this.playerTurn.addFuel(fuels[i], ((Long)playerJSON.get(fuels[i])).intValue() - this.playerTurn.getFuel(fuels[i]));
+		}
+	}
 	
 	/**
 	 * 
+	 */
+	public void updateGoals(){
+		ArrayList<Goal> goals = this.playerTurn.getGoals();
+		for(int i = 0; i < goals.size(); i++){
+			goals.remove(i);
+		}
+		
+		JSONObject playerJSON = currentPlayerJSON();
+		JSONArray playerGoals = (JSONArray) playerJSON.get("Goals");
+		
+		for(int i = 0; i < playerGoals.size(); i++){
+			JSONObject goal = (JSONObject)playerGoals.get(i);
+			
+			Goal newGoal = new Goal(gameMap.getStationWithName((String)goal.get("sStation")), gameMap.getStationWithName((String)goal.get("fStation")), ((Long)goal.get("timeConstraint")).intValue(), (String)goal.get("cargo"), ((Long)goal.get("reward")).intValue());
+			goals.add(newGoal);
+			
+		}
+	}
+	
+	/**
+	 * TODO write javadoc
 	 */
 	public void updatePlayerScores(){
 		JSONArray playersJSON = (JSONArray) turnData.get("players");

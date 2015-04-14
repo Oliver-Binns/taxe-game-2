@@ -8,7 +8,6 @@ import com.TeamHEC.LocomotionCommotion.Card.Game_CardHand;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalMenu;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
-import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -294,15 +292,20 @@ public class GameScreenUI {
 				{
 					if (Game_Shop.actorManager.open== false)
 					{
-						Game_Shop.actorManager.open= true;
-						for(int i=Game_Shop.actorManager.getStageStart(); i<=Game_Shop.actorManager.getStageEnd(); i++){
-							if (i > GameScreen.getStage().getActors().size-1){
-	
-							}else
-								GameScreen.getStage().getActors().get(i).setVisible(true);
-	
-						}			
-						Game_ShopManager.refreshgold(GameScreen.game.getPlayerTurn().getGold());
+						if(LocomotionCommotion.isReplay){
+							WarningMessage.fireWarningWindow("Sorry!", "You can't shop during Replay mode.");
+						}
+						else{
+							Game_Shop.actorManager.open= true;
+							for(int i=Game_Shop.actorManager.getStageStart(); i<=Game_Shop.actorManager.getStageEnd(); i++){
+								if (i > GameScreen.getStage().getActors().size-1){
+		
+								}else
+									GameScreen.getStage().getActors().get(i).setVisible(true);
+		
+							}			
+							Game_ShopManager.refreshgold(GameScreen.game.getPlayerTurn().getGold());
+						}
 					}
 					else
 					{	Game_Shop.actorManager.open= false;
@@ -540,9 +543,6 @@ public class GameScreenUI {
 						Game_CardHand.actorManager.selectedCard=0;
 						Game_CardHand.actorManager.changeHeight(-expandedheight);
 						Game_CardHand.actorManager.organiseHand();
-	
-	
-	
 					}
 	
 				}
@@ -753,6 +753,9 @@ public class GameScreenUI {
 				@Override
 				protected void onClicked()
 				{
+					if(Game_CardHand.actorManager.numberofcards == 0){
+						WarningMessage.fireWarningWindow("Oops!", "You don't have any cards at the moment.\nYou can buy some in the shop.");
+					}
 					if (Game_CardHand.actorManager.open== false)
 					{
 						Game_CardHand.actorManager.open= true; //set hand as open (visible)

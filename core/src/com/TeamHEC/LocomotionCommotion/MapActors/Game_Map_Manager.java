@@ -208,6 +208,7 @@ public class Game_Map_Manager {
 
 	public static void showInfoBox(){
 		stationInfo.setVisible(true);
+		stationInfo.setTexture(Game_Map_TextureManager.getInstance().stationInfo);
 		Game_Map_Manager.stationSelect.setVisible(true);
 		Game_Map_Manager.stationUnlock.setVisible(false);
 		

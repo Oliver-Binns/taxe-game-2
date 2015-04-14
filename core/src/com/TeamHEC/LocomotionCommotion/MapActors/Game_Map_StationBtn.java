@@ -93,7 +93,10 @@ public class Game_Map_StationBtn extends SpriteButton {
 			} else if(((Station) selectedStation.getMapObj()).isFaulty()) {
 				GameScreen.game.getPlayerTurn().getShop().repairStation((Station) selectedStation.getMapObj(), false);
 				Game_Map_Manager.hideInfoBox();
-			} else {
+			} else if(selectedStation.getMapObj().getStation().getOwner() == GameScreen.game.getPlayerTurn()) {
+				//Buy a new train!
+				GameScreen.game.getPlayerTurn().getShop().buyNewTrain(selectedStation.getMapObj().getStation());
+			}else {
 				//Buy Stations in game
 				GameScreen.game.getPlayerTurn().purchaseStation((Station) selectedStation.getMapObj());
 				Game_Map_Manager.hideInfoBox();

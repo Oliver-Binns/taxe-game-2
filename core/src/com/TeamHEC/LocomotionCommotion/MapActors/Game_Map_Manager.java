@@ -211,6 +211,10 @@ public class Game_Map_Manager {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
 		} else if(Game_StartingSequence.inProgress) {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);
+		} else if(Game_Map_StationBtn.selectedStation.getMapObj().getStation().getOwner() == GameScreen.game.getPlayerTurn()){
+			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().trainBuy);
+		} else if(Game_Map_StationBtn.selectedStation.owned){
+			stationSelect.setVisible(false);
 		} else {
 			int diff = (int) stationInfo.getHeight();
 			stationInfo.setTexture(Game_Map_TextureManager.getInstance().stationInfoLong);

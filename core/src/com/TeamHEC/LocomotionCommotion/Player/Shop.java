@@ -2,6 +2,12 @@ package com.TeamHEC.LocomotionCommotion.Player;
 
 import com.TeamHEC.LocomotionCommotion.Card.CardFactory;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
+import com.TeamHEC.LocomotionCommotion.Train.CoalTrain;
+import com.TeamHEC.LocomotionCommotion.Train.ElectricTrain;
+import com.TeamHEC.LocomotionCommotion.Train.NuclearTrain;
+import com.TeamHEC.LocomotionCommotion.Train.OilTrain;
+import com.TeamHEC.LocomotionCommotion.Train.Route;
+import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 
 /**
@@ -153,6 +159,29 @@ public class Shop {
 			if(!testCase) {
 				WarningMessage.fireWarningWindow("SORRY", "You don't have enough gold!");
 			}
+		}
+	}
+	
+	public void buyNewTrain(Station station){
+		if(customer.getGold() >= 1500){
+			//buy train...
+			String fuelType = station.getResourceString();
+			Train train = null;
+			if (fuelType.equals("Coal"))
+				train = new CoalTrain(0, true, new Route(station), customer);
+			else if (fuelType.equals("Nuclear"))
+				train = new NuclearTrain(0, true, new Route(station),customer);
+			else if (fuelType.equals("Electric"))
+				train = new ElectricTrain(0, true, new Route(station),customer);
+			else if (fuelType.equals("Oil"))
+				train = new OilTrain(0, true, new Route(station),customer);
+			else
+				train = new OilTrain(0, true, new Route(station),customer);
+			customer.getTrains().add(train);
+			customer.subGold(1500);
+		}
+		else{
+			WarningMessage.fireWarningWindow("SORRY", "You don't have enough gold!");
 		}
 	}
 }

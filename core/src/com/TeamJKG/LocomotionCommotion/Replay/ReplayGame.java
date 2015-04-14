@@ -9,6 +9,7 @@ import com.TeamHEC.LocomotionCommotion.Game.CoreGame;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Line;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Train.CoalTrain;
@@ -41,9 +42,12 @@ public class ReplayGame extends CoreGame {
 		JSONObject player2json = (JSONObject) players.get(1);
 		JSONArray player1Stations = (JSONArray) player1json.get("Stations");
 		JSONArray player2Stations = (JSONArray) player2json.get("Stations");
-
-		Station Player1StationStart = gameMap.getStationWithName((String) player1Stations.get(0));
-		Station Player2StationStart = gameMap.getStationWithName((String) player2Stations.get(0));
+		
+		JSONObject Station1JSON = (JSONObject)player1Stations.get(0);
+		JSONObject Station2JSON = (JSONObject)player2Stations.get(0);
+		
+		Station Player1StationStart = gameMap.getStationWithName((String)Station1JSON.get("name"));
+		Station Player2StationStart = gameMap.getStationWithName((String)Station2JSON.get("name"));
 		
 		setupPlayers(Player1Name, Player2Name, Player1StationStart, Player2StationStart);
 		
@@ -164,8 +168,10 @@ public class ReplayGame extends CoreGame {
 		
 		for(int i = 0; i < playerGoals.size(); i++){
 			JSONObject goal = (JSONObject)playerGoals.get(i);
+			JSONObject sStation = (JSONObject) goal.get("sStation");
+			JSONObject fStation = (JSONObject) goal.get("fStation");
 			
-			Goal newGoal = new Goal(gameMap.getStationWithName((String)goal.get("sStation")), gameMap.getStationWithName((String)goal.get("fStation")), ((Long)goal.get("timeConstraint")).intValue(), (String)goal.get("cargo"), ((Long)goal.get("reward")).intValue());
+			Goal newGoal = new Goal(gameMap.getStationWithName((String)sStation.get("name")), gameMap.getStationWithName((String)fStation.get("name")), ((Long)goal.get("timeConstraint")).intValue(), (String)goal.get("cargo"), ((Long)goal.get("reward")).intValue());
 			goals.add(newGoal);
 			
 		}
@@ -196,7 +202,6 @@ public class ReplayGame extends CoreGame {
 			}
 		}
 		for(int i = 0; i < faultyStations.size(); i++){
-			System.out.println((String)faultyStations.get(i));
 			gameMap.getStationWithName((String)faultyStations.get(i)).makeFaulty();
 		}
 	}
@@ -226,16 +231,34 @@ public class ReplayGame extends CoreGame {
 						if(correctConnections < routeConnections.size()){
 							JSONObject connection = (JSONObject) routeConnections.get(correctConnections);
 							//Gets the supposed start and end points of this connection
-							Station startJSON = gameMap.getStationWithName((String)connection.get("start"));
-							Station destJSON = gameMap.getStationWithName((String)connection.get("end"));
+		
+							//TODO Fix this to work with the updated version of connection object
+							JSONObject startJSON = (JSONObject)connection.get("start");
+							JSONObject destJSON = (JSONObject)connection.get("end");
+							
+							MapObj startObj = null;
+							MapObj destObj = null;
+							
+							if(((String)startJSON.get("type")).equals("junction")){
+								startObj = gameMap.getJunctionWithName((String)startJSON.get("name"));
+								destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
+							}
+							else if(((String)startJSON.get("type")).equals("station"))
+							{
+								startObj = gameMap.getStationWithName((String)startJSON.get("name"));
+								destObj = gameMap.getStationWithName((String)destJSON.get("name"));
+							}
+							else{
+								//FATAL ERROR!
+							}
 							
 							Connection currentConnection = train.getRoute().getRoute().get(correctConnections);
 							
 							//exits the while loop if connection is different
-							if(currentConnection.getStartMapObj() != startJSON){
+							if(currentConnection.getStartMapObj() != startObj){
 								stillCorrect = false;
 							}
-							else if(currentConnection.getDestination() != destJSON){
+							else if(currentConnection.getDestination() != destObj){
 								stillCorrect = false;
 							}
 							else{ //increments correctConnection and re-runs while loop if connection is the same.
@@ -259,9 +282,26 @@ public class ReplayGame extends CoreGame {
 					//Gets the connection at this index
 					JSONObject connection = (JSONObject) routeConnections.get(j);
 					//Gets the supposed start and end points of this connection
-					Station startJSON = gameMap.getStationWithName((String)connection.get("start"));
-					Station destJSON = gameMap.getStationWithName((String)connection.get("end"));
-					train.getRoute().addConnection(new Connection(startJSON, destJSON, Line.Black));
+					JSONObject startJSON = (JSONObject)connection.get("start");
+					JSONObject destJSON = (JSONObject)connection.get("end");
+					
+					MapObj startObj = null;
+					MapObj destObj = null;
+					
+					if(((String)startJSON.get("type")).equals("junction")){
+						startObj = gameMap.getJunctionWithName((String)startJSON.get("name"));
+						destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
+					}
+					else if(((String)startJSON.get("type")).equals("station"))
+					{
+						startObj = gameMap.getStationWithName((String)startJSON.get("name"));
+						destObj = gameMap.getStationWithName((String)destJSON.get("name"));
+					}
+					else{
+						//FATAL ERROR!
+					}
+					
+					train.getRoute().addConnection(new Connection(startObj, destObj, Line.Black));
 				}
 				
 				train.getRoute().hideRouteBlips();

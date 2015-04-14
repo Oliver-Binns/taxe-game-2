@@ -34,18 +34,14 @@ public class Route{
 	
 	public String toJSON(){
 		String json = "{\"connections\" : [";
-		//TODO may need implementing
 		for(int i = 0; i < path.size(); i++){
-			json += "{ \"start\" : ";
-			json += "\"" + path.get(i).getStartMapObj().getName() + "\",";
-			json += "\"end\" : ";
-			json += "\"" + path.get(i).getDestination().getName() + "\"";
-			json += "}";
+			json += path.get(i).toJSON();
 			if(i+1 != path.size()){
 				json += ",";
 			}
 		}
 		json += "]}";
+		System.out.println(json);
 		return json;
 	}
 	

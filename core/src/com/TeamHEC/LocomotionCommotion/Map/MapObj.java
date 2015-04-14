@@ -13,7 +13,7 @@ public class MapObj {
 	public ArrayList<Connection> connections = new ArrayList<Connection>();
 	public float x, y;
 	private boolean locked;
-	private String name;
+	protected String name;
 	
 	/**
 	 * Every Station and Junction on the map
@@ -42,6 +42,13 @@ public class MapObj {
 	}
 	
 	/**
+	 * @return JSON String of this object
+	 */
+	public String toJSON(){
+		return "{ \"name\": \"" + name + "\", \"type\": \"mapObj\"}";
+	}
+	
+	/**
 	 * Set name of the MapObj
 	 * @param newName the new name of the MapObj
 	 */
@@ -64,7 +71,6 @@ public class MapObj {
 	{
 		return actor;
 	}
-	
 	/**
 	 * 
 	 * @return Whether or not the connection is currently inaccessible

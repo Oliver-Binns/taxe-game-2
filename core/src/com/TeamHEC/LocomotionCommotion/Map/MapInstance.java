@@ -181,6 +181,14 @@ public class MapInstance {
 	public Station getStationWithName(String name){
 		return stations.get(name);
 	}
+	
+	/**
+	 * @return Junction object with a given name - null if no junction exists.
+	 */
+	public Junction getJunctionWithName(String name) {
+		return junctions.get(name);
+	}
+	
 	/**
 	 * @return an array of stations only
 	 */

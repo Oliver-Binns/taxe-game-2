@@ -184,4 +184,16 @@ public class Connection{
 		else
 			return false;
 	}
+	/**
+	 * Generates a JSON String
+	 * @return JSON string of this object.
+	 */
+	public String toJSON(){
+		String json = "{ \"start\" : ";
+		json += getStartMapObj().toJSON();
+		json += ",\"end\" : ";
+		json += getDestination().toJSON();
+		json += "}";
+		return json;
+	}
 }

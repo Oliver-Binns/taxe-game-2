@@ -172,9 +172,9 @@ public class Game_Map_Manager {
 	}
 
 	public static void moveInfoBox(float x,float y){
-		showInfoBox();
 		stationInfo.setX(x);
 		stationInfo.setY(y);
+		showInfoBox();
 		stationInfo.refreshBounds();
 		Game_Map_Manager.stationSelect.setX(x+20);
 		Game_Map_Manager.stationSelect.setY(y+10);
@@ -211,8 +211,12 @@ public class Game_Map_Manager {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
 		} else if(Game_StartingSequence.inProgress) {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);
-		}
-		else {
+		} else {
+			int diff = (int) stationInfo.getHeight();
+			stationInfo.setTexture(Game_Map_TextureManager.getInstance().stationInfoLong);
+			stationInfo.refreshBounds();
+			diff -= stationInfo.getHeight();
+			stationInfo.setY(stationInfo.getY() + diff);
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationBuy);
 		}
 

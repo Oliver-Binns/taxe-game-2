@@ -205,10 +205,11 @@ public class Game_Map_Manager {
 		
 		if(LocomotionCommotion.isReplay){
 			stationSelect.setVisible(false); //don't show StationSelect if we're on Replay! We don't want users editing our existing game!
-		} else if(((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isFaulty() || ((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isLocked()){
+		} else if(((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isLocked()){
+			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationUnlock);
+		} else if(((Station) Game_Map_StationBtn.selectedStation.getMapObj()).isFaulty()) {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
-		}
-		else if(Game_StartingSequence.inProgress) {
+		} else if(Game_StartingSequence.inProgress) {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);
 		}
 		else {

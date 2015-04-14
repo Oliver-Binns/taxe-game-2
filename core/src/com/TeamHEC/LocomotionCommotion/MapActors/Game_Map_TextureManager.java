@@ -29,6 +29,8 @@ public class Game_Map_TextureManager{
 	public CustomTexture stationInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationInfoframe.png"));
 	public CustomTexture stationSelect = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationSelectBtn.png"));
 	public CustomTexture stationRepair = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationRepairBtn.png"));
+	public CustomTexture stationUnlock = new CustomTexture(Gdx.files.internal("gameScreen/game_map/unlockStationBtn.png"));
+	public CustomTexture stationLock = new CustomTexture(Gdx.files.internal("gameScreen/game_map/lockStationBtn.png"));
 	public CustomTexture stationBuy = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationBuyBtn.png"));
 	public CustomTexture trainInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/trainInfo.png"));
 	public CustomTexture trainInfoPlanRoute = new CustomTexture(Gdx.files.internal("gameScreen/game_map/trainInfoPlanRoute.png"));

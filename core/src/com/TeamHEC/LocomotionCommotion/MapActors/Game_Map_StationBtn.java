@@ -87,11 +87,11 @@ public class Game_Map_StationBtn extends SpriteButton {
 						Game_StartingSequence.selectLabel.setX(950);
 					}
 				}
-			} else if(((Station) selectedStation.getMapObj()).isFaulty()) {
-				GameScreen.game.getPlayerTurn().getShop().repairStation((Station) selectedStation.getMapObj(), false);
-				Game_Map_Manager.hideInfoBox();
 			} else if(selectedStation.getMapObj().isLocked()) {
 				GameScreen.game.getPlayerTurn().getShop().unlockStation((Station) selectedStation.getMapObj(), false);
+				Game_Map_Manager.hideInfoBox();
+			} else if(((Station) selectedStation.getMapObj()).isFaulty()) {
+				GameScreen.game.getPlayerTurn().getShop().repairStation((Station) selectedStation.getMapObj(), false);
 				Game_Map_Manager.hideInfoBox();
 			} else {
 				//Buy Stations in game

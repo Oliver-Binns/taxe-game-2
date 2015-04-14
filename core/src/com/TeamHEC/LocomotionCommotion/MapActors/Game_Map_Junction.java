@@ -1,5 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 
@@ -22,6 +23,8 @@ public class Game_Map_Junction extends Game_Map_MapObj{
 	protected void onClicked() {
 		super.onClicked();
 		
-		Game_Map_Manager.showEditJunction(junction);
+		if(GameData.EDITING) {
+			Game_Map_Manager.showEditJunction(junction);
+		}
 	}
 }

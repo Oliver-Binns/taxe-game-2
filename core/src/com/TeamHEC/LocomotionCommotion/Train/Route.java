@@ -41,7 +41,6 @@ public class Route{
 			}
 		}
 		json += "]}";
-		System.out.println(json);
 		return json;
 	}
 	

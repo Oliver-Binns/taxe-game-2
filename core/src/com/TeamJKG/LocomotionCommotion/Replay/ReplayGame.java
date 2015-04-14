@@ -27,7 +27,7 @@ public class ReplayGame extends CoreGame {
 	private Player[] playersArray;
 	
 	/**
-	 * TODO write javadoc
+	 * Creates an instance of ReplayGame, this game mode loads a saved mode from JSON and allows the user to watch it back at their own pace.
 	 * @param Player1Name
 	 * @param Player2Name
 	 * @param gameData
@@ -59,7 +59,7 @@ public class ReplayGame extends CoreGame {
 		WarningMessage.fireWarningWindow("Welcome to Replay!", "Test");
 	}
 	/**
-	 * TODO write javadoc
+	 * sets up the player by creating the first train
 	 */
 	@Override
 	protected void createFirstTrain(Player player, Station startStation) {
@@ -123,7 +123,6 @@ public class ReplayGame extends CoreGame {
         //Add new connections from JSON Data
 	}
 	/**
-	 * TODO write javadoc
 	 * @return returns the JSON object of the current player
 	 */
 	public JSONObject currentPlayerJSON(){
@@ -140,7 +139,7 @@ public class ReplayGame extends CoreGame {
 	}
 	
 	/**
-	 * TODO write javadoc
+	 * updates the players resources each turn to match the json
 	 */
 	public void updateResources(){
 		JSONObject playerJSON = currentPlayerJSON();
@@ -155,7 +154,7 @@ public class ReplayGame extends CoreGame {
 	}
 	
 	/**
-	 * 
+	 * updates goals from the json each turn, removes any completed/deleted goals
 	 */
 	public void updateGoals(){
 		ArrayList<Goal> goals = this.playerTurn.getGoals();

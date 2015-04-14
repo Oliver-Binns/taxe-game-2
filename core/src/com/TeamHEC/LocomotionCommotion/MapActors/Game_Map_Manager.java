@@ -102,8 +102,8 @@ public class Game_Map_Manager {
 		trainInfoActors.add(trainInfo);
 		trainInfoActors.addAll(trainInfo.getActors());
 
-		stationSelect = new Game_Map_StationBtn(0, 0, Game_Map_TextureManager.getInstance().stationSelect);
-		stationUnlock = new Game_Map_StationBtn(0, 0, Game_Map_TextureManager.getInstance().stationLock);
+		stationSelect = new Game_Map_StationBtn(0, 0, Game_Map_TextureManager.getInstance().stationSelect, false);
+		stationUnlock = new Game_Map_StationBtn(0, 0, Game_Map_TextureManager.getInstance().stationLock, true);
 		infoactors.add(stationSelect);
 		infoactors.add(stationUnlock);
 
@@ -183,7 +183,7 @@ public class Game_Map_Manager {
 		Game_Map_Manager.stationSelect.refreshBounds();
 		
 		Game_Map_Manager.stationUnlock.setX(x+20);
-		Game_Map_Manager.stationUnlock.setY(y);
+		Game_Map_Manager.stationUnlock.setY(y-23);
 		Game_Map_Manager.stationUnlock.refreshBounds();
 
 		stationLabelName.setX(x+100);
@@ -209,6 +209,7 @@ public class Game_Map_Manager {
 	public static void showInfoBox(){
 		stationInfo.setVisible(true);
 		Game_Map_Manager.stationSelect.setVisible(true);
+		Game_Map_Manager.stationUnlock.setVisible(false);
 		
 		if(LocomotionCommotion.isReplay){
 			stationSelect.setVisible(false); //don't show StationSelect if we're on Replay! We don't want users editing our existing game!
@@ -218,10 +219,6 @@ public class Game_Map_Manager {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationRepair);
 		} else if(Game_StartingSequence.inProgress) {
 			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationSelect);
-		} else if(Game_Map_StationBtn.selectedStation.getMapObj().getStation().getOwner() == GameScreen.game.getPlayerTurn()){
-			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().trainBuy);
-		} else if(Game_Map_StationBtn.selectedStation.owned){
-			stationSelect.setVisible(false);
 		} else {
 			stationInfo.setTexture(Game_Map_TextureManager.getInstance().stationInfoLong);
 			stationInfo.setY(stationInfo.getY() - 32);

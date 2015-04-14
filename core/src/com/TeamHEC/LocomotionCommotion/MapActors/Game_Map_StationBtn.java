@@ -15,14 +15,17 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 public class Game_Map_StationBtn extends SpriteButton {
 
 	public boolean exit = false;
+	private boolean altFunc;
 
 	// Used to hold player1s selection:
 	public static Game_Map_Station selectedStation, selectedP1;
 	public static Station tempP1Station;
 
-	public Game_Map_StationBtn(float x, float y, Texture texture)
+	public Game_Map_StationBtn(float x, float y, Texture texture, boolean altButton)
 	{
 		super(x, y, texture);
+		
+		altFunc = altButton;
 	}
 	
 	@Override
@@ -35,73 +38,86 @@ public class Game_Map_StationBtn extends SpriteButton {
 		
 	@Override
 	public void act(float delta){
-		if(started){
-			if(Game_StartingSequence.inProgress)
-			{
-				if(Game_StartingSequence.player1)
-				{
-					// Sets texture (could be done via listener?)
-					if(selectedStation.getMapObj().isLocked()) {
-						WarningMessage.fireWarningWindow("Station Locked!", "Please choose a station that is not locked.");
-					} else {
-						selectedStation.texture = Game_Map_TextureManager.getInstance().p1Station;
-						selectedStation.setOwned(true);
-						Game_Map_Manager.hideInfoBox();
-						
-						tempP1Station = (Station) selectedStation.getMapObj();
-						
-						selectedStation.setTouchable(Touchable.disabled);
-						selectedP1 = selectedStation;
-						selectedStation = null;
-						
-						Game_StartingSequence.selectLabel.setVisible(true);
-						Game_StartingSequence.getStartedWindow.setVisible(true);
-						Game_StartingSequence.selectLabel.setText(LocomotionCommotion.player2name + " please select your start station!");
-						Game_StartingSequence.player1 = false;
-					}
-				}
-				else	
-				{
-					if(selectedStation.getMapObj().isLocked()) {
-						WarningMessage.fireWarningWindow("Station Locked!", "Please choose a station that is not locked.");
-					} else {
-						selectedStation.texture=Game_Map_TextureManager.getInstance().p2Station;
-						selectedStation.setOwned(true);
-						Game_Map_Manager.hideInfoBox();
-						
-						selectedP1.setTouchable(Touchable.enabled);
-						
-						Game_StartingSequence.selectLabel.setVisible(false);
-						
-						GameScreen.createCoreGame(tempP1Station, (Station) selectedStation.getMapObj());
-						Game_StartingSequence.startGame();
-						GameScreenUI.refreshResources();
-						Game_StartingSequence.inProgress = false;
-						
-						Game_StartingSequence.selectLabel.setVisible(true);
-						Game_StartingSequence.getStartedWindow.setVisible(true);
-						Game_StartingSequence.getStartedWindow.setX(130);
-						Game_StartingSequence.getStartedWindow.setTexture(Game_TextureManager.getInstance().game_start_getstartedwindow2);
-						
-						Game_StartingSequence.selectLabel.setText(GameScreen.game.getPlayerTurn().getName()+" select a new Goal from the Goal Screen!");
-						Game_StartingSequence.selectLabel.setX(950);
-					}
-				}
-			} else if(selectedStation.getMapObj().isLocked()) {
-				GameScreen.game.getPlayerTurn().getShop().unlockStation((Station) selectedStation.getMapObj(), false);
-				Game_Map_Manager.hideInfoBox();
-			} else if(((Station) selectedStation.getMapObj()).isFaulty()) {
-				GameScreen.game.getPlayerTurn().getShop().repairStation((Station) selectedStation.getMapObj(), false);
-				Game_Map_Manager.hideInfoBox();
-			} else if(selectedStation.getMapObj().getStation().getOwner() == GameScreen.game.getPlayerTurn()) {
-				//Buy a new train!
-				GameScreen.game.getPlayerTurn().getShop().buyNewTrain(selectedStation.getMapObj().getStation());
-			}else {
-				//Buy Stations in game
-				GameScreen.game.getPlayerTurn().purchaseStation((Station) selectedStation.getMapObj());
-				Game_Map_Manager.hideInfoBox();
+		if(started) {
+			if(!altFunc) {
+				function(delta);
+			} else {
+				altFunction(delta);
 			}
+			started = false;
 		}
-		started = false;
+	}
+	
+	private void function(float delta) {
+		if(Game_StartingSequence.inProgress)
+		{
+			if(Game_StartingSequence.player1)
+			{
+				// Sets texture (could be done via listener?)
+				if(selectedStation.getMapObj().isLocked()) {
+					WarningMessage.fireWarningWindow("Station Locked!", "Please choose a station that is not locked.");
+				} else {
+					selectedStation.texture = Game_Map_TextureManager.getInstance().p1Station;
+					selectedStation.setOwned(true);
+					Game_Map_Manager.hideInfoBox();
+					
+					tempP1Station = (Station) selectedStation.getMapObj();
+					
+					selectedStation.setTouchable(Touchable.disabled);
+					selectedP1 = selectedStation;
+					selectedStation = null;
+					
+					Game_StartingSequence.selectLabel.setVisible(true);
+					Game_StartingSequence.getStartedWindow.setVisible(true);
+					Game_StartingSequence.selectLabel.setText(LocomotionCommotion.player2name + " please select your start station!");
+					Game_StartingSequence.player1 = false;
+				}
+			}
+			else	
+			{
+				if(selectedStation.getMapObj().isLocked()) {
+					WarningMessage.fireWarningWindow("Station Locked!", "Please choose a station that is not locked.");
+				} else {
+					selectedStation.texture=Game_Map_TextureManager.getInstance().p2Station;
+					selectedStation.setOwned(true);
+					Game_Map_Manager.hideInfoBox();
+					
+					selectedP1.setTouchable(Touchable.enabled);
+					
+					Game_StartingSequence.selectLabel.setVisible(false);
+					
+					GameScreen.createCoreGame(tempP1Station, (Station) selectedStation.getMapObj());
+					Game_StartingSequence.startGame();
+					GameScreenUI.refreshResources();
+					Game_StartingSequence.inProgress = false;
+					
+					Game_StartingSequence.selectLabel.setVisible(true);
+					Game_StartingSequence.getStartedWindow.setVisible(true);
+					Game_StartingSequence.getStartedWindow.setX(130);
+					Game_StartingSequence.getStartedWindow.setTexture(Game_TextureManager.getInstance().game_start_getstartedwindow2);
+					
+					Game_StartingSequence.selectLabel.setText(GameScreen.game.getPlayerTurn().getName()+" select a new Goal from the Goal Screen!");
+					Game_StartingSequence.selectLabel.setX(950);
+				}
+			}
+		} else if(selectedStation.getMapObj().isLocked()) {
+			GameScreen.game.getPlayerTurn().getShop().unlockStation((Station) selectedStation.getMapObj(), false);
+			Game_Map_Manager.hideInfoBox();
+		} else if(((Station) selectedStation.getMapObj()).isFaulty()) {
+			GameScreen.game.getPlayerTurn().getShop().repairStation((Station) selectedStation.getMapObj(), false);
+			Game_Map_Manager.hideInfoBox();
+		} else if(selectedStation.getMapObj().getStation().getOwner() == GameScreen.game.getPlayerTurn()) {
+			//Buy a new train!
+			GameScreen.game.getPlayerTurn().getShop().buyNewTrain(selectedStation.getMapObj().getStation());
+		}else {
+			//Buy Stations in game
+			GameScreen.game.getPlayerTurn().purchaseStation((Station) selectedStation.getMapObj());
+			Game_Map_Manager.hideInfoBox();
+		}
+	}
+	
+	private void altFunction(float delta) {
+		GameScreen.game.getPlayerTurn().getShop().lockStation((Station) selectedStation.getMapObj(), false);
+		Game_Map_Manager.hideInfoBox();
 	}
 }

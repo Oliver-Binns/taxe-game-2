@@ -184,4 +184,15 @@ public class Shop {
 			WarningMessage.fireWarningWindow("SORRY", "You don't have enough gold!");
 		}
 	}
+
+	public void lockStation(Station station, boolean testCase) {
+		if(customer.getGold() >= 1000) {
+			station.lock(true);
+			customer.subGold(1000);
+		} else {
+			if(!testCase) {
+				WarningMessage.fireWarningWindow("SORRY", "You don't have enough gold!");
+			}
+		}
+	}
 }

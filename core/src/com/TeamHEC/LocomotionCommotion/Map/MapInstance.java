@@ -329,12 +329,18 @@ public class MapInstance {
 	 * Randomly cause faults within stations on the map
 	 */
 	public void generateFaults(Replay replay){
+		int totalFaulty = 0;
+		for(int i = 0; i < stationList().length; i++){
+			if(stationList()[i].isFaulty()){
+				totalFaulty++; //calculates how many stations are faulty so far...
+			}
+		}
 		for(int i = 0; i < stationList().length; i++){
 			Random random = new Random();
 			int randInt = random.nextInt(100);
-			int faultRate = (int)(stationList()[i].getFaultRate() * 100);
-			if(randInt <= faultRate){
-				stationList()[i].makeFaulty();
+			int faultRate = (int)(stationList()[i].getFaultRate() * 100); //make fault rate into a %age
+			if(randInt <= (faultRate + totalFaulty)){ 	//if fault rate is a lower number, faults are less likely
+				stationList()[i].makeFaulty();			//faults become less likely as more stations become faulty
 				replay.addFault(stationList()[i]);
 			}
 		}

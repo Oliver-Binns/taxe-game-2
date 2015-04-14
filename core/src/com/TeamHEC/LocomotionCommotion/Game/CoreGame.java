@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
-import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.MapInstance;

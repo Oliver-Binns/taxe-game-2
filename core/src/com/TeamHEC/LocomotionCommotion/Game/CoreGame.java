@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
+import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
@@ -186,9 +187,9 @@ public abstract class CoreGame {
             return; //Game should not end if there is a draw
         }
 
-        WarningMessage.fireWarningWindow("End of Game", "Congratulations to " + winner.getName() + " you have won!");
-
-		//replay.saveGame();
+        //Return to menu - need to fire warning window too?
+		//LocomotionCommotion.getInstance().setMenuScreen();
+		WarningMessage.fireWarningWindow("End of Game", "Congratulations to " + winner.getName() + " you have won!");
 	}
 
 	/**

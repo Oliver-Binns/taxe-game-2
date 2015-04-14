@@ -93,7 +93,6 @@ public class NewGame extends CoreGame {
             
             StartTurn();
         }
-
 	}
 	
 	/**
@@ -101,7 +100,7 @@ public class NewGame extends CoreGame {
 	 */
 	@Override
 	protected void EndGame() {
-        super.EndGame();
 		replay.saveGame();
+		super.EndGame();
 	}
 }

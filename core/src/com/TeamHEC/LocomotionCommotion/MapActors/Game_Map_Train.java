@@ -73,7 +73,7 @@ public class Game_Map_Train extends Actor{
 		{
 			Game_Map_Manager.trainInfo.showLabel(train);
 			
-			if(Game_Map_Manager.trainInfo.train.route.inStation())
+			if(Game_Map_Manager.trainInfo.train.route.inStation() && (Game_Map_Manager.trainInfo.train.route.getStation() != null))
 				clickCount = 2;
 			else
 				clickCount = 1;
@@ -82,8 +82,11 @@ public class Game_Map_Train extends Actor{
 		{
 			Game_Map_Manager.trainInfo.makeVisible(false);
 			
-			if(Game_Map_Manager.trainInfo.train.route.inStation())
-				Game_Map_Manager.trainInfo.train.route.getStation().actor.hideInfoBox();
+			if(Game_Map_Manager.trainInfo.train.route.inStation()){
+				if(Game_Map_Manager.trainInfo.train.route.getStation() != null){
+					Game_Map_Manager.trainInfo.train.route.getStation().actor.hideInfoBox();
+				}
+			}
 			
 			clickCount = 0;
 		}
@@ -92,9 +95,11 @@ public class Game_Map_Train extends Actor{
 			Game_Map_Manager.trainInfo.makeVisible(false);
 			
 			if(Game_Map_Manager.trainInfo.train.route.inStation())
-			{
-				Game_Map_Manager.trainInfo.train.route.getStation().actor.showInfoBox();
-				Game_Map_StationBtn.selectedStation = Game_Map_Manager.trainInfo.train.route.getStation().getStationActor();
+			{	
+				if(Game_Map_Manager.trainInfo.train.route.getStation() != null){
+					Game_Map_Manager.trainInfo.train.route.getStation().actor.showInfoBox();
+					Game_Map_StationBtn.selectedStation = Game_Map_Manager.trainInfo.train.route.getStation().getStationActor();
+				}
 			}
 			clickCount = 1;
 		}

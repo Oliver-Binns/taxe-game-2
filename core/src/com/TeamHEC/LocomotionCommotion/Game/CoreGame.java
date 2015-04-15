@@ -47,6 +47,8 @@ public abstract class CoreGame {
 	protected int turnLimit;
 
     // The probability that an obstacle occurs for each train in a turn.
+	
+	
     protected static final double OBSTACLE_PROBABILITY = 0.15;
 	
 	/**
@@ -127,7 +129,7 @@ public abstract class CoreGame {
 	protected void createFirstTrain(Player player, Station startStation) {
 		String fuelType = startStation.getResourceString();
 		Train train = null;
-
+ 
 		if (fuelType.equals("Coal"))
 			train = new CoalTrain(0, true, new Route(startStation), player);
 		else if (fuelType.equals("Nuclear"))
@@ -146,7 +148,7 @@ public abstract class CoreGame {
 	 * Randomly returns either 0 or 1. It's used in determining which player
 	 * will go first in this game.
 	 */
-	protected int flipCoin() {
+	protected int flipCoin() { 
 		Random coin = new Random();
 		return coin.nextInt(2);
 	}

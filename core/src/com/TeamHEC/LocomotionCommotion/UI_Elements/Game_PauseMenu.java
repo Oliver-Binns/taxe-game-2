@@ -2,10 +2,13 @@ package com.TeamHEC.LocomotionCommotion.UI_Elements;
 
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
+import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
+import com.TeamJKG.LocomotionCommotion.Game.NewGame;
+
 /**
  * 
  * @author Robert Precious <rp825@york.ac.uk>
@@ -97,6 +100,7 @@ public class Game_PauseMenu {
 				@Override
 				protected void onClicked(){
 					LocomotionCommotion.getInstance().setMenuScreen();
+					//NewGame currentGame = new NewGame("1", "2", null, null, 50); 
 				}
 			};
 			actors.add(game_pause_mainmenu);

@@ -74,8 +74,8 @@ public class NewGame extends CoreGame {
         else {
         	//adds players to replay at end of each turn
         	if (turnCount % 2 == 1){
-        		player1.addGold(50);
-        		player2.addGold(50);
+        		player1.addGold(player1.getNumStations() * 50);
+        		player2.addGold(player2.getNumStations() * 50);
         	}
         	
         	Player[] playerList = {player1, player2};

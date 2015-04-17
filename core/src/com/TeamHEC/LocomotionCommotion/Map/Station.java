@@ -80,14 +80,6 @@ public class Station extends MapObj{
 	}
 	
 	/**
-	 * @return  the name of the station
-	 */
-	public String getName()
-	{
-		return name;
-	}
-	
-	/**
 	 * @return The string of the fuelType used, can be used in player to deduct resources
 	 */
 	public String getResourceString()

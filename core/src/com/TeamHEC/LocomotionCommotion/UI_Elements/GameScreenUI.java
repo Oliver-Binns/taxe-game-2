@@ -8,6 +8,8 @@ import com.TeamHEC.LocomotionCommotion.Card.Game_CardHand;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalMenu;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
+import com.TeamHEC.LocomotionCommotion.Map.Junction;
+import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
@@ -400,7 +402,7 @@ public class GameScreenUI {
 				protected void onClicked()
 				{
 					if(Game_Map_Manager.trainInfo.train != null)
-						Game_Map_Manager.trainInfo.train.route.cancelRoute();;
+						Game_Map_Manager.trainInfo.train.route.cancelRoute();
 				}
 			};
 			cancelRouteBtn.setVisible(false);
@@ -631,7 +633,11 @@ public class GameScreenUI {
 			saveButton = new SpriteButton(1530, 50, Game_TextureManager.getInstance().game_edit_savebutton) {
 				@Override
 				protected void onClicked() {
-					Game_Map_Manager.saveStation();
+					if(Station.class.isInstance(Game_Map_Manager.selectedObj)) {
+						Game_Map_Manager.saveStation();
+					} else if(Junction.class.isInstance(Game_Map_Manager.selectedObj)) {
+						Game_Map_Manager.saveJunction();
+					}
 				}
 			};
 			actors.add(saveButton);

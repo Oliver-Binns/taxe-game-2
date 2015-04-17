@@ -14,6 +14,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 /**
  * 
  * @author Callum Hewitt <ch1194@york.ac.uk>
+ * @author Sam Watkins <sw1308@york.ac.uk>
  * The shop object used by a player to buy and sell fuel and cards.
  *
  */

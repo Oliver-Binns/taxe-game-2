@@ -97,8 +97,8 @@ public class Game_Map_Train extends Actor{
 			if(Game_Map_Manager.trainInfo.train.route.inStation())
 			{	
 				if(Game_Map_Manager.trainInfo.train.route.getStation() != null){
-					Game_Map_Manager.trainInfo.train.route.getStation().actor.showInfoBox();
 					Game_Map_StationBtn.selectedStation = Game_Map_Manager.trainInfo.train.route.getStation().getStationActor();
+					Game_Map_Manager.trainInfo.train.route.getStation().actor.showInfoBox();
 				}
 			}
 			clickCount = 1;

@@ -95,7 +95,7 @@ public class Game_Map_MapObj extends Actor{
 	protected void onClicked()
 	{
 		if(routeAvailable() && !getMapObj().isLocked()) {
-			getRouteTrain().route.addConnection(getRouteConnection());			
+			getRouteTrain().route.addConnection(getRouteConnection());
 		}
 	}
 	
@@ -115,6 +115,7 @@ public class Game_Map_MapObj extends Actor{
 	
 	@Override
 	public void draw(Batch batch, float alpha) {
+		setBounds(actorX, actorY, texture.getWidth(), texture.getHeight());
 		batch.draw(this.texture, actorX + offset, actorY + offset);
 	}
 }

@@ -8,6 +8,7 @@ import com.TeamHEC.LocomotionCommotion.Map.StationListener;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 public class Game_Map_Station extends Game_Map_MapObj implements StationListener {
 	private Station station;
 	private Label nameLabel;
+	private BitmapFont font;
 
 	public float offset = 0;
 
@@ -28,7 +30,7 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gillsans.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 25;
-		BitmapFont font = generator.generateFont(parameter);
+		font = generator.generateFont(parameter);
 
 		int stringLength = station.getName().length();
 		stringLength = java.lang.Math.min(stringLength, 9);
@@ -185,5 +187,17 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 	public void setOwned(Boolean b)
 	{
 		this.owned =b;
+	}
+	
+	public void draw(Batch batch, float alpha) {
+		actorX = station.x;
+		actorY = station.y;
+		
+		super.draw(batch, alpha);
+		
+		nameLabel.setText(station.getName());
+		nameLabel.setX(station.x - labelWidth/2);
+		nameLabel.setY(station.y + 45);
+		labelWidth = (int) font.getBounds(nameLabel.getText()).width;
 	}
 }

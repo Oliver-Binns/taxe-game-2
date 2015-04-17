@@ -4,6 +4,7 @@ import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Game_Map_Junction extends Game_Map_MapObj{
 	
@@ -35,5 +36,12 @@ public class Game_Map_Junction extends Game_Map_MapObj{
 				Game_Map_Manager.moveJunctionInfo(junction);
 			}
 		}
+	}
+	
+	public void draw(Batch batch, float alpha) {
+		actorX = junction.x;
+		actorY = junction.y;
+		
+		super.draw(batch, alpha);
 	}
 }

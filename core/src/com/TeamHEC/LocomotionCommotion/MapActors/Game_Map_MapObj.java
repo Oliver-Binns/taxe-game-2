@@ -16,7 +16,7 @@ public class Game_Map_MapObj extends Actor{
 	
 	public Texture texture, toggleTexture1, toggleTexture2;
 	public float actorX, actorY;
-	public boolean started = false, highlighted = false;
+	public boolean started = false, highlighted = false, owned = false;
 	public int labelWidth;
 	protected ShapeRenderer shapeRend = GameScreen.getRend();
 	
@@ -61,6 +61,7 @@ public class Game_Map_MapObj extends Actor{
 	// Is overriden in Game_Map_Station
 	public void showInfoBox(){}
 	public void hideInfoBox(){}
+	public void setOwned(Boolean b){}
 	public Label getLabel(){return null;}
 	public MapObj getMapObj(){return null;}
 	

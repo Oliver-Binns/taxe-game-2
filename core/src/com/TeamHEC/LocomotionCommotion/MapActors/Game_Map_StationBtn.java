@@ -18,7 +18,7 @@ public class Game_Map_StationBtn extends SpriteButton {
 	private boolean altFunc;
 
 	// Used to hold player1s selection:
-	public static Game_Map_Station selectedStation, selectedP1;
+	public static Game_Map_MapObj selectedStation, selectedP1;
 	public static Station tempP1Station;
 
 	public Game_Map_StationBtn(float x, float y, Texture texture, boolean altButton)
@@ -103,7 +103,7 @@ public class Game_Map_StationBtn extends SpriteButton {
 				}
 			}
 		} else if(selectedStation.getMapObj().isLocked()) {
-			GameScreen.game.getPlayerTurn().getShop().unlockStation((Station) selectedStation.getMapObj(), false);
+			GameScreen.game.getPlayerTurn().getShop().unlockStation(selectedStation.getMapObj(), false);
 			Game_Map_Manager.hideInfoBox();
 			Game_Map_Manager.hideJunctionInfo();
 		} else if(((Station) selectedStation.getMapObj()).isFaulty()) {
@@ -122,7 +122,7 @@ public class Game_Map_StationBtn extends SpriteButton {
 	}
 	
 	private void altFunction(float delta) {
-		GameScreen.game.getPlayerTurn().getShop().lockStation((Station) selectedStation.getMapObj(), false);
+		GameScreen.game.getPlayerTurn().getShop().lockStation(selectedStation.getMapObj(), false);
 		Game_Map_Manager.hideInfoBox();
 		Game_Map_Manager.hideJunctionInfo();
 	}

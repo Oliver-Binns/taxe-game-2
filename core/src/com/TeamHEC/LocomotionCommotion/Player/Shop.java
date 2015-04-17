@@ -1,6 +1,7 @@
 package com.TeamHEC.LocomotionCommotion.Player;
 
 import com.TeamHEC.LocomotionCommotion.Card.CardFactory;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Train.CoalTrain;
 import com.TeamHEC.LocomotionCommotion.Train.ElectricTrain;
@@ -151,9 +152,9 @@ public class Shop {
 		}
 	}
 
-	public void unlockStation(Station station, boolean testCase) {
+	public void unlockStation(MapObj mapObj, boolean testCase) {
 		if(customer.getGold() >= 1000) {
-			station.lock(false);
+			mapObj.lock(false);
 			customer.subGold(1000);
 		} else {
 			if(!testCase) {
@@ -185,9 +186,9 @@ public class Shop {
 		}
 	}
 
-	public void lockStation(Station station, boolean testCase) {
+	public void lockStation(MapObj mapObj, boolean testCase) {
 		if(customer.getGold() >= 1000) {
-			station.lock(true);
+			mapObj.lock(true);
 			customer.subGold(1000);
 		} else {
 			if(!testCase) {

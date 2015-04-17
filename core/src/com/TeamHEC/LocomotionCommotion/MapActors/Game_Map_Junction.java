@@ -24,6 +24,8 @@ public class Game_Map_Junction extends Game_Map_MapObj{
 	protected void onClicked() {
 		super.onClicked();
 		
+		Game_Map_StationBtn.selectedStation = this;
+		
 		if(!GameScreenUI.routingModeWindow.isVisible()) {
 			if(GameData.EDITING) {
 				Game_Map_Manager.showEditJunction(junction);

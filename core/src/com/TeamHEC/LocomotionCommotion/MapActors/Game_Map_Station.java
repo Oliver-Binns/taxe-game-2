@@ -14,8 +14,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class Game_Map_Station extends Game_Map_MapObj implements StationListener {
-
-	public boolean owned;
 	private Station station;
 	private Label nameLabel;
 

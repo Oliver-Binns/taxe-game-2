@@ -27,6 +27,7 @@ public class Game_Map_TextureManager{
 	public CustomTexture stationx2Faulty = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junction2-trans.png"));
 	
 	public CustomTexture stationInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationInfoframe.png"));
+	public CustomTexture junctionInfo = new CustomTexture(Gdx.files.internal("gameScreen/game_map/junctionInfoframe.png"));
 	public CustomTexture stationInfoLong = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationInfoframeLong.png"));
 	public CustomTexture stationSelect = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationSelectBtn.png"));
 	public CustomTexture stationRepair = new CustomTexture(Gdx.files.internal("gameScreen/game_map/stationRepairBtn.png"));

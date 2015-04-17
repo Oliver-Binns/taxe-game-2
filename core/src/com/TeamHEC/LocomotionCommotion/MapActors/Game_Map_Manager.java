@@ -41,6 +41,7 @@ public class Game_Map_Manager {
 	public static Sprite mapInfo;
 	
 	public static Sprite stationInfo;
+	public static Sprite junctionInfo;
 	public static Game_Map_StationBtn stationSelect, stationUnlock;
 	public static MapObj selectedObj;
 
@@ -97,6 +98,9 @@ public class Game_Map_Manager {
 
 		stationInfo = new Sprite(0, 0, Game_Map_TextureManager.getInstance().stationInfo);
 		infoactors.add(stationInfo);
+		
+		junctionInfo = new Sprite(0, 0, Game_Map_TextureManager.getInstance().junctionInfo);
+		infoactors.add(junctionInfo);
 		
 		trainInfo = new TrainInfoUI();		
 		trainInfoActors.add(trainInfo);
@@ -174,6 +178,8 @@ public class Game_Map_Manager {
 	}
 
 	public static void moveInfoBox(float x,float y){
+		Game_Map_Manager.hideInfoBox();
+		Game_Map_Manager.hideJunctionInfo();
 		stationInfo.setX(x);
 		stationInfo.setY(y);
 		showInfoBox();
@@ -198,6 +204,7 @@ public class Game_Map_Manager {
 
 	public static void hideInfoBox(){
 		stationInfo.setVisible(false);
+		junctionInfo.setVisible(false);
 		Game_Map_Manager.stationSelect.setVisible(false);
 		Game_Map_Manager.stationUnlock.setVisible(false);
 
@@ -235,6 +242,52 @@ public class Game_Map_Manager {
 		stationLabelName.setVisible(true);
 		stationLabelFuel.setVisible(true);
 		stationLabelCost.setVisible(true);
+	}
+	
+	public static void moveJunctionInfo(Junction junction) {
+		float x, y;
+		x = junction.x - 195;
+		y = junction.y - 80;
+		
+		Game_Map_Manager.hideInfoBox();
+		Game_Map_Manager.hideJunctionInfo();
+		junctionInfo.setX(x);
+		junctionInfo.setY(y);
+		
+		showJunctionInfo(junction);
+		junctionInfo.refreshBounds();
+		
+		Game_Map_Manager.stationSelect.setX(x + 20);
+		Game_Map_Manager.stationSelect.setY(y + 10);
+		Game_Map_Manager.stationUnlock.setX(x + 20);
+		Game_Map_Manager.stationUnlock.setY(y + 10);
+		Game_Map_Manager.stationSelect.refreshBounds();
+		Game_Map_Manager.stationUnlock.refreshBounds();
+		
+		stationLabelName.setText(junction.getName());
+		stationLabelName.setX(x + 100);
+		stationLabelName.setY(y + 90);
+	}
+	
+	public static void hideJunctionInfo() {
+		junctionInfo.setVisible(false);
+		Game_Map_Manager.stationSelect.setVisible(false);
+		Game_Map_Manager.stationUnlock.setVisible(false);
+		
+		stationLabelName.setVisible(false);
+	}
+	
+	public static void showJunctionInfo(Junction junction) {
+		junctionInfo.setVisible(true);
+		
+		if(junction.isLocked()) {
+			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationUnlock);
+			Game_Map_Manager.stationSelect.setVisible(true);
+		} else {
+			Game_Map_Manager.stationUnlock.setVisible(true);
+		}
+		
+		stationLabelName.setVisible(true);
 	}
 	
 	public static void showEditJunction(Junction junction) {

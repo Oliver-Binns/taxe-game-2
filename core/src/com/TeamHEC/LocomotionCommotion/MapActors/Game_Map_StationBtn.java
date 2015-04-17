@@ -60,6 +60,7 @@ public class Game_Map_StationBtn extends SpriteButton {
 					selectedStation.texture = Game_Map_TextureManager.getInstance().p1Station;
 					selectedStation.setOwned(true);
 					Game_Map_Manager.hideInfoBox();
+					Game_Map_Manager.hideJunctionInfo();
 					
 					tempP1Station = (Station) selectedStation.getMapObj();
 					
@@ -81,6 +82,7 @@ public class Game_Map_StationBtn extends SpriteButton {
 					selectedStation.texture=Game_Map_TextureManager.getInstance().p2Station;
 					selectedStation.setOwned(true);
 					Game_Map_Manager.hideInfoBox();
+					Game_Map_Manager.hideJunctionInfo();
 					
 					selectedP1.setTouchable(Touchable.enabled);
 					
@@ -103,9 +105,11 @@ public class Game_Map_StationBtn extends SpriteButton {
 		} else if(selectedStation.getMapObj().isLocked()) {
 			GameScreen.game.getPlayerTurn().getShop().unlockStation((Station) selectedStation.getMapObj(), false);
 			Game_Map_Manager.hideInfoBox();
+			Game_Map_Manager.hideJunctionInfo();
 		} else if(((Station) selectedStation.getMapObj()).isFaulty()) {
 			GameScreen.game.getPlayerTurn().getShop().repairStation((Station) selectedStation.getMapObj(), false);
 			Game_Map_Manager.hideInfoBox();
+			Game_Map_Manager.hideJunctionInfo();
 		} else if(selectedStation.getMapObj().getStation().getOwner() == GameScreen.game.getPlayerTurn()) {
 			//Buy a new train!
 			GameScreen.game.getPlayerTurn().getShop().buyNewTrain(selectedStation.getMapObj().getStation());
@@ -113,11 +117,13 @@ public class Game_Map_StationBtn extends SpriteButton {
 			//Buy Stations in game
 			GameScreen.game.getPlayerTurn().purchaseStation((Station) selectedStation.getMapObj());
 			Game_Map_Manager.hideInfoBox();
+			Game_Map_Manager.hideJunctionInfo();
 		}
 	}
 	
 	private void altFunction(float delta) {
 		GameScreen.game.getPlayerTurn().getShop().lockStation((Station) selectedStation.getMapObj(), false);
 		Game_Map_Manager.hideInfoBox();
+		Game_Map_Manager.hideJunctionInfo();
 	}
 }

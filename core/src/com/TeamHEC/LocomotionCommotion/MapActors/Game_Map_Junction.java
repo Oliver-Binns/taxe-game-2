@@ -3,6 +3,7 @@ package com.TeamHEC.LocomotionCommotion.MapActors;
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 
 public class Game_Map_Junction extends Game_Map_MapObj{
 	
@@ -23,8 +24,12 @@ public class Game_Map_Junction extends Game_Map_MapObj{
 	protected void onClicked() {
 		super.onClicked();
 		
-		if(GameData.EDITING) {
-			Game_Map_Manager.showEditJunction(junction);
+		if(!GameScreenUI.routingModeWindow.isVisible()) {
+			if(GameData.EDITING) {
+				Game_Map_Manager.showEditJunction(junction);
+			} else {
+				Game_Map_Manager.moveJunctionInfo(junction);
+			}
 		}
 	}
 }

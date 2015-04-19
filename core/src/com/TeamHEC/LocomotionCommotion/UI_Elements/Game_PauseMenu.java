@@ -1,8 +1,13 @@
 package com.TeamHEC.LocomotionCommotion.UI_Elements;
 
+import java.io.File;
+import java.io.PrintWriter;
+
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
+import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -10,7 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import com.TeamJKG.LocomotionCommotion.Game.NewGame;
 
 /**
- * 
+ * @author Sam Watkins <sw1308@york.ac.uk>
  * @author Robert Precious <rp825@york.ac.uk>
  * Pause Menu does what it says on the tin. 
  *
@@ -84,11 +89,22 @@ public class Game_PauseMenu {
 			game_pause_save = new SpriteButton(Game_PauseMenu.actorManager.game_pause_resume.getX(),Game_PauseMenu.actorManager.game_pause_resume.getY()-100,Game_TextureManager.getInstance().game_pause_savegame){
 				@Override
 				protected void onClicked(){
+					if(GameData.EDITING) {
+						try{
+							PrintWriter out = new PrintWriter(GameData.MAP_FOLDER + System.getProperty("file.separator") + "Map1.json");
+							out.println(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).generateJSON());
+							out.close();
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+					} else {
+						WarningMessage.fireWarningWindow("Warning", "Save game not implemented yet.");
+					}
 				}
 
 			};
-            // Not yet implemented. Hidden.
-            // actors.add(game_pause_save);
+            actors.add(game_pause_save);
+			
 			game_pause_settings = new SpriteButton(Game_PauseMenu.actorManager.game_pause_resume.getX(),Game_PauseMenu.actorManager.game_pause_resume.getY()-200,Game_TextureManager.getInstance().game_pause_settings){
 				@Override
 				protected void onClicked(){

@@ -637,6 +637,9 @@ public class GameScreenUI {
 						Game_Map_Manager.saveStation();
 					} else if(Junction.class.isInstance(Game_Map_Manager.selectedObj)) {
 						Game_Map_Manager.saveJunction();
+					} else {
+						WarningMessage.fireWarningWindow("Warning", "Please select an object to save.");
+						return;
 					}
 				}
 			};
@@ -645,7 +648,14 @@ public class GameScreenUI {
 			deleteButton = new SpriteButton(1530, 10, Game_TextureManager.getInstance().game_edit_deletebutton) {
 				@Override
 				protected void onClicked() {
-					Game_Map_Manager.deleteStation();
+					if(Station.class.isInstance(Game_Map_Manager.selectedObj)) {
+						Game_Map_Manager.deleteStation();
+					} else if(Junction.class.isInstance(Game_Map_Manager.selectedObj)) {
+						Game_Map_Manager.deleteJunction();
+					} else {
+						WarningMessage.fireWarningWindow("Warning", "Please select an object to delete.");
+						return;
+					}
 				}
 			};
 			actors.add(deleteButton);

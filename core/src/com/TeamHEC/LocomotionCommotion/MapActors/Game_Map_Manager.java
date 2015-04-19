@@ -376,11 +376,6 @@ public class Game_Map_Manager {
 	}
 	
 	public static void saveJunction() {
-		if(selectedObj == null) {
-			WarningMessage.fireWarningWindow("Sorry", "Appropriate response hasn't been applied yet, this button does not function.");
-			return;
-		}
-		
 		Junction j = (Junction) selectedObj;
 		
 		j.x = Integer.parseInt(GameScreenUI.editPositionX.getText());
@@ -390,11 +385,15 @@ public class Game_Map_Manager {
 	}
 	
 	public static void deleteStation() {
-		WarningMessage.fireWarningWindow("Sorry", "Delete Station has not been implemented yet.");
+		Station s = (Station) selectedObj;
+		
+		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).removeStation(s.getName());
 	}
 	
 	public static void deleteJunction() {
-		WarningMessage.fireWarningWindow("Sorry", "Delete junction has not been implemented yet.");
+		Junction j = (Junction) selectedObj;
+		
+		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).removeJunction(j.getName());
 	}
 
 	public static void resetMap(){

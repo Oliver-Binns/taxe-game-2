@@ -100,8 +100,8 @@ public class MapInstance {
 				}
 				
 				Long rent = (Long) jStation.get("Rent");
-				Long xPos = (Long) ((JSONArray) jStation.get("Location")).get(0);
-				Long yPos = (Long) ((JSONArray) jStation.get("Location")).get(1);
+				Double xPos = (Double) ((JSONArray) jStation.get("Location")).get(0);
+				Double yPos = (Double) ((JSONArray) jStation.get("Location")).get(1);
 				boolean locked = (Boolean) jStation.get("Locked");
 				
 				stations.put(name, new Station(name, baseValue.intValue(), resource, baseFuelOut.intValue(), lines, rent.intValue(), xPos.floatValue(), yPos.floatValue(), locked));
@@ -111,8 +111,8 @@ public class MapInstance {
 			for(int i=0; i<jJunctions.size(); i++) {
 				JSONObject jJunction = (JSONObject) jJunctions.get(i);
 				
-				Long xPos = (Long) ((JSONArray) jJunction.get("Location")).get(0);
-				Long yPos = (Long) ((JSONArray) jJunction.get("Location")).get(1);
+				Double xPos = (Double) ((JSONArray) jJunction.get("Location")).get(0);
+				Double yPos = (Double) ((JSONArray) jJunction.get("Location")).get(1);
 				String name = (String) jJunction.get("Name");
 				boolean locked = (Boolean) jJunction.get("Locked");
 				
@@ -248,11 +248,20 @@ public class MapInstance {
 	 * @param station the station to be removed from the map
 	 */
 	public void removeStation(String station) {
+		removeAllConnections(stations.get(station));
 		stations.remove(station);
 	}
 	
 	public void removeJunction(String junction) {
+		removeAllConnections(junctions.get(junction));
 		junctions.remove(junction);
+	}
+	
+	public void removeAllConnections(MapObj startPoint) {
+		for(Connection c : startPoint.connections) {
+			c.getDestination().connections.remove(c);
+			startPoint.connections.remove(c);
+		}
 	}
 	
 	public void removeConnection(MapObj startPoint, MapObj endPoint) {

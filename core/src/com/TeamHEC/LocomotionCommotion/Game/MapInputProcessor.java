@@ -1,10 +1,12 @@
 package com.TeamHEC.LocomotionCommotion.Game;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class MapInputProcessor implements InputProcessor {
-	private int currentX, currentY;
+	private int currentX, currentY, touchDist;
 	private float scaleX, scaleY, scaleZ;
 	
 	public MapInputProcessor() {
@@ -14,6 +16,7 @@ public class MapInputProcessor implements InputProcessor {
 		
 		currentX = (int) (GameScreen.getMapStage().getCamera().position.x * scaleX);
 		currentY = (int) (GameScreen.getMapStage().getCamera().position.y * scaleY);
+		touchDist = 0;
 	}
 	
 	@Override
@@ -38,12 +41,16 @@ public class MapInputProcessor implements InputProcessor {
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		currentX = screenX;
 		currentY = screenY;
+		
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
+		if(GameData.EDITING && touchDist <= 10) {
+			WarningMessage.fireWarningWindow("CLICK REGISTERED", "Should not appear when dragging");
+		}
+		touchDist = 0;
 		return false;
 	}
 
@@ -57,6 +64,10 @@ public class MapInputProcessor implements InputProcessor {
 		
 		GameScreen.getMapStage().getCamera().position.x -= (dX * scaleX * scaleZ);
 		GameScreen.getMapStage().getCamera().position.y += (dY * scaleY * scaleZ);
+		
+		touchDist += Math.abs(dX);
+		touchDist += Math.abs(dY);
+		
 		return false;
 	}
 

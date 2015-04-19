@@ -401,7 +401,7 @@ public class Route{
 	 */
 	public float getLengthRemaining()
 	{
-		if(path.isEmpty())
+		if(path.isEmpty() || routeIndex >= path.size())
 		{
 			return 0;
 		}
@@ -483,6 +483,9 @@ public class Route{
 		}
 		
 		// gets the length of the current connection:
+		if(path.isEmpty()){
+			return;
+		}
 		float connectionLength = path.get(routeIndex).getLength();
 		
 		// If the train is still on the same connection, update conenctionTravelled:

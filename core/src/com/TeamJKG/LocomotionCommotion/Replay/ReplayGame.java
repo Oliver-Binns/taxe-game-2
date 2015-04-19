@@ -12,6 +12,7 @@ import com.TeamHEC.LocomotionCommotion.Map.Line;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
+import com.TeamHEC.LocomotionCommotion.Obstacle.Obstacle;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Train.CoalTrain;
 import com.TeamHEC.LocomotionCommotion.Train.ElectricTrain;
@@ -103,11 +104,11 @@ public class ReplayGame extends CoreGame {
 		turnData = (JSONObject) gameData.get(String.valueOf(this.turnCount));
 		//TODO add any new trains this turn
 		//TODO add any stations that have been locked this turn
-		//TODO add any cards that have been acquired this turn
+		//TODO add any cards that have been acquired this turn.
+		//TODO any locked/unlocked stations for this turn!
 		
 		//Add any train routings the user created on this turn.
 		addNewConnections();
-		
 		//break any stations that became faulty on this turn.
 		addStationFaults();
 		//Updates the player scores at the top of the screen
@@ -223,8 +224,16 @@ public class ReplayGame extends CoreGame {
 				Train train = playersArray[l].getTrains().get(i);
 				JSONObject trainJSON = (JSONObject) trainArray.get(i);
 				train.setSpeedMod(((Long)trainJSON.get("speedMod")).intValue());
+				
+				if(trainJSON.containsKey("obstacle") && !train.hasObstacle()){
+					addObstacle((JSONObject)trainJSON.get("obstacle"), train);
+				}
+				
 				JSONObject trainRoute = (JSONObject)trainJSON.get("route");
 				JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
+
+				System.out.println("json: " + routeConnections);
+				System.out.println("r-b4: " + train.getRoute().getRoute());
 				
 				int correctConnections = 0;
 				boolean stillCorrect = true;
@@ -309,6 +318,7 @@ public class ReplayGame extends CoreGame {
 				}
 				
 				train.getRoute().hideRouteBlips();
+				System.out.println("r-af: " + train.getRoute().getRoute());
 			}
 		}
 	}
@@ -352,5 +362,13 @@ public class ReplayGame extends CoreGame {
             }
             StartTurn();
         }
+	}
+	/**
+	 * Update trains method.
+	 * This makes trains mimmick those of the json. 
+	 */
+	public void addObstacle(JSONObject obstacle, Train train){
+		@SuppressWarnings("unused")
+		Obstacle o = new Obstacle((String)obstacle.get("name"), (String)obstacle.get("description"), ((Long)obstacle.get("speedFactor")).doubleValue(), ((Long)obstacle.get("totalTurns")).intValue(), train);
 	}
 }

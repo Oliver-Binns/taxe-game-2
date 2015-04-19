@@ -110,6 +110,7 @@ public class Obstacle {
     	String json = "{";
     	json += "\"name\": \"" + name + "\",";
     	json += "\"description\": \"" + name + "\",";
+    	json += "\"speedFactor\": " + speedFactor + ",";
     	json += "\"turnsElapsed\": " + turnsElapsed + ",";
     	json += "\"totalTurns\": " + totalTurns;
     	json += "}";

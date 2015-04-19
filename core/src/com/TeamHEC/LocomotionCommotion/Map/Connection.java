@@ -199,4 +199,14 @@ public class Connection{
 		json += "}";
 		return json;
 	}
+	
+	
+	public String toString(){
+		String json = "{\"start\":";
+		json += getStartMapObj().toJSON();
+		json += ",\"end\":";
+		json += getDestination().toJSON();
+		json += "}";
+		return json;
+	}
 }

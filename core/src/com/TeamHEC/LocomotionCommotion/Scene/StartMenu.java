@@ -119,7 +119,6 @@ public class StartMenu extends Scene{
 				LocomotionCommotion.turnChoice = turnChoice;
 				getJSONData();
 				resetNewGameScreen();
-				System.out.println("test");
 				LocomotionCommotion.getInstance().setGameScreen();
 				
 			}
@@ -140,7 +139,6 @@ public class StartMenu extends Scene{
 					JSONObject player2 = (JSONObject) players.get(1);
 					LocomotionCommotion.player1name = (String) player1.get("name");
 					LocomotionCommotion.player2name = (String) player2.get("name");
-					System.out.println(players);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -3,6 +3,7 @@ package com.TeamHEC.LocomotionCommotion.MapActors;
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
+import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
@@ -415,5 +416,9 @@ public class Game_Map_Manager {
 		for(MapObj m : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).mapObjList()) {
 			m.getActor().highlighted = false;
 		}
+	}
+
+	public static void showEditConnection(Connection connection) {
+		WarningMessage.fireWarningWindow("Warning", "Selected connection" + connection.getStartMapObj().getName() + " > " + connection.getDestination().getName());		
 	}
 }

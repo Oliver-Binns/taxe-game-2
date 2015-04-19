@@ -1,6 +1,9 @@
 package com.TeamHEC.LocomotionCommotion.Game;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
+import com.TeamHEC.LocomotionCommotion.Map.Connection;
+import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
+import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -48,7 +51,23 @@ public class MapInputProcessor implements InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(GameData.EDITING && touchDist <= 10) {
-			WarningMessage.fireWarningWindow("CLICK REGISTERED", "Should not appear when dragging");
+			for(Connection c : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList()) {
+				int x1, x2, y1, y2;
+				double m, a;
+				
+				x1 = (int) c.getStartMapObj().x;
+				x2 = (int) c.getDestination().x;
+				y1 = (int) c.getStartMapObj().y;
+				y2 = (int) c.getDestination().y;
+				
+				m = (y2 - y1)/(x2 - x1);
+				
+				a = y1 - (m * x1);
+				
+				
+				
+				Game_Map_Manager.showEditConnection(c);
+			}
 		}
 		touchDist = 0;
 		return false;

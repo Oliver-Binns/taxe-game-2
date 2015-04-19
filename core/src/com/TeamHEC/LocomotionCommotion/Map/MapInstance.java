@@ -1,7 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.Map;
 
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -190,16 +189,6 @@ public class MapInstance {
 		return junctions.get(name);
 	}
 	
-	public Connection[] connectionList() {
-		ArrayList<Connection> returnList = new ArrayList<Connection>();
-		
-		for(MapObj o : mapObjList()) {
-			returnList.addAll(o.connections);
-		}
-		
-		return (Connection[]) returnList.toArray();
-	}
-	
 	/**
 	 * @return an array of stations only
 	 */
@@ -259,44 +248,32 @@ public class MapInstance {
 	 * @param station the station to be removed from the map
 	 */
 	public void removeStation(String station) {
-		Station s = stations.get(station);
-		removeAllConnections(s);
-		s.actor.getLabel().remove();
-		s.actor.remove();
+		removeAllConnections(stations.get(station));
 		stations.remove(station);
 	}
 	
 	public void removeJunction(String junction) {
-		Junction j = junctions.get(junction);
-		removeAllConnections(j);
-		j.actor.remove();
+		removeAllConnections(junctions.get(junction));
 		junctions.remove(junction);
 	}
 	
 	public void removeAllConnections(MapObj startPoint) {
-<<<<<<< HEAD
 		for(Connection c : startPoint.connections) {
 			c.getDestination().connections.remove(c);
 			startPoint.connections.remove(c);
-=======
-		while(!startPoint.connections.isEmpty()) {
-			removeConnection(startPoint.connections.get(0).getDestination(), startPoint);
->>>>>>> origin/master
 		}
 	}
 	
 	public void removeConnection(MapObj startPoint, MapObj endPoint) {
-		for(int i=0; i < startPoint.connections.size(); i++) {
-			if(startPoint.connections.get(i).getDestination().equals(endPoint)) {
-				startPoint.connections.remove(i);
-				break;
+		for(Connection c : startPoint.connections) {
+			if(c.getDestination().equals(endPoint)) {
+				startPoint.connections.remove(c);
 			}
 		}
 		
-		for(int i=0; i < endPoint.connections.size(); i++) {
-			if(endPoint.connections.get(i).getDestination().equals(startPoint)) {
-				endPoint.connections.remove(i);
-				break;
+		for(Connection c : endPoint.connections) {
+			if(c.getDestination().equals(startPoint)) {
+				endPoint.connections.remove(c);
 			}
 		}
 	}

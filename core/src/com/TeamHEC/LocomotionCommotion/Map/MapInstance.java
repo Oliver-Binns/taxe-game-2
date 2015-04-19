@@ -258,9 +258,9 @@ public class MapInstance {
 	}
 	
 	public void removeAllConnections(MapObj startPoint) {
-		for(Connection c : startPoint.connections) {
-			c.getDestination().connections.remove(c);
-			startPoint.connections.remove(c);
+		while(!startPoint.connections.isEmpty()) {
+			startPoint.connections.get(0).getDestination().connections.remove(startPoint.connections.get(0));
+			startPoint.connections.remove(0);
 		}
 	}
 	

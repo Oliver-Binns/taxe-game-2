@@ -116,7 +116,8 @@ public class Game_PauseMenu {
 				@Override
 				protected void onClicked(){
 					LocomotionCommotion.getInstance().setMenuScreen();
-					//NewGame currentGame = new NewGame("1", "2", null, null, 50); 
+					//NewGame currentGame = new NewGame("1", "2", null, null, null); 
+					// An attempt to fix the main menu/new game bug, not currently successful.
 				}
 			};
 			actors.add(game_pause_mainmenu);

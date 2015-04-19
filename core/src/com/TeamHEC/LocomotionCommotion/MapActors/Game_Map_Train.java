@@ -1,9 +1,11 @@
 package com.TeamHEC.LocomotionCommotion.MapActors;
 
+import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
+import com.TeamJKG.LocomotionCommotion.Replay.ReplayGame;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -146,15 +148,26 @@ public class Game_Map_Train extends Actor{
 					canMove = false;
 					moveCounter = 0;
                     Game_Map_Manager.isMoving = false;
+                    if(LocomotionCommotion.isReplay){
+                    	notifyMovingFinished();
+                    }
 				}
 			}
 			else
             {
                 moveCounter = 0;
                 Game_Map_Manager.isMoving = false;
+                if(LocomotionCommotion.isReplay){
+                	notifyMovingFinished();
+                }
             }
 
         }
+	}
+	
+	public void notifyMovingFinished(){
+		ReplayGame game = (ReplayGame) GameScreen.game;
+		game.animationComplete();
 	}
 	
 	@Override

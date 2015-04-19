@@ -31,6 +31,9 @@ public class Game_TextureManager {
 	public CustomTexture game_menuobject_resourcesbar = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/resourcesbar.png"));
 	//Bottom right corner
 	public CustomTexture game_menuobject_endturnbutton = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/endTurnBtn.png"));
+	public CustomTexture game_menuobject_playbutton = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/playBtn.png"));
+	public CustomTexture game_menuobject_pausebutton = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/pauseBtn.png"));
+	public CustomTexture game_menuobject_skipbutton = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/skipTurnBtn.png"));
 	public CustomTexture game_menuobject_cornerframe = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/cornerframe.png"));
 	public CustomTexture game_menuobject_infobutton = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/infobutton.png"));
 		

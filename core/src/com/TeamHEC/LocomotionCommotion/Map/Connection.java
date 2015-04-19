@@ -37,6 +37,9 @@ public class Connection{
 		this.startMapObj = startMapObj;
 		this.endMapObj = endMapObj;
 		
+		System.out.println(startMapObj.name);
+		System.out.println(endMapObj.name);
+		
 		this.colour = colour;
 		this.locked = false;
 		

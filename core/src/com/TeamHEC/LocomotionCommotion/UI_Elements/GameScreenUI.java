@@ -14,6 +14,8 @@ import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_Shop.Game_ShopManager;
+import com.TeamJKG.LocomotionCommotion.Game.NewGame;
+import com.TeamJKG.LocomotionCommotion.Replay.ReplayGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -68,6 +70,7 @@ public class GameScreenUI {
 		game_menuobject_shopbtn, 
 		game_menuobject_traindepotbtn, 
 		game_menuobject_endturnbutton,
+		game_menuobject_skipturnbutton,
 		game_editing_stationTool,
 		game_editing_junctionTool,
 		game_editing_connectionTool,
@@ -218,46 +221,66 @@ public class GameScreenUI {
 			};
 			actors.add(game_menuobject_tickettoggle);
 
-			//End Turn Button -- Bottom right button
-			game_menuobject_endturnbutton = new SpriteButton(LocomotionCommotion.screenX-Game_TextureManager.getInstance().game_menuobject_endturnbutton.getWidth()-15,
-					15, Game_TextureManager.getInstance().game_menuobject_endturnbutton){
-				/**
-				 * onClicked for end turn button:
-				 *  Move trains, call the back end endTurn, RefreshResourses for new player, refresh gold, change cards to new player, changes the title text
-				 *  and fill the goalScreen.
-	
-				 */
-				@SuppressWarnings("static-access")
-				@Override
-				protected void onClicked()
-				{
-	
-	                if ( Game_Map_Manager.isMoving ) {
-	                    WarningMessage.fireWarningWindow("Too fast!", "Your train is still moving.");
-	                    return;
-	                }
-	
-					ArrayList<Train> playerTrains = GameScreen.game.getPlayerTurn().getTrains();	
-					for(Train t : playerTrains)
-					{
-						t.moveTrain();
-					}
-	
-					GameScreen.game.EndTurn();
-					GameScreenUI.refreshResources();
-					Game_Shop.actorManager.refreshgold(GameScreen.game.getPlayerTurn().getGold());
-					PlayerGoals.changePlayer(GameScreen.game.getPlayerTurn());
-					Game_CardHand.actorManager.changePlayer(GameScreen.game.getPlayerTurn());
-					playerScore.setText(GameScreen.game.getPlayer1().getName() + "    " + GameScreen.game.getPlayer1().getPoints() +
-	                        "     SCORE     " + GameScreen.game.getPlayer2().getPoints() + "     " + GameScreen.game.getPlayer2().getName()
-	                        + "     " + GameScreen.game.getPlayerTurn().getName() + " it's your turn "
-	                        + "     Turn " + GameScreen.game.getTurnCount() + "/" + GameScreen.game.getTurnLimit());
-					currentPlayerName.setText(GameScreen.game.getPlayerTurn().getName()+"'s TURN");
-					GoalMenu.fillGoalScreen();
-				}
-			};
-			actors.add(game_menuobject_endturnbutton);
+			if(!LocomotionCommotion.isReplay){
+				game_menuobject_endturnbutton = new SpriteButton(LocomotionCommotion.screenX-Game_TextureManager.getInstance().game_menuobject_endturnbutton.getWidth()-15,
+						15, Game_TextureManager.getInstance().game_menuobject_endturnbutton){
+					/**
+					 * onClicked for end turn button:
+					 *  Move trains, call the back end endTurn, RefreshResourses for new player, refresh gold, change cards to new player, changes the title text
+					 *  and fill the goalScreen.
 		
+					 */
+					@Override
+					protected void onClicked()
+					{
+						//Saves the status of the game BEFORE the trains are moved.
+						NewGame game = (NewGame)GameScreen.game;
+						game.saveTurn();
+		                EndTurn();
+					}
+				};
+				actors.add(game_menuobject_endturnbutton);
+			}
+			else{
+				game_menuobject_endturnbutton = new SpriteButton(LocomotionCommotion.screenX-Game_TextureManager.getInstance().game_menuobject_playbutton.getWidth()-15,
+					112, Game_TextureManager.getInstance().game_menuobject_playbutton){
+					/**
+					 * onClicked for end turn button:
+					 *  Move trains, call the back end endTurn, RefreshResourses for new player, refresh gold, change cards to new player, changes the title text
+					 *  and fill the goalScreen.
+		
+					 */
+					@Override
+					protected void onClicked()
+					{
+						ReplayGame game = ((ReplayGame)GameScreen.game);
+						if(game.togglePaused()){
+							game_menuobject_endturnbutton.setTexture(Game_TextureManager.getInstance().game_menuobject_pausebutton);
+						}
+						else{
+							game_menuobject_endturnbutton.setTexture(Game_TextureManager.getInstance().game_menuobject_playbutton);
+						}
+		                EndTurn();
+					}
+				};
+				actors.add(game_menuobject_endturnbutton);
+				game_menuobject_skipturnbutton = new SpriteButton(LocomotionCommotion.screenX-Game_TextureManager.getInstance().game_menuobject_skipbutton.getWidth()-15,
+						15, Game_TextureManager.getInstance().game_menuobject_skipbutton){
+						/**
+						 * onClicked for end turn button:
+						 *  Move trains, call the back end endTurn, RefreshResourses for new player, refresh gold, change cards to new player, changes the title text
+						 *  and fill the goalScreen.
+			
+						 */
+						@Override
+						protected void onClicked()
+						{
+			                EndTurn();
+						}
+					};
+					actors.add(game_menuobject_skipturnbutton);
+			}
+			
 			//Map Info Toggle Button -- Bottom right group
 			game_menuobject_infobutton = new SpriteButton(LocomotionCommotion.screenX-310, 63, Game_TextureManager.getInstance().game_menuobject_infobutton){
 				/**
@@ -935,5 +958,30 @@ public class GameScreenUI {
 		return style;
 
 	}
+	
+	@SuppressWarnings("static-access")
+	public static void EndTurn(){
+		if ( Game_Map_Manager.isMoving ) {
+            WarningMessage.fireWarningWindow("Too fast!", "Your train is still moving.");
+            return;
+        }
 
+		ArrayList<Train> playerTrains = GameScreen.game.getPlayerTurn().getTrains();	
+		for(Train t : playerTrains)
+		{
+			t.moveTrain();
+		}
+
+		GameScreen.game.EndTurn();
+		GameScreenUI.refreshResources();
+		Game_Shop.actorManager.refreshgold(GameScreen.game.getPlayerTurn().getGold());
+		PlayerGoals.changePlayer(GameScreen.game.getPlayerTurn());
+		Game_CardHand.actorManager.changePlayer(GameScreen.game.getPlayerTurn());
+		playerScore.setText(GameScreen.game.getPlayer1().getName() + "    " + GameScreen.game.getPlayer1().getPoints() +
+                "     SCORE     " + GameScreen.game.getPlayer2().getPoints() + "     " + GameScreen.game.getPlayer2().getName()
+                + "     " + GameScreen.game.getPlayerTurn().getName() + " it's your turn "
+                + "     Turn " + GameScreen.game.getTurnCount() + "/" + GameScreen.game.getTurnLimit());
+		currentPlayerName.setText(GameScreen.game.getPlayerTurn().getName()+"'s TURN");
+		GoalMenu.fillGoalScreen();
+	}
 }

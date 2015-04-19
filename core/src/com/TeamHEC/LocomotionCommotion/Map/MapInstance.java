@@ -101,8 +101,8 @@ public class MapInstance {
 				}
 				
 				Long rent = (Long) jStation.get("Rent");
-				Double xPos = (Double)((JSONArray) jStation.get("Location")).get(0);
-				Double yPos = (Double)((JSONArray) jStation.get("Location")).get(1);
+				Double xPos = (Double) ((JSONArray) jStation.get("Location")).get(0);
+				Double yPos = (Double) ((JSONArray) jStation.get("Location")).get(1);
 				boolean locked = (Boolean) jStation.get("Locked");
 				
 				stations.put(name, new Station(name, baseValue.intValue(), resource, baseFuelOut.intValue(), lines, rent.intValue(), xPos.floatValue(), yPos.floatValue(), locked));
@@ -112,8 +112,8 @@ public class MapInstance {
 			for(int i=0; i<jJunctions.size(); i++) {
 				JSONObject jJunction = (JSONObject) jJunctions.get(i);
 				
-				Double xPos = (Double)((JSONArray) jJunction.get("Location")).get(0);
-				Double yPos = (Double)((JSONArray) jJunction.get("Location")).get(1);
+				Double xPos = (Double) ((JSONArray) jJunction.get("Location")).get(0);
+				Double yPos = (Double) ((JSONArray) jJunction.get("Location")).get(1);
 				String name = (String) jJunction.get("Name");
 				boolean locked = (Boolean) jJunction.get("Locked");
 				
@@ -199,7 +199,6 @@ public class MapInstance {
 		
 		return returnList;
 	}
-	
 	/**
 	 * @return an array of stations only
 	 */
@@ -259,38 +258,32 @@ public class MapInstance {
 	 * @param station the station to be removed from the map
 	 */
 	public void removeStation(String station) {
-		Station s = stations.get(station);
-		removeAllConnections(s);
-		s.actor.getLabel().remove();
-		s.actor.remove();
+		removeAllConnections(stations.get(station));
 		stations.remove(station);
 	}
 	
 	public void removeJunction(String junction) {
-		Junction j = junctions.get(junction);
-		removeAllConnections(j);
-		j.actor.remove();
+		removeAllConnections(junctions.get(junction));
 		junctions.remove(junction);
 	}
 	
 	public void removeAllConnections(MapObj startPoint) {
-		while(!startPoint.connections.isEmpty()) {
-			removeConnection(startPoint.connections.get(0).getDestination(), startPoint);
+		for(Connection c : startPoint.connections) {
+			c.getDestination().connections.remove(c);
+			startPoint.connections.remove(c);
 		}
 	}
 	
 	public void removeConnection(MapObj startPoint, MapObj endPoint) {
-		for(int i=0; i < startPoint.connections.size(); i++) {
-			if(startPoint.connections.get(i).getDestination().equals(endPoint)) {
-				startPoint.connections.remove(i);
-				break;
+		for(Connection c : startPoint.connections) {
+			if(c.getDestination().equals(endPoint)) {
+				startPoint.connections.remove(c);
 			}
 		}
 		
-		for(int i=0; i < endPoint.connections.size(); i++) {
-			if(endPoint.connections.get(i).getDestination().equals(startPoint)) {
-				endPoint.connections.remove(i);
-				break;
+		for(Connection c : endPoint.connections) {
+			if(c.getDestination().equals(startPoint)) {
+				endPoint.connections.remove(c);
 			}
 		}
 	}

@@ -46,6 +46,7 @@ public class LocomotionCommotion extends Game {
 	public void create()
 	{
 		setScreen(SceneManager.getInstance().startScene);
+		
 		File gameFolder = new File(GameData.GAME_FOLDER);
 		boolean created = false;
 		

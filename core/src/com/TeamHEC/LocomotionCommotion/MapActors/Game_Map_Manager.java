@@ -419,6 +419,6 @@ public class Game_Map_Manager {
 	}
 
 	public static void showEditConnection(Connection connection) {
-		WarningMessage.fireWarningWindow("Warning", "Selected connection" + connection.getStartMapObj().getName() + " > " + connection.getDestination().getName());		
+		WarningMessage.fireWarningWindow("Warning", "Connection clicked " + connection.getStartMapObj() + " :- " + connection.getDestination());		
 	}
 }

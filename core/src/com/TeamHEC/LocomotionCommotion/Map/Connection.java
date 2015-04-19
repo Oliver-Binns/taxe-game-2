@@ -37,6 +37,9 @@ public class Connection{
 		this.startMapObj = startMapObj;
 		this.endMapObj = endMapObj;
 		
+		System.out.println(startMapObj.name);
+		System.out.println(endMapObj.name);
+		
 		this.colour = colour;
 		this.locked = false;
 		
@@ -192,6 +195,16 @@ public class Connection{
 		String json = "{ \"start\" : ";
 		json += getStartMapObj().toJSON();
 		json += ",\"end\" : ";
+		json += getDestination().toJSON();
+		json += "}";
+		return json;
+	}
+	
+	
+	public String toString(){
+		String json = "{\"start\":";
+		json += getStartMapObj().toJSON();
+		json += ",\"end\":";
 		json += getDestination().toJSON();
 		json += "}";
 		return json;

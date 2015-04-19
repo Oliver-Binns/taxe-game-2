@@ -78,8 +78,6 @@ public class NewGame extends CoreGame {
         		player2.addGold(player2.getNumStations() * 50);
         	}
         	
-        	Player[] playerList = {player1, player2};
-        	
             playerTurn.lineBonuses();
             turnCount = (turnCount + 1);
             if (playerTurn == player1)
@@ -88,11 +86,13 @@ public class NewGame extends CoreGame {
             	gameMap.generateFaults(replay);
                 playerTurn = player1;
             }
-            
-            replay.endTurn(playerList);
-            
             StartTurn();
         }
+	}
+	
+	public void saveTurn(){
+		Player[] playerList = {player1, player2};
+		replay.endTurn(playerList);
 	}
 	
 	/**

@@ -52,21 +52,42 @@ public class MapInputProcessor implements InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(GameData.EDITING && touchDist <= 10) {
 			for(Connection c : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList()) {
-				int x1, x2, y1, y2;
-				double m, a;
+				int x1, x2, y1, y2, tolerance;
+				double m, a, predictedY;
 				
+				tolerance = 50;
 				x1 = (int) c.getStartMapObj().x;
 				x2 = (int) c.getDestination().x;
 				y1 = (int) c.getStartMapObj().y;
 				y2 = (int) c.getDestination().y;
 				
-				m = (y2 - y1)/(x2 - x1);
-				
-				a = y1 - (m * x1);
-				
-				
-				
-				Game_Map_Manager.showEditConnection(c);
+				if(x2 != x1) {
+					m = (y2 - y1)/(x2 - x1);
+					
+					a = y1 - (m * x1);
+					
+					predictedY = (m * screenX) + a;
+					
+					System.out.println(c.getStartMapObj().getName() + " :- " + c.getDestination().getName());
+					
+					if((screenY + tolerance) > predictedY && predictedY > (screenY - tolerance)) {
+						if(Math.max(x1, x2) > screenX && screenX > Math.min(x1, x2)) {
+							if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
+								Game_Map_Manager.showEditConnection(c);
+								touchDist = 0;
+								return false;
+							}
+						}
+					}
+				} else {
+					if((x1 + tolerance) > screenX && screenX > (x1 - tolerance)) {
+						if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
+							Game_Map_Manager.showEditConnection(c);
+							touchDist = 0;
+							return false;
+						}
+					}
+				}
 			}
 		}
 		touchDist = 0;

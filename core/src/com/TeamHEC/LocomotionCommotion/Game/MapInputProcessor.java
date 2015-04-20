@@ -54,9 +54,10 @@ public class MapInputProcessor implements InputProcessor {
 			if(Game_Map_Manager.getTool() == "None") {
 				Connection[] cs = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList();
 				
+
 				for(int i=0; i < cs.length; i++) {
 					Connection c = cs[i];
-					
+
 					int x1, x2, y1, y2, tolerance;
 					double m, a, predictedY;
 					

@@ -95,7 +95,7 @@ public class MapInputProcessor implements InputProcessor {
 			} else if(Game_Map_Manager.getTool() == "station") {
 				WarningMessage.fireWarningWindow("Tool", "Station tool selected, registered location X:" + screenX + " Y:" + screenY);
 			} else if(Game_Map_Manager.getTool() == "junction") {
-				WarningMessage.fireWarningWindow("Tool", "Junction tool selected, registered location X:" + screenX + " Y:" + screenY);
+				Game_Map_Manager.addNewJunction((int) (screenX * scaleX * scaleZ), (int) (GameData.RESOLUTION_HEIGHT-screenY * scaleY * scaleZ));
 			} else if(Game_Map_Manager.getTool() == "connection") {
 				WarningMessage.fireWarningWindow("Tool", "Connection tool selected, registered location X:" + screenX + " Y:" + screenY);
 			}

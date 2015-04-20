@@ -16,6 +16,7 @@ import com.TeamHEC.LocomotionCommotion.Resource.Gold;
 import com.TeamHEC.LocomotionCommotion.Resource.Nuclear;
 import com.TeamHEC.LocomotionCommotion.Resource.Oil;
 import com.TeamHEC.LocomotionCommotion.Resource.Resource;
+import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.TeamJKG.LocomotionCommotion.Replay.Replay;
 
 /**
@@ -383,9 +384,17 @@ public class MapInstance {
 	 */
 	public void addMapObj(MapObj obj) {
 		if(obj instanceof Station) {
-			stations.put(obj.getName(), (Station) obj);
+			if(stations.containsKey(obj.getName())) {
+				WarningMessage.fireWarningWindow("Warning", obj.getName() + " already exists, please choose a different name.");
+			} else {
+				stations.put(obj.getName(), (Station) obj);
+			}
 		} else {
-			junctions.put(obj.getName(), (Junction) obj);
+			if(junctions.containsKey(obj.getName())) {
+				WarningMessage.fireWarningWindow("Warning", obj.getName() + " already exists, please choose a different name.");
+			} else {
+				junctions.put(obj.getName(), (Junction) obj);
+			}
 		}
 	}
 	

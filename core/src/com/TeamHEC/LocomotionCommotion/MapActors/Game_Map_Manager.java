@@ -5,6 +5,7 @@ import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
+import com.TeamHEC.LocomotionCommotion.Map.Line;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
@@ -351,6 +352,31 @@ public class Game_Map_Manager {
 		GameScreenUI.editStationLocked.setChecked(station.isLocked());
 		GameScreenUI.editPositionX.setText(Integer.toString((int) station.x));
 		GameScreenUI.editPositionY.setText(Integer.toString((int) station.y));
+	}
+	
+	public static void addNewStation(int x, int y) {
+		Station s = new Station("Unnamed", 0, new Oil(0), 0, new Line[0], 0, x, y);
+		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addMapObj(s);
+		actors.add(s.getActor());
+	}
+	
+	public static void addNewJunction(int x, int y) {
+		Junction j = new Junction(x, y, "Unnamed");
+		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addMapObj(j);
+		actors.add(j.getActor());
+	}
+	
+	public static void addNewConnection(MapObj startPoint, MapObj endPoint) {
+		Connection c = new Connection(startPoint, endPoint, Line.Black);
+		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addConnection(c);
+		
+		if(startPoint instanceof Station) {
+			WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getStationWithName(startPoint.getName()).addLine(Line.Black);
+		}
+		
+		if(endPoint instanceof Station) {
+			WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getStationWithName(startPoint.getName()).addLine(Line.Black);
+		}
 	}
 	
 	public static void saveStation() {

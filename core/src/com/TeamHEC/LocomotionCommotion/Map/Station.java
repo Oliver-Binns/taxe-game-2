@@ -241,6 +241,18 @@ public class Station extends MapObj{
 	{
 		return line;
 	}
+	
+	public void addLine(Line colour) {
+		Line[] newLines = new Line[line.length + 1];
+		
+		for(int i=0; i<line.length; i++) {
+			newLines[i] = line[i];
+		}
+		
+		newLines[line.length] = colour;
+		
+		line = newLines;
+	}
 		
 	/**
 	 * Registers an object implementing the StationListener by adding it to the listeners array

@@ -632,7 +632,11 @@ public class GameScreenUI {
 			game_editing_stationTool = new SpriteButton(50, 1000, Game_TextureManager.getInstance().game_edit_stationtool) {
 				@Override
 				protected void onClicked() {
-					Game_Map_Manager.setTool("station");
+					if(Game_Map_Manager.getTool() != "station") {
+						Game_Map_Manager.setTool("station");
+					} else {
+						Game_Map_Manager.setTool("None");
+					}
 				}
 			};
 			actors.add(game_editing_stationTool);
@@ -640,7 +644,11 @@ public class GameScreenUI {
 			game_editing_junctionTool = new SpriteButton(250, 1000, Game_TextureManager.getInstance().game_edit_junctiontool) {
 				@Override
 				protected void onClicked() {
-					Game_Map_Manager.setTool("junction");
+					if(Game_Map_Manager.getTool() != "junction") {
+						Game_Map_Manager.setTool("junction");
+					} else {
+						Game_Map_Manager.setTool("None");
+					}
 				}
 			};
 			actors.add(game_editing_junctionTool);
@@ -648,7 +656,11 @@ public class GameScreenUI {
 			game_editing_connectionTool = new SpriteButton(450, 1000, Game_TextureManager.getInstance().game_edit_connectiontool) {
 				@Override
 				protected void onClicked() {
-					Game_Map_Manager.setTool("connection");
+					if(Game_Map_Manager.getTool() != "connection") {
+						Game_Map_Manager.setTool("connection");
+					} else {
+						Game_Map_Manager.setTool("None");
+					}
 				}
 			};
 			actors.add(game_editing_connectionTool);

@@ -40,11 +40,12 @@ public class Game_Map_Manager {
 
 	public static Sprite map;
 	public static Sprite mapInfo;
-	
 	public static Sprite stationInfo;
 	public static Sprite junctionInfo;
+	
 	public static Game_Map_StationBtn stationSelect, stationUnlock;
 	public static MapObj selectedObj;
+	private static String currentTool;
 
     // Checks if a train is moving or not.
     public static boolean isMoving = false;
@@ -70,6 +71,7 @@ public class Game_Map_Manager {
 		mapActors=0;
 		stationTracker=0;
 		numberOfStations=0;
+		currentTool = "None";
 	
 		stationTracker = stage.getActors().size;
 		for(Station s : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()) {
@@ -293,6 +295,7 @@ public class Game_Map_Manager {
 	
 	public static void showEditJunction(Junction junction) {
 		selectedObj = junction;
+		currentTool = "None";
 		
 		GameScreenUI.editStationNameLabel.setVisible(true);
 		GameScreenUI.editStationLockedLabel.setVisible(true);
@@ -320,6 +323,7 @@ public class Game_Map_Manager {
 	
 	public static void showEditStation(Station station) {
 		selectedObj = station;
+		currentTool = "None";
 		
 		GameScreenUI.editStationNameLabel.setVisible(true);
 		GameScreenUI.editStationLockedLabel.setVisible(true);
@@ -350,10 +354,7 @@ public class Game_Map_Manager {
 	}
 	
 	public static void saveStation() {
-		if(selectedObj == null) {
-			WarningMessage.fireWarningWindow("Sorry", "Appropriate response hasn't been applied yet, this button does not function.");
-			return;
-		}
+		currentTool = "None";
 		
 		Station s = (Station) selectedObj;
 	
@@ -377,6 +378,8 @@ public class Game_Map_Manager {
 	}
 	
 	public static void saveJunction() {
+		currentTool = "None";
+		
 		Junction j = (Junction) selectedObj;
 		
 		j.x = Integer.parseInt(GameScreenUI.editPositionX.getText());
@@ -386,12 +389,14 @@ public class Game_Map_Manager {
 	}
 	
 	public static void deleteStation() {
+		currentTool = "None";
 		Station s = (Station) selectedObj;
 		
 		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).removeStation(s.getName());
 	}
 	
 	public static void deleteJunction() {
+		currentTool = "None";
 		Junction j = (Junction) selectedObj;
 		
 		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).removeJunction(j.getName());
@@ -419,6 +424,15 @@ public class Game_Map_Manager {
 	}
 
 	public static void showEditConnection(Connection connection) {
+		currentTool = "None";
 		WarningMessage.fireWarningWindow("Warning", "Connection clicked " + connection.getStartMapObj().getName() + " :- " + connection.getDestination().getName());		
+	}
+	
+	public static void setTool(String tool) {
+		currentTool = tool;
+	}
+	
+	public static String getTool() {
+		return currentTool;
 	}
 }

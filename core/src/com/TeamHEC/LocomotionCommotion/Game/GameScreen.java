@@ -65,6 +65,7 @@ public class GameScreen implements Screen {
 	public static SpriteBatch sb;
 	public static Game_Map_Manager mapManager;
 	private static ShapeRenderer shapeRend = new ShapeRenderer();
+	private static MapInputProcessor mapInput;
 	
 	/**
 	 * 
@@ -80,7 +81,7 @@ public class GameScreen implements Screen {
 		mapCamera.update();
 		
 		//Instantiate the Managers
-		InputProcessor mapInput = new MapInputProcessor();
+		mapInput = new MapInputProcessor();
 		InputMultiplexer multiInput = new InputMultiplexer();
 		
 		multiInput.addProcessor(getStage());
@@ -287,6 +288,7 @@ public class GameScreen implements Screen {
 		
 	    stage.getViewport().update(width, height, true);
 	    mapStage.getViewport().update(width, height, true);
+	    mapInput.resize();
 	}
 
 	@Override

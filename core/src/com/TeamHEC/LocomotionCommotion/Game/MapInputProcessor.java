@@ -51,15 +51,19 @@ public class MapInputProcessor implements InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(GameData.EDITING && touchDist <= 10) {
-			for(Connection c : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList()) {
+			Connection[] cs = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList();
+			
+			for(int i=0; i < cs.length; i++) {
+				Connection c = cs[i];
+				
 				int x1, x2, y1, y2, tolerance;
 				double m, a, predictedY;
 				
 				tolerance = 50;
-				x1 = (int) c.getStartMapObj().x;
-				x2 = (int) c.getDestination().x;
-				y1 = (int) c.getStartMapObj().y;
-				y2 = (int) c.getDestination().y;
+				x1 = (int) (c.getStartMapObj().x * scaleX * scaleZ);
+				x2 = (int) (c.getDestination().x * scaleX * scaleZ);
+				y1 = (int) (c.getStartMapObj().y * scaleY * scaleZ);
+				y2 = (int) (c.getDestination().y * scaleY * scaleZ);
 				
 				if(x2 != x1) {
 					m = (y2 - y1)/(x2 - x1);
@@ -67,8 +71,6 @@ public class MapInputProcessor implements InputProcessor {
 					a = y1 - (m * x1);
 					
 					predictedY = (m * screenX) + a;
-					
-					System.out.println(c.getStartMapObj().getName() + " :- " + c.getDestination().getName());
 					
 					if((screenY + tolerance) > predictedY && predictedY > (screenY - tolerance)) {
 						if(Math.max(x1, x2) > screenX && screenX > Math.min(x1, x2)) {

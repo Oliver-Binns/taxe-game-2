@@ -190,14 +190,14 @@ public class MapInstance {
 		return junctions.get(name);
 	}
 	
-	public ArrayList<Connection> connectionList() {
+	public Connection[] connectionList() {
 		ArrayList<Connection> returnList = new ArrayList<Connection>();
 		
 		for(MapObj o : mapObjList()) {
 			returnList.addAll(o.connections);
 		}
 		
-		return returnList;
+		return returnList.toArray(new Connection[returnList.size()]);
 	}
 	/**
 	 * @return an array of stations only

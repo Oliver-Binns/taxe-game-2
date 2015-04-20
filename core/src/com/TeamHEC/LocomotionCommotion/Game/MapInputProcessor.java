@@ -5,16 +5,19 @@ import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 public class MapInputProcessor implements InputProcessor {
 	private int currentX, currentY, touchDist;
 	private float scaleX, scaleY, scaleZ;
+	int offsetX, offsetY = 0;
+	int borderOffsetX, borderOffsetY;
 	
 	public MapInputProcessor() {
-		scaleX = 1680 / GameScreen.getMapStage().getViewport().getScreenWidth();
-		scaleY = 1050 / GameScreen.getMapStage().getViewport().getScreenHeight();
+		scaleX = 1680.0f / (float) Gdx.graphics.getWidth();
+		scaleY = 1050.0f / (float) Gdx.graphics.getHeight();
 		scaleZ = ((OrthographicCamera) GameScreen.getMapStage().getCamera()).zoom;
 		
 		currentX = (int) (GameScreen.getMapStage().getCamera().position.x * scaleX);
@@ -54,14 +57,29 @@ public class MapInputProcessor implements InputProcessor {
 			if(Game_Map_Manager.getTool() == "None") {
 				Connection[] cs = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList();
 				
-
+				System.out.println(scaleX);
+				System.out.println(scaleY);
+				System.out.println(GameScreen.getMapStage().getViewport().getScreenHeight());
+				System.out.println(GameScreen.getMapStage().getViewport().getScreenWidth());
+				
+				screenY = (int) (GameScreen.getMapStage().getViewport().getScreenHeight()) - screenY;
+				screenY += borderOffsetY;
+				screenX += borderOffsetX;
+				screenY *= scaleZ * scaleY;
+				screenX *= scaleZ * scaleX;
+				screenY += offsetY;
+				screenX += offsetX;
+				
+				//System.out.println(screenX);
+				//System.out.println(screenY);
+							
 				for(int i=0; i < cs.length; i++) {
 					Connection c = cs[i];
-
+					
 					int x1, x2, y1, y2, tolerance;
 					double m, a, predictedY;
 					
-					tolerance = 50;
+					tolerance = 15;
 					x1 = (int) (c.getStartMapObj().x * scaleX * scaleZ);
 					x2 = (int) (c.getDestination().x * scaleX * scaleZ);
 					y1 = (int) (c.getStartMapObj().y * scaleY * scaleZ);
@@ -119,6 +137,9 @@ public class MapInputProcessor implements InputProcessor {
 		touchDist += Math.abs(dX);
 		touchDist += Math.abs(dY);
 		
+		offsetX -= dX * scaleZ * scaleX;
+		offsetY += dY * scaleZ * scaleY;
+		
 		return false;
 	}
 
@@ -141,6 +162,13 @@ public class MapInputProcessor implements InputProcessor {
 		}
 		
 		return false;
+	}
+	
+	public void resize() {
+		scaleX = 1680.0f / (float) Gdx.graphics.getWidth();
+		scaleY = 1050.0f / (float) Gdx.graphics.getHeight();
+		borderOffsetX = (Gdx.graphics.getWidth() - GameScreen.getMapStage().getViewport().getScreenWidth()) / 2;
+		borderOffsetY = (Gdx.graphics.getHeight() - GameScreen.getMapStage().getViewport().getScreenHeight()) / 2;
 	}
 
 }

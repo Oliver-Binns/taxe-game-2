@@ -12,5 +12,6 @@ public class DesktopLauncher {
 		config.width = 1680;
 		config.fullscreen = false;
 		config.samples = 4;
+		config.vSyncEnabled = true;
 	}
 }

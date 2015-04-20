@@ -59,7 +59,7 @@ public class MapInputProcessor implements InputProcessor {
 				int x1, x2, y1, y2, tolerance;
 				double m, a, predictedY;
 				
-				tolerance = 50;
+				tolerance = 10;
 				x1 = (int) (c.getStartMapObj().x * scaleX * scaleZ);
 				x2 = (int) (c.getDestination().x * scaleX * scaleZ);
 				y1 = (int) (c.getStartMapObj().y * scaleY * scaleZ);

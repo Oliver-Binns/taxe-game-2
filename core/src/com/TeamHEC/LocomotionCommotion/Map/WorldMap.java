@@ -71,4 +71,15 @@ public class WorldMap {
 		}
 		
 	}
+	
+	/**
+	 * Calls MapInstance.reset() for all objects in mapList, used when player exits to main menu
+	 */
+	public void resetAll() {
+		MapInstance[] maps = mapList.values().toArray(new MapInstance[mapList.size()]);
+		
+		for(int i=0; i<maps.length; i++) {
+			maps[i].reset();
+		}
+	}
 }

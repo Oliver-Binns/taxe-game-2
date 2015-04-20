@@ -632,7 +632,7 @@ public class GameScreenUI {
 			game_editing_stationTool = new SpriteButton(50, 1000, Game_TextureManager.getInstance().game_edit_stationtool) {
 				@Override
 				protected void onClicked() {
-					WarningMessage.fireWarningWindow("stationTool", "Station Tool not implemented yet.");
+					Game_Map_Manager.setTool("station");
 				}
 			};
 			actors.add(game_editing_stationTool);
@@ -640,7 +640,7 @@ public class GameScreenUI {
 			game_editing_junctionTool = new SpriteButton(250, 1000, Game_TextureManager.getInstance().game_edit_junctiontool) {
 				@Override
 				protected void onClicked() {
-					WarningMessage.fireWarningWindow("junctionTool", "Junction Tool not implemented yet.");
+					Game_Map_Manager.setTool("junction");
 				}
 			};
 			actors.add(game_editing_junctionTool);
@@ -648,7 +648,7 @@ public class GameScreenUI {
 			game_editing_connectionTool = new SpriteButton(450, 1000, Game_TextureManager.getInstance().game_edit_connectiontool) {
 				@Override
 				protected void onClicked() {
-					WarningMessage.fireWarningWindow("connectionTool", "Connection Tool not implemented yet.");
+					Game_Map_Manager.setTool("connection");
 				}
 			};
 			actors.add(game_editing_connectionTool);

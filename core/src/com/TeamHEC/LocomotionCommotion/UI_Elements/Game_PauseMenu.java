@@ -115,9 +115,8 @@ public class Game_PauseMenu {
 			game_pause_mainmenu = new SpriteButton(Game_PauseMenu.actorManager.game_pause_resume.getX(),Game_PauseMenu.actorManager.game_pause_resume.getY()-300,Game_TextureManager.getInstance().game_pause_mainmenu){
 				@Override
 				protected void onClicked(){
+					WorldMap.getInstance().resetAll();
 					LocomotionCommotion.getInstance().setMenuScreen();
-					//NewGame currentGame = new NewGame("1", "2", null, null, null); 
-					// An attempt to fix the main menu/new game bug, not currently successful.
 				}
 			};
 			actors.add(game_pause_mainmenu);

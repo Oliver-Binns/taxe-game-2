@@ -54,45 +54,55 @@ public class MapInputProcessor implements InputProcessor {
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(GameData.EDITING && touchDist <= 10) {
-			Connection[] cs = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList();
+			if(Game_Map_Manager.getTool() == "None") {
+				Connection[] cs = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList();
+				
+				System.out.println(scaleX);
+				System.out.println(scaleY);
+				System.out.println(GameScreen.getMapStage().getViewport().getScreenHeight());
+				System.out.println(GameScreen.getMapStage().getViewport().getScreenWidth());
+				
+				screenY = (int) (GameScreen.getMapStage().getViewport().getScreenHeight()) - screenY;
+				screenY += borderOffsetY;
+				screenX += borderOffsetX;
+				screenY *= scaleZ * scaleY;
+				screenX *= scaleZ * scaleX;
+				screenY += offsetY;
+				screenX += offsetX;
+				
+				//System.out.println(screenX);
+				//System.out.println(screenY);
+							
+				for(int i=0; i < cs.length; i++) {
+					Connection c = cs[i];
+					
+					int x1, x2, y1, y2, tolerance;
+					double m, a, predictedY;
+					
+					tolerance = 15;
+					x1 = (int) (c.getStartMapObj().x * scaleX * scaleZ);
+					x2 = (int) (c.getDestination().x * scaleX * scaleZ);
+					y1 = (int) (c.getStartMapObj().y * scaleY * scaleZ);
+					y2 = (int) (c.getDestination().y * scaleY * scaleZ);
+					
+					if(x2 != x1) {
+						m = (y2 - y1)/(x2 - x1);
 						
-			System.out.println(scaleX);
-			System.out.println(scaleY);
-			System.out.println(GameScreen.getMapStage().getViewport().getScreenHeight());
-			System.out.println(GameScreen.getMapStage().getViewport().getScreenWidth());
-			
-			screenY = (int) (GameScreen.getMapStage().getViewport().getScreenHeight()) - screenY;
-			screenY += borderOffsetY;
-			screenX += borderOffsetX;
-			screenY *= scaleZ * scaleY;
-			screenX *= scaleZ * scaleX;
-			screenY += offsetY;
-			screenX += offsetX;
-			
-			//System.out.println(screenX);
-			//System.out.println(screenY);
+						a = y1 - (m * x1);
 						
-			for(int i=0; i < cs.length; i++) {
-				Connection c = cs[i];
-				
-				int x1, x2, y1, y2, tolerance;
-				double m, a, predictedY;
-				
-				tolerance = 15;
-				x1 = (int) (c.getStartMapObj().x * scaleX * scaleZ);
-				x2 = (int) (c.getDestination().x * scaleX * scaleZ);
-				y1 = (int) (c.getStartMapObj().y * scaleY * scaleZ);
-				y2 = (int) (c.getDestination().y * scaleY * scaleZ);
-				
-				if(x2 != x1) {
-					m = (y2 - y1)/(x2 - x1);
-					
-					a = y1 - (m * x1);
-					
-					predictedY = (m * screenX) + a;
-					
-					if((screenY + tolerance) > predictedY && predictedY > (screenY - tolerance)) {
-						if(Math.max(x1, x2) > screenX && screenX > Math.min(x1, x2)) {
+						predictedY = (m * screenX) + a;
+						
+						if((screenY + tolerance) > predictedY && predictedY > (screenY - tolerance)) {
+							if(Math.max(x1, x2) > screenX && screenX > Math.min(x1, x2)) {
+								if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
+									Game_Map_Manager.showEditConnection(c);
+									touchDist = 0;
+									return false;
+								}
+							}
+						}
+					} else {
+						if((x1 + tolerance) > screenX && screenX > (x1 - tolerance)) {
 							if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
 								Game_Map_Manager.showEditConnection(c);
 								touchDist = 0;
@@ -100,15 +110,13 @@ public class MapInputProcessor implements InputProcessor {
 							}
 						}
 					}
-				} else {
-					if((x1 + tolerance) > screenX && screenX > (x1 - tolerance)) {
-						if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
-							Game_Map_Manager.showEditConnection(c);
-							touchDist = 0;
-							return false;
-						}
-					}
 				}
+			} else if(Game_Map_Manager.getTool() == "station") {
+				WarningMessage.fireWarningWindow("Tool", "Station tool selected, registered location X:" + screenX + " Y:" + screenY);
+			} else if(Game_Map_Manager.getTool() == "junction") {
+				WarningMessage.fireWarningWindow("Tool", "Junction tool selected, registered location X:" + screenX + " Y:" + screenY);
+			} else if(Game_Map_Manager.getTool() == "connection") {
+				WarningMessage.fireWarningWindow("Tool", "Connection tool selected, registered location X:" + screenX + " Y:" + screenY);
 			}
 		}
 		touchDist = 0;

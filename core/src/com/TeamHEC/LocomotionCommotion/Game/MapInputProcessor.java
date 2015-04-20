@@ -9,6 +9,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector3;
 
 public class MapInputProcessor implements InputProcessor {
 	private int currentX, currentY, touchDist, offsetX, offsetY, offsetWX, offsetWY;
@@ -57,53 +58,53 @@ public class MapInputProcessor implements InputProcessor {
 				Connection[] cs = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList();
 				Pair<Integer, Integer> newCoords = convert2World(screenX, screenY);
 				
-				System.out.println(screenX + " | " + screenY);
-				System.out.println("X:" + newCoords.first + " Y:" + newCoords.second + "\n");
+				screenX = newCoords.first;
+				screenY = newCoords.second;
 				
-//				for(int i=0; i < cs.length; i++) {
-//					Connection c = cs[i];
-//					
-//					int x1, x2, y1, y2, tolerance;
-//					double m, a, predictedY;
-//					
-//					tolerance = 15;
-//					x1 = (int) (c.getStartMapObj().x * scaleX * cameraZoom);
-//					x2 = (int) (c.getDestination().x * scaleX * cameraZoom);
-//					y1 = (int) (c.getStartMapObj().y * scaleY * cameraZoom);
-//					y2 = (int) (c.getDestination().y * scaleY * cameraZoom);
-//					
-//					if(x2 != x1) {
-//						m = (y2 - y1)/(x2 - x1);
-//						
-//						a = y1 - (m * x1);
-//						
-//						predictedY = (m * screenX) + a;
-//						
-//						if((screenY + tolerance) > predictedY && predictedY > (screenY - tolerance)) {
-//							if(Math.max(x1, x2) > screenX && screenX > Math.min(x1, x2)) {
-//								if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
-//									Game_Map_Manager.showEditConnection(c);
-//									touchDist = 0;
-//									return false;
-//								}
-//							}
-//						}
-//					} else {
-//						if((x1 + tolerance) > screenX && screenX > (x1 - tolerance)) {
-//							if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
-//								Game_Map_Manager.showEditConnection(c);
-//								touchDist = 0;
-//								return false;
-//							}
-//						}
-//					}
-//				}
-//			} else if(Game_Map_Manager.getTool() == "station") {
-//				WarningMessage.fireWarningWindow("Tool", "Station tool selected, registered location X:" + screenX + " Y:" + screenY);
-//			} else if(Game_Map_Manager.getTool() == "junction") {
-//				Game_Map_Manager.addNewJunction((int) (screenX * scaleX * cameraZoom), (int) (GameData.RESOLUTION_HEIGHT-screenY * scaleY * cameraZoom));
-//			} else if(Game_Map_Manager.getTool() == "connection") {
-//				WarningMessage.fireWarningWindow("Tool", "Connection tool selected, registered location X:" + screenX + " Y:" + screenY);
+				for(int i=0; i < cs.length; i++) {
+					Connection c = cs[i];
+					
+					int x1, x2, y1, y2, tolerance;
+					double m, a, predictedY;
+					
+					tolerance = 15;
+					x1 = (int) c.getStartMapObj().x;
+					x2 = (int) c.getDestination().x;
+					y1 = (int) c.getStartMapObj().y;
+					y2 = (int) c.getDestination().y;
+					
+					if(x2 != x1) {
+						m = (y2 - y1)/(x2 - x1);
+						
+						a = y1 - (m * x1);
+						
+						predictedY = (m * screenX) + a;
+						
+						if((screenY + tolerance) > predictedY && predictedY > (screenY - tolerance)) {
+							if(Math.max(x1, x2) > screenX && screenX > Math.min(x1, x2)) {
+								if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
+									Game_Map_Manager.showEditConnection(c);
+									touchDist = 0;
+									return false;
+								}
+							}
+						}
+					} else {
+						if((x1 + tolerance) > screenX && screenX > (x1 - tolerance)) {
+							if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
+								Game_Map_Manager.showEditConnection(c);
+								touchDist = 0;
+								return false;
+							}
+						}
+					}
+				}
+			} else if(Game_Map_Manager.getTool() == "station") {
+				WarningMessage.fireWarningWindow("Tool", "Station tool selected, registered location X:" + screenX + " Y:" + screenY);
+			} else if(Game_Map_Manager.getTool() == "junction") {
+				Game_Map_Manager.addNewJunction((int) (screenX * scaleX * cameraZoom), (int) (GameData.RESOLUTION_HEIGHT-screenY * scaleY * cameraZoom));
+			} else if(Game_Map_Manager.getTool() == "connection") {
+				WarningMessage.fireWarningWindow("Tool", "Connection tool selected, registered location X:" + screenX + " Y:" + screenY);
 			}
 		}
 		touchDist = 0;
@@ -112,11 +113,14 @@ public class MapInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		int dX = screenX - currentX;
-		int dY = screenY - currentY;
+		float dX = screenX - currentX;
+		float dY = screenY - currentY;
 		
 		currentX = screenX;
 		currentY = screenY;
+		
+		touchDist += Math.abs(dX);
+		touchDist += Math.abs(dY);
 		
 		dX *= (scaleVX * cameraZoom);
 		dY *= (scaleVY * cameraZoom);
@@ -124,11 +128,8 @@ public class MapInputProcessor implements InputProcessor {
 		GameScreen.getMapStage().getCamera().position.x -= dX;
 		GameScreen.getMapStage().getCamera().position.y += dY;
 		
-		touchDist += Math.abs(dX);
-		touchDist += Math.abs(dY);
-		
-//		offsetWX -= dX;
-//		offsetWY += dY;
+		offsetWX -= dX;
+		offsetWY += dY;
 		
 		return false;
 	}
@@ -162,28 +163,12 @@ public class MapInputProcessor implements InputProcessor {
 		scaleVX = GameScreen.getMapStage().getViewport().getWorldWidth() / GameScreen.getMapStage().getViewport().getScreenWidth();
 		scaleVY = GameScreen.getMapStage().getViewport().getWorldHeight() / GameScreen.getMapStage().getViewport().getScreenHeight();
 		cameraZoom = ((OrthographicCamera) GameScreen.getMapStage().getViewport().getCamera()).zoom;
-		
-		System.out.println("New scaling values: \n\n\n");
-		System.out.println("ScaleX/Y " + scaleX + " | " + scaleY + "\n");
-		System.out.println("OffsetX/Y " + offsetX + " | " + offsetY + "\n");
-		System.out.println("ScaleVX/VY " + scaleVX + " | " + scaleVY + "\n");
-		System.out.println("Camera Zoom " + cameraZoom + "\n");
 	}
 	
 	public Pair<Integer, Integer> convert2World(int x, int y) {
-		Pair<Integer, Integer> tempCoords = convert2Viewport(x,y);
-		int worldX, worldY;
+		Vector3 coords = ((OrthographicCamera) GameScreen.getMapStage().getCamera()).unproject(new Vector3(x, y, 1));
 		
-		worldX = tempCoords.first.intValue();
-		worldY = tempCoords.second.intValue();
-		
-		worldX *= cameraZoom;
-		worldY *= cameraZoom;
-		
-//		worldX += offsetWX;
-//		worldY += offsetWY;
-		
-		return new Pair<Integer, Integer>(worldX, worldY);
+		return new Pair<Integer, Integer>((int) coords.x, (int) coords.y);
 	}
 	
 	public Pair<Integer, Integer> convert2Viewport(int x, int y) {

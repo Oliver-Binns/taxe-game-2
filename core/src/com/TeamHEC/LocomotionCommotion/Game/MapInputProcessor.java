@@ -68,10 +68,10 @@ public class MapInputProcessor implements InputProcessor {
 					double m, a, predictedY;
 					
 					tolerance = 15;
-					x1 = (int) c.getStartMapObj().x;
-					x2 = (int) c.getDestination().x;
-					y1 = (int) c.getStartMapObj().y;
-					y2 = (int) c.getDestination().y;
+					x1 = (int) c.getStartMapObj().x + 20;
+					x2 = (int) c.getDestination().x + 20;
+					y1 = (int) c.getStartMapObj().y + 20;
+					y2 = (int) c.getDestination().y + 20;
 					
 					if(x2 != x1) {
 						m = (y2 - y1)/(x2 - x1);

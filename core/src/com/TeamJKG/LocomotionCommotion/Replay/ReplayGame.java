@@ -294,11 +294,15 @@ public class ReplayGame extends CoreGame {
 			}
 			//The next two for statements correct our route...
 			//Remove any connections after the first incorrect connection
-			for(int j = correctConnections; j < train.getRoute().getRoute().size(); j++){
-				if(train.getRoute().removeConnection()){
+			if(correctConnections != train.getRoute().getRoute().size()){
+				train.getRoute().abortRoute();
+				//train.getRoute().cancelRoute();
+			}
+			/*for(int j = correctConnections; j < train.getRoute().getRoute().size(); j++){
+				if(!train.getRoute().removeConnection()){
 					train.getRoute().abortRoute();
 				}
-			}
+			}*/
 			if(correctConnections == 0){
 				train.getRoute().cancelRoute();
 			}

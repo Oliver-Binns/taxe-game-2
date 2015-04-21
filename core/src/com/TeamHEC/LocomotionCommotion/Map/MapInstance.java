@@ -511,7 +511,7 @@ public class MapInstance {
 			Random random = new Random();
 			int randInt = random.nextInt(100);
 			int faultRate = (int)(stationList()[i].getFaultRate() * 100); //make fault rate into a %age
-			if(randInt <= (faultRate + totalFaulty)){ 	//if fault rate is a lower number, faults are less likely
+			if(randInt <= (faultRate - totalFaulty)){ 	//if fault rate is a lower number, faults are less likely
 				stationList()[i].makeFaulty();			//faults become less likely as more stations become faulty
 				replay.addFault(stationList()[i]);
 			}

@@ -3,6 +3,7 @@ package com.TeamHEC.LocomotionCommotion.Train;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
@@ -316,14 +317,16 @@ public class Route{
 	 */
 	public void abortRoute()
 	{	
-		currentMapObj = path.get(routeIndex).getStartMapObj();
-		hideRouteBlips();
-		updateRouteText();
-		
-		while(removeConnection()){}
-		
-		routeIndex = 0;
-		connectionTravelled = 0;
+		if(getTotalLength() != 0){
+			currentMapObj = path.get(routeIndex).getStartMapObj();
+			hideRouteBlips();
+			updateRouteText();
+			
+			while(removeConnection()){}
+			
+			routeIndex = 0;
+			connectionTravelled = 0;
+		}
 	}
 	
 	/**
@@ -332,7 +335,8 @@ public class Route{
 	public void cancelRoute()
 	{
 		if(path.isEmpty())
-			GameScreenUI.exitRoutingMode();
+			if(!LocomotionCommotion.isReplay)
+				WarningMessage.fireWarningWindow("Oops", "Attempted to cancel an empty route!");
 		
 		hideRouteBlips();
 				
@@ -473,7 +477,7 @@ public class Route{
 			if(getStation() != null){	//determines that it is not a junction
 				if(getStation().isFaulty()){
 					WarningMessage.fireWarningWindow("Sorry", getStation().getName() + " Station is faulty. You must repair it to continue!");
-					abortRoute();
+					/*abortRoute();*/
 					path.clear();
 					routeIndex = 0;
 					isComplete = true;

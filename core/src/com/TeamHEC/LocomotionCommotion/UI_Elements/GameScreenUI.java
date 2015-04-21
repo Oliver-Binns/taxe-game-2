@@ -1,14 +1,19 @@
 package com.TeamHEC.LocomotionCommotion.UI_Elements;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
+import com.TeamHEC.LocomotionCommotion.Pair;
 import com.TeamHEC.LocomotionCommotion.Card.Game_CardHand;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalMenu;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
+import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
+import com.TeamHEC.LocomotionCommotion.Map.Line;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
@@ -57,6 +62,7 @@ public class GameScreenUI {
 		routeRemaining, 
 		routeFuelCost,
 		editStationNameLabel,
+		editConnectionColourLabel,
 		editStationValueLabel,
 		editStationResourceLabel,
 		editStationFuelLabel,
@@ -80,7 +86,9 @@ public class GameScreenUI {
 		undoLastRouteButton, 
 		abortRouteBtn, 
 		cancelRouteBtn;
-	public static SelectBox<String> editStationResource;
+	public static SelectBox<String> 
+		editStationResource,
+		editConnectionColour;
 	public static TextField editStationName,
 		editStationValue,
 		editStationFuel,
@@ -668,10 +676,12 @@ public class GameScreenUI {
 			saveButton = new SpriteButton(1530, 50, Game_TextureManager.getInstance().game_edit_savebutton) {
 				@Override
 				protected void onClicked() {
-					if(Station.class.isInstance(Game_Map_Manager.selectedObj)) {
+					if(Station.class.isInstance(Game_Map_Manager.selectedObj) && !Game_Map_Manager.selectedConnection.first) {
 						Game_Map_Manager.saveStation();
-					} else if(Junction.class.isInstance(Game_Map_Manager.selectedObj)) {
+					} else if(Junction.class.isInstance(Game_Map_Manager.selectedObj) && !Game_Map_Manager.selectedConnection.first) {
 						Game_Map_Manager.saveJunction();
+					} else if(Game_Map_Manager.selectedConnection.first) {
+						Game_Map_Manager.saveConneciton();
 					} else {
 						WarningMessage.fireWarningWindow("Warning", "Please select an object to save.");
 						return;
@@ -683,10 +693,12 @@ public class GameScreenUI {
 			deleteButton = new SpriteButton(1530, 10, Game_TextureManager.getInstance().game_edit_deletebutton) {
 				@Override
 				protected void onClicked() {
-					if(Station.class.isInstance(Game_Map_Manager.selectedObj)) {
+					if(Station.class.isInstance(Game_Map_Manager.selectedObj) && !Game_Map_Manager.selectedConnection.first) {
 						Game_Map_Manager.deleteStation();
-					} else if(Junction.class.isInstance(Game_Map_Manager.selectedObj)) {
+					} else if(Junction.class.isInstance(Game_Map_Manager.selectedObj) && !Game_Map_Manager.selectedConnection.first) {
 						Game_Map_Manager.deleteJunction();
+					} else if(Game_Map_Manager.selectedConnection.first) {
+						Game_Map_Manager.deleteConnection();
 					} else {
 						WarningMessage.fireWarningWindow("Warning", "Please select an object to delete.");
 						return;
@@ -697,6 +709,7 @@ public class GameScreenUI {
 			
 			style = getLabelStyle(21);
 			editStationNameLabel = new Label("Name: ", style);
+			editConnectionColourLabel = new Label("Colour", style);
 			editStationValueLabel = new Label("Value: ", style);
 			editStationResourceLabel = new Label("Resource: ", style);
 			editStationFuelLabel = new Label("Fuel Out: ", style);
@@ -707,6 +720,8 @@ public class GameScreenUI {
 			
 			editStationNameLabel.setX(20);
 			editStationNameLabel.setY(60);
+			editConnectionColourLabel.setX(20);
+			editConnectionColourLabel.setY(50);
 			editStationValueLabel.setX(20);
 			editStationValueLabel.setY(40);
 			editStationFuelLabel.setX(20);
@@ -723,6 +738,7 @@ public class GameScreenUI {
 			editPositionYLabel.setY(30);
 			
 			actors.add(editStationNameLabel);
+			actors.add(editConnectionColourLabel);
 			actors.add(editStationValueLabel);
 			actors.add(editStationFuelLabel);
 			actors.add(editStationRentLabel);
@@ -731,11 +747,18 @@ public class GameScreenUI {
 			actors.add(editPositionXLabel);
 			actors.add(editPositionYLabel);
 			
+			editConnectionColourLabel.setVisible(false);
+			
 			Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
 			editStationResource = new SelectBox<String>(skin);
 			editStationResource.setBounds(400, 20, 	160, 20);
 			editStationResource.setItems("Coal", "Electric", "Nuclear", "Oil");
 			editStationResource.setSelected("Coal"); 
+			
+			editConnectionColour = new SelectBox<String>(skin);
+			editConnectionColour.setBounds(120, 50, 160, 30);
+			editConnectionColour.setItems("Black", "Blue", "Brown", "Green", "Orange", "Purple", "Red", "Yellow");
+			editConnectionColour.setSelected("Black");
 			
 			editStationName = new TextField("", skin);
 			editStationValue = new TextField("", skin);
@@ -757,6 +780,7 @@ public class GameScreenUI {
 			deleteButton.setBounds(GameScreen.getStage().getWidth() - 150, 10, 100, 30);
 			
 			actors.add(editStationResource);
+			actors.add(editConnectionColour);
 			actors.add(editStationName);
 			actors.add(editStationFuel);
 			actors.add(editStationValue);
@@ -766,6 +790,8 @@ public class GameScreenUI {
 			actors.add(editStationLocked);
 			actors.add(saveButton);
 			actors.add(deleteButton);
+			
+			editConnectionColour.setVisible(false);
 		}
 		
 		//Get current stage end - where menuObjects start

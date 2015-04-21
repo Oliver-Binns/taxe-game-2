@@ -431,12 +431,14 @@ public class MapInstance {
 		for(Connection c : startPoint.connections) {
 			if(c.getDestination().equals(endPoint)) {
 				startPoint.connections.remove(c);
+				break;
 			}
 		}
 		
 		for(Connection c : endPoint.connections) {
 			if(c.getDestination().equals(startPoint)) {
 				endPoint.connections.remove(c);
+				break;
 			}
 		}
 	}
@@ -510,5 +512,17 @@ public class MapInstance {
 				replay.addFault(stationList()[i]);
 			}
 		}
+	}
+
+	public Connection getReverseConnection(Connection connection) {
+		Connection[] cList = connectionList();
+		
+		for(int i=0; i<cList.length; i++) {
+			if(cList[i].isReverseOf(connection)) {
+				return cList[i];
+			}
+		}
+		
+		return null;
 	}
 }

@@ -175,6 +175,10 @@ public class GameScreen implements Screen {
 					alpha = 0.2f;
 				}
 				
+				if(line.selected) {
+					shapeRend.setColor(0,0,0,alpha);
+					shapeRend.rectLine(startPoint.x + 20, startPoint.y + 20, line.getDestination().x + 20, line.getDestination().y + 20, 10);
+				}
 				switch(line.getColour()) {
 				case Yellow:
 					shapeRend.setColor(1, 0.76f, 0.03f, alpha);

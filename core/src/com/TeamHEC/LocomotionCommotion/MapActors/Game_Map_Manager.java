@@ -2,6 +2,7 @@ package com.TeamHEC.LocomotionCommotion.MapActors;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
+import com.TeamHEC.LocomotionCommotion.Pair;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
@@ -46,6 +47,7 @@ public class Game_Map_Manager {
 	
 	public static Game_Map_StationBtn stationSelect, stationUnlock;
 	public static MapObj selectedObj;
+	public static Pair<Boolean, Connection> selectedConnection;
 	private static String currentTool;
 
     // Checks if a train is moving or not.
@@ -73,6 +75,7 @@ public class Game_Map_Manager {
 		stationTracker=0;
 		numberOfStations=0;
 		currentTool = "None";
+		selectedConnection = new Pair<Boolean, Connection>(Boolean.valueOf(false), null);
 	
 		stationTracker = stage.getActors().size;
 		for(Station s : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()) {
@@ -249,6 +252,8 @@ public class Game_Map_Manager {
 	}
 	
 	public static void moveJunctionInfo(Junction junction) {
+		hideJunctionInfo();
+		
 		float x, y;
 		x = junction.x - 195;
 		y = junction.y - 80;
@@ -307,7 +312,10 @@ public class Game_Map_Manager {
 		selectedObj = junction;
 		currentTool = "None";
 		
+		selectedConnection.first = Boolean.valueOf(false);
+		
 		GameScreenUI.editStationNameLabel.setVisible(true);
+		GameScreenUI.editConnectionColourLabel.setVisible(false);
 		GameScreenUI.editStationLockedLabel.setVisible(true);
 		GameScreenUI.editPositionXLabel.setVisible(true);
 		GameScreenUI.editPositionYLabel.setVisible(true);
@@ -317,6 +325,7 @@ public class Game_Map_Manager {
 		GameScreenUI.editStationResourceLabel.setVisible(false);
 		
 		GameScreenUI.editStationResource.setVisible(false);
+		GameScreenUI.editConnectionColour.setVisible(false);
 		GameScreenUI.editStationFuel.setVisible(false);
 		GameScreenUI.editStationLocked.setVisible(true);
 		GameScreenUI.editStationName.setVisible(true);
@@ -335,7 +344,10 @@ public class Game_Map_Manager {
 		selectedObj = station;
 		currentTool = "None";
 		
+		selectedConnection.first = Boolean.valueOf(false);
+		
 		GameScreenUI.editStationNameLabel.setVisible(true);
+		GameScreenUI.editConnectionColourLabel.setVisible(false);
 		GameScreenUI.editStationLockedLabel.setVisible(true);
 		GameScreenUI.editPositionXLabel.setVisible(true);
 		GameScreenUI.editPositionYLabel.setVisible(true);
@@ -345,6 +357,7 @@ public class Game_Map_Manager {
 		GameScreenUI.editStationResourceLabel.setVisible(true);
 		
 		GameScreenUI.editStationResource.setVisible(true);
+		GameScreenUI.editConnectionColour.setVisible(false);
 		GameScreenUI.editStationFuel.setVisible(true);
 		GameScreenUI.editStationLocked.setVisible(true);
 		GameScreenUI.editStationName.setVisible(true);
@@ -456,11 +469,40 @@ public class Game_Map_Manager {
 		for(MapObj m : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).mapObjList()) {
 			m.getActor().highlighted = false;
 		}
+		
+		for(Connection c : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList()) {
+			c.selected = false;
+		}
 	}
 
 	public static void showEditConnection(Connection connection) {
 		currentTool = "None";
-		WarningMessage.fireWarningWindow("Warning", "Connection clicked " + connection.getStartMapObj().getName() + " :- " + connection.getDestination().getName());		
+		connection.selected = true;
+		
+		selectedConnection.first = Boolean.valueOf(true);
+		selectedConnection.second = connection;
+		
+		GameScreenUI.editStationNameLabel.setVisible(false);
+		GameScreenUI.editConnectionColourLabel.setVisible(true);
+		GameScreenUI.editStationLockedLabel.setVisible(false);
+		GameScreenUI.editPositionXLabel.setVisible(false);
+		GameScreenUI.editPositionYLabel.setVisible(false);
+		GameScreenUI.editStationFuelLabel.setVisible(false);
+		GameScreenUI.editStationRentLabel.setVisible(false);
+		GameScreenUI.editStationValueLabel.setVisible(false);
+		GameScreenUI.editStationResourceLabel.setVisible(false);
+		
+		GameScreenUI.editStationResource.setVisible(false);
+		GameScreenUI.editConnectionColour.setVisible(true);
+		GameScreenUI.editStationFuel.setVisible(false);
+		GameScreenUI.editStationLocked.setVisible(false);
+		GameScreenUI.editStationName.setVisible(false);
+		GameScreenUI.editStationRent.setVisible(false);
+		GameScreenUI.editPositionX.setVisible(false);
+		GameScreenUI.editPositionY.setVisible(false);
+		GameScreenUI.editStationValue.setVisible(false);
+		
+		GameScreenUI.editConnectionColour.setSelected(connection.getColour().toString());
 	}
 	
 	public static void setTool(String tool) {
@@ -469,5 +511,47 @@ public class Game_Map_Manager {
 	
 	public static String getTool() {
 		return currentTool;
+	}
+
+	public static void saveConneciton() {
+		currentTool = "None";
+		String colour = GameScreenUI.editConnectionColour.getSelected();
+		Connection reverseConnection;
+		
+		reverseConnection = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getReverseConnection(selectedConnection.second);
+		
+		if(colour == "Black") {
+			selectedConnection.second.setColour(Line.Black);
+			reverseConnection.setColour(Line.Black);
+		} else if(colour == "Blue") {
+			selectedConnection.second.setColour(Line.Blue);
+			reverseConnection.setColour(Line.Blue);
+		} else if(colour == "Brown") {
+			selectedConnection.second.setColour(Line.Brown);
+			reverseConnection.setColour(Line.Brown);
+		} else if(colour == "Green") {
+			selectedConnection.second.setColour(Line.Green);
+			reverseConnection.setColour(Line.Green);
+		} else if(colour == "Orange") {
+			selectedConnection.second.setColour(Line.Orange);
+			reverseConnection.setColour(Line.Orange);
+		} else if(colour == "Purple") {
+			selectedConnection.second.setColour(Line.Purple);
+			reverseConnection.setColour(Line.Purple);
+		} else if(colour == "Red") {
+			selectedConnection.second.setColour(Line.Red);
+			reverseConnection.setColour(Line.Red);
+		} else {
+			selectedConnection.second.setColour(Line.Yellow);
+			reverseConnection.setColour(Line.Yellow);
+		}
+	}
+
+	public static void deleteConnection() {
+		currentTool = "None";
+		
+		Connection c = selectedConnection.second;
+		
+		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).removeConnection(c.getStartMapObj(), c.getDestination());
 	}
 }

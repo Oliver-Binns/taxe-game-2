@@ -13,13 +13,13 @@ import com.badlogic.gdx.math.Vector3;
 
 public class MapInputProcessor implements InputProcessor {
 	private int currentX, currentY, touchDist, offsetX, offsetY;
-	private double scaleY, scaleX, scaleVX, scaleVY, cameraZoom;
+	private double scaleVX, scaleVY, cameraZoom;
 	
 	public MapInputProcessor() {
 		resize();
 		
-		currentX = (int) (GameScreen.getMapStage().getCamera().position.x * scaleX);
-		currentY = (int) (GameScreen.getMapStage().getCamera().position.y * scaleY);
+		currentX = (int) (GameScreen.getMapStage().getCamera().position.x);
+		currentY = (int) (GameScreen.getMapStage().getCamera().position.y);
 		touchDist = 0;
 	}
 	
@@ -47,6 +47,8 @@ public class MapInputProcessor implements InputProcessor {
 		
 		currentX = newCoords.first;
 		currentY = newCoords.second;
+		
+		Game_Map_Manager.deselectAll();
 		
 		return false;
 	}
@@ -105,9 +107,9 @@ public class MapInputProcessor implements InputProcessor {
 					} 
 				}
 			} else if(Game_Map_Manager.getTool() == "station") {
-				WarningMessage.fireWarningWindow("Tool", "Station tool selected, registered location X:" + screenX + " Y:" + screenY);
+				Game_Map_Manager.addNewStation(screenX-20, screenY-20);
 			} else if(Game_Map_Manager.getTool() == "junction") {
-				Game_Map_Manager.addNewJunction(screenX, screenY);
+				Game_Map_Manager.addNewJunction(screenX-20, screenY-20);
 			} else if(Game_Map_Manager.getTool() == "connection") {
 				WarningMessage.fireWarningWindow("Tool", "Connection tool selected, registered location X:" + screenX + " Y:" + screenY);
 			}
@@ -132,8 +134,8 @@ public class MapInputProcessor implements InputProcessor {
 		touchDist += Math.abs(dX);
 		touchDist += Math.abs(dY);
 		
-		GameScreen.getMapStage().getCamera().position.x -= dX;
-		GameScreen.getMapStage().getCamera().position.y -= dY;
+		GameScreen.getMapStage().getCamera().position.x -= dX * cameraZoom;
+		GameScreen.getMapStage().getCamera().position.y -= dY * cameraZoom;
 		
 		return false;
 	}
@@ -162,15 +164,24 @@ public class MapInputProcessor implements InputProcessor {
 	public void resize() {
 		offsetX = GameScreen.getMapStage().getViewport().getLeftGutterWidth();
 		offsetY = GameScreen.getMapStage().getViewport().getTopGutterHeight();
-		scaleX = (float) GameScreen.getMapStage().getViewport().getScreenWidth() / (Gdx.graphics.getWidth() - (offsetX * 2));
-		scaleY = (float) GameScreen.getMapStage().getViewport().getScreenHeight() / (Gdx.graphics.getHeight() - (offsetY * 2));
 		scaleVX = GameScreen.getMapStage().getViewport().getWorldWidth() / GameScreen.getMapStage().getViewport().getScreenWidth();
 		scaleVY = GameScreen.getMapStage().getViewport().getWorldHeight() / GameScreen.getMapStage().getViewport().getScreenHeight();
+		
+		System.out.println(GameScreen.getMapStage().getViewport().getWorldHeight() + " / " + GameScreen.getMapStage().getViewport().getScreenHeight() + " = " + ((double) GameScreen.getMapStage().getViewport().getWorldHeight()) / ((double) GameScreen.getMapStage().getViewport().getScreenHeight()));
+		
+//		System.out.println("Resize event:\n" +
+//				"HORIZONTAL OFFSET: " + offsetX + ", " + GameScreen.getMapStage().getViewport().getRightGutterWidth() + "\n" +
+//				"VERTICAL OFFSET: " + offsetY + ", " + GameScreen.getMapStage().getViewport().getBottomGutterHeight() + "\n" +
+//				"VIEWPORT-WORLD RATIO: " + scaleVX + ", " + scaleVY);
 	}
 	
 	public Pair<Integer, Integer> convert2World(int x, int y) {
-//		x += offsetX;
-//		y += offsetY;
+		x -= offsetX;
+		y -= offsetY;
+		
+		x *= scaleVX;
+//		y *= scaleVY;
+		
 		Vector3 coords = ((OrthographicCamera) GameScreen.getMapStage().getCamera()).unproject(new Vector3(x, y, 0));
 		
 		return new Pair<Integer, Integer>((int) coords.x, (int) coords.y);
@@ -179,9 +190,6 @@ public class MapInputProcessor implements InputProcessor {
 	public Pair<Integer, Integer> convert2Viewport(int x, int y) {
 		x -= offsetX;
 		y -= offsetY;
-		
-		x *= scaleX;
-		y *= scaleY;
 		
 		y = GameScreen.getMapStage().getViewport().getScreenHeight() - y;
 		

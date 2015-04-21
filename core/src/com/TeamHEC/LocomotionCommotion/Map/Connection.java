@@ -24,6 +24,7 @@ public class Connection{
 	private Array<Actor> connectionBlips = new Array<Actor>();
 	private Sprite redRouteBlip;
 	private int blipSize;
+	public boolean selected = false;
 
 	/**
 	 * A connection between two adjacent MapObjs in the Map.
@@ -183,6 +184,13 @@ public class Connection{
 			return true;
 		else
 			return false;
+	}
+	/**
+	 * sets the colour of the connection to a new value
+	 * @param lineColour to be set
+	 */
+	public void setColour(Line lineColour) {
+		colour = lineColour;
 	}
 	/**
 	 * Generates a JSON String

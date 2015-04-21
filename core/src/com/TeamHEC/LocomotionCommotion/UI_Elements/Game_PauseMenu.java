@@ -90,6 +90,7 @@ public class Game_PauseMenu {
 							PrintWriter out = new PrintWriter(GameData.MAP_FOLDER + System.getProperty("file.separator") + "Map1.json");
 							out.println(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).generateJSON());
 							out.close();
+							game_pause_mainmenu.onClicked();
 						} catch(Exception e) {
 							e.printStackTrace();
 						}

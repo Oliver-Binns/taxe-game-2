@@ -9,6 +9,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -16,6 +17,7 @@ public class MapInputProcessor implements InputProcessor {
 	private int currentX, currentY, touchDist, offsetX, offsetY;
 	private double scaleVX, scaleVY, cameraZoom;
 	private Viewport VP = GameScreen.getMapStage().getViewport();
+	public Pair<Integer, Integer> mouseCoords;
 	
 	public MapInputProcessor() {
 		resize();
@@ -109,7 +111,7 @@ public class MapInputProcessor implements InputProcessor {
 			} else if(Game_Map_Manager.getTool() == "junction") {
 				Game_Map_Manager.addNewJunction(screenX-20, screenY-20);
 			} else if(Game_Map_Manager.getTool() == "connection") {
-				WarningMessage.fireWarningWindow("Tool", "Connection tool selected, registered location X:" + screenX + " Y:" + screenY);
+				WarningMessage.fireWarningWindow("Warning", "You must select a location to connect to.");
 			}
 		}
 		touchDist = 0;
@@ -140,7 +142,7 @@ public class MapInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
+		mouseCoords = convert2World(screenX, screenY);
 		return false;
 	}
 

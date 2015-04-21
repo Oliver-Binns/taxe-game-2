@@ -146,8 +146,15 @@ public class Game_Map_Station extends Game_Map_MapObj implements StationListener
 			hideInfoBox();
 		}
 		
-		if(GameData.EDITING) {
+		if(GameData.EDITING && !Game_Map_Manager.getTool().equals("connection")) {
 			Game_Map_Manager.showEditStation(station);
+		} else {
+			if(Game_Map_Manager.conObj1 == null) {
+				Game_Map_Manager.conObj1 = station;
+				Game_Map_Manager.connectionPlacing = true;
+			} else {
+				Game_Map_Manager.addNewConnection(Game_Map_Manager.conObj1, station);
+			}
 		}
 	}
 

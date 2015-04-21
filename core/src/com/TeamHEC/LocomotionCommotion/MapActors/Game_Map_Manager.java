@@ -59,6 +59,9 @@ public class Game_Map_Manager {
 	public static int  stagestart, mapActors, stationTracker, numberOfStations, junctionTracker, numberOfJunctions = 2;
 	public static Label stationLabelFuel,stationLabelName, stationLabelCost;
 	public LabelStyle style;
+	public static Stage stageTracker;
+	public static MapObj conObj1;
+	public static boolean connectionPlacing = false;
 
 	/*public static Sprite planBackground;*/
 	public static Array<Game_Map_Train> trainBlips = new Array<Game_Map_Train>();
@@ -66,7 +69,7 @@ public class Game_Map_Manager {
 	public Game_Map_Manager(){	}
 
 	public void create(Stage stage){
-	
+		stageTracker = stage;
 		actors.clear();
 		infoactors.clear();
 		resetMap();
@@ -378,26 +381,53 @@ public class Game_Map_Manager {
 	
 	public static void addNewStation(int x, int y) {
 		Station s = new Station("Unnamed", 0, new Oil(0), 0, new Line[0], 0, x, y);
-		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addMapObj(s);
+		try {
+			WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addMapObj(s);
+		} catch(Exception e) {
+			WarningMessage.fireWarningWindow("Warning", s.getName() + " already exists, please choose a different name.");
+			return;
+		}
+		
 		actors.add(s.getActor());
+		
+		Label nameLabel = s.getActor().getLabel();
+		nameLabel.setX(s.x - (s.getActor().labelWidth/2));
+		nameLabel.setY(s.y + 45);
+		nameLabel.setVisible(true);
+		actors.add(nameLabel);
+		
+		s.getActor().setTouchable(Touchable.enabled);
+		stageTracker.addActor(s.getActor());
+		stageTracker.addActor(s.getActor().getLabel());
 	}
 	
 	public static void addNewJunction(int x, int y) {
 		Junction j = new Junction(x, y, "Unnamed");
-		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addMapObj(j);
+		try {
+			WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addMapObj(j);
+		} catch(Exception e) {
+			WarningMessage.fireWarningWindow("Warning", j.getName() + " already exists, please choose a different name.");
+			return;
+		}
+		
 		actors.add(j.getActor());
+		j.getActor().setTouchable(Touchable.enabled);
+		stageTracker.addActor(j.getActor());
 	}
 	
 	public static void addNewConnection(MapObj startPoint, MapObj endPoint) {
 		Connection c = new Connection(startPoint, endPoint, Line.Black);
-		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addConnection(c);
-		
-		if(startPoint instanceof Station) {
-			WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getStationWithName(startPoint.getName()).addLine(Line.Black);
-		}
-		
-		if(endPoint instanceof Station) {
-			WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getStationWithName(startPoint.getName()).addLine(Line.Black);
+		if(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addConnection(c)) {
+			if(startPoint instanceof Station) {
+				WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getStationWithName(startPoint.getName()).addLine(Line.Black);
+			}
+			
+			if(endPoint instanceof Station) {
+				WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getStationWithName(startPoint.getName()).addLine(Line.Black);
+			}
+			connectionPlacing = false;
+		} else {
+			WarningMessage.fireWarningWindow("Warning", "Connection already exists, try connecting to another location.");
 		}
 	}
 	
@@ -406,22 +436,26 @@ public class Game_Map_Manager {
 		
 		Station s = (Station) selectedObj;
 	
-		s.x = Integer.parseInt(GameScreenUI.editPositionX.getText());
-		s.y = Integer.parseInt(GameScreenUI.editPositionY.getText());
-		s.lock(GameScreenUI.editStationLocked.isChecked());
-		s.setName(GameScreenUI.editStationName.getText());
-		s.setBaseResourceOut(Integer.parseInt(GameScreenUI.editStationFuel.getText()));
-		s.setBaseRentValue(Integer.parseInt(GameScreenUI.editStationRent.getText()));
-		s.setBaseValue(Integer.parseInt(GameScreenUI.editStationValue.getText()));
-		
-		if(GameScreenUI.editStationResource.getSelected().equals("Coal")) {
-			s.setResourceType(new Coal(s.getResourceType().getValue()));
-		} else if(GameScreenUI.editStationResource.getSelected().equals("Electric")) {
-			s.setResourceType(new Electric(s.getResourceType().getValue()));
-		} else if(GameScreenUI.editStationResource.getSelected().equals("Nuclear")) {
-			s.setResourceType(new Nuclear(s.getResourceType().getValue()));
+		if((GameScreenUI.editStationName.getText().equals(s.getName())) || s.setName(GameScreenUI.editStationName.getText())) {
+			s.x = Integer.parseInt(GameScreenUI.editPositionX.getText());
+			s.y = Integer.parseInt(GameScreenUI.editPositionY.getText());
+			s.lock(GameScreenUI.editStationLocked.isChecked());
+			s.setBaseResourceOut(Integer.parseInt(GameScreenUI.editStationFuel.getText()));
+			s.setBaseRentValue(Integer.parseInt(GameScreenUI.editStationRent.getText()));
+			s.setBaseValue(Integer.parseInt(GameScreenUI.editStationValue.getText()));
+			
+			if(GameScreenUI.editStationResource.getSelected().equals("Coal")) {
+				s.setResourceType(new Coal(s.getResourceType().getValue()));
+			} else if(GameScreenUI.editStationResource.getSelected().equals("Electric")) {
+				s.setResourceType(new Electric(s.getResourceType().getValue()));
+			} else if(GameScreenUI.editStationResource.getSelected().equals("Nuclear")) {
+				s.setResourceType(new Nuclear(s.getResourceType().getValue()));
+			} else {
+				s.setResourceType(new Oil(s.getResourceType().getValue()));
+			}
 		} else {
-			s.setResourceType(new Oil(s.getResourceType().getValue()));
+			WarningMessage.fireWarningWindow("Warning", GameScreenUI.editStationName.getText() + " already exists, please choose a different name.");
+			showEditStation(s);
 		}
 	}
 	
@@ -430,15 +464,22 @@ public class Game_Map_Manager {
 		
 		Junction j = (Junction) selectedObj;
 		
-		j.x = Integer.parseInt(GameScreenUI.editPositionX.getText());
-		j.y = Integer.parseInt(GameScreenUI.editPositionY.getText());
-		j.lock(GameScreenUI.editStationLocked.isChecked());
-		j.setName(GameScreenUI.editStationName.getText());
+		if((GameScreenUI.editStationName.getText().equals(j.getName())) || j.setName(GameScreenUI.editStationName.getText())) {
+			j.x = Integer.parseInt(GameScreenUI.editPositionX.getText());
+			j.y = Integer.parseInt(GameScreenUI.editPositionY.getText());
+			j.lock(GameScreenUI.editStationLocked.isChecked());
+		} else {
+			WarningMessage.fireWarningWindow("Warning", GameScreenUI.editStationName.getText() + " already exists, please choose a different name.");
+			showEditJunction(j);
+		}
 	}
 	
 	public static void deleteStation() {
 		currentTool = "None";
 		Station s = (Station) selectedObj;
+		
+		s.getActor().getLabel().remove();
+		s.getActor().remove();
 		
 		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).removeStation(s.getName());
 	}
@@ -446,6 +487,8 @@ public class Game_Map_Manager {
 	public static void deleteJunction() {
 		currentTool = "None";
 		Junction j = (Junction) selectedObj;
+		
+		j.getActor().remove();
 		
 		WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).removeJunction(j.getName());
 	}

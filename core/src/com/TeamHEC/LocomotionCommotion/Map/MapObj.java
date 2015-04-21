@@ -1,6 +1,8 @@
 package com.TeamHEC.LocomotionCommotion.Map;
 
 import java.util.ArrayList;
+
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_MapObj;
 
 /**
@@ -52,8 +54,12 @@ public class MapObj {
 	 * Set name of the MapObj
 	 * @param newName the new name of the MapObj
 	 */
-	public void setName(String newName) {
-		name = newName;
+	public boolean setName(String newName) {
+		if(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).changeNameMapping(this, newName)) {
+			name = newName;
+			return true;
+		}
+		return false;
 	}
 	
 	/**

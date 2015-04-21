@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
 	public static SpriteBatch sb;
 	public static Game_Map_Manager mapManager;
 	private static ShapeRenderer shapeRend = new ShapeRenderer();
-	private static MapInputProcessor mapInput;
+	public static MapInputProcessor mapInput;
 	
 	/**
 	 * 
@@ -167,6 +167,12 @@ public class GameScreen implements Screen {
 		
 		for(MapObj startPoint : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).mapObjList()) {
 			float alpha = 1.0f;
+			
+			if(Game_Map_Manager.connectionPlacing) {
+				shapeRend.setColor(0,0,0,1);
+				
+				shapeRend.rectLine(Game_Map_Manager.conObj1.x + 20, Game_Map_Manager.conObj1.y + 20, mapInput.mouseCoords.first, mapInput.mouseCoords.second, 5);
+			}
 			
 			for(Connection line : startPoint.connections) {
 				alpha = 1.0f;

@@ -385,15 +385,17 @@ public class MapInstance {
 	public void addMapObj(MapObj obj) {
 		if(obj instanceof Station) {
 			if(stations.containsKey(obj.getName())) {
-				WarningMessage.fireWarningWindow("Warning", obj.getName() + " already exists, please choose a different name.");
+				throw new RuntimeException();
 			} else {
 				stations.put(obj.getName(), (Station) obj);
+				return;
 			}
 		} else {
 			if(junctions.containsKey(obj.getName())) {
-				WarningMessage.fireWarningWindow("Warning", obj.getName() + " already exists, please choose a different name.");
+				throw new RuntimeException();
 			} else {
 				junctions.put(obj.getName(), (Junction) obj);
+				return;
 			}
 		}
 	}
@@ -401,9 +403,20 @@ public class MapInstance {
 	/**
 	 * Adds a single connection to the map
 	 * @param connection
+	 * @return 
 	 */
-	public void addConnection(Connection connection) {
+	public boolean addConnection(Connection connection) {
+		ArrayList<Connection> cList = connection.getStartMapObj().connections;
+		
+		for(int i=0; i<cList.size(); i++) {
+			if(cList.get(i).getDestination().getName() == connection.getDestination().getName()) {
+				return false;
+			}
+		}
+		
 		connection.getStartMapObj().connections.add(connection);
+		connection.getDestination().connections.add(new Connection(connection.getDestination(), connection.getStartMapObj(), connection.getColour()));
+		return true;
 	}
 	
 	/**
@@ -421,9 +434,8 @@ public class MapInstance {
 	}
 	
 	public void removeAllConnections(MapObj startPoint) {
-		for(Connection c : startPoint.connections) {
-			c.getDestination().connections.remove(c);
-			startPoint.connections.remove(c);
+		while(!startPoint.connections.isEmpty()) {
+			removeConnection(startPoint, startPoint.connections.get(0).getDestination());
 		}
 	}
 	
@@ -524,5 +536,25 @@ public class MapInstance {
 		}
 		
 		return null;
+	}
+
+	
+	public boolean changeNameMapping(MapObj mapObj, String newName) {
+		if(mapObj instanceof Station) {
+			if(stations.containsKey(newName)) {
+				return false;
+			} else {
+				stations.remove(mapObj.getName());
+				stations.put(newName, (Station) mapObj);
+			}
+		} else if(mapObj instanceof Junction) {
+			if(junctions.containsKey(newName)) {
+				return false;
+			} else {
+				junctions.remove(mapObj.getName());
+				junctions.put(newName, (Junction) mapObj);
+			}
+		}
+		return true;
 	}
 }

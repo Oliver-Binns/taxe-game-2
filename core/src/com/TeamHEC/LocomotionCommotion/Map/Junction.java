@@ -25,6 +25,6 @@ public class Junction extends MapObj {
 	 */
 	@Override
 	public String toJSON(){
-		return "{ \"name\": \"" + name + "\", \"type\": \"junction\"}";
+		return "{\"name\":\"" + name + "\",\"type\":\"junction\"}";
 	}
 }

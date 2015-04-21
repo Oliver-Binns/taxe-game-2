@@ -330,6 +330,6 @@ public class Station extends MapObj{
 	 */
 	@Override
 	public String toJSON(){
-		return "{ \"name\": \"" + name + "\", \"type\": \"station\"}";
+		return "{\"name\":\"" + name + "\", \"type\":\"station\"}";
 	}
 }

@@ -231,8 +231,11 @@ public class ReplayGame extends CoreGame {
 			//Update trains with obstacles and speed changes
 			JSONObject trainJSON = (JSONObject) trainArray.get(i);
 			train.setSpeedMod(((Long)trainJSON.get("speedMod")).intValue());
-			if(trainJSON.containsKey("obstacle") && !train.hasObstacle()){
+			if(trainJSON.containsKey("obstacle")){
 				addObstacle((JSONObject)trainJSON.get("obstacle"), train);
+			}
+			else if(!trainJSON.containsKey("obstacle")){
+				train.setObstacle(null);
 			}
 			
 			//Update Train Route...

@@ -82,7 +82,7 @@ public class MapInputProcessor implements InputProcessor {
 						
 						if((screenY + tolerance) > predictedY && predictedY > (screenY - tolerance)) {
 							if(Math.max(x1, x2) > screenX && screenX > Math.min(x1, x2)) {
-								if(Math.max(y1, y2) > screenY && screenY > Math.min(y1, y2)) {
+								if(Math.max(y1, y2) + tolerance > screenY && screenY > Math.min(y1, y2) - tolerance) {
 									Game_Map_Manager.showEditConnection(c);
 									touchDist = 0;
 									return false;
@@ -97,7 +97,7 @@ public class MapInputProcessor implements InputProcessor {
 								return false;
 							}
 						}
-					}
+					} 
 				}
 			} else if(Game_Map_Manager.getTool() == "station") {
 				WarningMessage.fireWarningWindow("Tool", "Station tool selected, registered location X:" + screenX + " Y:" + screenY);

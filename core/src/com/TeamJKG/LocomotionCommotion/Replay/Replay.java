@@ -81,8 +81,6 @@ public class Replay {
 	 */
 	public void addNewTurn(){
 		json += currentTurn.toJSON(faultyStations) + ",";
-		
-		//System.out.println(gson.toJson(currentTurn));
 	}
 	public void saveGame(){
 		//Maybe HEC were right.. awks. #YOLO

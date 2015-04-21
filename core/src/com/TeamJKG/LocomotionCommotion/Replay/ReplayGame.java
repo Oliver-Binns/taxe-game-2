@@ -102,18 +102,16 @@ public class ReplayGame extends CoreGame {
 		//New Turn Data
 		turnData = (JSONObject) gameData.get(String.valueOf(this.turnCount));
 		//TODO add any new trains this turn
-		//TODO add any stations that have been locked this turn
 		//TODO add any cards that have been acquired this turn.
 		//TODO any locked/unlocked stations for this turn!
 		
 		//Add any train routings the user created on this turn.
 		addNewConnections();
-		System.out.println("print twice");
 		//break any stations that became faulty on this turn.
 		addStationFaults();
 		//Updates the player scores at the top of the screen
 		updatePlayerScores();
-		
+		updatePlayerCards();
 		updateGoals();
 		//updates the player resources at the bottom of the screen
 		updateResources();
@@ -182,7 +180,7 @@ public class ReplayGame extends CoreGame {
 	}
 	
 	/**
-	 * TODO write javadoc
+	 * Player scores are updated from the JSON file every turn so that they stay correct.
 	 */
 	public void updatePlayerScores(){
 		JSONArray playersJSON = (JSONArray) turnData.get("players");
@@ -243,9 +241,6 @@ public class ReplayGame extends CoreGame {
 			JSONObject trainRoute = (JSONObject)trainJSON.get("route");
 			//Get a list of connections for this train!
 			JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
-
-			System.out.println("json: " + routeConnections);
-			System.out.println("r-b4: " + train.getRoute().getRoute());
 			
 			int correctConnections = 0;
 			boolean stillCorrect = true;
@@ -299,13 +294,7 @@ public class ReplayGame extends CoreGame {
 			//Remove any connections after the first incorrect connection
 			if(correctConnections != train.getRoute().getRoute().size()){
 				train.getRoute().abortRoute();
-				//train.getRoute().cancelRoute();
 			}
-			/*for(int j = correctConnections; j < train.getRoute().getRoute().size(); j++){
-				if(!train.getRoute().removeConnection()){
-					train.getRoute().abortRoute();
-				}
-			}*/
 			if(correctConnections == 0){
 				train.getRoute().cancelRoute();
 			}
@@ -336,7 +325,6 @@ public class ReplayGame extends CoreGame {
 			}
 			
 			train.getRoute().hideRouteBlips();
-			System.out.println("r-af: " + train.getRoute().getRoute());
 		}
 	}
 	
@@ -356,6 +344,20 @@ public class ReplayGame extends CoreGame {
 				GameScreenUI.EndTurn();
 			}
 		}
+	}
+	/**
+	 * Updates the cards belonging to each player to match the way they were in the saved game.
+	 */
+	public void updatePlayerCards(){
+		JSONArray playersJSON = (JSONArray) turnData.get("players");
+		JSONObject playerJSON;
+		if(playerTurn.isPlayer1){
+			playerJSON = (JSONObject)playersJSON.get(0);
+		}
+		else{
+			playerJSON = (JSONObject)playersJSON.get(1);
+		}
+		//playerJSON.get("")
 	}
 	
 	/**

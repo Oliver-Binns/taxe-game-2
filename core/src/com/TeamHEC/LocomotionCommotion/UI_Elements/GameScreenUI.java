@@ -253,6 +253,7 @@ public class GameScreenUI {
 					@Override
 					protected void onClicked()
 					{
+		                EndTurn();
 						ReplayGame game = ((ReplayGame)GameScreen.game);
 						if(game.togglePaused()){
 							game_menuobject_endturnbutton.setTexture(Game_TextureManager.getInstance().game_menuobject_pausebutton);
@@ -260,7 +261,6 @@ public class GameScreenUI {
 						else{
 							game_menuobject_endturnbutton.setTexture(Game_TextureManager.getInstance().game_menuobject_playbutton);
 						}
-		                EndTurn();
 					}
 				};
 				actors.add(game_menuobject_endturnbutton);

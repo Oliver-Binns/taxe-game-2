@@ -1,18 +1,14 @@
 package com.TeamHEC.LocomotionCommotion.UI_Elements;
 
-import java.io.File;
 import java.io.PrintWriter;
-
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
-import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
-import com.TeamJKG.LocomotionCommotion.Game.NewGame;
 
 /**
  * @author Sam Watkins <sw1308@york.ac.uk>

@@ -11,7 +11,6 @@ import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Line;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
-import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Obstacle.Obstacle;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Train.CoalTrain;
@@ -109,6 +108,7 @@ public class ReplayGame extends CoreGame {
 		
 		//Add any train routings the user created on this turn.
 		addNewConnections();
+		System.out.println("print twice");
 		//break any stations that became faulty on this turn.
 		addStationFaults();
 		//Updates the player scores at the top of the screen
@@ -215,111 +215,119 @@ public class ReplayGame extends CoreGame {
 	 */
 	public void addNewConnections(){
 		JSONArray playersJSON = (JSONArray) turnData.get("players");
-		for(int l = 0; l < playersArray.length; l++){
-			//add connections for player 1
-			JSONObject playerJSON = (JSONObject)playersJSON.get(l);
-			JSONArray trainArray = (JSONArray)playerJSON.get("Trains");
-			
-			for(int i = 0; i < playersArray[l].getTrains().size(); i++){
-				Train train = playersArray[l].getTrains().get(i);
-				JSONObject trainJSON = (JSONObject) trainArray.get(i);
-				train.setSpeedMod(((Long)trainJSON.get("speedMod")).intValue());
-				
-				if(trainJSON.containsKey("obstacle") && !train.hasObstacle()){
-					addObstacle((JSONObject)trainJSON.get("obstacle"), train);
-				}
-				
-				JSONObject trainRoute = (JSONObject)trainJSON.get("route");
-				JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
-
-				System.out.println("json: " + routeConnections);
-				System.out.println("r-b4: " + train.getRoute().getRoute());
-				
-				int correctConnections = 0;
-				boolean stillCorrect = true;
-				//lets work forwards through the connections checking they're okay!
-				while(stillCorrect){
-					//Gets the current connection
-					if(correctConnections < train.getRoute().getRoute().size()){ //if connections is less than the number of overall connections...
-						if(correctConnections < routeConnections.size()){
-							JSONObject connection = (JSONObject) routeConnections.get(correctConnections);
-							//Gets the supposed start and end points of this connection
+		JSONObject playerJSON;
+		if(playerTurn.isPlayer1){
+			playerJSON = (JSONObject)playersJSON.get(0);
+		}
+		else{
+			playerJSON = (JSONObject)playersJSON.get(1);
+		}
+		//add connections for player 1
+		JSONArray trainArray = (JSONArray)playerJSON.get("Trains");
 		
-							//TODO Fix this to work with the updated version of connection object
-							JSONObject startJSON = (JSONObject)connection.get("start");
-							JSONObject destJSON = (JSONObject)connection.get("end");
-							
-							MapObj startObj = null;
-							MapObj destObj = null;
-							
-							if(((String)startJSON.get("type")).equals("junction")){
-								startObj = gameMap.getJunctionWithName((String)startJSON.get("name"));
-								destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
-							}
-							else if(((String)startJSON.get("type")).equals("station"))
-							{
-								startObj = gameMap.getStationWithName((String)startJSON.get("name"));
-								destObj = gameMap.getStationWithName((String)destJSON.get("name"));
-							}
-							else{
-								//FATAL ERROR!
-							}
-							
-							Connection currentConnection = train.getRoute().getRoute().get(correctConnections);
-							
-							//exits the while loop if connection is different
-							if(currentConnection.getStartMapObj() != startObj){
-								stillCorrect = false;
-							}
-							else if(currentConnection.getDestination() != destObj){
-								stillCorrect = false;
-							}
-							else{ //increments correctConnection and re-runs while loop if connection is the same.
-								correctConnections++;
-							}
+		for(int i = 0; i < playerTurn.getTrains().size(); i++){
+			Train train = playerTurn.getTrains().get(i);
+			
+			//Update trains with obstacles and speed changes
+			JSONObject trainJSON = (JSONObject) trainArray.get(i);
+			train.setSpeedMod(((Long)trainJSON.get("speedMod")).intValue());
+			if(trainJSON.containsKey("obstacle") && !train.hasObstacle()){
+				addObstacle((JSONObject)trainJSON.get("obstacle"), train);
+			}
+			
+			//Update Train Route...
+			
+			JSONObject trainRoute = (JSONObject)trainJSON.get("route");
+			//Get a list of connections for this train!
+			JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
+
+			System.out.println("json: " + routeConnections);
+			System.out.println("r-b4: " + train.getRoute().getRoute());
+			
+			int correctConnections = 0;
+			boolean stillCorrect = true;
+			//lets work forwards through the connections checking they're okay!
+			while(stillCorrect){
+				//Gets the current connection
+				if(correctConnections < train.getRoute().getRoute().size()){ //if connections is less than the number of overall connections...
+					if(correctConnections < routeConnections.size()){
+						JSONObject connection = (JSONObject) routeConnections.get(correctConnections);
+						//Gets the supposed start and end points of this connection
+	
+						//TODO Fix this to work with the updated version of connection object
+						JSONObject startJSON = (JSONObject)connection.get("start");
+						JSONObject destJSON = (JSONObject)connection.get("end");
+						
+						MapObj startObj = null;
+						MapObj destObj = null;
+						
+						if(((String)startJSON.get("type")).equals("junction")){
+							startObj = gameMap.getJunctionWithName((String)startJSON.get("name"));
+							destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
 						}
-						else{
+						else if(((String)startJSON.get("type")).equals("station"))
+						{
+							startObj = gameMap.getStationWithName((String)startJSON.get("name"));
+							destObj = gameMap.getStationWithName((String)destJSON.get("name"));
+						}
+						
+						Connection currentConnection = train.getRoute().getRoute().get(correctConnections);
+						
+						//exits the while loop if connection is different
+						if(currentConnection.getStartMapObj() != startObj){
 							stillCorrect = false;
+						}
+						else if(currentConnection.getDestination() != destObj){
+							stillCorrect = false;
+						}
+						else{ //increments correctConnection and re-runs while loop if connection is the same.
+							correctConnections++;
 						}
 					}
 					else{
 						stillCorrect = false;
 					}
 				}
-				//The next two for statements correct our route...
-				//Remove any connections after the first incorrect connection
-				for(int j = correctConnections; j < train.getRoute().getRoute().size(); j++){
-					train.getRoute().removeConnection();
+				else{
+					stillCorrect = false;
 				}
-				for(int j = correctConnections; j < routeConnections.size(); j++){
-					//Gets the connection at this index
-					JSONObject connection = (JSONObject) routeConnections.get(j);
-					//Gets the supposed start and end points of this connection
-					JSONObject startJSON = (JSONObject)connection.get("start");
-					JSONObject destJSON = (JSONObject)connection.get("end");
-					
-					MapObj startObj = null;
-					MapObj destObj = null;
-					
-					if(((String)startJSON.get("type")).equals("junction")){
-						startObj = gameMap.getJunctionWithName((String)startJSON.get("name"));
-						destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
-					}
-					else if(((String)startJSON.get("type")).equals("station"))
-					{
-						startObj = gameMap.getStationWithName((String)startJSON.get("name"));
-						destObj = gameMap.getStationWithName((String)destJSON.get("name"));
-					}
-					else{
-						//FATAL ERROR!
-					}
-					
-					train.getRoute().addConnection(new Connection(startObj, destObj, Line.Black));
+			}
+			//The next two for statements correct our route...
+			//Remove any connections after the first incorrect connection
+			for(int j = correctConnections; j < train.getRoute().getRoute().size(); j++){
+				System.out.println(train.getRoute().removeConnection());
+			}
+			if(correctConnections == 0){
+				train.getRoute().cancelRoute();
+			}
+			for(int j = correctConnections; j < routeConnections.size(); j++){
+				//Gets the connection at this index
+				JSONObject connection = (JSONObject) routeConnections.get(j);
+				//Gets the supposed start and end points of this connection
+				JSONObject startJSON = (JSONObject)connection.get("start");
+				JSONObject destJSON = (JSONObject)connection.get("end");
+				
+				MapObj startObj = null;
+				MapObj destObj = null;
+				
+				if(((String)startJSON.get("type")).equals("junction")){
+					startObj = gameMap.getJunctionWithName((String)startJSON.get("name"));
+					destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
+				}
+				else if(((String)startJSON.get("type")).equals("station"))
+				{
+					startObj = gameMap.getStationWithName((String)startJSON.get("name"));
+					destObj = gameMap.getStationWithName((String)destJSON.get("name"));
+				}
+				else{
+					//FATAL ERROR!
 				}
 				
-				train.getRoute().hideRouteBlips();
-				System.out.println("r-af: " + train.getRoute().getRoute());
+				train.getRoute().addConnection(new Connection(startObj, destObj, Line.Black));
 			}
+			
+			train.getRoute().hideRouteBlips();
+			System.out.println("r-af: " + train.getRoute().getRoute());
 		}
 	}
 	
@@ -335,7 +343,9 @@ public class ReplayGame extends CoreGame {
 	
 	public void animationComplete(){
 		if(!paused){
-			GameScreenUI.EndTurn();
+			if(turnCount < turnLimit){
+				GameScreenUI.EndTurn();
+			}
 		}
 	}
 	
@@ -369,6 +379,6 @@ public class ReplayGame extends CoreGame {
 	 */
 	public void addObstacle(JSONObject obstacle, Train train){
 		@SuppressWarnings("unused")
-		Obstacle o = new Obstacle((String)obstacle.get("name"), (String)obstacle.get("description"), ((Long)obstacle.get("speedFactor")).doubleValue(), ((Long)obstacle.get("totalTurns")).intValue(), train);
+		Obstacle o = new Obstacle((String)obstacle.get("name"), (String)obstacle.get("description"), (Double)obstacle.get("speedFactor"), ((Long)obstacle.get("totalTurns")).intValue(), train);
 	}
 }

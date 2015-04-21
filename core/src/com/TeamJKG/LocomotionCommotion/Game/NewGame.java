@@ -42,7 +42,8 @@ public class NewGame extends CoreGame {
 	@Override
 	public void StartTurn() {
         replay.newTurn(turnCount, 2);
-        
+
+		System.out.println("print twice");
 		Player[] listOfPlayers = {player1, player2};
         replay.endTurn(listOfPlayers);
         replay.newTurn(turnCount, 2);

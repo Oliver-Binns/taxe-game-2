@@ -70,7 +70,7 @@ public class GameScreenUI {
 		editStationLockedLabel,
 		editPositionXLabel,
 		editPositionYLabel;
-	public static Sprite game_menuobject_cornerframe, routingModeWindow, game_editing_infobar;
+	public static Sprite game_menuobject_cornerframe, routingModeWindow, game_editing_infobar, selectedStationTool, selectedJunctionTool, selectedConnectionTool;
 	public static SpriteButton
 		game_menuobject_infobutton, 
 		game_menuobject_shopbtn, 
@@ -109,6 +109,8 @@ public class GameScreenUI {
 	public static int  resourcesStageStart, resourcesStageEnd;
 	//Height value for expanded height
 	public static int expandedheight= 40;
+	//Boolean for tool selection highlighting
+	public static boolean toolRender = false;
 	//Boolean for expanded
 	public static boolean resourcebarexpanded = false;
 	LabelStyle style;
@@ -637,13 +639,29 @@ public class GameScreenUI {
 					Game_TextureManager.getInstance().game_edit_infobar );
 			actors.add(game_editing_infobar);
 			
+			selectedStationTool = new Sprite(40, 990, Game_TextureManager.getInstance().game_edit_selectstationtool);
+			selectedJunctionTool = new Sprite(240, 990, Game_TextureManager.getInstance().game_edit_selectstationtool);
+			selectedConnectionTool = new Sprite(440, 990, Game_TextureManager.getInstance().game_edit_selectconnectiontool);
+			actors.add(selectedStationTool);
+			actors.add(selectedJunctionTool);
+			actors.add(selectedConnectionTool);
+			selectedStationTool.setVisible(false);
+			selectedJunctionTool.setVisible(false);
+			selectedConnectionTool.setVisible(false);
+			
 			game_editing_stationTool = new SpriteButton(50, 1000, Game_TextureManager.getInstance().game_edit_stationtool) {
 				@Override
 				protected void onClicked() {
 					if(Game_Map_Manager.getTool() != "station") {
 						Game_Map_Manager.setTool("station");
+						selectedStationTool.setVisible(true);
+						selectedJunctionTool.setVisible(false);
+						selectedConnectionTool.setVisible(false);
 					} else {
 						Game_Map_Manager.setTool("None");
+						selectedStationTool.setVisible(false);
+						selectedJunctionTool.setVisible(false);
+						selectedConnectionTool.setVisible(false);
 					}
 				}
 			};
@@ -654,8 +672,14 @@ public class GameScreenUI {
 				protected void onClicked() {
 					if(Game_Map_Manager.getTool() != "junction") {
 						Game_Map_Manager.setTool("junction");
+						selectedStationTool.setVisible(false);
+						selectedJunctionTool.setVisible(true);
+						selectedConnectionTool.setVisible(false);
 					} else {
 						Game_Map_Manager.setTool("None");
+						selectedStationTool.setVisible(false);
+						selectedJunctionTool.setVisible(false);
+						selectedConnectionTool.setVisible(false);
 					}
 				}
 			};
@@ -666,8 +690,14 @@ public class GameScreenUI {
 				protected void onClicked() {
 					if(Game_Map_Manager.getTool() != "connection") {
 						Game_Map_Manager.setTool("connection");
+						selectedStationTool.setVisible(false);
+						selectedJunctionTool.setVisible(false);
+						selectedConnectionTool.setVisible(true);
 					} else {
 						Game_Map_Manager.setTool("None");
+						selectedStationTool.setVisible(false);
+						selectedJunctionTool.setVisible(false);
+						selectedConnectionTool.setVisible(false);
 					}
 				}
 			};

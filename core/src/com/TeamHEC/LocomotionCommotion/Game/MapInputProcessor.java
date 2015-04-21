@@ -10,10 +10,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MapInputProcessor implements InputProcessor {
 	private int currentX, currentY, touchDist, offsetX, offsetY;
 	private double scaleVX, scaleVY, cameraZoom;
+	private Viewport VP = GameScreen.getMapStage().getViewport();
 	
 	public MapInputProcessor() {
 		resize();
@@ -57,13 +59,9 @@ public class MapInputProcessor implements InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if(GameData.EDITING && touchDist <= 10) {
 			Pair<Integer, Integer> newCoords = convert2World(screenX, screenY);
-			
-			System.out.println("X: " + screenX + " Y: " + screenY);
-			
+						
 			screenX = newCoords.first;
 			screenY = newCoords.second;
-			
-			System.out.println("WORLD X: " + screenX + " WORLD Y: " + screenY);
 			
 			if(Game_Map_Manager.getTool() == "None") {
 				Connection[] cs = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).connectionList();
@@ -162,27 +160,15 @@ public class MapInputProcessor implements InputProcessor {
 	}
 	
 	public void resize() {
-		offsetX = GameScreen.getMapStage().getViewport().getLeftGutterWidth();
-		offsetY = GameScreen.getMapStage().getViewport().getTopGutterHeight();
-		scaleVX = GameScreen.getMapStage().getViewport().getWorldWidth() / GameScreen.getMapStage().getViewport().getScreenWidth();
-		scaleVY = GameScreen.getMapStage().getViewport().getWorldHeight() / GameScreen.getMapStage().getViewport().getScreenHeight();
-		
-		System.out.println(GameScreen.getMapStage().getViewport().getWorldHeight() + " / " + GameScreen.getMapStage().getViewport().getScreenHeight() + " = " + ((double) GameScreen.getMapStage().getViewport().getWorldHeight()) / ((double) GameScreen.getMapStage().getViewport().getScreenHeight()));
-		
-//		System.out.println("Resize event:\n" +
-//				"HORIZONTAL OFFSET: " + offsetX + ", " + GameScreen.getMapStage().getViewport().getRightGutterWidth() + "\n" +
-//				"VERTICAL OFFSET: " + offsetY + ", " + GameScreen.getMapStage().getViewport().getBottomGutterHeight() + "\n" +
-//				"VIEWPORT-WORLD RATIO: " + scaleVX + ", " + scaleVY);
+		offsetX = VP.getLeftGutterWidth();
+		offsetY = VP.getTopGutterHeight();
+		scaleVX = VP.getWorldWidth() / VP.getScreenWidth();
+		scaleVY = VP.getWorldHeight() / VP.getScreenHeight();
+		cameraZoom = ((OrthographicCamera) GameScreen.getMapStage().getCamera()).zoom;
 	}
 	
-	public Pair<Integer, Integer> convert2World(int x, int y) {
-		x -= offsetX;
-		y -= offsetY;
-		
-		x *= scaleVX;
-//		y *= scaleVY;
-		
-		Vector3 coords = ((OrthographicCamera) GameScreen.getMapStage().getCamera()).unproject(new Vector3(x, y, 0));
+	public Pair<Integer, Integer> convert2World(int x, int y) {		
+		Vector3 coords = ((OrthographicCamera) GameScreen.getMapStage().getCamera()).unproject(new Vector3(x, y, 1), VP.getScreenX(), VP.getScreenY(), VP.getScreenWidth(), VP.getScreenHeight());
 		
 		return new Pair<Integer, Integer>((int) coords.x, (int) coords.y);
 	}
@@ -191,7 +177,7 @@ public class MapInputProcessor implements InputProcessor {
 		x -= offsetX;
 		y -= offsetY;
 		
-		y = GameScreen.getMapStage().getViewport().getScreenHeight() - y;
+		y = VP.getScreenHeight() - y;
 		
 		x *= scaleVX;
 		y *= scaleVY;

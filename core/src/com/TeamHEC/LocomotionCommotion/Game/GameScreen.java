@@ -164,6 +164,7 @@ public class GameScreen implements Screen {
 		
 		//Draw coloured track line between each station connection
 		shapeRend.begin(ShapeRenderer.ShapeType.Filled);
+		
 		for(MapObj startPoint : WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).mapObjList()) {
 			float alpha = 1.0f;
 			

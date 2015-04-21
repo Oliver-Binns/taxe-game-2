@@ -117,6 +117,8 @@ public class Game_TextureManager {
 	public CustomTexture game_edit_connectiontool = new CustomTexture(Gdx.files.internal("gameScreen/game_editor/connection.png"));
 	public CustomTexture game_edit_savebutton = new CustomTexture(Gdx.files.internal("gameScreen/game_editor/SaveButton.png"));
 	public CustomTexture game_edit_deletebutton = new CustomTexture(Gdx.files.internal("gameScreen/game_editor/DeleteButton.png"));
+	public CustomTexture game_edit_selectstationtool = new CustomTexture(Gdx.files.internal("gameScreen/game_editor/SelectStationTool.png"));
+	public CustomTexture game_edit_selectconnectiontool = new CustomTexture(Gdx.files.internal("gameScreen/game_editor/SelectConnectionTool.png"));
 	
 	//StartGame
 	public CustomTexture game_start_getstartedwindow = new CustomTexture(Gdx.files.internal("gameScreen/game_startsequence/getstartedwindow.png"));

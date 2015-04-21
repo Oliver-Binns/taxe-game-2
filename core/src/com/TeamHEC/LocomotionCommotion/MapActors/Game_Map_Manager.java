@@ -282,16 +282,25 @@ public class Game_Map_Manager {
 	}
 	
 	public static void showJunctionInfo(Junction junction) {
-		junctionInfo.setVisible(true);
-		
-		if(junction.isLocked()) {
-			Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationUnlock);
-			Game_Map_Manager.stationSelect.setVisible(true);
-		} else {
-			Game_Map_Manager.stationUnlock.setVisible(true);
+		if(junctionInfo.isVisible()){
+			hideJunctionInfo();
 		}
-		
-		stationLabelName.setVisible(true);
+		else{
+			junctionInfo.setVisible(true);
+			if(LocomotionCommotion.isReplay){
+				Game_Map_Manager.stationSelect.setVisible(false);
+				Game_Map_Manager.stationUnlock.setVisible(false);
+			}
+			else{
+				if(junction.isLocked()) {
+					Game_Map_Manager.stationSelect.setTexture(Game_Map_TextureManager.getInstance().stationUnlock);
+					Game_Map_Manager.stationSelect.setVisible(true);
+				} else {
+					Game_Map_Manager.stationUnlock.setVisible(true);
+				}
+			}
+			stationLabelName.setVisible(true);
+		}
 	}
 	
 	public static void showEditJunction(Junction junction) {

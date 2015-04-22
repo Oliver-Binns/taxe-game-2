@@ -21,6 +21,7 @@ import com.TeamHEC.LocomotionCommotion.Train.Route;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
+import com.badlogic.gdx.Gdx;
 
 public class ReplayGame extends CoreGame {
 
@@ -252,6 +253,7 @@ public class ReplayGame extends CoreGame {
 						JSONObject connection = (JSONObject) routeConnections.get(correctConnections);
 						//Gets the supposed start and end points of this connection
 	
+						
 						//TODO Fix this to work with the updated version of connection object
 						JSONObject startJSON = (JSONObject)connection.get("start");
 						JSONObject destJSON = (JSONObject)connection.get("end");
@@ -323,7 +325,6 @@ public class ReplayGame extends CoreGame {
 				
 				train.getRoute().addConnection(new Connection(startObj, destObj, Line.Black));
 			}
-			
 			train.getRoute().hideRouteBlips();
 		}
 	}
@@ -349,15 +350,15 @@ public class ReplayGame extends CoreGame {
 	 * Updates the cards belonging to each player to match the way they were in the saved game.
 	 */
 	public void updatePlayerCards(){
-		JSONArray playersJSON = (JSONArray) turnData.get("players");
-		JSONObject playerJSON;
+		//JSONArray playersJSON = (JSONArray) turnData.get("players");
+		/*JSONObject playerJSON;
 		if(playerTurn.isPlayer1){
 			playerJSON = (JSONObject)playersJSON.get(0);
 		}
 		else{
 			playerJSON = (JSONObject)playersJSON.get(1);
 		}
-		//playerJSON.get("")
+		//playerJSON.get("")*/
 	}
 	
 	/**

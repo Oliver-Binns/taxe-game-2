@@ -104,4 +104,7 @@ public class NewGame extends CoreGame {
 		replay.saveGame();
 		super.EndGame();
 	}
+	public void forceSave(){
+		replay.saveGame();
+	}
 }

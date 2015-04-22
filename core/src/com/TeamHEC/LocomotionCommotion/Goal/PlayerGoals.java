@@ -368,9 +368,12 @@ public class PlayerGoals {
 		//The Number of goals the current player has.
 		numberofOwnedGoals=playerGoals.size();
 		//Run through the goal the player OWNS creating the player goal actors.
+		for(int i = 0; i < playerGoals.size(); i++){
+			System.out.println(playerGoals.get(i).toJSON());
+		}
 		for (int i=0; i<playerGoals.size();i++){
 			String a = new Integer(i+1).toString();
-
+			
 			playerGoalActors.get(a).setGoal(playerGoals.get(i));
 			playerGoalActors.get(a).setEmpty(false);
 			playerGoalActors.get(a).setIndex(i+1);

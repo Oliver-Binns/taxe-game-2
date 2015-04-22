@@ -1,10 +1,12 @@
 package com.TeamHEC.LocomotionCommotion.UI_Elements;
 
 import java.io.PrintWriter;
+
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
+import com.TeamJKG.LocomotionCommotion.Game.NewGame;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -94,8 +96,12 @@ public class Game_PauseMenu {
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
-					} else {
-						WarningMessage.fireWarningWindow("Warning", "Save game not implemented yet.");
+					} else if(LocomotionCommotion.isReplay) {
+						WarningMessage.fireWarningWindow("Warning", "Cannot save a Replay game.");
+					}
+					else{
+						NewGame game = (NewGame)GameScreen.game;
+						game.forceSave();
 					}
 				}
 

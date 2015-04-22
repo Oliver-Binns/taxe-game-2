@@ -27,20 +27,22 @@ public class Game_Map_Junction extends Game_Map_MapObj{
 		
 		Game_Map_StationBtn.selectedStation = this;
 		
-		if(GameData.EDITING && !Game_Map_Manager.getTool().equals("connection")) {
-			Game_Map_Manager.showEditJunction(junction);
+		if(GameData.EDITING) {
+			if(Game_Map_Manager.getTool().equals("connection")) {
+				if(Game_Map_Manager.conObj1 == null) {
+					Game_Map_Manager.conObj1 = junction;
+					Game_Map_Manager.connectionPlacing = true;
+				} else {
+					Game_Map_Manager.addNewConnection(Game_Map_Manager.conObj1, junction);
+				}
+			} else {
+				Game_Map_Manager.showEditJunction(junction);
+			}
 		} else if(!GameScreenUI.routingModeWindow.isVisible()) {
 			if(GameData.EDITING) {
 				Game_Map_Manager.showEditJunction(junction);
 			} else {
 				Game_Map_Manager.moveJunctionInfo(junction);
-			}
-		} else {
-			if(Game_Map_Manager.conObj1 == null) {
-				Game_Map_Manager.conObj1 = junction;
-				Game_Map_Manager.connectionPlacing = true;
-			} else {
-				Game_Map_Manager.addNewConnection(Game_Map_Manager.conObj1, junction);
 			}
 		}
 	}

@@ -178,7 +178,6 @@ public class Game_Map_Train extends Actor{
 	 */
 	public void setInstantMove(boolean x) {
 		instantMove = x;
-		System.out.println("instantMove = " + instantMove);
 	}
 	
 	public void notifyMovingFinished(){

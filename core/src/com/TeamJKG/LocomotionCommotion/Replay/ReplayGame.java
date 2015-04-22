@@ -386,7 +386,7 @@ public class ReplayGame extends CoreGame {
 	}
 	/**
 	 * Update trains method.
-	 * This makes trains mimmick those of the json. 
+	 * This makes trains mimic those of the json. 
 	 */
 	public void addObstacle(JSONObject obstacle, Train train){
 		@SuppressWarnings("unused")

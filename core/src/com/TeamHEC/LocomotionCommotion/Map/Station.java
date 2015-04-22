@@ -253,6 +253,27 @@ public class Station extends MapObj{
 		
 		line = newLines;
 	}
+	
+	public void removeLine(Line colour) {
+		Line[] newLines = new Line[line.length - 1];
+		int j=0;
+		
+		for(int i=0; i<line.length; i++) {
+			if(line[i] == colour) {
+				line[i] = null;
+				break;
+			}
+		}
+		
+		for(int i=0; i<line.length; i++) {
+			if(line[i] != null) {
+				newLines[j] = line[i];
+			} else {
+				j -= 1;
+			}
+			j++;
+		}
+	}
 		
 	/**
 	 * Registers an object implementing the StationListener by adding it to the listeners array

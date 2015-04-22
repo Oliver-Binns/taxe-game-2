@@ -423,7 +423,7 @@ public class Game_Map_Manager {
 			}
 			
 			if(endPoint instanceof Station) {
-				WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getStationWithName(startPoint.getName()).addLine(Line.Black);
+				WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getStationWithName(endPoint.getName()).addLine(Line.Black);
 			}
 			connectionPlacing = false;
 			conObj1 = null;
@@ -564,6 +564,14 @@ public class Game_Map_Manager {
 		
 		reverseConnection = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getReverseConnection(selectedConnection.second);
 		
+		if(selectedConnection.second.getStartMapObj() instanceof Station) {
+			((Station) selectedConnection.second.getStartMapObj()).removeLine(selectedConnection.second.getColour());
+		}
+		
+		if(selectedConnection.second.getDestination() instanceof Station) {
+			((Station) selectedConnection.second.getDestination()).removeLine(selectedConnection.second.getColour());
+		}
+		
 		if(colour == "Black") {
 			selectedConnection.second.setColour(Line.Black);
 			reverseConnection.setColour(Line.Black);
@@ -588,6 +596,14 @@ public class Game_Map_Manager {
 		} else {
 			selectedConnection.second.setColour(Line.Yellow);
 			reverseConnection.setColour(Line.Yellow);
+		}
+		
+		if(selectedConnection.second.getStartMapObj() instanceof Station) {
+			((Station) selectedConnection.second.getStartMapObj()).addLine(selectedConnection.second.getColour());
+		}
+		
+		if(selectedConnection.second.getDestination() instanceof Station) {
+			((Station) selectedConnection.second.getDestination()).addLine(selectedConnection.second.getColour());
 		}
 	}
 

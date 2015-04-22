@@ -241,4 +241,11 @@ public abstract class CoreGame {
 	public Player getPlayerTurn() {
 		return playerTurn;
 	}
+	
+	public Player getNonPlayerTurn() {
+		if(playerTurn == player1) {
+			return player2;
+		}
+		return player1;
+	}
 }

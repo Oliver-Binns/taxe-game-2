@@ -51,7 +51,7 @@ public class Game_Map_Manager {
 	private static String currentTool;
 
     // Checks if a train is moving or not.
-    public static boolean isMoving = false;
+    public static int isMoving = 0;
 	
 	public static TrainInfoUI trainInfo;
 

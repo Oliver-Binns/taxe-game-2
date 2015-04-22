@@ -20,6 +20,7 @@ public class Game_Map_Train extends Actor{
 		
 	public boolean canMove = false;
 	public int moveCounter = 0;
+	public boolean instantMove = false;
 	
 	private int clickCount = 0;
 	
@@ -139,15 +140,20 @@ public class Game_Map_Train extends Actor{
 				int trainSpeed = train.getSpeed();
 				if(moveCounter < trainSpeed)
 				{
-                    Game_Map_Manager.isMoving = true;
-					train.route.update(1);
-					moveCounter++;
+                    if(!instantMove){
+                    	train.route.update(1);
+                    	moveCounter++;
+                    } else {
+                    	train.route.update(trainSpeed - moveCounter);
+                    	moveCounter = trainSpeed;
+                    	instantMove = false;
+                    }
 				}
 				else
 				{
 					canMove = false;
 					moveCounter = 0;
-                    Game_Map_Manager.isMoving = false;
+                    Game_Map_Manager.isMoving -= 1;
                     if(LocomotionCommotion.isReplay){
                     	notifyMovingFinished();
                     }
@@ -156,13 +162,23 @@ public class Game_Map_Train extends Actor{
 			else
             {
                 moveCounter = 0;
-                Game_Map_Manager.isMoving = false;
+                Game_Map_Manager.isMoving -= 1;
                 if(LocomotionCommotion.isReplay){
                 	notifyMovingFinished();
                 }
             }
 
         }
+	}
+	
+	/**
+	 * sets whether or not a train should move to the end of this turn's movement instantly
+	 * Is reset to false after each turn
+	 * @param x
+	 */
+	public void setInstantMove(boolean x) {
+		instantMove = x;
+		System.out.println("instantMove = " + instantMove);
 	}
 	
 	public void notifyMovingFinished(){

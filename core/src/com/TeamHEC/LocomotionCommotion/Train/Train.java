@@ -209,8 +209,17 @@ public abstract class Train {
 	{
 		if(!route.getRoute().isEmpty())
 		{
+			Game_Map_Manager.isMoving += 1;
 			getActor().canMove = true;
 		}
+	}
+	
+	/**
+	 * Instantly completes the trains movement for this turn
+	 */
+	public void instantMoveTrain() 
+	{
+		getActor().setInstantMove(true);
 	}
 	
 	/**

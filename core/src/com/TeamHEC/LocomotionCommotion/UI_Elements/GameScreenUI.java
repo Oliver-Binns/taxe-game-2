@@ -1029,16 +1029,19 @@ public class GameScreenUI {
 	
 	@SuppressWarnings("static-access")
 	public static void EndTurn(){
-		if ( Game_Map_Manager.isMoving ) {
-            WarningMessage.fireWarningWindow("Too fast!", "Your train is still moving.");
-            return;
+		ArrayList<Train> playerTrains = GameScreen.game.getPlayerTurn().getTrains();
+		ArrayList<Train> nonPlayerTrains = GameScreen.game.getNonPlayerTurn().getTrains();
+		
+		if ( Game_Map_Manager.isMoving  > 0) {
+			for(Train t : nonPlayerTrains)
+			{
+				t.instantMoveTrain();
+			}
         }
-
-		ArrayList<Train> playerTrains = GameScreen.game.getPlayerTurn().getTrains();	
-		for(Train t : playerTrains)
-		{
-			t.moveTrain();
-		}
+        for(Train t : playerTrains)
+        {
+        	t.moveTrain();
+        }
 
 		GameScreen.game.EndTurn();
 		GameScreenUI.refreshResources();

@@ -426,6 +426,7 @@ public class Game_Map_Manager {
 				WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).getStationWithName(startPoint.getName()).addLine(Line.Black);
 			}
 			connectionPlacing = false;
+			conObj1 = null;
 		} else {
 			WarningMessage.fireWarningWindow("Warning", "Connection already exists, try connecting to another location.");
 		}

@@ -106,8 +106,6 @@ public class ReplayGame extends CoreGame {
 		//TODO add any cards that have been acquired this turn.
 		//TODO any locked/unlocked stations for this turn!
 		
-		//Add any train routings the user created on this turn.
-		addNewConnections();
 		//break any stations that became faulty on this turn.
 		addStationFaults();
 		//Updates the player scores at the top of the screen
@@ -117,6 +115,9 @@ public class ReplayGame extends CoreGame {
 		//updates the player resources at the bottom of the screen
 		updateResources();
 		
+		//Add any train routings the user created on this turn.
+		addNewConnections();
+				
 		 // Proceed with the turn
         playerTurn.lineBonuses();
         playerTurn.stationRewards();

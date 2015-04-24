@@ -105,8 +105,8 @@ public class MapInstance {
 				}
 				
 				Long rent = (Long) jStation.get("Rent");
-				Long xPos = (Long) ((JSONArray) jStation.get("Location")).get(0);
-				Long yPos = (Long) ((JSONArray) jStation.get("Location")).get(1);
+				Double xPos = (Double) ((JSONArray) jStation.get("Location")).get(0);
+				Double yPos = (Double) ((JSONArray) jStation.get("Location")).get(1);
 				boolean locked = (Boolean) jStation.get("Locked");
 				
 				stations.put(name, new Station(name, baseValue.intValue(), resource, baseFuelOut.intValue(), lines, rent.intValue(), xPos.floatValue(), yPos.floatValue(), locked));
@@ -116,8 +116,8 @@ public class MapInstance {
 			for(int i=0; i<jJunctions.size(); i++) {
 				JSONObject jJunction = (JSONObject) jJunctions.get(i);
 				
-				Long xPos = (Long) ((JSONArray) jJunction.get("Location")).get(0);
-				Long yPos = (Long) ((JSONArray) jJunction.get("Location")).get(1);
+				Double xPos = (Double) ((JSONArray) jJunction.get("Location")).get(0);
+				Double yPos = (Double) ((JSONArray) jJunction.get("Location")).get(1);
 				String name = (String) jJunction.get("Name");
 				boolean locked = (Boolean) jJunction.get("Locked");
 				
@@ -246,8 +246,8 @@ public class MapInstance {
 				}
 				
 				Long rent = (Long) jStation.get("Rent");
-				Double xPos = (Double) ((JSONArray) jStation.get("Location")).get(0);
-				Double yPos = (Double) ((JSONArray) jStation.get("Location")).get(1);
+				Long xPos = (Long) ((JSONArray) jStation.get("Location")).get(0);
+				Long yPos = (Long) ((JSONArray) jStation.get("Location")).get(1);
 				boolean locked = (Boolean) jStation.get("Locked");
 				
 				stations.put(name, new Station(name, baseValue.intValue(), resource, baseFuelOut.intValue(), lines, rent.intValue(), xPos.floatValue(), yPos.floatValue(), locked));
@@ -257,8 +257,8 @@ public class MapInstance {
 			for(int i=0; i<jJunctions.size(); i++) {
 				JSONObject jJunction = (JSONObject) jJunctions.get(i);
 				
-				Double xPos = (Double) ((JSONArray) jJunction.get("Location")).get(0);
-				Double yPos = (Double) ((JSONArray) jJunction.get("Location")).get(1);
+				Long xPos = (Long) ((JSONArray) jJunction.get("Location")).get(0);
+				Long yPos = (Long) ((JSONArray) jJunction.get("Location")).get(1);
 				String name = (String) jJunction.get("Name");
 				boolean locked = (Boolean) jJunction.get("Locked");
 				

@@ -9,6 +9,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_StartingSequence;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Game_TextureManager;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
+import com.TeamJKG.LocomotionCommotion.Game.NewGame;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
@@ -108,6 +109,10 @@ public class Game_Map_StationBtn extends SpriteButton {
 			Game_Map_Manager.hideJunctionInfo();
 		} else if(((Station) selectedStation.getMapObj()).isFaulty()) {
 			GameScreen.game.getPlayerTurn().getShop().repairStation((Station) selectedStation.getMapObj(), false);
+			if(GameScreen.game instanceof NewGame){
+				NewGame game = (NewGame)GameScreen.game;
+				game.fixFault((Station)selectedStation.getMapObj());
+			}
 			Game_Map_Manager.hideInfoBox();
 			Game_Map_Manager.hideJunctionInfo();
 		} else if(selectedStation.getMapObj().getStation().getOwner() == GameScreen.game.getPlayerTurn()) {

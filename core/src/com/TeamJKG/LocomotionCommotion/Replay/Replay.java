@@ -59,12 +59,7 @@ public class Replay {
 	 * @param fixedStation
 	 */
 	public void removeFault(Station station){
-		for(int i = 0; i < faultyStations.size(); i++){
-			if(faultyStations.get(i) == station.getName()){
-				faultyStations.remove(i);
-				break;
-			}
-		}
+		faultyStations.remove(station.getName());
 	}
 	
 	/**

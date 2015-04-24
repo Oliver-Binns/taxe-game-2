@@ -106,21 +106,25 @@ public class ReplayGame extends CoreGame {
 		//TODO add any cards that have been acquired this turn.
 		//TODO any locked/unlocked stations for this turn!
 		
+        //updates the player resources at the bottom of the screen
+      	updateResources();
+      	
+      	 // Proceed with the turn
+        playerTurn.lineBonuses();
+        playerTurn.stationRewards();
+        playerTurn.addFuel("Electric", 9000);
+
+        playerTurn.addFuel("Nuclear", 9000);
+		//Add any train routings the user created on this turn.
+		addNewConnections();
+		
 		//break any stations that became faulty on this turn.
 		addStationFaults();
 		//Updates the player scores at the top of the screen
 		updatePlayerScores();
 		updatePlayerCards();
 		updateGoals();
-		//updates the player resources at the bottom of the screen
-		updateResources();
 		
-		//Add any train routings the user created on this turn.
-		addNewConnections();
-				
-		 // Proceed with the turn
-        playerTurn.lineBonuses();
-        playerTurn.stationRewards();
 
         //Increment all player's goals by one turn in duration
         for ( Goal goal : playerTurn.getGoals()){
@@ -163,8 +167,9 @@ public class ReplayGame extends CoreGame {
 	 */
 	public void updateGoals(){
 		ArrayList<Goal> goals = this.playerTurn.getGoals();
-		for(int i = 0; i < goals.size(); i++){
-			goals.remove(i);
+		
+		while(!goals.isEmpty()){
+			goals.remove(0);
 		}
 		
 		JSONObject playerJSON = currentPlayerJSON();
@@ -177,7 +182,6 @@ public class ReplayGame extends CoreGame {
 			
 			Goal newGoal = new Goal(gameMap.getStationWithName((String)sStation.get("name")), gameMap.getStationWithName((String)fStation.get("name")), ((Long)goal.get("timeConstraint")).intValue(), (String)goal.get("cargo"), ((Long)goal.get("reward")).intValue());
 			goals.add(newGoal);
-			
 		}
 	}
 	
@@ -327,6 +331,7 @@ public class ReplayGame extends CoreGame {
 				train.getRoute().addConnection(new Connection(startObj, destObj, Line.Black));
 			}
 			train.getRoute().hideRouteBlips();
+			GameScreenUI.exitRoutingMode();
 		}
 	}
 	
@@ -370,7 +375,7 @@ public class ReplayGame extends CoreGame {
 	public void EndTurn() {
 		//If turn limit is exceeded
         //New move if draw, else end game
-        if (turnCount >= turnLimit){
+        if (hasFinished()){
         	WarningMessage.fireWarningWindow("Game Over", "The game ended here!");
             EndGame();
         }

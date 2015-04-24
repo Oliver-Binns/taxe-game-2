@@ -218,6 +218,10 @@ public abstract class CoreGame {
 		return dict;
 	}
 	
+	public boolean hasFinished(){
+		return turnCount >= turnLimit;
+	}
+	
 	public MapInstance getGameMap() {
 		return gameMap;
 	}

@@ -949,13 +949,15 @@ public class GameScreenUI {
 		}
 		
 		//Makes trains clickable again
-		for(Train t : GameScreen.game.getPlayer1().getTrains())
-		{
-			t.getActor().setTouchable(Touchable.enabled);
-		}
-		for(Train t : GameScreen.game.getPlayer2().getTrains())
-		{
-			t.getActor().setTouchable(Touchable.enabled);
+		if(GameScreen.game != null){
+			for(Train t : GameScreen.game.getPlayer1().getTrains())
+			{
+				t.getActor().setTouchable(Touchable.enabled);
+			}
+			for(Train t : GameScreen.game.getPlayer2().getTrains())
+			{
+				t.getActor().setTouchable(Touchable.enabled);
+			}
 		}
 		
 		GameScreenUI.game_menuobject_endturnbutton.setVisible(true);
@@ -1024,36 +1026,40 @@ public class GameScreenUI {
 	
 	@SuppressWarnings("static-access")
 	public static void EndTurn(){
-		ArrayList<Train> playerTrains = GameScreen.game.getPlayerTurn().getTrains();
-		ArrayList<Train> nonPlayerTrains = GameScreen.game.getNonPlayerTurn().getTrains();
-		if ( Game_Map_Manager.isMoving  > 0) {
-			if(!LocomotionCommotion.isReplay){
-				for(Train t : nonPlayerTrains)
-				{
-					t.instantMoveTrain();
-				}
-			}
-			else{
-				WarningMessage.fireWarningWindow("Oops", "Please wait until the move has finishing playing!");
-			}
-        }
-		else{
-	        for(Train t : playerTrains)
-	        {
-	        	t.moveTrain();
-	        }
-	
+		if(GameScreen.game.hasFinished()){
 			GameScreen.game.EndTurn();
-			GameScreenUI.refreshResources();
-			Game_Shop.actorManager.refreshgold(GameScreen.game.getPlayerTurn().getGold());
-			PlayerGoals.changePlayer(GameScreen.game.getPlayerTurn());
-			Game_CardHand.actorManager.changePlayer(GameScreen.game.getPlayerTurn());
-			playerScore.setText(GameScreen.game.getPlayer1().getName() + "    " + GameScreen.game.getPlayer1().getPoints() +
-	                "     SCORE     " + GameScreen.game.getPlayer2().getPoints() + "     " + GameScreen.game.getPlayer2().getName()
-	                + "     " + GameScreen.game.getPlayerTurn().getName() + " it's your turn "
-	                + "     Turn " + GameScreen.game.getTurnCount() + "/" + GameScreen.game.getTurnLimit());
-			currentPlayerName.setText(GameScreen.game.getPlayerTurn().getName()+"'s TURN");
-			GoalMenu.fillGoalScreen();
+		}else{
+			ArrayList<Train> playerTrains = GameScreen.game.getPlayerTurn().getTrains();
+			ArrayList<Train> nonPlayerTrains = GameScreen.game.getNonPlayerTurn().getTrains();
+			if ( Game_Map_Manager.isMoving  > 0) {
+				if(!LocomotionCommotion.isReplay){
+					for(Train t : nonPlayerTrains)
+					{
+						t.instantMoveTrain();
+					}
+				}
+				else{
+					WarningMessage.fireWarningWindow("Oops", "Please wait until the move has finishing playing!");
+				}
+	        }
+			else{
+		        for(Train t : playerTrains)
+		        {
+		        	t.moveTrain();
+		        }
+		
+				GameScreen.game.EndTurn();
+				GameScreenUI.refreshResources();
+				Game_Shop.actorManager.refreshgold(GameScreen.game.getPlayerTurn().getGold());
+				PlayerGoals.changePlayer(GameScreen.game.getPlayerTurn());
+				Game_CardHand.actorManager.changePlayer(GameScreen.game.getPlayerTurn());
+				playerScore.setText(GameScreen.game.getPlayer1().getName() + "    " + GameScreen.game.getPlayer1().getPoints() +
+		                "     SCORE     " + GameScreen.game.getPlayer2().getPoints() + "     " + GameScreen.game.getPlayer2().getName()
+		                + "     " + GameScreen.game.getPlayerTurn().getName() + " it's your turn "
+		                + "     Turn " + GameScreen.game.getTurnCount() + "/" + GameScreen.game.getTurnLimit());
+				currentPlayerName.setText(GameScreen.game.getPlayerTurn().getName()+"'s TURN");
+				GoalMenu.fillGoalScreen();
+			}
 		}
 	}
 }

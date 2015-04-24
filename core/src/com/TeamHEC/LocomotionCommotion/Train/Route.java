@@ -254,8 +254,7 @@ public class Route{
 		else
 		{
 			// Player has insufficient fuel to add connection to route, Warning message:
-			WarningMessage.fireWarningWindow("INSUFFICIENT FUEL!", "You need " + fuelCost
-					+ " more " + train.getFuelType());
+			WarningMessage.fireWarningWindow("INSUFFICIENT FUEL!", "You need " + fuelCost + train.getFuelType());
 		}
 	}
 

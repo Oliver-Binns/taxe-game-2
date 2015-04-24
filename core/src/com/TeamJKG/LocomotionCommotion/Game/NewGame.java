@@ -37,13 +37,19 @@ public class NewGame extends CoreGame {
 	}
 	
 	/**
+	 * Saves any fixed stations to Replay.
+	 */
+	public void fixFault(Station station){
+		replay.removeFault(station);
+	}
+	
+	/**
 	 * Starts a players turn. It will check for the end game condition.
 	 */
 	@Override
 	public void StartTurn() {
         replay.newTurn(turnCount, 2);
 
-		System.out.println("print twice");
 		Player[] listOfPlayers = {player1, player2};
         replay.endTurn(listOfPlayers);
         replay.newTurn(turnCount, 2);

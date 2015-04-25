@@ -273,6 +273,8 @@ public class Station extends MapObj{
 			}
 			j++;
 		}
+		
+		line = newLines;
 	}
 		
 	/**

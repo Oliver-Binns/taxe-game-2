@@ -71,14 +71,14 @@ public class MapInputProcessor implements InputProcessor {
 				for(int i=0; i < cs.length; i++) {
 					Connection c = cs[i];
 					
-					int x1, x2, y1, y2, tolerance;
-					double m, a, predictedY;
+					int tolerance;
+					double x1, x2, y1, y2, m, a, predictedY;
 					
 					tolerance = 15;
-					x1 = (int) c.getStartMapObj().x + 20;
-					x2 = (int) c.getDestination().x + 20;
-					y1 = (int) c.getStartMapObj().y + 20;
-					y2 = (int) c.getDestination().y + 20;
+					x1 = c.getStartMapObj().x + 20;
+					x2 = c.getDestination().x + 20;
+					y1 = c.getStartMapObj().y + 20;
+					y2 = c.getDestination().y + 20;
 					
 					if(x2 != x1) {
 						m = (y2 - y1)/(x2 - x1);

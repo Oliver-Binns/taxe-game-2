@@ -18,7 +18,7 @@ public class Game_Map_MapObj extends Actor{
 	public float actorX, actorY;
 	public boolean started = false, highlighted = false, owned = false;
 	public int labelWidth;
-	protected ShapeRenderer shapeRend = GameScreen.getRend();
+	//protected ShapeRenderer shapeRend = GameScreen.getRend();
 	
 	// Used for adjacent MapObjs in route:
 	private boolean routeAvailable = false;

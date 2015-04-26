@@ -28,6 +28,7 @@ import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Resource.Resource;
+import com.TeamJKG.LocomotionCommotion.Game.NewGame;
 
 /**
  * 
@@ -44,7 +45,7 @@ public class CoreGameTest {
 	Station Player2Start;	
 	ArrayList<Station> player1StationList;
 	ArrayList<Station> player2StationList;	
-	CoreGame tester;
+	NewGame tester;
 	int turnLimit;	
 	int baseGold;
 	int baseCarriage;	
@@ -78,8 +79,7 @@ public class CoreGameTest {
 		baseElectric = 200;
 		baseNuclear = 200;
 		
-		tester = new CoreGame();
-		tester = new CoreGame(player1Name, player2Name, Player1Start, Player2Start, turnLimit);
+		tester = new NewGame(player1Name, player2Name, Player1Start, Player2Start, turnLimit);
 	}
 	
 	@After

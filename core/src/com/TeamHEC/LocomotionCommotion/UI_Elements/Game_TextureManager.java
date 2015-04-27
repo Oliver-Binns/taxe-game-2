@@ -49,6 +49,7 @@ public class Game_TextureManager {
 	public CustomTexture game_pause_settings = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/game_Pausemenu/settingsbtn.png"));
 	public CustomTexture game_pause_mainmenu = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/game_Pausemenu/mainmenubtn.png"));
 	public CustomTexture game_pause_background = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/game_Pausemenu/pausebackground.png"));
+	public CustomTexture game_pause_newmap = new CustomTexture(Gdx.files.internal("gameScreen/game_MenuObjects/game_Pausemenu/newgamebtn.png"));
 	
 	//shop
 	public CustomTexture game_shop_backdrop = new CustomTexture(Gdx.files.internal("gameScreen/game_shop/shopbackdrop.png"));

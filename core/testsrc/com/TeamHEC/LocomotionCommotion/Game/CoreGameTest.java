@@ -147,18 +147,53 @@ public class CoreGameTest {
 		
 		assertTrue("player1's Gold was incorrectly set", tester.getPlayer1().getGold() == baseGold - Player1Start.getBaseValue());	
 		assertTrue("player2's Gold was incorrectly set", tester.getPlayer2().getGold() == baseGold - Player2Start.getBaseValue());
-		if(Player1Fuel == "Coal") {
-			assertTrue("player1's Coal was incorrectly set", tester.getPlayer1().getFuel("Coal") == baseCoal + Player1Start.getBaseResourceOut());
+		if(Player1Fuel == "Coal" && tester.getPlayerTurn().isPlayer1) {
+			assertTrue("player1's Coal was incorrectly set", tester.getPlayer1().getFuel("Coal") == baseCoal + Player1Start.getTotalResourceOut());
 		} else {
 			assertTrue("player1's Coal was incorrectly set", tester.getPlayer1().getFuel("Coal") == baseCoal);
-		}			
-		assertTrue("player2's Coal was incorrectly set", tester.getPlayer2().getFuel("Coal") == baseCoal);
-		assertTrue("player1's Oil was incorrectly set", tester.getPlayer1().getFuel("Oil") == baseOil);
-		assertTrue("player2's Oil was incorrectly set", tester.getPlayer2().getFuel("Oil") == baseOil);
-		assertTrue("player1's Electric was incorrectly set", tester.getPlayer1().getFuel("Electric") == baseElectric);
-		assertTrue("player2's Electric was incorrectly set", tester.getPlayer2().getFuel("Electric") == baseElectric);
-		assertTrue("player1's Nuclear was incorrectly set", tester.getPlayer1().getFuel("Nuclear") == baseNuclear);
-		assertTrue("player2's Nuclear was incorrectly set", tester.getPlayer2().getFuel("Nuclear") == baseNuclear);
+		}
+		
+		if(Player2Fuel == "Coal" && !tester.getPlayerTurn().isPlayer1) {
+			assertTrue("player2's Coal was incorrectly set", tester.getPlayer2().getFuel("Coal") == baseCoal + Player2Start.getTotalResourceOut());
+		} else {
+			assertTrue("player2's Coal was incorrectly set", tester.getPlayer2().getFuel("Coal") == baseCoal);
+		}
+		
+		if(Player1Fuel == "Oil" && tester.getPlayerTurn().isPlayer1) {
+			assertTrue("player1's Oil was incorrectly set", tester.getPlayer1().getFuel("Oil") == baseOil + Player1Start.getTotalResourceOut());
+		} else {
+			assertTrue("player1's Oil was incorrectly set", tester.getPlayer1().getFuel("Oil") == baseOil);
+		}
+		
+		if(Player2Fuel == "Oil" && !tester.getPlayerTurn().isPlayer1) {
+			assertTrue("player2's Oil was incorrectly set", tester.getPlayer2().getFuel("Oil") == baseOil + Player2Start.getTotalResourceOut());
+		} else {
+			assertTrue("player2's Oil was incorrectly set", tester.getPlayer2().getFuel("Oil") == baseOil);
+		}
+		
+		if(Player1Fuel == "Electric" && tester.getPlayerTurn().isPlayer1) {
+			assertTrue("player1's Electric was incorrectly set", tester.getPlayer1().getFuel("Electric") == baseElectric + Player1Start.getTotalResourceOut());
+		} else {
+			assertTrue("player1's Electric was incorrectly set", tester.getPlayer1().getFuel("Electric") == baseElectric);
+		}
+		
+		if(Player2Fuel == "Electric" && !tester.getPlayerTurn().isPlayer1) {
+			assertTrue("player2's Electric was incorrectly set", tester.getPlayer2().getFuel("Electric") == baseElectric + Player2Start.getTotalResourceOut());
+		} else {
+			assertTrue("player2's Electric was incorrectly set", tester.getPlayer2().getFuel("Electric") == baseElectric);
+		}
+		
+		if(Player1Fuel == "Nuclear" && tester.getPlayerTurn().isPlayer1) {
+			assertTrue("player1's Nuclear was incorrectly set", tester.getPlayer1().getFuel("Nuclear") == baseNuclear + Player1Start.getTotalResourceOut());
+		} else {
+			assertTrue("player1's Nuclear was incorrectly set", tester.getPlayer1().getFuel("Nuclear") == baseNuclear);
+		}
+		
+		if(Player2Fuel == "Nuclear" && !tester.getPlayerTurn().isPlayer1) {
+			assertTrue("player2's Nuclear was incorrectly set", tester.getPlayer2().getFuel("Nuclear") == baseNuclear + Player2Start.getTotalResourceOut());
+		} else {
+			assertTrue("player2's Nuclear was incorrectly set", tester.getPlayer2().getFuel("Nuclear") == baseNuclear);
+		}
 				
 		assertTrue("player1's Station list was incorrectly set", tester.getPlayer1().getStations().get(0) == Player1Start);
 		assertTrue("player2's Station list was incorrectly set", tester.getPlayer2().getStations().get(0) == Player2Start);
@@ -170,7 +205,7 @@ public class CoreGameTest {
 		assertTrue("turnCount was not zero", tester.getTurnCount() == 0);
 		assertTrue("turnLimit was not equal to " + turnLimit, tester.getTurnLimit() == 50);
 		assertTrue("playerTurn was not null", tester.getPlayerTurn() != null);
-		assertTrue("gameMap was not initialsed", (WorldMap) getField(tester, "gameMap") != null);		
+		assertTrue("gameMap was not initialsed", WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP) != null);		
 	}
 	
 	@Test

@@ -27,7 +27,6 @@ import com.TeamJKG.LocomotionCommotion.Game.NewGame;
 import com.TeamJKG.LocomotionCommotion.Replay.ReplayGame;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
@@ -128,7 +127,7 @@ public class GameScreen implements Screen {
 	public static JSONObject getJSONData()
 	{
 		try{
-			FileReader in = new FileReader(System.getProperty("user.home") + "/save.loco");
+			FileReader in = new FileReader(GameData.SAVE_FOLDER + "/save.loco");
 			JSONParser parser = new JSONParser();
 			Object obj = parser.parse(in);
 			JSONObject jsonObject = (JSONObject) obj;

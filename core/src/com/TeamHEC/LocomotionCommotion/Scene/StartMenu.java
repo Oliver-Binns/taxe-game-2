@@ -1,5 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.Scene;
 
+import java.io.File;
 import java.io.FileReader;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
@@ -125,13 +126,19 @@ public class StartMenu extends Scene{
 			@Override
 			public void onClicked()
 			{
-				//started = true;
-				LocomotionCommotion.isReplay = true;
-				LocomotionCommotion.gameMode= gameMode;
-				LocomotionCommotion.turnChoice = turnChoice;
-				getJSONData();
-				resetNewGameScreen();
-				LocomotionCommotion.getInstance().setGameScreen();
+				File saveFile = new File(GameData.SAVE_FOLDER + "/save.loco");
+				if(saveFile.exists()){
+					//started = true;
+					LocomotionCommotion.isReplay = true;
+					LocomotionCommotion.gameMode= gameMode;
+					LocomotionCommotion.turnChoice = turnChoice;
+					getJSONData();
+					resetNewGameScreen();
+					LocomotionCommotion.getInstance().setGameScreen();
+				}
+				else{
+					WarningMessage.fireWarningWindow("Error!", "No save file found! Try playing a new game instead!");
+				}
 				
 			}
 			/**

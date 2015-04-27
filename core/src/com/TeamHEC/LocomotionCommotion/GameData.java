@@ -16,4 +16,5 @@ public final class GameData {
 			System.getProperty("file.separator") + 
 			"Team-JKG";
 	public static String MAP_FOLDER = GAME_FOLDER + System.getProperty("file.separator") + "Maps";
+	public static String SAVE_FOLDER = GAME_FOLDER + System.getProperty("file.separator") + "Saves";
 }

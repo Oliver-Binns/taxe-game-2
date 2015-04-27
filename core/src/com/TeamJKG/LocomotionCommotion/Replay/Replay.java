@@ -1,9 +1,11 @@
 package com.TeamJKG.LocomotionCommotion.Replay;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 
@@ -77,18 +79,50 @@ public class Replay {
 	public void addNewTurn(){
 		json += currentTurn.toJSON(faultyStations) + ",";
 	}
+	
+	/**
+	 * Saves the game either when the user hits save, or automatically at the end of a game.
+	 */
 	public void saveGame(){
 		//Maybe HEC were right.. awks. #YOLO
 		json = json.substring(0, json.length()-1);
 		json += "}";
-		PrintWriter out;
-		try {
-			out = new PrintWriter(System.getProperty("user.home") + "/save.loco");
-			out.print(json);
-			out.close();
-		} catch (FileNotFoundException e) {
-			//File not found exception...
-			e.printStackTrace();
+		
+		File saveFolder = new File(GameData.SAVE_FOLDER);
+		boolean created = false;
+		if(!saveFolder.exists()) {
+			//GAME SAVE FOLDER DOES NOT EXIST
+			try {
+				created = saveFolder.mkdirs();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			if(created) {
+				//SAVE FILE
+				PrintWriter out;
+				try {
+					out = new PrintWriter(GameData.SAVE_FOLDER + "/save.loco");
+					out.print(json);
+					out.close();
+				} catch (FileNotFoundException e) {
+					//File not found exception...
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("Game save creation failed, please check your permissions.");
+			}
+		} else {
+			//GAME SAVE FOLDER EXISTS
+			PrintWriter out;
+			try {
+				out = new PrintWriter(GameData.SAVE_FOLDER + "/save.loco");
+				out.print(json);
+				out.close();
+			} catch (FileNotFoundException e) {
+				//File not found exception...
+				e.printStackTrace();
+			}
 		}
 	}
 }

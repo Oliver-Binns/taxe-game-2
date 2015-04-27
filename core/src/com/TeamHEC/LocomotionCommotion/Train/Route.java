@@ -34,7 +34,11 @@ public class Route{
 	
 	
 	public String toJSON(){
-		String json = "{\"connections\" : [";
+		String json = "{";
+		if(inStation()){
+			json += "\"station\": \"" + getStation().getName() + "\",";
+		}	
+		json += "\"connections\" : [";
 		for(int i = 0; i < path.size(); i++){
 			json += path.get(i).toJSON();
 			if(i+1 != path.size()){

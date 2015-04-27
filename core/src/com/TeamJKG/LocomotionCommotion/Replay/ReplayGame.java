@@ -21,7 +21,6 @@ import com.TeamHEC.LocomotionCommotion.Train.Route;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
-import com.badlogic.gdx.Gdx;
 
 public class ReplayGame extends CoreGame {
 
@@ -106,6 +105,9 @@ public class ReplayGame extends CoreGame {
 		//TODO add any cards that have been acquired this turn.
 		//TODO any locked/unlocked stations for this turn!
       	
+		// Add new trains
+		addNewTrains();
+		
       	// Proceed with the turn
         playerTurn.lineBonuses();
         playerTurn.stationRewards();
@@ -129,6 +131,33 @@ public class ReplayGame extends CoreGame {
         //Add any train routings the user created on this turn.
       	addNewConnections();
 	}
+	
+	/**
+	 * Adds any new trains this turn that the player has bought!
+	 */
+	public void addNewTrains(){
+		//Can't buy trains on the first turn- not enough cash
+		//Solves issue of checking if a train is new by looking at previous turn data
+		if(turnCount > 0){
+			JSONArray prevTurn = (JSONArray)((JSONObject)gameData.get(String.valueOf(this.turnCount-1))).get("players");
+			JSONArray currTurn = (JSONArray)turnData.get("players");
+			JSONArray prevTrains;
+			JSONArray currTrains;
+			if(this.playerTurn.isPlayer1){
+				prevTrains = (JSONArray)((JSONObject)prevTurn.get(0)).get("Trains");
+				currTrains = (JSONArray)((JSONObject)currTurn.get(0)).get("Trains");
+			}
+			else{
+				prevTrains = (JSONArray)((JSONObject)prevTurn.get(1)).get("Trains");
+				currTrains = (JSONArray)((JSONObject)currTurn.get(1)).get("Trains");
+			}
+			for(int i = prevTrains.size(); i < currTrains.size(); i++){
+				JSONObject train = (JSONObject)currTrains.get(i);
+				playerTurn.getShop().buyNewTrain(gameMap.getStationWithName((String)train.get("station")));
+			}
+		}
+	}
+	
 	/**
 	 * @return returns the JSON object of the current player
 	 */
@@ -241,10 +270,13 @@ public class ReplayGame extends CoreGame {
 			}
 			
 			//Update Train Route...
-			
 			JSONObject trainRoute = (JSONObject)trainJSON.get("route");
 			//Get a list of connections for this train!
 			JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
+			
+			if(routeConnections.size() == 0){
+				WarningMessage.fireWarningWindow("No Route", "Your " + train.getName() + " made no moves this turn.");
+			}
 			
 			int correctConnections = 0;
 			boolean stillCorrect = true;

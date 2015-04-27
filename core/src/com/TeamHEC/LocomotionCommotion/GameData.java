@@ -3,6 +3,7 @@ package com.TeamHEC.LocomotionCommotion;
 import com.badlogic.gdx.Gdx;
 
 public final class GameData {
+	public static boolean TEST_CASE = false;
 	public static int RESOLUTION_HEIGHT = 1050;
 	public static int RESOLUTION_WIDTH = 1680;
 	public static int FOV = 90;

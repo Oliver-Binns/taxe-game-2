@@ -14,6 +14,7 @@ import com.TeamHEC.LocomotionCommotion.GameData;
 public class WorldMap {
 
 	private final static WorldMap INSTANCE = new WorldMap();
+	
 	public static WorldMap getInstance()
 	{
 		return INSTANCE;

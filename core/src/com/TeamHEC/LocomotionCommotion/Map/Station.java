@@ -2,6 +2,7 @@ package com.TeamHEC.LocomotionCommotion.Map;
 
 import java.util.ArrayList;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Resource.Resource;
 import com.TeamHEC.LocomotionCommotion.Map.Line;
@@ -61,9 +62,12 @@ public class Station extends MapObj{
 		this.rentValue = rentValue;
 		this.rentValueMod = 0;
 		
-		// Creates a map blip for this station
-		gameMapStation = new Game_Map_Station(this, x, y);
-		actor = gameMapStation;
+		if(!GameData.TEST_CASE) {
+			// Creates a map blip for this station
+			gameMapStation = new Game_Map_Station(this, x, y);
+			actor = gameMapStation;
+		}
+		
 	}
 	
 	/**
@@ -319,7 +323,10 @@ public class Station extends MapObj{
 	 */
 	public void makeFaulty(){
 		hasFault = true;
-		gameMapStation.updateButton(this, owner);
+		
+		if(!GameData.TEST_CASE) {
+			gameMapStation.updateButton(this, owner);
+		}
 	}
 	/**
 	 * fix the station

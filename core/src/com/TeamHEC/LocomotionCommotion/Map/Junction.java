@@ -1,5 +1,6 @@
 package com.TeamHEC.LocomotionCommotion.Map;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Junction;
 
 /**
@@ -17,7 +18,10 @@ public class Junction extends MapObj {
 	
 	public Junction(float xPos, float yPos, String name, boolean locked) {
 		super(xPos, yPos, name, locked);
-		actor = new Game_Map_Junction(this, x, y); // Creates a map blip for this junction
+		
+		if(!GameData.TEST_CASE) {
+			actor = new Game_Map_Junction(this, x, y); // Creates a map blip for this junction
+		}
 	}
 	
 	/**

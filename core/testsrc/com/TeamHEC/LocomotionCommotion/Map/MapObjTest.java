@@ -19,23 +19,28 @@ public class MapObjTest {
 	public void setUp() throws Exception {
 		x = 0.5f;
 		y = 1.0f;
-		mapObjName = "FooLand";
+		mapObjName = "Test Object";
 		
-		tester = new MapObj(x, y, mapObjName);
+		tester = new MapObj(x, y, mapObjName, false);
 	}
 
 	@Test
 	public void testMapObj() {		
 		assertTrue("mapObj Name did not initialise correctly", mapObjName == tester.getName());
-		assertTrue("Station did not initialise correctly", tester.getStation() == null);
+		assertTrue("mapObj locked did not initialise correctly", tester.isLocked() == false);
 	}
 	
-/*	Cannot Test until InIntialiser Error is fixed
-	@Test 
-	public void testtoggleLocked() {
-		boolean temp = tester.isLocked(); //returns current state of Lock attribute of MapObj
-		tester.toggleLocked();
-		assertTrue("toggleLocked method did not work", tester.isLocked() != temp);
+	@Test
+	public void LockStationTest() {
+		tester.lock(true);
+		
+		assertTrue("mapObj was not correctly locked", tester.isLocked() == true);
 	}
-*/
+	
+	@Test
+	public void UnlockStationTest() {
+		tester.lock(false);
+		
+		assertTrue("mapObj was not correctly unlocked", tester.isLocked() == false);
+	}
 }

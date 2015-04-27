@@ -282,7 +282,7 @@ public class Goal implements RouteListener{
         }
 
         Dijkstra d = new Dijkstra(); //implements dijkstra
-        d.computePaths(d.lookUpNode(sStation)); //uses the loopup function to get instance of a
+        d.computePaths(d.lookUpNode(sStation)); //uses the lookup function to get instance of a
         //station and compute paths
         int minDistance = (int) d.lookUpNode(fStation).minDistance; //
 

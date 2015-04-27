@@ -16,7 +16,6 @@ import com.TeamHEC.LocomotionCommotion.Player.Player;
  */
 
 public class Replay {
-	private ArrayList<Turn> listOfTurns;
 	private Turn currentTurn;
 	private ArrayList<String> faultyStations;
 	private String json;
@@ -26,8 +25,8 @@ public class Replay {
 	 * @param playerCount
 	 */
 	public Replay(int turnCount, int playerCount){
-		json = "{";
-		listOfTurns = new ArrayList<Turn>();
+		json = "{ \"map\": \"" + GameData.CURRENT_MAP + "\",";
+		json += "\"turns\": " + "{";
 		currentTurn = new Turn(turnCount, playerCount);
 		faultyStations = new ArrayList<String>();
 	}
@@ -70,8 +69,9 @@ public class Replay {
 	 */
 	public void endTurn(Player[] listOfPlayers){
 		currentTurn.addPlayers(listOfPlayers);
-		listOfTurns.add(currentTurn);
-		addNewTurn();
+		if(listOfPlayers[0].isPlayer1){
+			addNewTurn();
+		}
 	}
 	/**
 	 * TODO implement save game
@@ -85,8 +85,10 @@ public class Replay {
 	 */
 	public void saveGame(){
 		//Maybe HEC were right.. awks. #YOLO
+		
+		//Finalises JSON by closing the turns array
 		json = json.substring(0, json.length()-1);
-		json += "}";
+		json += "}}";
 		
 		File saveFolder = new File(GameData.SAVE_FOLDER);
 		boolean created = false;
@@ -124,5 +126,9 @@ public class Replay {
 				e.printStackTrace();
 			}
 		}
+
+		//Reopens the turns array incase we need to resave..
+		json = json.substring(0, json.length()-2);
+		json += ",";
 	}
 }

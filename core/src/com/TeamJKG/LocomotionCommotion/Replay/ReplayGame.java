@@ -347,17 +347,22 @@ public class ReplayGame extends CoreGame {
 				
 				if(((String)startJSON.get("type")).equals("junction")){
 					startObj = gameMap.getJunctionWithName((String)startJSON.get("name"));
-					destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
 				}
 				else if(((String)startJSON.get("type")).equals("station"))
 				{
 					startObj = gameMap.getStationWithName((String)startJSON.get("name"));
-					destObj = gameMap.getStationWithName((String)destJSON.get("name"));
-				}
-				else{
-					//FATAL ERROR!
 				}
 				
+				if(((String)destJSON.get("type")).equals("junction")){
+					destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
+				}
+				else if(((String)destJSON.get("type")).equals("station"))
+				{
+					destObj = gameMap.getStationWithName((String)destJSON.get("name"));
+				}
+				
+				System.out.println(startObj.getName());
+				System.out.println(destObj.getName());
 				train.getRoute().addConnection(new Connection(startObj, destObj, Line.Black));
 			}
 			train.getRoute().hideRouteBlips();

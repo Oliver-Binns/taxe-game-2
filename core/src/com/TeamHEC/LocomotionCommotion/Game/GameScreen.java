@@ -141,7 +141,7 @@ public class GameScreen implements Screen {
 	public static void createCoreGame(Station p1Station, Station p2Station)
 	{
 		if(LocomotionCommotion.isReplay){
-			JSONObject gameData = getJSONData();
+			JSONObject gameData = (JSONObject)getJSONData().get("turns");
 			game = new ReplayGame(LocomotionCommotion.player1name, LocomotionCommotion.player2name, gameData);
 		}
 		else{

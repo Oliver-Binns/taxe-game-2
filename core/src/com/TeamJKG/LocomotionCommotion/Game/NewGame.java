@@ -52,6 +52,7 @@ public class NewGame extends CoreGame {
 
 		Player[] listOfPlayers = {player1, player2};
         replay.endTurn(listOfPlayers);
+        System.out.println(turnCount);
         replay.newTurn(turnCount, 2);
         // Proceed with the turn:
         playerTurn.lineBonuses();

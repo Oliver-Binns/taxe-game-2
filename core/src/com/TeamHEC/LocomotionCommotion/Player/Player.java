@@ -2,6 +2,8 @@ package com.TeamHEC.LocomotionCommotion.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
@@ -313,12 +315,15 @@ public class Player implements RouteListener{
 			}
 			else
 			{
-				WarningMessage.fireWarningWindow("SORRY", "This station is already owned!");
+				//Shouldn't occur as the button won't show on stations that are owned.
+				//WarningMessage.fireWarningWindow("SORRY", "This station is already owned!");
 			}
 		}
 		if(!trainInStation)
 		{
-			WarningMessage.fireWarningWindow("SORRY", "You must have a train at a station to buy it!");
+			if(!LocomotionCommotion.isReplay){
+				WarningMessage.fireWarningWindow("SORRY", "You must have a train at a station to buy it!");
+			}
 		}
 	}
 

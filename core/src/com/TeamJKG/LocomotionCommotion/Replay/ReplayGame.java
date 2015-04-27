@@ -58,7 +58,7 @@ public class ReplayGame extends CoreGame {
 		StartTurn();
 		
 		//TODO Find a way of displaying a warning message here?!
-		WarningMessage.fireWarningWindow("Welcome to Replay!", "Test");
+		WarningMessage.fireWarningWindow("Welcome to Replay Mode.", "Here you can rewatch your most recently completed game!");
 	}
 	
 	/**

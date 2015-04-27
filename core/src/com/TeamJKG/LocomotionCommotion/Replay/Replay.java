@@ -26,7 +26,8 @@ public class Replay {
 	 * @param playerCount
 	 */
 	public Replay(int turnCount, int playerCount){
-		json = "{";
+		json = "{ \"map\": \"" + GameData.CURRENT_MAP + "\",";
+		json += "\"turns\": " + "{";
 		listOfTurns = new ArrayList<Turn>();
 		currentTurn = new Turn(turnCount, playerCount);
 		faultyStations = new ArrayList<String>();
@@ -85,8 +86,10 @@ public class Replay {
 	 */
 	public void saveGame(){
 		//Maybe HEC were right.. awks. #YOLO
+		
+		//Finalises JSON by closing the turns array
 		json = json.substring(0, json.length()-1);
-		json += "}";
+		json += "}}";
 		
 		File saveFolder = new File(GameData.SAVE_FOLDER);
 		boolean created = false;
@@ -124,5 +127,9 @@ public class Replay {
 				e.printStackTrace();
 			}
 		}
+
+		//Reopens the turns array incase we need to resave..
+		json = json.substring(0, json.length()-2);
+		json += ",";
 	}
 }

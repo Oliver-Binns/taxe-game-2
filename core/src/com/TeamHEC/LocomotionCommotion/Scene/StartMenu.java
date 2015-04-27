@@ -148,10 +148,12 @@ public class StartMenu extends Scene{
 			public void getJSONData()
 			{
 				try{
-					FileReader in = new FileReader(System.getProperty("user.home") + "/save.loco");
+					FileReader in = new FileReader(GameData.SAVE_FOLDER + "/save.loco");
 					JSONParser parser = new JSONParser();
 					Object obj = parser.parse(in);
 					JSONObject jsonObject = (JSONObject) obj;
+					GameData.CURRENT_MAP = (String)jsonObject.get("map");
+					jsonObject = (JSONObject)jsonObject.get("turns");
 					JSONObject turn = (JSONObject) jsonObject.get("0");
 					JSONArray players = (JSONArray) turn.get("players");
 					JSONObject player1 = (JSONObject) players.get(0);

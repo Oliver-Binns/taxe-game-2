@@ -216,7 +216,7 @@ public class Route{
 	{
 		// Charging the player for the fuel needed or displaying an error message if insufficient:
 		int fuelCost = train.getFuelLengthCost(connection.getLength());
-		if( fuelCost <= train.getOwner().getFuel(train.getFuelType()))
+		if(LocomotionCommotion.isReplay || fuelCost <= train.getOwner().getFuel(train.getFuelType()))
 		{
 			train.getOwner().subFuel(train.getFuelType(), fuelCost);
 			
@@ -254,7 +254,7 @@ public class Route{
 		else
 		{
 			// Player has insufficient fuel to add connection to route, Warning message:
-			WarningMessage.fireWarningWindow("INSUFFICIENT FUEL!", "You need " + fuelCost + train.getFuelType());
+			WarningMessage.fireWarningWindow("INSUFFICIENT FUEL!", "You need " + fuelCost + " " + train.getFuelType());
 		}
 	}
 

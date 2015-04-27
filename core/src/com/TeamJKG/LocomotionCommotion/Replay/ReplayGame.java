@@ -105,31 +105,29 @@ public class ReplayGame extends CoreGame {
 		//TODO add any new trains this turn
 		//TODO add any cards that have been acquired this turn.
 		//TODO any locked/unlocked stations for this turn!
-		
-        //updates the player resources at the bottom of the screen
-      	updateResources();
       	
-      	 // Proceed with the turn
+      	// Proceed with the turn
         playerTurn.lineBonuses();
         playerTurn.stationRewards();
-        playerTurn.addFuel("Electric", 9000);
-
-        playerTurn.addFuel("Nuclear", 9000);
-		//Add any train routings the user created on this turn.
-		addNewConnections();
-		
+		 
 		//break any stations that became faulty on this turn.
 		addStationFaults();
+		
 		//Updates the player scores at the top of the screen
 		updatePlayerScores();
 		updatePlayerCards();
 		updateGoals();
 		
+		//updates the player resources at the bottom of the screen
+      	updateResources();
 
         //Increment all player's goals by one turn in duration
         for ( Goal goal : playerTurn.getGoals()){
             goal.incrementCurrentGoalDuration();
         }
+        
+        //Add any train routings the user created on this turn.
+      	addNewConnections();
 	}
 	/**
 	 * @return returns the JSON object of the current player

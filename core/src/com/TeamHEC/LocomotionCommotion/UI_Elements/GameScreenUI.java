@@ -10,6 +10,7 @@ import com.TeamHEC.LocomotionCommotion.Goal.GoalMenu;
 import com.TeamHEC.LocomotionCommotion.Goal.PlayerGoals;
 import com.TeamHEC.LocomotionCommotion.Map.Junction;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
+import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.Train.TrainDepotUI;
@@ -32,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 /**
  * 
@@ -56,6 +58,7 @@ public class GameScreenUI {
 		routeLength, 
 		routeRemaining, 
 		routeFuelCost,
+		editMapSelectLabel,
 		editStationNameLabel,
 		editConnectionColourLabel,
 		editStationValueLabel,
@@ -83,7 +86,8 @@ public class GameScreenUI {
 		cancelRouteBtn;
 	public static SelectBox<String> 
 		editStationResource,
-		editConnectionColour;
+		editConnectionColour,
+		editMapSelect;
 	public static TextField editStationName,
 		editStationValue,
 		editStationFuel,
@@ -785,6 +789,23 @@ public class GameScreenUI {
 			editConnectionColour.setItems("Black", "Blue", "Brown", "Green", "Orange", "Purple", "Red", "Yellow");
 			editConnectionColour.setSelected("Black");
 			
+			editMapSelectLabel = new Label("Choose Map:", getLabelStyle(32));
+			editMapSelectLabel.setX(950);
+			editMapSelectLabel.setY(25);
+			
+			editMapSelect = new SelectBox<String>(skin);
+			editMapSelect.setItems(WorldMap.getInstance().mapList.keySet().toArray(new String[WorldMap.getInstance().mapList.keySet().size()]));
+			editMapSelect.setSelectedIndex(0);
+			editMapSelect.setBounds(1160, 20, 150, 40);
+			editMapSelect.addListener(new ChangeListener() {
+
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					GameData.CURRENT_MAP = editMapSelect.getSelected();
+					Game_Map_Manager.updateActors();
+				}
+			});
+			
 			editStationName = new TextField("", skin);
 			editStationValue = new TextField("", skin);
 			editStationFuel = new TextField("", skin);
@@ -804,6 +825,8 @@ public class GameScreenUI {
 			saveButton.setBounds(GameScreen.getStage().getWidth() - 150, 50, 100, 30);
 			deleteButton.setBounds(GameScreen.getStage().getWidth() - 150, 10, 100, 30);
 			
+			actors.add(editMapSelectLabel);
+			actors.add(editMapSelect);
 			actors.add(editStationResource);
 			actors.add(editConnectionColour);
 			actors.add(editStationName);

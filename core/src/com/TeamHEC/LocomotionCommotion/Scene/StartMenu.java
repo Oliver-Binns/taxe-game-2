@@ -329,6 +329,7 @@ public class StartMenu extends Scene{
 				StartMenu.player1name= null;
 				StartMenu.player2name= null;
 				StartMenu.turnChoice=0;
+				mapSelect.setSelectedIndex(0);
 			}
 		};
 		actors.add(newGameBackButton);
@@ -661,7 +662,7 @@ public class StartMenu extends Scene{
 		
 		mapSelect = new SelectBox<String>(skin);
 		mapSelect.setItems(WorldMap.getInstance().mapList.keySet().toArray(new String[WorldMap.getInstance().mapList.keySet().size()]));
-		mapSelect.setSelected(mapSelect.getItems().first());
+		mapSelect.setSelectedIndex(0);
 		mapSelect.setBounds(760, 1150 + 150, 150, 40);
 		
 		actors.add(textbox1);

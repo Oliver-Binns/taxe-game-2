@@ -58,7 +58,7 @@ public class Game_Map_Manager {
 	public static boolean infoVisible= false;
 	public static int  stagestart, mapActors, stationTracker, numberOfStations, junctionTracker, numberOfJunctions = 2;
 	public static Label stationLabelFuel,stationLabelName, stationLabelCost;
-	public LabelStyle style;
+	public static LabelStyle style;
 	public static Stage stageTracker;
 	public static MapObj conObj1;
 	public static boolean connectionPlacing = false;
@@ -68,7 +68,7 @@ public class Game_Map_Manager {
 
 	public Game_Map_Manager(){	}
 
-	public void create(Stage stage){
+	public static void create(Stage stage){
 		stageTracker = stage;
 		actors.clear();
 		infoactors.clear();
@@ -185,6 +185,11 @@ public class Game_Map_Manager {
 
 		mapInfo.setVisible(infoVisible);
 		stage.addActor(mapInfo);
+	}
+	
+	public static void updateActors() {
+		stageTracker.clear();
+		create(stageTracker);
 	}
 
 	public static void moveInfoBox(float x,float y){

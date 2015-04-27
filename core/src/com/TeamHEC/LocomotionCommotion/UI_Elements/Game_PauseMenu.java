@@ -103,6 +103,7 @@ public class Game_PauseMenu {
 					else{
 						NewGame game = (NewGame)GameScreen.game;
 						game.forceSave();
+						WarningMessage.fireWarningWindow("Success!", "Your game has been saved! Open Replay mode to rewatch.");
 					}
 				}
 

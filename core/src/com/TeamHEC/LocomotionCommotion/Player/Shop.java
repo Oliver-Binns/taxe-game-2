@@ -1,6 +1,9 @@
 package com.TeamHEC.LocomotionCommotion.Player;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
+import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Card.CardFactory;
+import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Train.CoalTrain;
@@ -10,6 +13,7 @@ import com.TeamHEC.LocomotionCommotion.Train.OilTrain;
 import com.TeamHEC.LocomotionCommotion.Train.Route;
 import com.TeamHEC.LocomotionCommotion.Train.Train;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
+import com.TeamJKG.LocomotionCommotion.Game.NewGame;
 
 /**
  * 
@@ -156,6 +160,10 @@ public class Shop {
 	public void unlockStation(MapObj mapObj, boolean testCase) {
 		if(customer.getGold() >= 1000) {
 			mapObj.lock(false);
+			if(!LocomotionCommotion.isReplay && !GameData.EDITING){
+				NewGame game = (NewGame) GameScreen.game;
+				game.unlockMapObj(mapObj);
+			}
 			customer.subGold(1000);
 		} else {
 			if(!testCase) {
@@ -190,6 +198,10 @@ public class Shop {
 	public void lockStation(MapObj mapObj, boolean testCase) {
 		if(customer.getGold() >= 1000) {
 			mapObj.lock(true);
+			if(!LocomotionCommotion.isReplay && !GameData.EDITING){
+				NewGame game = (NewGame) GameScreen.game;
+				game.lockMapObj(mapObj);
+			}
 			customer.subGold(1000);
 		} else {
 			if(!testCase) {

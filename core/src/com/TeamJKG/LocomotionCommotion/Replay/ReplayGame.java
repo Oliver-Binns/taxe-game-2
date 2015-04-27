@@ -275,7 +275,7 @@ public class ReplayGame extends CoreGame {
 			JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
 			
 			if(routeConnections.size() == 0){
-				WarningMessage.fireWarningWindow("No Route", "Your " + train.getName() + " made no moves this turn.");
+				//WarningMessage.fireWarningWindow("No Route", "Your " + train.getName() + " made no moves this turn.");
 			}
 			
 			int correctConnections = 0;

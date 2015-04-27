@@ -2,6 +2,7 @@ package com.TeamJKG.LocomotionCommotion.Game;
 
 import com.TeamHEC.LocomotionCommotion.Game.CoreGame;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamJKG.LocomotionCommotion.Replay.Replay;
@@ -41,6 +42,18 @@ public class NewGame extends CoreGame {
 	 */
 	public void fixFault(Station station){
 		replay.removeFault(station);
+	}
+	/**
+	 * Saves any locked stations to Replay.
+	 */
+	public void lockMapObj(MapObj object){
+		replay.addLock(object);
+	}
+	/**
+	 * Saves any unlocked stations to Replay.
+	 */
+	public void unlockMapObj(MapObj object){
+		replay.removeLock(object);
 	}
 	
 	/**

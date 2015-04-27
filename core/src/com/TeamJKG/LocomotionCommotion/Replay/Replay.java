@@ -16,7 +16,6 @@ import com.TeamHEC.LocomotionCommotion.Player.Player;
  */
 
 public class Replay {
-	private ArrayList<Turn> listOfTurns;
 	private Turn currentTurn;
 	private ArrayList<String> faultyStations;
 	private String json;
@@ -28,7 +27,6 @@ public class Replay {
 	public Replay(int turnCount, int playerCount){
 		json = "{ \"map\": \"" + GameData.CURRENT_MAP + "\",";
 		json += "\"turns\": " + "{";
-		listOfTurns = new ArrayList<Turn>();
 		currentTurn = new Turn(turnCount, playerCount);
 		faultyStations = new ArrayList<String>();
 	}
@@ -71,8 +69,9 @@ public class Replay {
 	 */
 	public void endTurn(Player[] listOfPlayers){
 		currentTurn.addPlayers(listOfPlayers);
-		listOfTurns.add(currentTurn);
-		addNewTurn();
+		if(listOfPlayers[0].isPlayer1){
+			addNewTurn();
+		}
 	}
 	/**
 	 * TODO implement save game

@@ -60,6 +60,7 @@ public class ReplayGame extends CoreGame {
 		//TODO Find a way of displaying a warning message here?!
 		WarningMessage.fireWarningWindow("Welcome to Replay!", "Test");
 	}
+	
 	/**
 	 * sets up the player by creating the first train
 	 */
@@ -101,9 +102,7 @@ public class ReplayGame extends CoreGame {
 	public void StartTurn() {
 		//New Turn Data
 		turnData = (JSONObject) gameData.get(String.valueOf(this.turnCount));
-		//TODO add any new trains this turn
 		//TODO add any cards that have been acquired this turn.
-		//TODO any locked/unlocked stations for this turn!
       	
 		// Add new trains
 		addNewTrains();
@@ -114,6 +113,8 @@ public class ReplayGame extends CoreGame {
 		 
 		//break any stations that became faulty on this turn.
 		addStationFaults();
+		//lock/unlock any stations that 
+		addStationLocks();
 		
 		//Updates the player scores at the top of the screen
 		updatePlayerScores();
@@ -238,6 +239,32 @@ public class ReplayGame extends CoreGame {
 		}
 		for(int i = 0; i < faultyStations.size(); i++){
 			gameMap.getStationWithName((String)faultyStations.get(i)).makeFaulty();
+		}
+	}
+	
+	/**
+	 *	Lock and unlock stations from this turn
+	 */
+	public void addStationLocks(){
+		JSONArray lockedStations = (JSONArray)turnData.get("lockedStations");
+		JSONArray unlockedStations = (JSONArray)turnData.get("unlockedStations");
+		for(int i = 0; i < lockedStations.size(); i++){
+			JSONObject mapObj = (JSONObject)lockedStations.get(i);
+			if(((String)mapObj.get("type")).equals("station")){
+				gameMap.getStationWithName((String)mapObj.get("name")).lock(true);
+			}
+			else{
+				gameMap.getJunctionWithName((String)mapObj.get("name")).lock(true);
+			}
+		}
+		for(int i = 0; i < unlockedStations.size(); i++){
+			JSONObject mapObj = (JSONObject)unlockedStations.get(i);
+			if(((String)mapObj.get("type")).equals("station")){
+				gameMap.getStationWithName((String)mapObj.get("name")).lock(false);
+			}
+			else{
+				gameMap.getJunctionWithName((String)mapObj.get("name")).lock(false);
+			}
 		}
 	}
 	

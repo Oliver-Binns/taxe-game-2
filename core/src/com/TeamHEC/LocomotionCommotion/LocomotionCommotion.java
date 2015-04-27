@@ -62,8 +62,6 @@ public class LocomotionCommotion extends Game {
 			} else {
 				System.out.println("Game folder creation failed, please check your permissions.");
 			}
-		} else {
-			System.out.println("Game folder already exists in home directory.");
 		}
 	}
 

@@ -2,13 +2,23 @@ package com.TeamHEC.LocomotionCommotion.Scene;
 
 import java.io.FileReader;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
+import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 
 import org.json.simple.JSONArray;
@@ -26,6 +36,8 @@ public class StartMenu extends Scene{
 
 	//Start Menu NewGame Page
 	private Sprite sm_newgame_menutext;
+	private SelectBox<String> mapSelect;
+	private Label mapLabel;
 	private SpriteButton newGameBackButton, turnTimeOutButton, stationDomButton, newGameGoButton;
 	private SpriteButton turn50Button, turn100Button, turn150Button;
 
@@ -243,7 +255,8 @@ public class StartMenu extends Scene{
                 	WarningMessage.fireWarningWindow("Whoops!", "Names must be longer than " + String.valueOf(MIN_NAME_LENGTH) + " characters long.");
                     return;
                 }
-
+                
+                GameData.CURRENT_MAP = mapSelect.getSelected();
                 LocomotionCommotion.isReplay = false;
 				LocomotionCommotion.player1name=textbox1.getText();
 				LocomotionCommotion.player2name=textbox2.getText();
@@ -630,8 +643,31 @@ public class StartMenu extends Scene{
 		};
 		textbox2.setTextFieldListener(player2);
 
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/gillsans.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 32;
+
+		BitmapFont font = generator.generateFont(parameter);
+		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		generator.dispose();
+		
+		LabelStyle style = new LabelStyle();
+		style.font = font;
+		style.fontColor = Color.DARK_GRAY;
+		
+		mapLabel = new Label("Choose Map: ", style);
+		mapLabel.setX(550);
+		mapLabel.setY(1150 + 155);
+		
+		mapSelect = new SelectBox<String>(skin);
+		mapSelect.setItems(WorldMap.getInstance().mapList.keySet().toArray(new String[WorldMap.getInstance().mapList.keySet().size()]));
+		mapSelect.setSelected(mapSelect.getItems().first());
+		mapSelect.setBounds(760, 1150 + 150, 150, 40);
+		
 		actors.add(textbox1);
 		actors.add(textbox2);
+		actors.add(mapLabel);
+		actors.add(mapSelect);
 		
 		//Default to Turn Timeout and 50 Turn Limit, auto-select Player 1's name box 
 		StartMenu.gameMode = "turntimeout";

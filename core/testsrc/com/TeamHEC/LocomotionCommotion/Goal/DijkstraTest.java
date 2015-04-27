@@ -21,15 +21,20 @@ import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
 public class DijkstraTest {
-
-	MapInstance wm = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
-	Station sstation = wm.stationList()[0];
-	Station fstation = wm.stationList()[0];
+	
+	MapInstance wm;
+	Station sstation;
+	Station fstation;
 	Dijkstra d = new Dijkstra();
 	double rew;
 
 	@Before
 	public void setUp() throws Exception {
+		GameData.TEST_CASE = true;
+		wm = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
+		sstation = wm.stationList()[0];
+		fstation = wm.stationList()[1];
+		
 		d.initialiseGraph();  
 
 	}
@@ -42,8 +47,8 @@ public class DijkstraTest {
 	@Test
 	public void testDijkstra() {
 		
-		assertTrue(d.nodeList.length == 22);
-		assertTrue(Dijkstra.stations == Arrays.asList(wm.stationList()));
+		assertTrue(d.nodeList.length == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).mapObjList().length);
+		assertTrue(Dijkstra.stations.equals(Arrays.asList(wm.stationList())));
 		
 	}
 
@@ -89,7 +94,7 @@ public class DijkstraTest {
 	public void testInitialiseGraph() {
 		d.initialiseGraph();
 		assertTrue(d.nodeList.length != 0 );  
-		assertTrue(d.nodeList.length == (wm.stationList().length + 2));
+		assertTrue(d.nodeList.length == (wm.stationList().length + wm.junctionList().length));
 	}
 
 

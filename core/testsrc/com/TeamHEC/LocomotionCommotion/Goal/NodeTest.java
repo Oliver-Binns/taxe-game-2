@@ -23,6 +23,7 @@ public class NodeTest {
 	   
 	@Before
 	public void setUp() throws Exception {
+		GameData.TEST_CASE = true;
 		wm = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
 		yo = wm.stationList()[0];
 		n = new Node(yo);

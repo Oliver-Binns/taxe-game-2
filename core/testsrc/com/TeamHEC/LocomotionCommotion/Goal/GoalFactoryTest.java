@@ -16,6 +16,7 @@ public class GoalFactoryTest {
 	GoalFactory tester;
 	@Before
 	public void setUp() throws Exception {
+		GameData.TEST_CASE = true;
 		tester = new GoalFactory(1);
 	}
 
@@ -34,7 +35,7 @@ public class GoalFactoryTest {
 					checkExistence(goal.getFStation()));
 			assertTrue(
 					"GoalFactory's goal did not have a valid cargo, iteration: " + i,
-					goal.getCargo() == "Passenger" || goal.getCargo() == "Cargo");
+					goal.getCargo() == "Passenger" || goal.getCargo() == "Goods");
 			assertTrue(
 					"GoalFactory's reward was not set correctly, iteration: " + i,
 					goal.getReward() > 0);

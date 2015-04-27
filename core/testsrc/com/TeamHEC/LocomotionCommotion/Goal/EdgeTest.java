@@ -23,10 +23,11 @@ public class EdgeTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		 wm = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
-		 yo = wm.stationList()[0];
-		 n = new Node(yo);
-		 e = new Edge(n, 37);
+		GameData.TEST_CASE = true;
+		wm = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
+		yo = wm.stationList()[0];
+		n = new Node(yo);
+		e = new Edge(n, 37);
 	}
 
 	@After

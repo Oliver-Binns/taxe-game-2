@@ -35,6 +35,8 @@ public class TeleportCardTest {
 	
 	@Before
 	public void setUp() throws Exception {		
+		GameData.TEST_CASE = true;
+		
 		player = new Player(
 				"Alice",
 				0,
@@ -64,7 +66,8 @@ public class TeleportCardTest {
 		card.implementCard();
 		assertTrue("Train route index was not set correctly", player.getTrains().get(0).getRoute().getRouteIndex() == 0);
 		assertTrue("Train connection travelled was not set correctly", player.getTrains().get(0).getRoute().getConnectionTravelled() == 0);
-		assertTrue("Train currentMapObj was not set correctly", player.getTrains().get(0).getRoute().getStation() == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0]);
+		//Check that train was correctly moved to a new station rather than remaining where it is.
+		assertTrue("Train currentMapObj was not set correctly", player.getTrains().get(0).getRoute().getStation() != WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0]);
 	}
 
 	@Test

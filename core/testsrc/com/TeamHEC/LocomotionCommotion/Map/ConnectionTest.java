@@ -18,6 +18,7 @@ public class ConnectionTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		GameData.TEST_CASE = true;
 		error = "";
 		success = false;
 		

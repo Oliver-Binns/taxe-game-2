@@ -32,6 +32,8 @@ public class GoFasterStripesCardTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		GameData.TEST_CASE = true;
+		
 		currentSpeedUpgrade = 10; //Update if it changes
 		player = new Player(
 				"Alice",

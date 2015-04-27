@@ -40,6 +40,12 @@ public class TeleportCard extends Card{
 		// Need a way to choose station, currently selects one at random:
 		MapObj chosenLocation = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[rnd.nextInt(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList().length)];
 		
+		if(train.isInStation()) {
+			while(chosenLocation == train.getRoute().getStation()) {
+				chosenLocation = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[rnd.nextInt(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList().length)];
+			}
+		}
+		
 		train.route.getRoute().clear();
 		train.route.setRouteIndex(0);
 		train.route.setConnectionTravelled(0);

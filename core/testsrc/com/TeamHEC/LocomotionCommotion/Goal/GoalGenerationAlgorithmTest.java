@@ -26,7 +26,7 @@ import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
  */
 @RunWith(GdxTestRunner.class)
 public class GoalGenerationAlgorithmTest {
-	MapInstance map = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
+	MapInstance map;
 	private int pathLength;
 	public static ArrayList<Station> stations;
 	public Node[] nodeList;
@@ -34,6 +34,8 @@ public class GoalGenerationAlgorithmTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		GameData.TEST_CASE = true;
+		map = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
 		this.pathLength = 5;
 		stations = new ArrayList<Station>(Arrays.asList(map.stationList())); 
 		 gga = new GoalGenerationAlgorithm(pathLength);
@@ -45,8 +47,8 @@ public class GoalGenerationAlgorithmTest {
 	
 	@Test
 	public void testGoalGenerationAlgorithm(){
-		assertTrue(gga.nodeList.length == 22);
-		assertTrue(stations == Arrays.asList(map.stationList()));
+		assertTrue(gga.nodeList.length == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).mapObjList().length);
+		assertTrue(stations.equals(Arrays.asList(map.stationList())));
 	}
 	
 	@Test
@@ -62,7 +64,7 @@ public class GoalGenerationAlgorithmTest {
 		}
 		
 		assertTrue(gga.nodeList.length != 0 );  
-		assertTrue(gga.nodeList.length == (map.stationList().length + 2));
+		assertTrue(gga.nodeList.length == (map.stationList().length + map.junctionList().length));
 	}
 	
 	@Test

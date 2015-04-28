@@ -16,6 +16,5 @@ public class DesktopLauncher {
 		config.fullscreen = false;
 		config.samples = 4;
 		config.vSyncEnabled = true;
-//		config.addIcon(Gdx.files.internal("Icon.png"), Files.FileType.Internal);
 	}
 }

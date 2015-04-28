@@ -31,14 +31,14 @@ public class MapObjTest {
 	}
 	
 	@Test
-	public void LockStationTest() {
+	public void LockMapObjTest() {
 		tester.lock(true);
 		
 		assertTrue("mapObj was not correctly locked", tester.isLocked() == true);
 	}
 	
 	@Test
-	public void UnlockStationTest() {
+	public void UnlockMapObjTest() {
 		tester.lock(false);
 		
 		assertTrue("mapObj was not correctly unlocked", tester.isLocked() == false);

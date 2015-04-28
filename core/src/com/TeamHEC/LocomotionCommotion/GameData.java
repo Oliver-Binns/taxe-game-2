@@ -15,7 +15,8 @@ public final class GameData {
 	static
 	{
 		DEFAULT_MAP_STRING = new HashMap<String, String>();
-		DEFAULT_MAP_STRING.put("Map1", Gdx.files.internal("Map1.json").readString());
+		DEFAULT_MAP_STRING.put("Europe", Gdx.files.internal("Map1.json").readString());
+		DEFAULT_MAP_STRING.put("London Underground", Gdx.files.internal("London Underground.json").readString());
 	}
 	
 	public static String GAME_FOLDER = System.getProperty("user.home") + 

@@ -16,7 +16,6 @@ import com.TeamHEC.LocomotionCommotion.Resource.Gold;
 import com.TeamHEC.LocomotionCommotion.Resource.Nuclear;
 import com.TeamHEC.LocomotionCommotion.Resource.Oil;
 import com.TeamHEC.LocomotionCommotion.Resource.Resource;
-import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.TeamJKG.LocomotionCommotion.Replay.Replay;
 
 /**

@@ -460,26 +460,26 @@ public class MapInstance {
 	 * @return json string for saving to map file
 	 */
 	public String generateJSON() {
-		String jMap = "{\"Stations\" : [";
+		String jMap = "{\n\t\"Stations\" : [";
 		
 		for(Station s : stations.values()) {
-			jMap = jMap + "{\"Name\" : \"" + s.getName() + "\",\"BaseValue\" : " + s.getBaseValue() + ",\"Resource\" : [{\"Type\" : \"" + s.getResourceString() + "\",\"Amount\" : " + s.getResourceType().getValue() + "}],\"BaseFuelOut\" : " + s.getBaseResourceOut() + ",\"Lines\" : [";
+			jMap = jMap + "\n\t\t{\"Name\" : \"" + s.getName() + "\",\"BaseValue\" : " + s.getBaseValue() + ",\"Resource\" : [{\"Type\" : \"" + s.getResourceString() + "\",\"Amount\" : " + s.getResourceType().getValue() + "}],\"BaseFuelOut\" : " + s.getBaseResourceOut() + ",\"Lines\" : [";
 			for(Line l : s.getLineType()) {
 				jMap = jMap + "\"" + l.toString() + "\",";
 			}
-			jMap = jMap.substring(0,  jMap.length() - 1) + "],\"Rent\" : " + s.getBaseRentValue() + ",\"Location\" : [" + s.x + "," + s.y + "],\"Locked\" : " + s.isLocked() + "}";
+			jMap = jMap.substring(0,  jMap.length() - 1) + "],\"Rent\" : " + s.getBaseRentValue() + ",\"Location\" : [" + s.x + "," + s.y + "],\"Locked\" : " + s.isLocked() + "},\n";
 		}
 		
-		jMap = jMap + "],\"Junctions\" : [";
+		jMap = jMap + "\t],\"Junctions\" : [";
 		
 		for(Junction j : junctions.values()) {
-			jMap = jMap + "{\"Location\" : [" + j.x + "," + j.y + "],\"Name\" : \"" + j.getName() + "\",\"Locked\" : " + j.isLocked() + "}";
+			jMap = jMap + "\n\t\t{\"Location\" : [" + j.x + "," + j.y + "],\"Name\" : \"" + j.getName() + "\",\"Locked\" : " + j.isLocked() + "},";
 		}
 		
-		jMap = jMap + "],\"Connections\" : [";
+		jMap = jMap + "\t],\"Connections\" : [";
 		
 		for(MapObj m : mapObjList()) {
-			jMap = jMap + "{\"StartPoint\" : \"" + m.getName() + "\",\"EndPoints\" : [";
+			jMap = jMap + "\n\t\t{\"StartPoint\" : \"" + m.getName() + "\",\"EndPoints\" : [";
 			
 			for(Connection c : m.connections) {
 				jMap = jMap + "\"" + c.getDestination().getName() + "\",";
@@ -491,9 +491,9 @@ public class MapInstance {
 				jMap = jMap + "\"" + c.getColour() + "\",";
 			}
 			
-			jMap = jMap.substring(0, jMap.length() - 1) + "]}";
+			jMap = jMap.substring(0, jMap.length() - 1) + "]},\n";
 		}
-		jMap = jMap + "]}";
+		jMap = jMap + "\t]\n}";
 		
 		return jMap;
 	}

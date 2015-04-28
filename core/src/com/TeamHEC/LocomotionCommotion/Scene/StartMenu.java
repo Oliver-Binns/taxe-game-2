@@ -7,12 +7,12 @@ import java.net.URL;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
+import com.TeamHEC.LocomotionCommotion.Game.MusicThread;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -39,7 +39,7 @@ public class StartMenu extends Scene{
 
 	//Start Menu NewGame Page
 	private Sprite sm_newgame_menutext;
-	private SelectBox<String> mapSelect;
+	public static SelectBox<String> mapSelect;
 	private Label mapLabel;
 	private SpriteButton newGameBackButton, turnTimeOutButton, stationDomButton, newGameGoButton;
 	private SpriteButton turn50Button, turn100Button, turn150Button;
@@ -64,8 +64,7 @@ public class StartMenu extends Scene{
 	public static int turnChoice;
 	public static TextField textbox1, textbox2;
 	
-	//Uncomment for music variable to be used
-	private static Music mainMusic;
+	public static MusicThread mainMusic;
 
 	public StartMenu()
 	{
@@ -80,9 +79,8 @@ public class StartMenu extends Scene{
 		actors.add(sm_newgame_menutext);
 		
 		//We can add music to the game with these lines:
-		mainMusic = Gdx.audio.newMusic(Gdx.files.internal("Sound/elevator.mp3"));
-		mainMusic.setLooping(true);
-		mainMusic.play();
+		mainMusic = new MusicThread("Sound/elevator.mp3");
+		mainMusic.start();
 		
 		//Add a new warning message?
 		WarningMessage warningMessage = new WarningMessage();
@@ -677,7 +675,7 @@ public class StartMenu extends Scene{
 		
 		mapSelect = new SelectBox<String>(skin);
 		mapSelect.setItems(WorldMap.getInstance().mapList.keySet().toArray(new String[WorldMap.getInstance().mapList.keySet().size()]));
-		mapSelect.setSelectedIndex(0);
+		mapSelect.setSelected(GameData.CURRENT_MAP);
 		mapSelect.setBounds(760, 1150 + 150, 150, 40);
 		
 		actors.add(textbox1);

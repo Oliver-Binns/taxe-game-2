@@ -466,7 +466,11 @@ public class MapInstance {
 			for(Line l : s.getLineType()) {
 				jMap = jMap + "\"" + l.toString() + "\",";
 			}
-			jMap = jMap.substring(0,  jMap.length() - 1) + "],\"Rent\" : " + s.getBaseRentValue() + ",\"Location\" : [" + s.x + "," + s.y + "],\"Locked\" : " + s.isLocked() + "},";
+			if(s.getLineType().length != 0) {
+				jMap = jMap.substring(0,  jMap.length() - 1) + "],\"Rent\" : " + s.getBaseRentValue() + ",\"Location\" : [" + s.x + "," + s.y + "],\"Locked\" : " + s.isLocked() + "},";
+			} else {
+				jMap = jMap + "],\"Rent\" : " + s.getBaseRentValue() + ",\"Location\" : [" + s.x + "," + s.y + "],\"Locked\" : " + s.isLocked() + "},";
+			}
 		}
 		
 		if(stations.keySet().size() > 0) {

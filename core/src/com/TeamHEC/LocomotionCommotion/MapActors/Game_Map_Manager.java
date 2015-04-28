@@ -407,7 +407,7 @@ public class Game_Map_Manager {
 	}
 	
 	public static void addNewJunction(int x, int y) {
-		Junction j = new Junction(x, y, "Unnamed");
+		Junction j = new Junction(x, y, "UnnamedJunction");
 		try {
 			WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).addMapObj(j);
 		} catch(Exception e) {

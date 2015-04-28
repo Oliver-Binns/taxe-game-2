@@ -804,7 +804,7 @@ public class GameScreenUI {
 			
 			editMapSelect = new SelectBox<String>(skin);
 			editMapSelect.setItems(WorldMap.getInstance().mapList.keySet().toArray(new String[WorldMap.getInstance().mapList.keySet().size()]));
-			editMapSelect.setSelectedIndex(0);
+			editMapSelect.setSelected(GameData.CURRENT_MAP);
 			editMapSelect.setBounds(960, 990, 150, 40);
 			editMapSelect.addListener(new ChangeListener() {
 

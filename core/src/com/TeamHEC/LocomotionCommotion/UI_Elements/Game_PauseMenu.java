@@ -7,6 +7,7 @@ import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Game.GameScreen;
 import com.TeamHEC.LocomotionCommotion.Map.MapInstance;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
+import com.TeamHEC.LocomotionCommotion.Scene.StartMenu;
 import com.TeamJKG.LocomotionCommotion.Game.NewGame;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -138,6 +139,10 @@ public class Game_PauseMenu {
 			game_pause_mainmenu = new SpriteButton(Game_PauseMenu.actorManager.game_pause_resume.getX(),Game_PauseMenu.actorManager.game_pause_resume.getY()-300,Game_TextureManager.getInstance().game_pause_mainmenu){
 				@Override
 				protected void onClicked(){
+					StartMenu.mapSelect.setItems(WorldMap.getInstance().mapList.keySet().toArray(new String[WorldMap.getInstance().mapList.keySet().size()]));
+					StartMenu.mapSelect.setSelected(GameData.CURRENT_MAP);
+					GameScreenUI.editMapSelect.setItems(WorldMap.getInstance().mapList.keySet().toArray(new String[WorldMap.getInstance().mapList.keySet().size()]));
+					GameScreenUI.editMapSelect.setSelected(GameData.CURRENT_MAP);
 					WorldMap.getInstance().resetAll();
 					LocomotionCommotion.getInstance().setMenuScreen();
 				}

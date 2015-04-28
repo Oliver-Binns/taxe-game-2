@@ -48,7 +48,7 @@ import com.TeamHEC.LocomotionCommotion.Train.TrainTest;
 	ObstacleTest.class,
 	PlayerTest.class,
 	ShopTest.class,
-	//RouteTest.class,
+	RouteTest.class,
 	TrainTest.class
 })
 

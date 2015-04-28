@@ -58,8 +58,9 @@ public class ReplayGame extends CoreGame {
 		StartTurn();
 		
 		//TODO Find a way of displaying a warning message here?!
-		WarningMessage.fireWarningWindow("Welcome to Replay!", "Test");
+		WarningMessage.fireWarningWindow("Welcome to Replay Mode.", "Here you can rewatch your most recently completed game!");
 	}
+	
 	/**
 	 * sets up the player by creating the first train
 	 */
@@ -101,9 +102,7 @@ public class ReplayGame extends CoreGame {
 	public void StartTurn() {
 		//New Turn Data
 		turnData = (JSONObject) gameData.get(String.valueOf(this.turnCount));
-		//TODO add any new trains this turn
 		//TODO add any cards that have been acquired this turn.
-		//TODO any locked/unlocked stations for this turn!
       	
 		// Add new trains
 		addNewTrains();
@@ -114,6 +113,8 @@ public class ReplayGame extends CoreGame {
 		 
 		//break any stations that became faulty on this turn.
 		addStationFaults();
+		//lock/unlock any stations that 
+		addStationLocks();
 		
 		//Updates the player scores at the top of the screen
 		updatePlayerScores();
@@ -242,6 +243,32 @@ public class ReplayGame extends CoreGame {
 	}
 	
 	/**
+	 *	Lock and unlock stations from this turn
+	 */
+	public void addStationLocks(){
+		JSONArray lockedStations = (JSONArray)turnData.get("lockedStations");
+		JSONArray unlockedStations = (JSONArray)turnData.get("unlockedStations");
+		for(int i = 0; i < lockedStations.size(); i++){
+			JSONObject mapObj = (JSONObject)lockedStations.get(i);
+			if(((String)mapObj.get("type")).equals("station")){
+				gameMap.getStationWithName((String)mapObj.get("name")).lock(true);
+			}
+			else{
+				gameMap.getJunctionWithName((String)mapObj.get("name")).lock(true);
+			}
+		}
+		for(int i = 0; i < unlockedStations.size(); i++){
+			JSONObject mapObj = (JSONObject)unlockedStations.get(i);
+			if(((String)mapObj.get("type")).equals("station")){
+				gameMap.getStationWithName((String)mapObj.get("name")).lock(false);
+			}
+			else{
+				gameMap.getJunctionWithName((String)mapObj.get("name")).lock(false);
+			}
+		}
+	}
+	
+	/**
 	 * checks the current connections are the same as those in the json.
 	 */
 	public void addNewConnections(){
@@ -275,7 +302,7 @@ public class ReplayGame extends CoreGame {
 			JSONArray routeConnections = (JSONArray)trainRoute.get("connections");
 			
 			if(routeConnections.size() == 0){
-				WarningMessage.fireWarningWindow("No Route", "Your " + train.getName() + " made no moves this turn.");
+				//WarningMessage.fireWarningWindow("No Route", "Your " + train.getName() + " made no moves this turn.");
 			}
 			
 			int correctConnections = 0;
@@ -347,17 +374,22 @@ public class ReplayGame extends CoreGame {
 				
 				if(((String)startJSON.get("type")).equals("junction")){
 					startObj = gameMap.getJunctionWithName((String)startJSON.get("name"));
-					destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
 				}
 				else if(((String)startJSON.get("type")).equals("station"))
 				{
 					startObj = gameMap.getStationWithName((String)startJSON.get("name"));
-					destObj = gameMap.getStationWithName((String)destJSON.get("name"));
-				}
-				else{
-					//FATAL ERROR!
 				}
 				
+				if(((String)destJSON.get("type")).equals("junction")){
+					destObj = gameMap.getJunctionWithName((String)destJSON.get("name"));
+				}
+				else if(((String)destJSON.get("type")).equals("station"))
+				{
+					destObj = gameMap.getStationWithName((String)destJSON.get("name"));
+				}
+				
+				System.out.println(startObj.getName());
+				System.out.println(destObj.getName());
 				train.getRoute().addConnection(new Connection(startObj, destObj, Line.Black));
 			}
 			train.getRoute().hideRouteBlips();

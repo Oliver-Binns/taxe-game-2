@@ -47,8 +47,6 @@ public class WorldMap {
 			} else {
 				System.out.println("Folder not created, please check your permissions.");
 			}
-		} else {
-			System.out.println("Game folder already exists, scanning for existing maps...");
 		}
 		
 		//Populate mapList with all MapInstances generated from the map files. 

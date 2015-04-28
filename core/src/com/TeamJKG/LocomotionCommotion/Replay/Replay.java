@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
+import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 
@@ -16,9 +17,10 @@ import com.TeamHEC.LocomotionCommotion.Player.Player;
  */
 
 public class Replay {
-	private ArrayList<Turn> listOfTurns;
 	private Turn currentTurn;
 	private ArrayList<String> faultyStations;
+	private ArrayList<String> lockedStations;
+	private ArrayList<String> unlockedStations;
 	private String json;
 	/**
 	 * creates an instance of the replay class, this handles the Replay functionality within the game.
@@ -26,10 +28,12 @@ public class Replay {
 	 * @param playerCount
 	 */
 	public Replay(int turnCount, int playerCount){
-		json = "{";
-		listOfTurns = new ArrayList<Turn>();
+		json = "{ \"map\": \"" + GameData.CURRENT_MAP + "\",";
+		json += "\"turns\": " + "{";
 		currentTurn = new Turn(turnCount, playerCount);
 		faultyStations = new ArrayList<String>();
+		lockedStations = new ArrayList<String>();
+		unlockedStations = new ArrayList<String>();
 	}
 	/**
 	 * called at the start of a new turn, initialises a new turn objects
@@ -38,6 +42,8 @@ public class Replay {
 	 */
 	public void newTurn(int turnCount, int playerCount){
 		currentTurn = new Turn(turnCount, playerCount);
+		lockedStations.clear();
+		unlockedStations.clear();
 	}
 	
 	/**
@@ -46,22 +52,41 @@ public class Replay {
 	 * adds a station to the faulty station array if it not already present
 	 */
 	public void addFault(Station station){
-		boolean isNotInArray = true;
-		for(int i = 0; i < faultyStations.size(); i++){
-			if(faultyStations.get(i) == station.getName()){
-				isNotInArray = false;
-			}
-		}
-		if(isNotInArray){
+		boolean isInArray = faultyStations.contains(station.getName());
+		if(!isInArray){
 			faultyStations.add(station.getName());
 		}
+	}
+	
+	/**
+	 * @param a locked station
+	 * adds a station to the locked station array if it not already present
+	 */
+	public void addLock(MapObj obj){
+		boolean isInArray = lockedStations.contains(obj.toJSON());
+		if(!isInArray){
+			lockedStations.add(obj.toJSON());
+		}
+		unlockedStations.remove(obj.toJSON());
 	}
 	/**
 	 * called when a station is fixed to remove it from the list of faulty stations
 	 * @param fixedStation
 	 */
 	public void removeFault(Station station){
-		faultyStations.remove(station.getName());
+		faultyStations.remove(station);
+	}
+	
+	/**
+	 * called when a station is fixed to remove it from the list of locked stations
+	 * @param unlockedStation
+	 */
+	public void removeLock(MapObj obj){
+		boolean isInArray = unlockedStations.contains(obj.toJSON());
+		if(!isInArray){
+			unlockedStations.add(obj.toJSON());
+		}
+		lockedStations.remove(obj.toJSON());
 	}
 	
 	/**
@@ -70,14 +95,15 @@ public class Replay {
 	 */
 	public void endTurn(Player[] listOfPlayers){
 		currentTurn.addPlayers(listOfPlayers);
-		listOfTurns.add(currentTurn);
-		addNewTurn();
+		if(listOfPlayers[0].isPlayer1){
+			addNewTurn();
+		}
 	}
 	/**
 	 * TODO implement save game
 	 */
 	public void addNewTurn(){
-		json += currentTurn.toJSON(faultyStations) + ",";
+		json += currentTurn.toJSON(faultyStations, lockedStations, unlockedStations) + ",";
 	}
 	
 	/**
@@ -85,8 +111,10 @@ public class Replay {
 	 */
 	public void saveGame(){
 		//Maybe HEC were right.. awks. #YOLO
+		
+		//Finalises JSON by closing the turns array
 		json = json.substring(0, json.length()-1);
-		json += "}";
+		json += "}}";
 		
 		File saveFolder = new File(GameData.SAVE_FOLDER);
 		boolean created = false;
@@ -124,5 +152,9 @@ public class Replay {
 				e.printStackTrace();
 			}
 		}
+
+		//Reopens the turns array incase we need to resave..
+		json = json.substring(0, json.length()-2);
+		json += ",";
 	}
 }

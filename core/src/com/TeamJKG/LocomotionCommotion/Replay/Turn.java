@@ -39,7 +39,7 @@ public class Turn {
 	 * Recursively generates a JSON of the Turn instance and all its variables
 	 * @return JSON of the turn instance
 	 */
-	public String toJSON(ArrayList<String> faultyStations){
+	public String toJSON(ArrayList<String> faultyStations, ArrayList<String> lockedStations, ArrayList<String> unlockedStations){
 		String json = "\"" + String.valueOf(turnCount) + "\": {";
 		json += "\"players\": [";
 		//recursively prints array of players
@@ -52,7 +52,7 @@ public class Turn {
 		}
 		json += "],";
 		
-		//prints array of stations
+		//adds array of faulty stations
 		json += "\"faultyStations\": [";
 		for(int i = 0; i < faultyStations.size(); i++){
 			json += "\"" + faultyStations.get(i) + "\"";
@@ -60,7 +60,26 @@ public class Turn {
 				json += ",";
 			}
 		}
+		json += "],";
 		
+		//adds array of locked stations
+		json += "\"lockedStations\": [";
+		for(int i = 0; i < lockedStations.size(); i++){
+			json += lockedStations.get(i);
+			if((i+1) < lockedStations.size()){
+				json += ",";
+			}
+		}
+		json += "],";
+
+		//adds array of locked stations
+		json += "\"unlockedStations\": [";
+		for(int i = 0; i < unlockedStations.size(); i++){
+			json += unlockedStations.get(i);
+			if((i+1) < unlockedStations.size()){
+				json += ",";
+			}
+		}
 		json += "]}";
 		return json;
 	}

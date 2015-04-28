@@ -26,6 +26,7 @@ public class StationTest {
 	int rentValueMod;
 	float x;
 	float y;
+	boolean locked;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -38,8 +39,9 @@ public class StationTest {
 		rentValue = 500;
 		x = 0.5f;
 		y = 0.5f;
+		locked = false;
 		
-		tester = new Station(stationName, baseValue, resourceType, baseFuelOut, line, rentValue, x, y);
+		tester = new Station(stationName, baseValue, resourceType, baseFuelOut, line, rentValue, x, y, false);
 	}
 	@Test
 	public void testStation() {
@@ -53,18 +55,22 @@ public class StationTest {
 		assertTrue("Station line was not correctly initialised", tester.getLineType() == line);
 		assertTrue("Station rentValue was not correctly initialised", tester.getBaseRentValue() == rentValue);
 		assertTrue("Station rentValueMod was not correctly initialised", tester.getRentValueMod() == 0);
+		assertTrue("Station locked was not correctly initialised", tester.isLocked() == locked);
 		//Actors can no longer be accessed through JUnit due to issues with it's interaction with Gdx.graphics;
 		//assertTrue("Actor object was not set correctly", tester.getActor().actorX == x && tester.getActor().actorY == y);
 	}
 	
-/*	Cannot Test until InIntialiser Error is fixed	
-	@Test 
-	public void testtoggleLocked() {
-		boolean temp = tester.isLocked(); //returns current state of Lock attribute of Station
-		tester.toggleLocked();
-		assertTrue("toggleLocked method did not work", tester.isLocked() != temp);
+	@Test
+	public void LockStationTest() {
+		tester.lock(true);
 		
+		assertTrue("Station was not correctly locked", tester.isLocked() == true);
 	}
-*/
-
+	
+	@Test
+	public void UnlockStationTest() {
+		tester.lock(false);
+		
+		assertTrue("Station was not correctly unlocked", tester.isLocked() == false);
+	}
 }

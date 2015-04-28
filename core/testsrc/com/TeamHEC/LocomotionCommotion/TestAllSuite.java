@@ -14,13 +14,16 @@ import com.TeamHEC.LocomotionCommotion.Goal.DijkstraTest;
 import com.TeamHEC.LocomotionCommotion.Goal.EdgeTest;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalFactoryTest;
 import com.TeamHEC.LocomotionCommotion.Goal.GoalGenerationAlgorithmTest;
+import com.TeamHEC.LocomotionCommotion.Goal.GoalTest;
 import com.TeamHEC.LocomotionCommotion.Goal.NodeTest;
 import com.TeamHEC.LocomotionCommotion.Map.ConnectionTest;
 import com.TeamHEC.LocomotionCommotion.Map.MapObjTest;
 import com.TeamHEC.LocomotionCommotion.Map.StationTest;
+import com.TeamHEC.LocomotionCommotion.Map.WorldMapTest;
 import com.TeamHEC.LocomotionCommotion.Obstacle.ObstacleTest;
 import com.TeamHEC.LocomotionCommotion.Player.PlayerTest;
 import com.TeamHEC.LocomotionCommotion.Player.ShopTest;
+import com.TeamHEC.LocomotionCommotion.Train.RouteTest;
 import com.TeamHEC.LocomotionCommotion.Train.TrainTest;
 
 @RunWith(Suite.class)
@@ -36,8 +39,9 @@ import com.TeamHEC.LocomotionCommotion.Train.TrainTest;
 	EdgeTest.class,
 	GoalFactoryTest.class,
 	GoalGenerationAlgorithmTest.class,
-	//GoalTest.class,
+	GoalTest.class,
 	NodeTest.class,
+	WorldMapTest.class,
 	ConnectionTest.class,
 	MapObjTest.class,
 	StationTest.class,

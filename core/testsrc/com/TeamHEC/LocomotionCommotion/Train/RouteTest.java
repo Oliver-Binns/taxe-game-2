@@ -12,6 +12,7 @@ import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.Card.Card;
 import com.TeamHEC.LocomotionCommotion.Goal.Goal;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
+import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.Map.WorldMap;
 import com.TeamHEC.LocomotionCommotion.Mocking.GdxTestRunner;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
@@ -29,6 +30,13 @@ import com.TeamHEC.LocomotionCommotion.Resource.Oil;
 public class RouteTest {
 	
 	Train train;
+	float stationAx;
+	float stationAy;
+	float stationBx;
+	float stationBy;
+	float trainX;
+	float trainY;
+	Station stationB;
 	
 	@Before
 	public void setUp() throws Exception {
@@ -61,6 +69,12 @@ public class RouteTest {
 		train.route.train = train;
 		
 		// Add reykjavik > Oslo
+		stationBx = train.route.getAdjacentConnections().get(0).getDestination().getStation().x;
+		stationBy = train.route.getAdjacentConnections().get(0).getDestination().getStation().y;
+		stationAx = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].x;
+		stationAy = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].y;
+		stationB = train.route.getAdjacentConnections().get(0).getDestination().getStation();
+		
 		train.route.addConnection(train.route.getAdjacentConnections().get(0));
 	}
 
@@ -70,12 +84,9 @@ public class RouteTest {
 		// Reyk = 211f, 820f
 		// Olso = 731f, 820f
 		
-		float trainX = train.route.getTrainPos().x;
-		float trainY = train.route.getTrainPos().y;
-		float stationAx = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].x + 19.5f;
-		float stationAy = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].y + 19.5f;
-		float stationBx = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].x + 19.5f;
-		float stationBy = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].y + 19.5f;
+		trainX = train.route.getTrainPos().x;
+		trainY = train.route.getTrainPos().y;
+		
 		
 		assertTrue("Train coordinates do not match start of route",
 				train.route.getTrainPos().x == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].x && train.route.getTrainPos().y == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].y);
@@ -90,13 +101,13 @@ public class RouteTest {
 				Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2 ) == Math.pow(train.fuelPerTurn, 2));
 		
 		assertTrue("Train is not on track",
-				(Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) >= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) - 2) && (Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) <= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) + 2));
+				(Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) >= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) - 15) && (Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) <= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) + 15));
 		
 		// Go to the end of the route:
-		train.route.update(2000);
+		train.route.update(20000);
 		
-		assertTrue("Train not in OLSO", train.route.getTrainPos().x == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].x &&
-				train.route.getTrainPos().y == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].y);
+		assertTrue("Train not in OLSO", train.route.getTrainPos().x == stationBx &&
+				train.route.getTrainPos().y == stationBy);
 	}
 	
 	@Test
@@ -109,14 +120,19 @@ public class RouteTest {
 		Route newRoute = new Route(tempRoute, 0, 10f);
 		
 		// If the route loaded correctly, the train position should be reky.x + 10
-		assertTrue("old route loaded incorrectly", newRoute.getTrainPos().x == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].x + 10);
+		assertTrue("Train did not travel correct distance",
+				Math.pow(newRoute.getTrainPos().x - stationAx, 2) + Math.pow(newRoute.getTrainPos().y - stationAy, 2 ) == Math.pow(train.fuelPerTurn, 2));
+		
+		assertTrue("Train is not on track",
+				(Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationAx, 2) + Math.pow(newRoute.getTrainPos().y - stationAy, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationBx, 2) + Math.pow(newRoute.getTrainPos().y - stationBy, 2)) >= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) - 15) && (Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationAx, 2) + Math.pow(newRoute.getTrainPos().y - stationAy, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationBx, 2) + Math.pow(newRoute.getTrainPos().y - stationBy, 2)) <= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) + 15));
+		
 
 		// Add olso to stock
 		tempRoute.add(newRoute.getAdjacentConnections().get(0));
 		
 		// routeIndex = 1 and connectionTravelled = 0 therefore train in olso
 		Route anotherRoute = new Route(tempRoute, 1, 0f);
-		assertTrue("", anotherRoute.getTrainPos().x == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].x && anotherRoute.getTrainPos().y == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].y);
+		assertTrue("", anotherRoute.getTrainPos().x == stationBx && anotherRoute.getTrainPos().y == stationBy);
 	}
 
 	@Test
@@ -126,13 +142,14 @@ public class RouteTest {
 		train.route.addConnection(train.route.getAdjacentConnections().get(0));
 		
 		assertTrue("RouteLength != reky>oslo + oslo>stockholm", train.route.getTotalLength() == (WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].connections.get(0).getLength() +
-				WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].connections.get(0).getLength()));
+				stationB.connections.get(0).getLength()));
 		
 		// Add Stockholm > Warsaw
+		Station stationC = train.route.getAdjacentConnections().get(0).getDestination().getStation();
 		train.route.addConnection(train.route.getAdjacentConnections().get(1));
 		
 		assertTrue("RouteLength != reky>oslo + oslo>stock + stock>warsaw", train.route.getTotalLength() == (WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].connections.get(0).getLength() +
-				WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].connections.get(0).getLength() + WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[2].connections.get(1).getLength()));	
+				stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()));	
 	}
 
 	@Test
@@ -168,7 +185,7 @@ public class RouteTest {
 		float connectionLength = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].connections.get(0).getLength();
 		train.route.update(connectionLength);
 		
-		assertTrue("train not in OSLO", train.route.getStation() == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1]);
+		assertTrue("train not in OSLO", train.route.getStation() == stationB);
 		
 		// Add Oslo > Stockholm
 		train.route.addConnection(train.route.getAdjacentConnections().get(0));

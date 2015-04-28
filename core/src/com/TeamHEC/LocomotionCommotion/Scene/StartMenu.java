@@ -35,7 +35,6 @@ public class StartMenu extends Scene{
     public static final int MIN_NAME_LENGTH = 1;
 
 	private Sprite sm_main_title, sm_main_lines;
-	@SuppressWarnings("unused")
 	private SpriteButton newGameButton, loadGameButton, preferencesButton, editMapButton, exitButton;
 
 	//Start Menu NewGame Page
@@ -124,7 +123,7 @@ public class StartMenu extends Scene{
 		};
 		actors.add(newGameButton);
 
-		loadGameButton = new SpriteButton(600, 406, SM_TextureManager.getInstance().sm_main_loadgamebtn){
+		loadGameButton = new SpriteButton(590, 406, SM_TextureManager.getInstance().sm_main_loadgamebtn){
 
 			@Override
 			public void onClicked()
@@ -187,7 +186,7 @@ public class StartMenu extends Scene{
 		//loadGameButton opens the replay mode
 		actors.add(loadGameButton);
 
-		preferencesButton = new SpriteButton(590, 330, SM_TextureManager.getInstance().sm_main_preferencesbtn){
+		preferencesButton = new SpriteButton(590, 255, SM_TextureManager.getInstance().sm_main_preferencesbtn){
 
 			@Override
 			public void onClicked()
@@ -236,7 +235,7 @@ public class StartMenu extends Scene{
         // Not yet implemented. Hidden.
         actors.add(preferencesButton);
 
-		editMapButton = new SpriteButton(590, 255, SM_TextureManager.getInstance().sm_main_howtoplaybtn){
+		editMapButton = new SpriteButton(590, 330, SM_TextureManager.getInstance().sm_main_howtoplaybtn){
 			@Override
 			public void onClicked()
 			{

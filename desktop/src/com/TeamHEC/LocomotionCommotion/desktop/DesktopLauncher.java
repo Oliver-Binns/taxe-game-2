@@ -1,6 +1,9 @@
 package com.TeamHEC.LocomotionCommotion.desktop;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -13,5 +16,6 @@ public class DesktopLauncher {
 		config.fullscreen = false;
 		config.samples = 4;
 		config.vSyncEnabled = true;
+//		config.addIcon(Gdx.files.internal("Icon.png"), Files.FileType.Internal);
 	}
 }

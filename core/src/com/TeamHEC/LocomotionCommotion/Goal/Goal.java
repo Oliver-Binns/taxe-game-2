@@ -206,27 +206,20 @@ public class Goal implements RouteListener{
 	public void stationPassed(Station station, Train train)
 	{
 			if(train != this.train) return;
-		
-			System.out.println(train.getName() +" passed " + station.getName());
 			
 			if(station.equals(sStation))
 			{
 				startStationPassed = true;
-				System.out.println("start passed");
 			}
 			if(startStationPassed && station.equals(fStation))
 			{
 				finalStationPassed = true;
-				System.out.println("final passed");
 			}
 			
 			if(startStationPassed && !station.equals(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[0])
 					&& !station.equals(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).junctionList()[1])){
 				currentTime++;
 			}
-			
-			System.out.println("\n CurrentTime = " + currentTime);
-			System.out.println("\n TimeConstraint = " + timeConstraint + "\n");
 						
 			if(startStationPassed && finalStationPassed && isAbsolute())
 				goalComplete();

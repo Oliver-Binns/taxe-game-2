@@ -147,8 +147,7 @@ public class Game_CardHand {
 					}
 				}
 
-				GameScreen.game.getPlayerTurn().getCards().remove(selectedCard-1)	;
-				System.out.println(GameScreen.game.getPlayerTurn().getCards());
+				GameScreen.game.getPlayerTurn().getCards().remove(selectedCard-1);
 				Game_CardHand.actorManager.selectedCard = 0;											//No card is selected
 				cardactors.get(Game_CardHand.actorManager.numberofcards-1).setEmpty(true);					//Set the end slot as empty and hidden
 				cardactors.get(Game_CardHand.actorManager.numberofcards-1).setVisible(false);

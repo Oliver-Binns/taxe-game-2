@@ -64,6 +64,8 @@ public class GoalTest {
 	public void setUp() throws Exception {
     	GameData.TEST_CASE = true;
         wm = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP);
+        
+        wm.reset();
 
         //GoalFactory gf = new GoalFactory(1);
 		//goal = gf.CreateRandomGoal();    //Random goals are tested in GoalFactoryTest

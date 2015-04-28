@@ -381,10 +381,6 @@ public class Player implements RouteListener{
 
 	@Override
 	public void stationPassed(Station station, Train train) {
-		// TODO Auto-generated method stub
-
-		System.out.println("Train passed " + station.getName());
-
 		// STATION TAX:
 		// RENT IS CURRENTLY NOT IMPLEMENTED AS UI DOES NOT CURRENTLY SUPPORT
 		/*

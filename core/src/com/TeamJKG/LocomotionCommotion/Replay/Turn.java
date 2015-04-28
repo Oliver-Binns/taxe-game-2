@@ -15,20 +15,21 @@ public class Turn {
 	
 	/**
 	 * Creates an instance of the turn class. This is used in the replay functionality within the game
-	 * @param turnCount
-	 * @param playerCount
+	 * @param the number of the current turn
+	 * @param the number of players in the game
 	 */
 	public Turn(int turnCount, int playerCount){
 		this.turnCount = turnCount;
+		//Creates a list of 
 		players = new Player[playerCount];
 	}
 	/**
 	 * adds the players to the turn class at the end of the turn
-	 * @param listOfPlayers
+	 * @param list of current players
 	 */
 	public void addPlayers(Player[] listOfPlayers){
 		/** 
-		 * just in case!
+		 * just in case there are more than two players
 		 */
 		for(int i = 0; i < players.length; i++){
 			players[i] = listOfPlayers[i];

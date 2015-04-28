@@ -6,6 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
+import com.TeamHEC.LocomotionCommotion.Map.Junction;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.GameScreenUI;
@@ -37,7 +38,12 @@ public class Route{
 	public String toJSON(){
 		String json = "{";
 		if(inStation()){
-			json += "\"station\": \"" + getStation().getName() + "\",";
+			if(getStation() != null){
+				json += "\"station\": \"" + getStation().getName() + "\",";
+			}
+			else{
+				json += "\"junction\": \"" + getJunction().getName()  + "\",";
+			}
 		}	
 		json += "\"connections\" : [";
 		for(int i = 0; i < path.size(); i++){
@@ -448,6 +454,44 @@ public class Route{
 				return true;
 			else
 				return false;
+		}
+	}
+	/**
+	 * 
+	 */
+	public Junction getJunction()
+	{
+		if(path.isEmpty())
+		{
+			if(currentMapObj instanceof Junction){
+				return (Junction)currentMapObj;
+			}
+			else{
+				return null;
+			}
+		}
+		else
+		{
+			float connectionLength = path.get(routeIndex).getLength();
+			if(connectionTravelled == 0){
+				if(path.get(routeIndex).getStartMapObj() instanceof Junction){
+					return (Junction)path.get(routeIndex).getStartMapObj();
+				}
+				else{
+					return null;
+				}
+			}
+			else if(connectionTravelled == connectionLength){
+				if(path.get(routeIndex).getDestination() instanceof Junction){
+					return (Junction)path.get(routeIndex).getDestination();
+				}
+				else{
+					return null;
+				}
+			}
+			else{
+				return null;
+			}
 		}
 	}
 	

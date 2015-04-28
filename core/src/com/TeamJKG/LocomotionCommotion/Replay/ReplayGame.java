@@ -11,6 +11,7 @@ import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.Line;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
 import com.TeamHEC.LocomotionCommotion.Map.Station;
+import com.TeamHEC.LocomotionCommotion.MapActors.Game_Map_Manager;
 import com.TeamHEC.LocomotionCommotion.Obstacle.Obstacle;
 import com.TeamHEC.LocomotionCommotion.Player.Player;
 import com.TeamHEC.LocomotionCommotion.Train.CoalTrain;
@@ -131,6 +132,23 @@ public class ReplayGame extends CoreGame {
         
         //Add any train routings the user created on this turn.
       	addNewConnections();
+      	
+      	if(!paused){
+      		//If the game is not paused, we may need to run the game..
+	      	boolean trainsNeedUpdate = false;
+	      	for(int i = 0; i < playerTurn.getTrains().size(); i++){
+	      		if(playerTurn.getTrains().get(i).getRoute().isComplete()){
+	      			trainsNeedUpdate = false;
+	      		}
+	      		else{
+	      			trainsNeedUpdate = true;
+	      		}
+	      	}
+	      	System.out.println(Game_Map_Manager.isMoving);
+	      	if(Game_Map_Manager.isMoving <= 0){
+	      		GameScreenUI.EndTurn();
+	      	}
+      	}
 	}
 	
 	/**

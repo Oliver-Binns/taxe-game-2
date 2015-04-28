@@ -10,12 +10,13 @@ public final class GameData {
 	public static int RESOLUTION_WIDTH = 1680;
 	public static int FOV = 90;
 	public static boolean EDITING = false;
-	public static String CURRENT_MAP = "Map1";
+	public static String CURRENT_MAP = "Europe";
 	public static HashMap<String, String> DEFAULT_MAP_STRING;
 	static
 	{
 		DEFAULT_MAP_STRING = new HashMap<String, String>();
-		DEFAULT_MAP_STRING.put("Map1", Gdx.files.internal("Map1.json").readString());
+		DEFAULT_MAP_STRING.put("Europe", Gdx.files.internal("Map1.json").readString());
+		DEFAULT_MAP_STRING.put("London Underground", Gdx.files.internal("London Underground.json").readString());
 	}
 	
 	public static String GAME_FOLDER = System.getProperty("user.home") + 

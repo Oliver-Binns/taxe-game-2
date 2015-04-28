@@ -1,7 +1,9 @@
 package com.TeamHEC.LocomotionCommotion.Scene;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileReader;
+import java.net.URL;
 
 import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
@@ -10,6 +12,7 @@ import com.TeamHEC.LocomotionCommotion.UI_Elements.Sprite;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.SpriteButton;
 import com.TeamHEC.LocomotionCommotion.UI_Elements.WarningMessage;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -32,7 +35,6 @@ public class StartMenu extends Scene{
     public static final int MIN_NAME_LENGTH = 1;
 
 	private Sprite sm_main_title, sm_main_lines;
-	@SuppressWarnings("unused")
 	private SpriteButton newGameButton, loadGameButton, preferencesButton, editMapButton, exitButton;
 
 	//Start Menu NewGame Page
@@ -55,7 +57,7 @@ public class StartMenu extends Scene{
 
 	private SpriteButton displayButton, soundButton, controlButton;
 	private SpriteButton homeButton, nextButton, prevButton, preferencesBackButton;
-
+	
 	// Other stuff
 
 	public static String gameMode, player1name, player2name;
@@ -63,7 +65,7 @@ public class StartMenu extends Scene{
 	public static TextField textbox1, textbox2;
 	
 	//Uncomment for music variable to be used
-	//private static Music mainMusic;
+	private static Music mainMusic;
 
 	public StartMenu()
 	{
@@ -78,9 +80,9 @@ public class StartMenu extends Scene{
 		actors.add(sm_newgame_menutext);
 		
 		//We can add music to the game with these lines:
-		//mainMusic = Gdx.audio.newMusic(Gdx.files.internal("Sound/elevator.mp3"));
-		//mainMusic.setLooping(true);
-		//mainMusic.play();
+		mainMusic = Gdx.audio.newMusic(Gdx.files.internal("Sound/elevator.mp3"));
+		mainMusic.setLooping(true);
+		mainMusic.play();
 		
 		//Add a new warning message?
 		WarningMessage warningMessage = new WarningMessage();
@@ -121,7 +123,7 @@ public class StartMenu extends Scene{
 		};
 		actors.add(newGameButton);
 
-		loadGameButton = new SpriteButton(600, 406, SM_TextureManager.getInstance().sm_main_loadgamebtn){
+		loadGameButton = new SpriteButton(590, 406, SM_TextureManager.getInstance().sm_main_loadgamebtn){
 
 			@Override
 			public void onClicked()
@@ -184,15 +186,19 @@ public class StartMenu extends Scene{
 		//loadGameButton opens the replay mode
 		actors.add(loadGameButton);
 
-		preferencesButton = new SpriteButton(590, 330, SM_TextureManager.getInstance().sm_main_preferencesbtn){
+		preferencesButton = new SpriteButton(590, 255, SM_TextureManager.getInstance().sm_main_preferencesbtn){
 
 			@Override
 			public void onClicked()
 			{
-				started = true;
+			    try {
+			        Desktop.getDesktop().browse(new URL("http://sepr-jkg.oliverbinns.co.uk").toURI());
+			    } catch (Exception e) {
+			        e.printStackTrace();
+				}
 			}
 
-			int animationTracker1, animationTracker2, animationTracker3;
+			/*int animationTracker1, animationTracker2, animationTracker3;
 
 			@Override
 			public void act(float delta)
@@ -223,13 +229,13 @@ public class StartMenu extends Scene{
 						}
 					}
 				}
-			}
+			}*/
 
 		};
         // Not yet implemented. Hidden.
-        // actors.add(preferencesButton);
+        actors.add(preferencesButton);
 
-		editMapButton = new SpriteButton(590, 255, SM_TextureManager.getInstance().sm_main_howtoplaybtn){
+		editMapButton = new SpriteButton(590, 330, SM_TextureManager.getInstance().sm_main_howtoplaybtn){
 			@Override
 			public void onClicked()
 			{

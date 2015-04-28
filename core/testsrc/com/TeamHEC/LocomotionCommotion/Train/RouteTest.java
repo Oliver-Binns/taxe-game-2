@@ -90,7 +90,7 @@ public class RouteTest {
 				Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2 ) == Math.pow(train.fuelPerTurn, 2));
 		
 		assertTrue("Train is not on track",
-				(Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) > Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) + 2) || (Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2))  Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) - 2));
+				(Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) >= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) - 2) && (Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) <= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) + 2));
 		
 		// Go to the end of the route:
 		train.route.update(2000);

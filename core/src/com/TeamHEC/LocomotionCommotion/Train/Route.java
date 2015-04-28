@@ -3,6 +3,7 @@ package com.TeamHEC.LocomotionCommotion.Train;
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.TeamHEC.LocomotionCommotion.GameData;
 import com.TeamHEC.LocomotionCommotion.LocomotionCommotion;
 import com.TeamHEC.LocomotionCommotion.Map.Connection;
 import com.TeamHEC.LocomotionCommotion.Map.MapObj;
@@ -220,27 +221,31 @@ public class Route{
 	{
 		// Charging the player for the fuel needed or displaying an error message if insufficient:
 		int fuelCost = train.getFuelLengthCost(connection.getLength());
-		if(LocomotionCommotion.isReplay || fuelCost <= train.getOwner().getFuel(train.getFuelType()))
+		if(fuelCost <= train.getOwner().getFuel(train.getFuelType()) || LocomotionCommotion.isReplay)
 		{
 			train.getOwner().subFuel(train.getFuelType(), fuelCost);
 			
 			//Discards old selections so they cannot be clicked on:
-			ArrayList<Connection> oldConnections = connection.getStartMapObj().connections;
-			for(Connection c : oldConnections)
-			{
-				c.getDestination().getActor().setRouteAvailable(false);
-				c.getDestination().getActor().toggleHighlight(false);
+			if(!GameData.TEST_CASE){
+				ArrayList<Connection> oldConnections = connection.getStartMapObj().connections;
+				for(Connection c : oldConnections)
+				{
+					c.getDestination().getActor().setRouteAvailable(false);
+					c.getDestination().getActor().toggleHighlight(false);
+				}
 			}
 			
 			// Adds the connection to route ArrayList:
 			path.add(connection);
 			
 			// Makes the new adjacent connections clickable:
-			ArrayList<Connection> adj = getAdjacentConnections();	
-			for(Connection c: adj)
-			{
-				c.getDestination().getActor().setRouteAvailable(train, c);
-				c.getDestination().getActor().toggleHighlight(true);
+			if(!GameData.TEST_CASE){
+				ArrayList<Connection> adj = getAdjacentConnections();	
+				for(Connection c: adj)
+				{
+					c.getDestination().getActor().setRouteAvailable(train, c);
+					c.getDestination().getActor().toggleHighlight(true);
+				}
 			}
 			
 			// Shows the UI blips for that connection:

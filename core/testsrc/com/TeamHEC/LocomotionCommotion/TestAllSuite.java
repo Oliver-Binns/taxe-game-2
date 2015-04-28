@@ -41,7 +41,7 @@ import com.TeamHEC.LocomotionCommotion.Train.TrainTest;
 	GoalGenerationAlgorithmTest.class,
 	GoalTest.class,
 	NodeTest.class,
-	//WorldMapTest.class,
+	WorldMapTest.class,
 	ConnectionTest.class,
 	MapObjTest.class,
 	StationTest.class,

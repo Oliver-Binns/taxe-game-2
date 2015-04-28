@@ -10,7 +10,7 @@ public final class GameData {
 	public static int RESOLUTION_WIDTH = 1680;
 	public static int FOV = 90;
 	public static boolean EDITING = false;
-	public static String CURRENT_MAP = "Map1";
+	public static String CURRENT_MAP = "Europe";
 	public static HashMap<String, String> DEFAULT_MAP_STRING;
 	static
 	{

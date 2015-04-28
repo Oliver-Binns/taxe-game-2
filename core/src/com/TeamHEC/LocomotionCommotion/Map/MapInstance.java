@@ -467,11 +467,11 @@ public class MapInstance {
 			for(Line l : s.getLineType()) {
 				jMap = jMap + "\"" + l.toString() + "\",";
 			}
-			jMap = jMap.substring(0,  jMap.length() - 1) + "],\"Rent\" : " + s.getBaseRentValue() + ",\"Location\" : [" + s.x + "," + s.y + "],\"Locked\" : " + s.isLocked() + "},\n";
+			jMap = jMap.substring(0,  jMap.length() - 1) + "],\"Rent\" : " + s.getBaseRentValue() + ",\"Location\" : [" + s.x + "," + s.y + "],\"Locked\" : " + s.isLocked() + "},";
 		}
 		
 		if(stations.keySet().size() > 0) {
-			jMap = jMap.substring(0, jMap.length() - 1) + "\t],\"Junctions\" : [";
+			jMap = jMap.substring(0, jMap.length() - 1) + "\n\t],\"Junctions\" : [";
 		} else {
 			jMap = jMap + "\n\t],\"Junctions\" : [";
 		}
@@ -508,9 +508,9 @@ public class MapInstance {
 		}
 		
 		if(connectionExist) {
-			jMap = jMap.substring(0, jMap.length() - 1) + "\t]\n}";
+			jMap = jMap.substring(0, jMap.length() - 1) + "\n\t]\n}";
 		} else {
-			jMap = jMap + "\t]\n}";
+			jMap = jMap + "\n\t]\n}";
 		}
 		
 		return jMap;

@@ -62,9 +62,11 @@ public class WorldMap {
 	 */
 	private void createDefaultFile() {
 		try {
-			PrintWriter out = new PrintWriter(GameData.MAP_FOLDER + System.getProperty("file.separator") + "Map1.json");
-			out.println(GameData.DEFAULT_MAP_STRING);
-			out.close();
+			for(String map : GameData.DEFAULT_MAP_STRING.keySet()) {
+				PrintWriter out = new PrintWriter(GameData.MAP_FOLDER + System.getProperty("file.separator") + map + ".json");
+				out.println(GameData.DEFAULT_MAP_STRING.get(map));
+				out.close();
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

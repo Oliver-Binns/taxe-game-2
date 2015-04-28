@@ -470,30 +470,48 @@ public class MapInstance {
 			jMap = jMap.substring(0,  jMap.length() - 1) + "],\"Rent\" : " + s.getBaseRentValue() + ",\"Location\" : [" + s.x + "," + s.y + "],\"Locked\" : " + s.isLocked() + "},\n";
 		}
 		
-		jMap = jMap + "\t],\"Junctions\" : [";
+		if(stations.keySet().size() > 0) {
+			jMap = jMap.substring(0, jMap.length() - 1) + "\t],\"Junctions\" : [";
+		} else {
+			jMap = jMap + "\n\t],\"Junctions\" : [";
+		}
 		
 		for(Junction j : junctions.values()) {
 			jMap = jMap + "\n\t\t{\"Location\" : [" + j.x + "," + j.y + "],\"Name\" : \"" + j.getName() + "\",\"Locked\" : " + j.isLocked() + "},";
 		}
 		
-		jMap = jMap + "\t],\"Connections\" : [";
+		if(junctions.keySet().size() > 0) {
+			jMap = jMap.substring(0, jMap.length() - 1) + "\n\t],\"Connections\" : [";
+		} else {
+			jMap = jMap + "\n\t],\"Connections\" : [";
+		}
+		
+		boolean connectionExist = false;
 		
 		for(MapObj m : mapObjList()) {
-			jMap = jMap + "\n\t\t{\"StartPoint\" : \"" + m.getName() + "\",\"EndPoints\" : [";
+			if(!m.connections.isEmpty()) {
+				connectionExist = true;
+				jMap = jMap + "\n\t\t{\"StartPoint\" : \"" + m.getName() + "\",\"EndPoints\" : [";
 			
-			for(Connection c : m.connections) {
-				jMap = jMap + "\"" + c.getDestination().getName() + "\",";
+				for(Connection c : m.connections) {
+					jMap = jMap + "\"" + c.getDestination().getName() + "\",";
+				}
+				
+				jMap = jMap.substring(0, jMap.length() - 1) + "],\"Colours\" : [";
+				
+				for(Connection c : m.connections) {
+					jMap = jMap + "\"" + c.getColour() + "\",";
+				}
+				
+				jMap = jMap.substring(0, jMap.length() - 1) + "]},";
 			}
-			
-			jMap = jMap.substring(0, jMap.length() - 1) + "],\"Colours\" : [";
-			
-			for(Connection c : m.connections) {
-				jMap = jMap + "\"" + c.getColour() + "\",";
-			}
-			
-			jMap = jMap.substring(0, jMap.length() - 1) + "]},\n";
 		}
-		jMap = jMap + "\t]\n}";
+		
+		if(connectionExist) {
+			jMap = jMap.substring(0, jMap.length() - 1) + "\t]\n}";
+		} else {
+			jMap = jMap + "\t]\n}";
+		}
 		
 		return jMap;
 	}

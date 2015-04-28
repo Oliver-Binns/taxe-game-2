@@ -1,5 +1,7 @@
 package com.TeamHEC.LocomotionCommotion;
 
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 
 public final class GameData {
@@ -9,7 +11,13 @@ public final class GameData {
 	public static int FOV = 90;
 	public static boolean EDITING = false;
 	public static String CURRENT_MAP = "Map1";
-	public static String DEFAULT_MAP_STRING = Gdx.files.internal("Map1.json").readString();
+	public static HashMap<String, String> DEFAULT_MAP_STRING;
+	static
+	{
+		DEFAULT_MAP_STRING = new HashMap<String, String>();
+		DEFAULT_MAP_STRING.put("Map1", Gdx.files.internal("Map1.json").readString());
+	}
+	
 	public static String GAME_FOLDER = System.getProperty("user.home") + 
 			System.getProperty("file.separator") + 
 			"LocomotionCommotion" + 

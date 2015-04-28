@@ -32,7 +32,8 @@ public class RouteTest {
 	
 	@Before
 	public void setUp() throws Exception {
-				
+			
+		GameData.TEST_CASE = true;
 		String name = "Player 1";
 		int points = 0;
 		Gold gold = new Gold(1000);
@@ -69,14 +70,27 @@ public class RouteTest {
 		// Reyk = 211f, 820f
 		// Olso = 731f, 820f
 		
+		float trainX = train.route.getTrainPos().x;
+		float trainY = train.route.getTrainPos().y;
+		float stationAx = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].x + 19.5f;
+		float stationAy = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].y + 19.5f;
+		float stationBx = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].x + 19.5f;
+		float stationBy = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[1].y + 19.5f;
+		
 		assertTrue("Train coordinates do not match start of route",
 				train.route.getTrainPos().x == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].x && train.route.getTrainPos().y == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].y);
 		
 		// As Oslo and Reky have the same y coordinate, the x coordinate should be reyk + 10:
 		train.route.update(10);
 		
-		assertTrue("Train coordinates do not match REYK.x + 10",
-				train.route.getTrainPos().x == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].x + 10 && train.route.getTrainPos().y == WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].y);
+		trainX = train.route.getTrainPos().x;
+		trainY = train.route.getTrainPos().y;
+		
+		assertTrue("Train did not travel correct distance",
+				Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2 ) == Math.pow(train.fuelPerTurn, 2));
+		
+		assertTrue("Train is not on track",
+				(Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) >= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) - 2) && (Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) <= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) + 2));
 		
 		// Go to the end of the route:
 		train.route.update(2000);

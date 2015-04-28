@@ -226,9 +226,10 @@ public class Route{
 			train.getOwner().subFuel(train.getFuelType(), fuelCost);
 			
 			//Discards old selections so they cannot be clicked on:
-			ArrayList<Connection> oldConnections = connection.getStartMapObj().connections;
-			if(!GameData.TEST_CASE) {
-				for(Connection c : oldConnections) {
+			if(!GameData.TEST_CASE){
+				ArrayList<Connection> oldConnections = connection.getStartMapObj().connections;
+				for(Connection c : oldConnections)
+				{
 					c.getDestination().getActor().setRouteAvailable(false);
 					c.getDestination().getActor().toggleHighlight(false);
 				}
@@ -238,9 +239,10 @@ public class Route{
 			path.add(connection);
 			
 			// Makes the new adjacent connections clickable:
-			ArrayList<Connection> adj = getAdjacentConnections();	
-			if(!GameData.TEST_CASE) {
-				for(Connection c: adj) {
+			if(!GameData.TEST_CASE){
+				ArrayList<Connection> adj = getAdjacentConnections();	
+				for(Connection c: adj)
+				{
 					c.getDestination().getActor().setRouteAvailable(train, c);
 					c.getDestination().getActor().toggleHighlight(true);
 				}

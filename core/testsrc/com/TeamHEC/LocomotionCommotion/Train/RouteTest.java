@@ -143,7 +143,7 @@ public class RouteTest {
 		Station stationC = train.route.getAdjacentConnections().get(1).getDestination().getStation();
 		train.route.addConnection(train.route.getAdjacentConnections().get(1));
 		
-		assertTrue("RouteLength != reky>oslo + oslo>stock + stock>warsaw", train.route.getTotalLength() - 0.1f >= (stationA.connections.get(0).getLength() + stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()) && train.route.getTotalLength() + 0.1f <= (stationA.connections.get(0).getLength() + stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()));	
+		assertTrue("RouteLength != reky>oslo + oslo>stock + stock>warsaw", train.route.getTotalLength() - 2f <= (stationA.connections.get(0).getLength() + stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()) && train.route.getTotalLength() + 2f >= (stationA.connections.get(0).getLength() + stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()));	
 	}
 
 	@Test

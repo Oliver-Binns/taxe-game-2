@@ -116,7 +116,7 @@ public class RouteTest {
 		
 		// If the route loaded correctly, the train position should be reky.x + 10
 		assertTrue("Train did not travel correct distance",
-				Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2 ) == Math.pow(train.fuelPerTurn, 2));
+				Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2 ) <= Math.pow(train.fuelPerTurn, 2) + 1 && Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2 ) >= Math.pow(train.fuelPerTurn, 2) - 1);
 		
 		assertTrue("Train is not on track",
 				(Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationB.x, 2) + Math.pow(newRoute.getTrainPos().y - stationB.y, 2)) >= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) - 15) && (Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationB.x, 2) + Math.pow(newRoute.getTrainPos().y - stationB.y, 2)) <= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) + 15));

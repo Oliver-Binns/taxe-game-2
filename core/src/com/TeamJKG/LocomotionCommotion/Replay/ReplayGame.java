@@ -104,6 +104,10 @@ public class ReplayGame extends CoreGame {
 		//New Turn Data
 		turnData = (JSONObject) gameData.get(String.valueOf(this.turnCount));
 		//TODO add any cards that have been acquired this turn.
+      	
+		// Add new trains
+		addNewTrains();
+		buyNewStations();
 		
       	// Proceed with the turn
         playerTurn.lineBonuses();
@@ -118,6 +122,9 @@ public class ReplayGame extends CoreGame {
 		updatePlayerScores();
 		updatePlayerCards();
 		updateGoals();
+		
+		//updates the player resources at the bottom of the screen
+      	updateResources();
 
         //Increment all player's goals by one turn in duration
         for ( Goal goal : playerTurn.getGoals()){
@@ -126,13 +133,6 @@ public class ReplayGame extends CoreGame {
         
         //Add any train routings the user created on this turn.
       	addNewConnections();
-      	
-      	//updates the player resources at the bottom of the screen
-      	updateResources();
-      	
-      	// Add new trains
-     	addNewTrains();
-     	buyNewStations();
       	
       	/*if(!paused){
       		//If the game is not paused, we may need to run the game..
@@ -191,7 +191,6 @@ public class ReplayGame extends CoreGame {
 				currTrains = (JSONArray)((JSONObject)currTurn.get(1)).get("Trains");
 			}
 			for(int i = prevTrains.size(); i < currTrains.size(); i++){
-				//NEW TRAIN!
 				System.out.println("Test");
 				JSONObject train = (JSONObject)currTrains.get(i);
 				playerTurn.getShop().buyNewTrain(gameMap.getStationWithName((String)train.get("station")));

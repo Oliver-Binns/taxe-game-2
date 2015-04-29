@@ -572,13 +572,13 @@ public class Player implements RouteListener{
 	 */
 	public String toJSON(){
 		String json = "{";
-		json += "\"name\": \"" + name + "\"";
-		json += ",\"points\": " + String.valueOf(points);
-		json += ",\"Gold\": " + getGold();
-		json += ",\"Coal\": " + getFuel("Coal");
-		json += ",\"Electric\": " + getFuel("Electric");
-		json += ",\"Nuclear\": " + getFuel("Nuclear");
-		json += ",\"Oil\": " + getFuel("Oil");
+		json += "\"name\":\"" + name + "\"";
+		json += ",\"points\":" + String.valueOf(points);
+		json += ",\"Gold\":" + getGold();
+		json += ",\"Coal\":" + getFuel("Coal");
+		json += ",\"Electric\":" + getFuel("Electric");
+		json += ",\"Nuclear\":" + getFuel("Nuclear");
+		json += ",\"Oil\":" + getFuel("Oil");
 		
 		//TODO does shop need to be saved?!
 		json += ",\"Cards\":[";

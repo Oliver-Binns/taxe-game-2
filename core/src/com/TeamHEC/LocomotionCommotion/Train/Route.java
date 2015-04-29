@@ -39,13 +39,13 @@ public class Route{
 		String json = "{";
 		if(inStation()){
 			if(getStation() != null){
-				json += "\"station\": \"" + getStation().getName() + "\",";
+				json += "\"station\":\"" + getStation().getName() + "\",";
 			}
 			else{
-				json += "\"junction\": \"" + getJunction().getName()  + "\",";
+				json += "\"junction\":\"" + getJunction().getName()  + "\",";
 			}
 		}	
-		json += "\"connections\" : [";
+		json += "\"connections\":[";
 		for(int i = 0; i < path.size(); i++){
 			json += path.get(i).toJSON();
 			if(i+1 != path.size()){

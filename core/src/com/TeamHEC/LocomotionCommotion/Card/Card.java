@@ -37,7 +37,7 @@ public abstract class Card {
 	
 	public String toJSON(){
 		String json = "{";
-		json += "\"name\": ";
+		json += "\"name\":";
 		json += "\"" + name + "\"}";
 		return json;
 	}

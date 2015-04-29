@@ -47,16 +47,16 @@ public class Goal implements RouteListener{
 		json += "\"sStation\":" + sStation.toJSON();
 		json += ",\"fStation\":" + fStation.toJSON();
 		json += ",\"timeConstraint\":" + String.valueOf(timeConstraint);
-		json += ",\"cargo\": \"" + cargo + "\"";
+		json += ",\"cargo\":\"" + cargo + "\"";
 		//TODO maybe add special if it's needed?
 		json += ",\"reward\":" + String.valueOf(reward);
-		json += ",\"startDate\": \"" + startDate + "\"";
+		json += ",\"startDate\":\"" + startDate + "\"";
 		//TODO implement trains? Would be nice, but not 100% necessary
-		json += ",\"startStationPassed\": " + String.valueOf(startStationPassed);
-		json += ",\"isAbsolute\": " + String.valueOf(isAbsolute);
-		json += ",\"finalStationPassed\": " + String.valueOf(finalStationPassed);
-		json += ",\"currentTime\": " + String.valueOf(currentTime);
-		json += ",\"currentGoalDuration\": " + String.valueOf(currentGoalDuration);
+		json += ",\"startStationPassed\":" + String.valueOf(startStationPassed);
+		json += ",\"isAbsolute\":" + String.valueOf(isAbsolute);
+		json += ",\"finalStationPassed\":" + String.valueOf(finalStationPassed);
+		json += ",\"currentTime\":" + String.valueOf(currentTime);
+		json += ",\"currentGoalDuration\":" + String.valueOf(currentGoalDuration);
 		json += "}";
 		return json;
 	}

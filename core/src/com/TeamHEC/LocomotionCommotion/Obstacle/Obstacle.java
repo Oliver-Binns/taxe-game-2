@@ -108,11 +108,11 @@ public class Obstacle {
     
     public String toJSON(){
     	String json = "{";
-    	json += "\"name\": \"" + name + "\",";
-    	json += "\"description\": \"" + name + "\",";
-    	json += "\"speedFactor\": " + speedFactor + ",";
-    	json += "\"turnsElapsed\": " + turnsElapsed + ",";
-    	json += "\"totalTurns\": " + totalTurns;
+    	json += "\"name\":\"" + name + "\",";
+    	json += "\"description\":\"" + name + "\",";
+    	json += "\"speedFactor\":" + speedFactor + ",";
+    	json += "\"turnsElapsed\":" + turnsElapsed + ",";
+    	json += "\"totalTurns\":" + totalTurns;
     	json += "}";
     	return json;
     }

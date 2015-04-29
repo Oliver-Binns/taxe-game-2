@@ -107,6 +107,7 @@ public class ReplayGame extends CoreGame {
       	
 		// Add new trains
 		addNewTrains();
+		buyNewStations();
 		
       	// Proceed with the turn
         playerTurn.lineBonuses();
@@ -133,22 +134,41 @@ public class ReplayGame extends CoreGame {
         //Add any train routings the user created on this turn.
       	addNewConnections();
       	
-      	if(!paused){
+      	/*if(!paused){
       		//If the game is not paused, we may need to run the game..
-	      	boolean trainsNeedUpdate = false;
-	      	for(int i = 0; i < playerTurn.getTrains().size(); i++){
-	      		if(playerTurn.getTrains().get(i).getRoute().isComplete()){
-	      			trainsNeedUpdate = false;
-	      		}
-	      		else{
-	      			trainsNeedUpdate = true;
-	      		}
-	      	}
+	      	
 	      	System.out.println(Game_Map_Manager.isMoving);
 	      	if(Game_Map_Manager.isMoving <= 0){
 	      		GameScreenUI.EndTurn();
 	      	}
-      	}
+      	}*/
+	}
+	
+	/**
+	 * Adds any new stations this turn that the player has bought!
+	 */
+	public void buyNewStations(){
+		//Can't buy trains on the first turn- not enough cash
+		//Solves issue of checking if a train is new by looking at previous turn data
+		if(turnCount > 0){
+			JSONArray prevTurn = (JSONArray)((JSONObject)gameData.get(String.valueOf(this.turnCount-1))).get("players");
+			JSONArray currTurn = (JSONArray)turnData.get("players");
+			JSONArray prevStations;
+			JSONArray currStations;
+			if(this.playerTurn.isPlayer1){
+				prevStations = (JSONArray)((JSONObject)prevTurn.get(0)).get("Stations");
+				currStations = (JSONArray)((JSONObject)currTurn.get(0)).get("Stations");
+			}
+			else{
+				prevStations = (JSONArray)((JSONObject)prevTurn.get(1)).get("Stations");
+				currStations = (JSONArray)((JSONObject)currTurn.get(1)).get("Stations");
+			}
+			for(int i = prevStations.size(); i < currStations.size(); i++){
+				System.out.println("Test");
+				JSONObject station = (JSONObject)currStations.get(i);
+				playerTurn.purchaseStation(gameMap.getStationWithName((String)station.get("name")));
+			}
+		}
 	}
 	
 	/**
@@ -171,6 +191,7 @@ public class ReplayGame extends CoreGame {
 				currTrains = (JSONArray)((JSONObject)currTurn.get(1)).get("Trains");
 			}
 			for(int i = prevTrains.size(); i < currTrains.size(); i++){
+				System.out.println("Test");
 				JSONObject train = (JSONObject)currTrains.get(i);
 				playerTurn.getShop().buyNewTrain(gameMap.getStationWithName((String)train.get("station")));
 			}

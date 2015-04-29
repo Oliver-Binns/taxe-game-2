@@ -33,19 +33,19 @@ public abstract class Train {
 	
 	public String toJSON(){
 		String json = "{";
-		json += "\"name\": \"" + name + "\",";
-		json += "\"baseSpeed\": " + baseSpeed + ",";
-		json += "\"speedMod\": " + speedMod + ",";
-		json += "\"Fuel\": \"" + fuel.getType() + "\",";
-		json += "\"fuelPerTurn\": " + fuelPerTurn + ",";
+		json += "\"name\":\"" + name + "\",";
+		json += "\"baseSpeed\":" + baseSpeed + ",";
+		json += "\"speedMod\":" + speedMod + ",";
+		json += "\"Fuel\":\"" + fuel.getType() + "\",";
+		json += "\"fuelPerTurn\":" + fuelPerTurn + ",";
 		//Maybe we should save value? But it currently doesn't do anything afaik!
 		//Maybe we should store inStation? But it we can get that from route on reload?
 		if(hasObstacle()){
-			json += "\"obstacle\": " + obstacle.toJSON() + ",";
+			json += "\"obstacle\":" + obstacle.toJSON() + ",";
 		}
 		
-		//Route saves the position of the train on the map! We need to know this! TODO implement route json!
-		json += "\"route\": " + route.toJSON() + "";
+		//Route saves the position of the train on the map! We need to know this!
+		json += "\"route\":" + route.toJSON() + "";
 		
 		json += "}";
 		return json;

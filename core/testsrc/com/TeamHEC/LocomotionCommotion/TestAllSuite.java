@@ -23,6 +23,7 @@ import com.TeamHEC.LocomotionCommotion.Map.WorldMapTest;
 import com.TeamHEC.LocomotionCommotion.Obstacle.ObstacleTest;
 import com.TeamHEC.LocomotionCommotion.Player.PlayerTest;
 import com.TeamHEC.LocomotionCommotion.Player.ShopTest;
+import com.TeamHEC.LocomotionCommotion.Replay.ReplayTesting;
 import com.TeamHEC.LocomotionCommotion.Train.RouteTest;
 import com.TeamHEC.LocomotionCommotion.Train.TrainTest;
 
@@ -49,7 +50,8 @@ import com.TeamHEC.LocomotionCommotion.Train.TrainTest;
 	PlayerTest.class,
 	ShopTest.class,
 	RouteTest.class,
-	TrainTest.class
+	TrainTest.class,
+	ReplayTesting.class
 })
 
 public class TestAllSuite {

@@ -47,7 +47,7 @@ public class MapObj {
 	 * @return JSON String of this object
 	 */
 	public String toJSON(){
-		return "{\"name\":\"" + name + "\", \"type\":\"mapObj\"}";
+		return "{\"name\":\"" + name + "\",\"type\":\"mapObj\"}";
 	}
 	
 	/**

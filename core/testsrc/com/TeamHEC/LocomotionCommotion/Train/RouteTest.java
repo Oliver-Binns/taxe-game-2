@@ -36,6 +36,7 @@ public class RouteTest {
 	float stationBy;
 	float trainX;
 	float trainY;
+	Station stationA;
 	Station stationB;
 	
 	@Before
@@ -64,7 +65,7 @@ public class RouteTest {
 				cards,	
 				goals,
 				trains);
-				
+		
 		train = new CoalTrain(0, true, new Route(WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0]), player);
 		train.route.train = train;
 		
@@ -73,6 +74,7 @@ public class RouteTest {
 		stationBy = train.route.getAdjacentConnections().get(0).getDestination().getStation().y;
 		stationAx = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].x;
 		stationAy = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].y;
+		stationA = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0];
 		stationB = train.route.getAdjacentConnections().get(0).getDestination().getStation();
 		
 		train.route.addConnection(train.route.getAdjacentConnections().get(0));
@@ -141,15 +143,14 @@ public class RouteTest {
 		// Add Oslo > Stockholm
 		train.route.addConnection(train.route.getAdjacentConnections().get(0));
 		
-		assertTrue("RouteLength != reky>oslo + oslo>stockholm", train.route.getTotalLength() == (WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].connections.get(0).getLength() +
+		assertTrue("RouteLength != reky>oslo + oslo>stockholm", train.route.getTotalLength() == (stationA.connections.get(0).getLength() +
 				stationB.connections.get(0).getLength()));
 		
 		// Add Stockholm > Warsaw
-		Station stationC = train.route.getAdjacentConnections().get(0).getDestination().getStation();
+		Station stationC = train.route.getAdjacentConnections().get(1).getDestination().getStation();
 		train.route.addConnection(train.route.getAdjacentConnections().get(1));
 		
-		assertTrue("RouteLength != reky>oslo + oslo>stock + stock>warsaw", train.route.getTotalLength() == (WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].connections.get(0).getLength() +
-				stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()));	
+		assertTrue("RouteLength != reky>oslo + oslo>stock + stock>warsaw", train.route.getTotalLength() == (stationA.connections.get(0).getLength() + stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()));	
 	}
 
 	@Test

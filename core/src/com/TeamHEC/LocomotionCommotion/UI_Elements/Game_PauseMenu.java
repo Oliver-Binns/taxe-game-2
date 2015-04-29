@@ -141,8 +141,6 @@ public class Game_PauseMenu {
 				protected void onClicked(){
 					StartMenu.mapSelect.setItems(WorldMap.getInstance().mapList.keySet().toArray(new String[WorldMap.getInstance().mapList.keySet().size()]));
 					StartMenu.mapSelect.setSelected(GameData.CURRENT_MAP);
-					GameScreenUI.editMapSelect.setItems(WorldMap.getInstance().mapList.keySet().toArray(new String[WorldMap.getInstance().mapList.keySet().size()]));
-					GameScreenUI.editMapSelect.setSelected(GameData.CURRENT_MAP);
 					WorldMap.getInstance().resetAll();
 					LocomotionCommotion.getInstance().setMenuScreen();
 				}

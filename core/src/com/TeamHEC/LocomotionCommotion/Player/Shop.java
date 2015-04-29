@@ -173,7 +173,23 @@ public class Shop {
 	}
 	
 	public void buyNewTrain(Station station){
-		if(customer.getGold() >= 1500){
+		if(LocomotionCommotion.isReplay){
+			//buy train...
+			String fuelType = station.getResourceString();
+			Train train = null;
+			if (fuelType.equals("Coal"))
+				train = new CoalTrain(0, true, new Route(station), customer);
+			else if (fuelType.equals("Nuclear"))
+				train = new NuclearTrain(0, true, new Route(station),customer);
+			else if (fuelType.equals("Electric"))
+				train = new ElectricTrain(0, true, new Route(station),customer);
+			else if (fuelType.equals("Oil"))
+				train = new OilTrain(0, true, new Route(station),customer);
+			else
+				train = new OilTrain(0, true, new Route(station),customer);
+			customer.getTrains().add(train);
+		}
+		else if(customer.getGold() >= 1500){
 			//buy train...
 			String fuelType = station.getResourceString();
 			Train train = null;

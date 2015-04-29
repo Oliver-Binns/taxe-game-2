@@ -251,6 +251,11 @@ public class Player implements RouteListener{
 	//have a train in that station then nothing will happen
 	//There is space to add some sort of message for the player
 	{
+		if(LocomotionCommotion.isReplay){
+			station.setOwner(this);
+			this.lineBonuses();
+			return;
+		}
 		boolean trainInStation = false;
 		
 		for (int j=0; j < trains.size(); j ++)

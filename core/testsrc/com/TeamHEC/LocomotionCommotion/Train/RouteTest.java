@@ -93,7 +93,7 @@ public class RouteTest {
 		
 		//Tolerance for rounding when travelling diagonal
 		assertTrue("Train did not travel correct distance",
-				Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2 ) <= Math.pow(train.fuelPerTurn, 2) + 1 && Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2 ) >= Math.pow(train.fuelPerTurn, 2) - 1);
+				Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2 ) <= Math.pow(train.fuelPerTurn, 2) + 0.1f && Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2 ) >= Math.pow(train.fuelPerTurn, 2) - 0.1f);
 		
 		assertTrue("Train is not on track",
 				(Math.sqrt(Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2)) + Math.sqrt(Math.pow(trainX - stationB.x, 2) + Math.pow(trainY - stationB.y, 2)) >= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) - 15) && (Math.sqrt(Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2)) + Math.sqrt(Math.pow(trainX - stationB.x, 2) + Math.pow(trainY - stationB.y, 2)) <= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) + 15));
@@ -116,7 +116,7 @@ public class RouteTest {
 		
 		// If the route loaded correctly, the train position should be reky.x + 10
 		assertTrue("Train did not travel correct distance",
-				Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2 ) <= Math.pow(train.fuelPerTurn, 2) + 1 && Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2 ) >= Math.pow(train.fuelPerTurn, 2) - 1);
+				Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2 ) <= Math.pow(train.fuelPerTurn, 2) + 0.1f && Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2 ) >= Math.pow(train.fuelPerTurn, 2) - 0.1f);
 		
 		assertTrue("Train is not on track",
 				(Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationB.x, 2) + Math.pow(newRoute.getTrainPos().y - stationB.y, 2)) >= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) - 15) && (Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationB.x, 2) + Math.pow(newRoute.getTrainPos().y - stationB.y, 2)) <= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) + 15));
@@ -143,7 +143,7 @@ public class RouteTest {
 		Station stationC = train.route.getAdjacentConnections().get(1).getDestination().getStation();
 		train.route.addConnection(train.route.getAdjacentConnections().get(1));
 		
-		assertTrue("RouteLength != reky>oslo + oslo>stock + stock>warsaw", train.route.getTotalLength() == (stationA.connections.get(0).getLength() + stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()));	
+		assertTrue("RouteLength != reky>oslo + oslo>stock + stock>warsaw", train.route.getTotalLength() - 0.1f <= (stationA.connections.get(0).getLength() + stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()) && train.route.getTotalLength() + 0.1f >= (stationA.connections.get(0).getLength() + stationB.connections.get(0).getLength() + stationC.connections.get(1).getLength()));	
 	}
 
 	@Test

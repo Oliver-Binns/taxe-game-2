@@ -91,8 +91,9 @@ public class RouteTest {
 		trainX = train.route.getTrainPos().x;
 		trainY = train.route.getTrainPos().y;
 		
+		//Tolerance for rounding when travelling diagonal
 		assertTrue("Train did not travel correct distance",
-				Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2 ) == Math.pow(train.fuelPerTurn, 2));
+				Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2 ) <= Math.pow(train.fuelPerTurn, 2) + 1 && Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2 ) >= Math.pow(train.fuelPerTurn, 2) - 1);
 		
 		assertTrue("Train is not on track",
 				(Math.sqrt(Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2)) + Math.sqrt(Math.pow(trainX - stationB.x, 2) + Math.pow(trainY - stationB.y, 2)) >= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) - 15) && (Math.sqrt(Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2)) + Math.sqrt(Math.pow(trainX - stationB.x, 2) + Math.pow(trainY - stationB.y, 2)) <= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) + 15));

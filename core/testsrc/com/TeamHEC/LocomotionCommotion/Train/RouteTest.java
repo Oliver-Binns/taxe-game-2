@@ -30,10 +30,6 @@ import com.TeamHEC.LocomotionCommotion.Resource.Oil;
 public class RouteTest {
 	
 	Train train;
-	float stationAx;
-	float stationAy;
-	float stationBx;
-	float stationBy;
 	float trainX;
 	float trainY;
 	Station stationA;
@@ -70,10 +66,6 @@ public class RouteTest {
 		train.route.train = train;
 		
 		// Add reykjavik > Oslo
-		stationBx = train.route.getAdjacentConnections().get(0).getDestination().getStation().x;
-		stationBy = train.route.getAdjacentConnections().get(0).getDestination().getStation().y;
-		stationAx = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].x;
-		stationAy = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0].y;
 		stationA = WorldMap.getInstance().mapList.get(GameData.CURRENT_MAP).stationList()[0];
 		stationB = train.route.getAdjacentConnections().get(0).getDestination().getStation();
 		
@@ -100,16 +92,16 @@ public class RouteTest {
 		trainY = train.route.getTrainPos().y;
 		
 		assertTrue("Train did not travel correct distance",
-				Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2 ) == Math.pow(train.fuelPerTurn, 2));
+				Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2 ) == Math.pow(train.fuelPerTurn, 2));
 		
 		assertTrue("Train is not on track",
-				(Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) >= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) - 15) && (Math.sqrt(Math.pow(trainX - stationAx, 2) + Math.pow(trainY - stationAy, 2)) + Math.sqrt(Math.pow(trainX - stationBx, 2) + Math.pow(trainY - stationBy, 2)) <= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) + 15));
+				(Math.sqrt(Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2)) + Math.sqrt(Math.pow(trainX - stationB.x, 2) + Math.pow(trainY - stationB.y, 2)) >= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) - 15) && (Math.sqrt(Math.pow(trainX - stationA.x, 2) + Math.pow(trainY - stationA.y, 2)) + Math.sqrt(Math.pow(trainX - stationB.x, 2) + Math.pow(trainY - stationB.y, 2)) <= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) + 15));
 		
 		// Go to the end of the route:
 		train.route.update(20000);
 		
-		assertTrue("Train not in OLSO", train.route.getTrainPos().x == stationBx &&
-				train.route.getTrainPos().y == stationBy);
+		assertTrue("Train not in OLSO", train.route.getTrainPos().x == stationB.x &&
+				train.route.getTrainPos().y == stationB.y);
 	}
 	
 	@Test
@@ -123,10 +115,10 @@ public class RouteTest {
 		
 		// If the route loaded correctly, the train position should be reky.x + 10
 		assertTrue("Train did not travel correct distance",
-				Math.pow(newRoute.getTrainPos().x - stationAx, 2) + Math.pow(newRoute.getTrainPos().y - stationAy, 2 ) == Math.pow(train.fuelPerTurn, 2));
+				Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2 ) == Math.pow(train.fuelPerTurn, 2));
 		
 		assertTrue("Train is not on track",
-				(Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationAx, 2) + Math.pow(newRoute.getTrainPos().y - stationAy, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationBx, 2) + Math.pow(newRoute.getTrainPos().y - stationBy, 2)) >= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) - 15) && (Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationAx, 2) + Math.pow(newRoute.getTrainPos().y - stationAy, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationBx, 2) + Math.pow(newRoute.getTrainPos().y - stationBy, 2)) <= Math.sqrt(Math.pow(stationAx - stationBx, 2) + Math.pow(stationAy - stationBy, 2)) + 15));
+				(Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationB.x, 2) + Math.pow(newRoute.getTrainPos().y - stationB.y, 2)) >= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) - 15) && (Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationA.x, 2) + Math.pow(newRoute.getTrainPos().y - stationA.y, 2)) + Math.sqrt(Math.pow(newRoute.getTrainPos().x - stationB.x, 2) + Math.pow(newRoute.getTrainPos().y - stationB.y, 2)) <= Math.sqrt(Math.pow(stationA.x - stationB.x, 2) + Math.pow(stationA.y - stationB.y, 2)) + 15));
 		
 
 		// Add olso to stock
@@ -134,7 +126,7 @@ public class RouteTest {
 		
 		// routeIndex = 1 and connectionTravelled = 0 therefore train in olso
 		Route anotherRoute = new Route(tempRoute, 1, 0f);
-		assertTrue("", anotherRoute.getTrainPos().x == stationBx && anotherRoute.getTrainPos().y == stationBy);
+		assertTrue("", anotherRoute.getTrainPos().x == stationB.x && anotherRoute.getTrainPos().y == stationB.y);
 	}
 
 	@Test
